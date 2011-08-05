@@ -1,0 +1,13 @@
+{
+    #------------------------------------------------------------
+    # Compute "localAccess" string for use in template below.
+    #------------------------------------------------------------
+    use esmith::NetworksDB;
+
+    my $ndb = esmith::NetworksDB->open_ro();
+
+    $localAccess = $ndb->local_access_spec();
+    $localAccess =~ s#/255\.255\.255\.255##g;
+
+    "";
+}

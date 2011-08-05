@@ -1,0 +1,176 @@
+#!/usr/bin/perl -w
+
+use esmith::Build::CreateLinks qw(:all);
+
+#--------------------------------------------------
+# actions for console-save event
+#--------------------------------------------------
+my $event = "console-save";
+
+templates2events("/etc/httpd/conf/httpd.conf", $event);
+safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+
+#--------------------------------------------------
+# actions for bootstrap-console-save event
+#--------------------------------------------------
+$event = "bootstrap-console-save";
+
+templates2events("/etc/httpd/conf/httpd.conf", $event);
+templates2events("/etc/logrotate.d/httpd", $event);
+
+#--------------------------------------------------
+# actions for domain-create event
+#--------------------------------------------------
+
+$event = "domain-create";
+
+templates2events("/etc/httpd/conf/httpd.conf", $event);
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+
+#--------------------------------------------------
+# actions for domain-delete event
+#--------------------------------------------------
+
+$event = "domain-delete";
+
+templates2events("/etc/httpd/conf/httpd.conf", $event);
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+
+#--------------------------------------------------
+# actions for domain-modify event
+#--------------------------------------------------
+
+$event = "domain-modify";
+
+templates2events("/etc/httpd/conf/httpd.conf", $event);
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+
+#--------------------------------------------------
+# actions for host-create event
+#--------------------------------------------------
+
+$event = "host-create";
+
+templates2events("/etc/httpd/conf/httpd.conf", $event);
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+
+#--------------------------------------------------
+# actions for host-delete event
+#--------------------------------------------------
+
+$event = "host-delete";
+
+templates2events("/etc/httpd/conf/httpd.conf", $event);
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+
+#--------------------------------------------------
+# actions for host-modify event
+#--------------------------------------------------
+
+$event = "host-modify";
+
+templates2events("/etc/httpd/conf/httpd.conf", $event);
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+
+#--------------------------------------------------
+# actions for ibay-create event
+#--------------------------------------------------
+
+$event = "ibay-create";
+
+templates2events("/etc/httpd/conf/httpd.conf", $event);
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+
+#--------------------------------------------------
+# actions for ibay-delete event
+#--------------------------------------------------
+
+$event = "ibay-delete";
+
+templates2events("/etc/httpd/conf/httpd.conf", $event);
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+
+#--------------------------------------------------
+# actions for ibay-modify event
+# (used after changing parameters for a single i-bay)
+#--------------------------------------------------
+
+$event = "ibay-modify";
+
+templates2events("/etc/httpd/conf/httpd.conf", $event);
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+
+#--------------------------------------------------
+# actions for ibay-modify-servers event
+# (used after changing the group of several i-bays in sequence)
+#--------------------------------------------------
+
+$event = "ibay-modify-servers";
+
+templates2events("/etc/httpd/conf/httpd.conf", $event);
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+
+#--------------------------------------------------
+# actions for network-create event
+#--------------------------------------------------
+
+$event = "network-create";
+
+templates2events("/etc/httpd/conf/httpd.conf", $event);
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+
+#--------------------------------------------------
+# actions for network-delete event
+#--------------------------------------------------
+
+$event = "network-delete";
+
+templates2events("/etc/httpd/conf/httpd.conf", $event);
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+
+#--------------------------------------------------
+# actions for remoteaccess-update event
+#--------------------------------------------------
+
+$event = "remoteaccess-update";
+
+templates2events("/etc/httpd/conf/httpd.conf", $event);
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+
+#--------------------------------------------------
+# actions for email-update event
+#--------------------------------------------------
+
+$event = "email-update";
+
+templates2events("/etc/httpd/conf/httpd.conf", $event);
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+
+#--------------------------------------------------
+# actions for logrotate event
+#--------------------------------------------------
+
+$event = "logrotate";
+
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+
+#--------------------------------------------------
+# set up daemontools
+#--------------------------------------------------
+
+safe_symlink("daemontools", "root/etc/rc.d/init.d/httpd-e-smith");
+service_link_enhanced("httpd-e-smith", "S86", "7");
+service_link_enhanced("httpd-e-smith", "K15", "6");
+service_link_enhanced("httpd-e-smith", "K15", "0");
+
+# Set up generic logfile timestamp renaming/symlinking
+
+foreach (qw(
+    /var/log/httpd/error_log
+    /var/log/httpd/access_log
+    ))
+{
+    safe_touch "root/etc/e-smith/events/logrotate/logfiles2timestamp/$_";
+    safe_touch "root/etc/e-smith/events/post-install/logfiles2timestamp/$_";
+    safe_touch "root/etc/e-smith/events/post-upgrade/logfiles2timestamp/$_";
+}
