@@ -8,7 +8,7 @@ use esmith::Build::CreateLinks qw(:all);
 my $event = "console-save";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
 # actions for bootstrap-console-save event
@@ -16,7 +16,6 @@ safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/httpd-e-
 $event = "bootstrap-console-save";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
-templates2events("/etc/logrotate.d/httpd", $event);
 
 #--------------------------------------------------
 # actions for domain-create event
@@ -25,7 +24,7 @@ templates2events("/etc/logrotate.d/httpd", $event);
 $event = "domain-create";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
 # actions for domain-delete event
@@ -34,7 +33,7 @@ safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-
 $event = "domain-delete";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
 # actions for domain-modify event
@@ -43,7 +42,7 @@ safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-
 $event = "domain-modify";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
 # actions for host-create event
@@ -52,7 +51,7 @@ safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-
 $event = "host-create";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
 # actions for host-delete event
@@ -61,7 +60,7 @@ safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-
 $event = "host-delete";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
 # actions for host-modify event
@@ -70,7 +69,7 @@ safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-
 $event = "host-modify";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
 # actions for ibay-create event
@@ -79,7 +78,7 @@ safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-
 $event = "ibay-create";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
 # actions for ibay-delete event
@@ -88,7 +87,7 @@ safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-
 $event = "ibay-delete";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
 # actions for ibay-modify event
@@ -98,7 +97,7 @@ safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-
 $event = "ibay-modify";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
 # actions for ibay-modify-servers event
@@ -108,7 +107,7 @@ safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-
 $event = "ibay-modify-servers";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
 # actions for network-create event
@@ -117,7 +116,7 @@ safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-
 $event = "network-create";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
 # actions for network-delete event
@@ -126,7 +125,7 @@ safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-
 $event = "network-delete";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
 # actions for remoteaccess-update event
@@ -135,7 +134,7 @@ safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-
 $event = "remoteaccess-update";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
 # actions for email-update event
@@ -144,7 +143,7 @@ safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-
 $event = "email-update";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
 # actions for logrotate event
@@ -152,16 +151,7 @@ safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-
 
 $event = "logrotate";
 
-safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd-e-smith");
-
-#--------------------------------------------------
-# set up daemontools
-#--------------------------------------------------
-
-safe_symlink("daemontools", "root/etc/rc.d/init.d/httpd-e-smith");
-service_link_enhanced("httpd-e-smith", "S86", "7");
-service_link_enhanced("httpd-e-smith", "K15", "6");
-service_link_enhanced("httpd-e-smith", "K15", "0");
+safe_symlink("sigusr1", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 # Set up generic logfile timestamp renaming/symlinking
 
@@ -174,3 +164,12 @@ foreach (qw(
     safe_touch "root/etc/e-smith/events/post-install/logfiles2timestamp/$_";
     safe_touch "root/etc/e-smith/events/post-upgrade/logfiles2timestamp/$_";
 }
+
+
+#--------------------------------------------------
+# actions for nethserver-httpd event
+#--------------------------------------------------
+
+$event = "nethserver-httpd";
+
+safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
