@@ -170,6 +170,6 @@ foreach (qw(
 # actions for nethserver-httpd event
 #--------------------------------------------------
 
-$event = "nethserver-httpd";
+$event = "nethserver-httpd-update";
 
 safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
