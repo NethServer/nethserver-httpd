@@ -1,0 +1,24 @@
+{
+    my $status = $php{status} || 'disabled';
+    if ($status eq 'enabled')
+    {
+	use esmith::AccountsDB;
+	my $adb = esmith::AccountsDB->open_ro();
+	foreach my $ibay ($adb->ibays)
+	{
+	    local $dynamicContent = $ibay->prop('CgiBin') || 'disabled';
+	    if ($dynamicContent eq 'enabled')
+	    {
+		$OUT .= "\n<Directory /home/e-smith/files/ibays/" . $ibay->key . "/html>\n";
+		$OUT .= "    AddType application/x-httpd-php .php .php3 .phtml\n";
+		$OUT .= "    AddType application/x-httpd-php-source .phps\n";
+
+		# Set the sandbox within which PHP is confined to play
+		my $basedir = $ibay->prop('PHPBaseDir')
+		    || ("/home/e-smith/files/ibays/" . $ibay->key . "/");
+		$OUT .= "    php_admin_value open_basedir $basedir\n";
+		$OUT .= "</Directory>\n";
+	    }
+	}
+    }
+}

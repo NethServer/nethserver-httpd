@@ -1,0 +1,6 @@
+{
+    my $chain_file = $modSSL{CertificateChainFile}
+	or return "# modSSL{CertificateChainFile} not set";
+
+    $OUT = "SSLCertificateChainFile $chain_file";
+}

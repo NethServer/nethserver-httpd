@@ -1,0 +1,3 @@
+    # alias for Apache icons
+    Alias /icons/ /var/www/icons/
+

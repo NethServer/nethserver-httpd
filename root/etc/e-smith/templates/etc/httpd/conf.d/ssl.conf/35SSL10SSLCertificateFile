@@ -1,0 +1,13 @@
+{
+    my $crt = $modSSL{'crt'} ||
+	"/home/e-smith/ssl.crt/${SystemName}.${DomainName}.crt";
+
+    my $key = $modSSL{'key'} ||
+	"/home/e-smith/ssl.key/${SystemName}.${DomainName}.key";
+	
+    $OUT .= <<SSL_END;
+SSLCertificateFile $crt
+SSLCertificateKeyFile $key
+SSL_END
+
+}

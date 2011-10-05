@@ -1,0 +1,11 @@
+{
+    use esmith::DomainsDB;
+    my $db = esmith::DomainsDB->open_ro;
+    my $d = $db->get($virtualHost);
+    my $t = $d->prop('ProxyPassTarget');
+
+    $t =~ s|http://|https://| if ($port eq "443");
+
+    $OUT .= "    ProxyPass / $t\n";
+    $OUT .= "    ProxyPassReverse / $t";
+}

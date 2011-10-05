@@ -1,0 +1,69 @@
+{
+    use esmith::AccountsDB;
+    my $accounts = esmith::AccountsDB->open_ro;
+
+    use esmith::DomainsDB;
+    my $domains = esmith::DomainsDB->open_ro;
+
+    $OUT = "";
+
+    my $ibay = $virtualHostContent;
+    my $basedir = "/home/e-smith/files/ibays/$ibay";
+    my $cgiBin = $accounts->get_prop($ibay, "CgiBin") || "";
+
+    $OUT .= "    DocumentRoot         $basedir/html\n";
+
+    if ($cgiBin)
+    {
+	$OUT .= "    ScriptAlias /cgi-bin $basedir/cgi-bin\n";
+    }
+    else
+    {
+	$OUT .=
+		"    # To add cgi-bin ScriptAlias for this i-bay, run:\n"
+	      . "    #   /sbin/e-smith/db accounts setprop $ibay CgiBin "
+			    . "enabled\n"
+	      . "    #   /sbin/e-smith/signal-event console-save\n";
+    }
+    $OUT .= "    Alias       /files   $basedir/files\n";
+    
+    if (($domains->get_prop($virtualHost, 'SystemPrimaryDomain') || 'no')
+         eq 'yes')
+    {
+	my @ibays = $accounts->ibays;
+	foreach my $ibay (@ibays)
+	{
+	    my $key = $ibay->key;
+	    next if $key eq $virtualHostContent;
+	    my $basedir = "/home/e-smith/files/ibays/$key";
+	    my $cgiBin = $ibay->prop("CgiBin") || "";
+	    my $name = $ibay->prop("Name") || "";
+	    
+	    $OUT .= "\n";
+	    $OUT .= "    # $key ibay ($name)\n";
+	    $OUT .= "\n";
+	    
+	    if ($cgiBin)
+	    {
+		$OUT .= "    ScriptAlias /$key/cgi-bin $basedir/cgi-bin\n";
+	    }
+	    else
+	    {
+		$OUT .= 
+		    "    # To add cgi-bin ScriptAlias for this i-bay, run:\n"
+		    . "    #   /sbin/e-smith/db accounts setprop $key CgiBin "
+				. "enabled\n"
+		    . "    #   /sbin/e-smith/signal-event console-save\n";
+	    }
+
+	    $OUT .= "    Alias       /$key/files   $basedir/files\n";
+
+	    # Make sure this one is last since it's a prefix of the above
+	    # aliases. If we put it first, it would get expanded before the
+	    # other aliases, creating problems.
+
+	    $OUT .= "    Alias       /$key        $basedir/html\n";
+	}
+	$OUT .= "    # No ibays in system\n" unless @ibays;
+    }
+}

@@ -1,0 +1,10 @@
+{
+    return "    # skipping SSL directives\n" unless $port eq "443";
+
+    return "" unless $modSSL{'status'} eq 'enabled';
+
+    $OUT =  <<SSL_END;
+    # SSL Directives
+    SSLEngine on
+SSL_END
+}

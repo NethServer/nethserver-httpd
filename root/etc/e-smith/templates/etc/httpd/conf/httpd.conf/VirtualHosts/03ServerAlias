@@ -1,0 +1,13 @@
+    ServerAlias {
+
+    use esmith::HostsDB;
+    use esmith::DomainsDB;
+    my $hdb = esmith::HostsDB->open_ro();
+    my %domains = map { $_->key => 1 } esmith::DomainsDB->open_ro->domains;
+    my @hosts = grep {
+            my $h = $_;
+            ($h->prop('HostType') eq 'Self') && !$domains{$h->key}
+        } $hdb->get_hosts_by_domain($virtualHost);
+    $OUT = join " ", map { $_->key } @hosts;
+}
+
