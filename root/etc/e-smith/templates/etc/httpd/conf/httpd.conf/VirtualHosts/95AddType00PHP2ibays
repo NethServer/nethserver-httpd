@@ -17,6 +17,8 @@
 		my $basedir = $ibay->prop('PHPBaseDir')
 		    || ("/home/e-smith/files/ibays/" . $ibay->key . "/");
 		$OUT .= "    php_admin_value open_basedir $basedir\n";
+		my $index = $ibay->prop('PackageIndex') || 'disabled';
+                if ($index eq "enabled") { $OUT.="    DirectoryIndex package.html\n"; }
 		$OUT .= "</Directory>\n";
 	    }
 	}
