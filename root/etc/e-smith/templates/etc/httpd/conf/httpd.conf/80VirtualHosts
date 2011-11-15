@@ -42,7 +42,6 @@
 		TEMPLATE_PATH =>
 		    "/etc/httpd/conf/httpd.conf/$templatePath",
 		OUTPUT_TYPE => 'string',
-		#OUTPUT_FILENAME => "/etc/httpd/nethserver.d/".$domain->key.".conf",
 	    });
 	}
 	print { open my $out, ">", "/etc/httpd/nethserver.d/".$domain->key.".conf"; $out } $STR, "\n"; 
