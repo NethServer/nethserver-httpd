@@ -8,6 +8,7 @@ use esmith::Build::CreateLinks qw(:all);
 my $event = "console-save";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
+templates2events("/etc/httpd/conf.d/ssl.conf", $event);
 safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
@@ -16,6 +17,7 @@ safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/httpd");
 $event = "bootstrap-console-save";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
+templates2events("/etc/httpd/conf.d/ssl.conf", $event);
 
 #--------------------------------------------------
 # actions for domain-create event
@@ -24,6 +26,7 @@ templates2events("/etc/httpd/conf/httpd.conf", $event);
 $event = "domain-create";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
+templates2events("/etc/httpd/conf.d/ssl.conf", $event);
 safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
@@ -33,6 +36,7 @@ safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
 $event = "domain-delete";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
+templates2events("/etc/httpd/conf.d/ssl.conf", $event);
 safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
@@ -42,6 +46,7 @@ safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
 $event = "domain-modify";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
+templates2events("/etc/httpd/conf.d/ssl.conf", $event);
 safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
