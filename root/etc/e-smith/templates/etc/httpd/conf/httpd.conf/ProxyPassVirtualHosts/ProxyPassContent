@@ -5,7 +5,7 @@
     my $t = $d->prop('ProxyPassTarget');
 
     $t =~ s|http://|https://| if ($port eq "443");
-
+    $OUT .= "    SSLEngine on\n" unless ($port ne "443");
     $OUT .= "    ProxyPass / $t\n";
     $OUT .= "    ProxyPassReverse / $t";
 }
