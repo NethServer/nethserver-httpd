@@ -2,79 +2,79 @@
 
 use esmith::Build::CreateLinks qw(:all);
 
-#--------------------------------------------------
-# actions for console-save event
-#--------------------------------------------------
-my $event = "console-save";
+# #--------------------------------------------------
+# # actions for console-save event
+# #--------------------------------------------------
+# my $event = "console-save";
 
-templates2events("/etc/httpd/conf/httpd.conf", $event);
-templates2events("/etc/httpd/conf.d/ssl.conf", $event);
-safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/httpd");
+# templates2events("/etc/httpd/conf/httpd.conf", $event);
+# templates2events("/etc/httpd/conf.d/ssl.conf", $event);
+# safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
-#--------------------------------------------------
-# actions for bootstrap-console-save event
-#--------------------------------------------------
-$event = "bootstrap-console-save";
+# #--------------------------------------------------
+# # actions for bootstrap-console-save event
+# #--------------------------------------------------
+# $event = "bootstrap-console-save";
 
-templates2events("/etc/httpd/conf/httpd.conf", $event);
-templates2events("/etc/httpd/conf.d/ssl.conf", $event);
+# templates2events("/etc/httpd/conf/httpd.conf", $event);
+# templates2events("/etc/httpd/conf.d/ssl.conf", $event);
 
-#--------------------------------------------------
-# actions for domain-create event
-#--------------------------------------------------
+# #--------------------------------------------------
+# # actions for domain-create event
+# #--------------------------------------------------
 
-$event = "domain-create";
+# $event = "domain-create";
 
-templates2events("/etc/httpd/conf/httpd.conf", $event);
-templates2events("/etc/httpd/conf.d/ssl.conf", $event);
-safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
+# templates2events("/etc/httpd/conf/httpd.conf", $event);
+# templates2events("/etc/httpd/conf.d/ssl.conf", $event);
+# safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
-#--------------------------------------------------
-# actions for domain-delete event
-#--------------------------------------------------
+# #--------------------------------------------------
+# # actions for domain-delete event
+# #--------------------------------------------------
 
-$event = "domain-delete";
+# $event = "domain-delete";
 
-templates2events("/etc/httpd/conf/httpd.conf", $event);
-templates2events("/etc/httpd/conf.d/ssl.conf", $event);
-safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
+# templates2events("/etc/httpd/conf/httpd.conf", $event);
+# templates2events("/etc/httpd/conf.d/ssl.conf", $event);
+# safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
-#--------------------------------------------------
-# actions for domain-modify event
-#--------------------------------------------------
+# #--------------------------------------------------
+# # actions for domain-modify event
+# #--------------------------------------------------
 
-$event = "domain-modify";
+# $event = "domain-modify";
 
-templates2events("/etc/httpd/conf/httpd.conf", $event);
-templates2events("/etc/httpd/conf.d/ssl.conf", $event);
-safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
+# templates2events("/etc/httpd/conf/httpd.conf", $event);
+# templates2events("/etc/httpd/conf.d/ssl.conf", $event);
+# safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
-#--------------------------------------------------
-# actions for host-create event
-#--------------------------------------------------
+# #--------------------------------------------------
+# # actions for host-create event
+# #--------------------------------------------------
 
-$event = "host-create";
+# $event = "host-create";
 
-templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
+# templates2events("/etc/httpd/conf/httpd.conf", $event);
+# safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
-#--------------------------------------------------
-# actions for host-delete event
-#--------------------------------------------------
+# #--------------------------------------------------
+# # actions for host-delete event
+# #--------------------------------------------------
 
-$event = "host-delete";
+# $event = "host-delete";
 
-templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
+# templates2events("/etc/httpd/conf/httpd.conf", $event);
+# safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
-#--------------------------------------------------
-# actions for host-modify event
-#--------------------------------------------------
+# #--------------------------------------------------
+# # actions for host-modify event
+# #--------------------------------------------------
 
-$event = "host-modify";
+# $event = "host-modify";
 
-templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
+# templates2events("/etc/httpd/conf/httpd.conf", $event);
+# safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
 # actions for ibay-create event
@@ -104,15 +104,6 @@ $event = "ibay-modify";
 templates2events("/etc/httpd/conf/httpd.conf", $event);
 safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
-#--------------------------------------------------
-# actions for ibay-modify-servers event
-# (used after changing the group of several i-bays in sequence)
-#--------------------------------------------------
-
-$event = "ibay-modify-servers";
-
-templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
 # actions for network-create event
@@ -177,4 +168,8 @@ foreach (qw(
 
 $event = "nethserver-httpd-update";
 
-safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
+event_templates($event, 
+		"/etc/httpd/conf/httpd.conf",
+		"/etc/httpd/conf.d/ssl.conf");
+
+safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/httpd");

@@ -2,8 +2,18 @@
     my $crt = $modSSL{'crt'} ||
 	"/home/e-smith/ssl.crt/${SystemName}.${DomainName}.crt";
 
+    if( ! -r $crt ) {
+	warn "SSLCertificateFile: load default localhost certificate\n";
+	$crt = '/etc/pki/tls/certs/localhost.crt';
+    }
+
     my $key = $modSSL{'key'} ||
 	"/home/e-smith/ssl.key/${SystemName}.${DomainName}.key";
+
+    if( ! -r $key ) {
+	warn "SSLCertificateKeyFile: load default localhost key\n";
+	$key = '/etc/pki/tls/private/localhost.key';
+    }
 	
     $OUT .= <<SSL_END;
 SSLCertificateFile $crt
