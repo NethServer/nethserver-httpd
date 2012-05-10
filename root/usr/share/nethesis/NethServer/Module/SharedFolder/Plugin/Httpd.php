@@ -40,7 +40,7 @@ class Httpd extends \Nethgui\Controller\Table\RowPluginAction
     public function initialize()
     {
         $schema = array(
-	    array('CgiBin', Validate::SERVICESTATUS, Table::FIELD),
+            array('CgiBin', Validate::SERVICESTATUS, Table::FIELD),
         );
 
         $this->setSchemaAddition($schema);
