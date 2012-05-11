@@ -40,8 +40,21 @@ class Httpd extends \Nethgui\Controller\Table\RowPluginAction
     public function initialize()
     {
         $schema = array(
-            array('CgiBin', Validate::SERVICESTATUS, Table::FIELD),
+            array('CgiBin', Validate::SERVICESTATUS, Table::FIELD, 'HttpCgiBin'),
+            array('PasswordState', Validate::SERVICESTATUS, Table::FIELD, 'HttpPasswordState'),
+            array('PasswordValue', $this->getPlatform()->createValidator()->platform('password-strength', 'Ibays'), Table::FIELD, 'HttpPasswordValue'),
+            array('Access', $this->getPlatform()->createValidator()->memberOf('public', 'private'), Table::FIELD, 'HttpAccess'),
+            array('VirtualHost', Validate::HOSTNAME_FQDN, Table::FIELD, 'HttpVirtualHost')
         );
+
+        $this->parameters['VirtualHostDatasource'] = array(array('default', 'Default'));
+
+        $this
+            ->setDefaultValue('PasswordValue', '')
+            ->setDefaultValue('PasswordState', 'disabled')
+            ->setDefaultValue('Access', 'private')
+            ->setDefaultValue('CgiBin', 'disabled')
+        ;
 
         $this->setSchemaAddition($schema);
         parent::initialize();
