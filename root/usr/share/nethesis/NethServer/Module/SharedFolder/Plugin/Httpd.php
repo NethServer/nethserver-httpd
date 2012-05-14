@@ -34,7 +34,7 @@ class Httpd extends \Nethgui\Controller\Table\RowPluginAction
 
     protected function initializeAttributes(\Nethgui\Module\ModuleAttributesInterface $base)
     {
-        return \Nethgui\Module\SimpleModuleAttributesProvider::extendModuleAttributes($base, 'Service', 20);
+        return \Nethgui\Module\SimpleModuleAttributesProvider::extendModuleAttributes($base, 'Httpd', 20);
     }
 
     public function initialize()
@@ -47,7 +47,7 @@ class Httpd extends \Nethgui\Controller\Table\RowPluginAction
             array('VirtualHost', Validate::HOSTNAME_FQDN, Table::FIELD, 'HttpVirtualHost')
         );
 
-        $this->parameters['VirtualHostDatasource'] = array(array('default', 'Default'));
+        $this->parameters['VirtualHostDatasource'] = array(array('www.example.com', 'Todo'));
 
         $this
             ->setDefaultValue('PasswordValue', '')

@@ -1,6 +1,6 @@
 <?php
 
-$L['Httpd options'] = 'Accesso web';
+$L['Httpd_Title'] = 'Accesso web';
 $L['CgiBin_label'] = 'Contenuti dinamici (CGI, PHP, SSI)';
 $L['PasswordState_label'] = 'Password di protezione'; 
 $L['Access_public_label'] = 'Accesso da qualsiasi rete';

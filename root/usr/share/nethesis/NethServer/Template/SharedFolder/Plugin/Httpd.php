@@ -1,7 +1,6 @@
 <?php
 
-echo $view->fieldset()
-    ->setAttribute('template', $T('Httpd options'))
+echo $view->panel()    
     // ->setAttribute('icon-before', 'ui-icon-link')
     ->insert($view->selector('VirtualHost', $view::SELECTOR_DROPDOWN))
     ->insert($view->radioButton('Access', 'public'))
