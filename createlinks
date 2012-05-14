@@ -83,6 +83,7 @@ use esmith::Build::CreateLinks qw(:all);
 $event = "ibay-create";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
+event_actions($event, 'nethserver-httpd-ibaypassword' => '40');
 safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
@@ -102,6 +103,7 @@ safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
 $event = "ibay-modify";
 
 templates2events("/etc/httpd/conf/httpd.conf", $event);
+event_actions($event, 'nethserver-httpd-ibaypassword' => '40');
 safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 
