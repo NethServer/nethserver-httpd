@@ -6,7 +6,7 @@
 	my $adb = esmith::AccountsDB->open_ro();
 	foreach my $ibay ($adb->ibays)
 	{
-	    local $dynamicContent = $ibay->prop('CgiBin') || 'disabled';
+	    local $dynamicContent = $ibay->prop('HttpCgiBin') || 'disabled';
 	    if ($dynamicContent eq 'enabled')
 	    {
 		$OUT .= "\n<Directory /home/e-smith/files/ibays/" . $ibay->key . "/html>\n";
