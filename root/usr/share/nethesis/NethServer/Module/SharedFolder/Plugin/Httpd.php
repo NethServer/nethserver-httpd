@@ -40,13 +40,14 @@ class Httpd extends \Nethgui\Controller\Table\RowPluginAction
     public function initialize()
     {
         $schema = array(
-            array('CgiBin', Validate::SERVICESTATUS, Table::FIELD, 'HttpCgiBin'),
+            array('VirtualHost', Validate::HOSTNAME_FQDN, Table::FIELD, 'HttpVirtualHost'),
             array('PasswordState', Validate::SERVICESTATUS, Table::FIELD, 'HttpPasswordState'),
-            array('PasswordValue', $this->getPlatform()->createValidator()->platform('password-strength', 'Ibays'), Table::FIELD, 'HttpPasswordValue'),
-            array('Access', $this->getPlatform()->createValidator()->memberOf('public', 'private'), Table::FIELD, 'HttpAccess'),
-            array('VirtualHost', Validate::HOSTNAME_FQDN, Table::FIELD, 'HttpVirtualHost')
+            array('PasswordValue', $this->createValidator(), Table::FIELD, 'HttpPasswordValue'),
+            array('Access', $this->createValidator()->memberOf('public', 'private'), Table::FIELD, 'HttpAccess'),
+            array('CgiBin', Validate::SERVICESTATUS, Table::FIELD, 'HttpCgiBin'),
         );
 
+        // TODO: read data values from hosts DB
         $this->parameters['VirtualHostDatasource'] = array(array('www.example.com', 'Todo'));
 
         $this
@@ -58,6 +59,15 @@ class Httpd extends \Nethgui\Controller\Table\RowPluginAction
 
         $this->setSchemaAddition($schema);
         parent::initialize();
+    }
+
+    public function validate(\Nethgui\Controller\ValidationReportInterface $report)
+    {        
+        if ($this->parameters['PasswordState'] === 'enabled') {            
+            // Enable the password-strength check:
+            $this->getValidator('PasswordValue')->platform('password-strength', 'Ibays');
+        }
+        parent::validate($report);
     }
 
 }
