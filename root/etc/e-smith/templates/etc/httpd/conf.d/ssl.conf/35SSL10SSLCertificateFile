@@ -1,5 +1,5 @@
 {
-    my $crt = $modSSL{'crt'} ||
+    my $crt = $httpd{'SSLCertificateFile'} ||
 	"/home/e-smith/ssl.crt/${SystemName}.${DomainName}.crt";
 
     if( ! -r $crt ) {
@@ -7,7 +7,7 @@
 	$crt = '/etc/pki/tls/certs/localhost.crt';
     }
 
-    my $key = $modSSL{'key'} ||
+    my $key = $httpd{'SSLCertificateKeyFile'} ||
 	"/home/e-smith/ssl.key/${SystemName}.${DomainName}.key";
 
     if( ! -r $key ) {

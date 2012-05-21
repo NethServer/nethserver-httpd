@@ -1,10 +1,10 @@
-{
-    return "    # skipping SSL directives\n" unless $port eq "443";
+    {
+	my @SSLPorts = split(',', $httpd{'SSLPorts'});
 
-    return "" unless $modSSL{'status'} eq 'enabled';
-
-    $OUT =  <<SSL_END;
-    # SSL Directives
-    SSLEngine on
-SSL_END
+	if(grep {$port eq $_} split(',', $httpd{'SSLPorts'})) {
+	    $OUT .= 'SSLEngine on';
+	} else {
+	    $OUT .= '# SSLEngine off';
+	}
 }
+
