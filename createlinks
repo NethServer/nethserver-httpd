@@ -134,14 +134,6 @@ $event = "remoteaccess-update";
 templates2events("/etc/httpd/conf/httpd.conf", $event);
 safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
-#--------------------------------------------------
-# actions for email-update event
-#--------------------------------------------------
-
-$event = "email-update";
-
-templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
 
 #--------------------------------------------------
 # actions for logrotate event
