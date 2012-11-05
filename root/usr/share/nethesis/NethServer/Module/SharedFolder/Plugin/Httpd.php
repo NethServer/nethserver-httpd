@@ -39,22 +39,29 @@ class Httpd extends \Nethgui\Controller\Table\RowPluginAction
 
     public function initialize()
     {
+        $virtualHostValidator = $this->createValidator()->orValidator($this->createValidator(Validate::HOSTNAME_FQDN), $this->createValidator()->equalTo('__ANY__'));
+        
         $schema = array(
-            array('VirtualHost', Validate::HOSTNAME_FQDN, Table::FIELD, 'HttpVirtualHost'),
+            array('Status', Validate::SERVICESTATUS, Table::FIELD, 'HttpStatus'),
+            array('VirtualHost', $virtualHostValidator, Table::FIELD, 'HttpVirtualHost'),
             array('PasswordState', Validate::SERVICESTATUS, Table::FIELD, 'HttpPasswordState'),
             array('PasswordValue', $this->createValidator(), Table::FIELD, 'HttpPasswordValue'),
             array('Access', $this->createValidator()->memberOf('public', 'private'), Table::FIELD, 'HttpAccess'),
-            array('CgiBin', Validate::SERVICESTATUS, Table::FIELD, 'HttpCgiBin'),
+            array('CgiBin', Validate::SERVICESTATUS, Table::FIELD, 'HttpCgiBinStatus'),
+            array('AliasType', $this->createValidator()->memberOf('default', 'root', 'custom'), Table::FIELD, 'HttpAliasType'),
+            array('AliasCustom', '/^([a-z]|[0-9]){1,12}$/', Table::FIELD, 'HttpAliasCustom'),
         );
 
         // TODO: read data values from hosts DB
         $this->parameters['VirtualHostDatasource'] = array(array('www.example.com', 'Todo'));
 
         $this
+            ->setDefaultValue('Status', 'enabled')
             ->setDefaultValue('PasswordValue', '')
             ->setDefaultValue('PasswordState', 'disabled')
             ->setDefaultValue('Access', 'private')
             ->setDefaultValue('CgiBin', 'disabled')
+            ->setDefaultValue('AliasType', 'default')
         ;
 
         $this->setSchemaAddition($schema);
@@ -62,12 +69,39 @@ class Httpd extends \Nethgui\Controller\Table\RowPluginAction
     }
 
     public function validate(\Nethgui\Controller\ValidationReportInterface $report)
-    {        
-        if ($this->parameters['PasswordState'] === 'enabled') {            
+    {
+        if ($this->parameters['PasswordState'] === 'enabled') {
             // Enable the password-strength check:
             $this->getValidator('PasswordValue')->platform('password-strength', 'Ibays');
         }
         parent::validate($report);
+    }
+
+    public function prepareView(\Nethgui\View\ViewInterface $view)
+    {
+        parent::prepareView($view);
+
+        $view['VirtualHostDatasource'] = array_merge(
+            array(array('__ANY__', $view->translate('ANY_VHOST'))),
+            $this->getVirtualHostDatasource()
+        );
+    }
+
+    public function getVirtualHostDatasource()
+    {
+        $ds = array();
+
+        foreach ($this->getPlatform()->getDatabase('hosts')->getAll('self') as $hostName => $record) {
+            if (isset($record['Description'])
+                && $record['Description']) {
+                $description = sprintf("%s (%s)", $hostName, trim($record['Description']));
+            } else {
+                $description = $hostName;
+            }
+            $ds[] = array($hostName, $description);
+        }
+
+        return $ds;
     }
 
 }

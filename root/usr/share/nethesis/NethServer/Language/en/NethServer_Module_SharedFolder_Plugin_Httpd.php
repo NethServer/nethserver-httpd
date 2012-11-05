@@ -1,9 +1,15 @@
 <?php
 
 $L['Httpd_Title'] = 'Web access';
-$L['CgiBin_label'] = 'Dynamic contents (CGI, PHP, SSI)';
+$L['Status_label'] = 'Enable web access';
+$L['CgiBin_label'] = 'Execute scripts (CGI, PHP, SSI)';
 $L['PasswordState_label'] = 'Protect by password';
 $L['PasswordValue_label'] = 'Password'; 
-$L['Access_public_label'] = 'Accesso da qualsiasi rete';
-$L['Access_private_label'] = 'Accesso da reti locali';
+$L['Access_label'] = 'Allow access from local networks only';
 $L['VirtualHost_label'] = 'Virtual host';
+$L['ANY_VHOST'] = 'Any';
+
+$L['Alias_label'] = 'Resource path';
+$L['AliasType_default_label'] = 'Default';
+$L['AliasType_root_label'] = 'Web site root';
+$L['AliasType_custom_label'] = 'Custom';
