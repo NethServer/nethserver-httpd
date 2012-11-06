@@ -32,7 +32,6 @@
 		ipAddress => '0.0.0.0',
 		port => $port,
 		localAccess => $localAccess,
-		externalSSLAccess => $externalSSLAccess,
 		domain => $domain,
 	    );
 
