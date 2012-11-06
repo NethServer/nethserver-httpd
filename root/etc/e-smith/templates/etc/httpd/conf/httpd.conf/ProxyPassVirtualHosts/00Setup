@@ -1,9 +1,0 @@
-{
-    use esmith::DomainsDB;
-    # Convert the passed hash for the domain object back into an object.
-    $domain = bless \%domain, 'esmith::DB::db::Record';
-
-    # Make scalars from some of the properties of the domain
-    $virtualHost = $domain->key;
-    $OUT = "";
-}

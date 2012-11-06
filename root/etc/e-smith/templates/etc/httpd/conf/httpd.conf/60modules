@@ -1,0 +1,77 @@
+#
+# Modules
+#
+{
+    %availableModules = qw(
+	auth_basic_module modules/mod_auth_basic.so
+	auth_digest_module modules/mod_auth_digest.so
+	authn_file_module modules/mod_authn_file.so
+	authn_alias_module modules/mod_authn_alias.so
+	authn_anon_module modules/mod_authn_anon.so
+	authn_dbm_module modules/mod_authn_dbm.so
+	authn_default_module modules/mod_authn_default.so
+	authz_host_module modules/mod_authz_host.so
+	authz_user_module modules/mod_authz_user.so
+	authz_owner_module modules/mod_authz_owner.so
+	authz_groupfile_module modules/mod_authz_groupfile.so
+	authz_dbm_module modules/mod_authz_dbm.so
+	authz_default_module modules/mod_authz_default.so
+	ldap_module modules/mod_ldap.so
+	authnz_ldap_module modules/mod_authnz_ldap.so
+	include_module modules/mod_include.so
+	log_config_module modules/mod_log_config.so
+	logio_module modules/mod_logio.so
+	env_module modules/mod_env.so
+	ext_filter_module modules/mod_ext_filter.so
+	mime_magic_module modules/mod_mime_magic.so
+	expires_module modules/mod_expires.so
+	deflate_module modules/mod_deflate.so
+	headers_module modules/mod_headers.so
+	usertrack_module modules/mod_usertrack.so
+	setenvif_module modules/mod_setenvif.so
+	mime_module modules/mod_mime.so
+	dav_module modules/mod_dav.so
+	status_module modules/mod_status.so
+	autoindex_module modules/mod_autoindex.so
+	info_module modules/mod_info.so
+	dav_fs_module modules/mod_dav_fs.so
+	vhost_alias_module modules/mod_vhost_alias.so
+	negotiation_module modules/mod_negotiation.so
+	dir_module modules/mod_dir.so
+	actions_module modules/mod_actions.so
+	speling_module modules/mod_speling.so
+	userdir_module modules/mod_userdir.so
+	alias_module modules/mod_alias.so
+	substitute_module modules/mod_substitute.so
+	rewrite_module modules/mod_rewrite.so
+	proxy_module modules/mod_proxy.so
+	proxy_balancer_module modules/mod_proxy_balancer.so
+	proxy_ftp_module modules/mod_proxy_ftp.so
+	proxy_http_module modules/mod_proxy_http.so
+	proxy_ajp_module modules/mod_proxy_ajp.so
+	proxy_connect_module modules/mod_proxy_connect.so
+	cache_module modules/mod_cache.so
+	suexec_module modules/mod_suexec.so
+	disk_cache_module modules/mod_disk_cache.so
+	cgi_module modules/mod_cgi.so
+	version_module modules/mod_version.so
+);
+
+    $OUT = '';
+    foreach my $moduleName (@modules) {
+	if( ! defined $availableModules{$moduleName} ) {
+	    # Append _module suffix:
+	    $moduleName = $moduleName . '_module';
+	    if( ! defined $availableModules{$moduleName} ) {
+		warn "Unknown module $moduleName skipped!\n";
+		next;
+	    }
+	}
+
+	$OUT .= join(' ', "LoadModule", $moduleName, $availableModules{$moduleName}, "\n");
+    }
+
+    return $OUT;
+}
+
+
