@@ -1,4 +1,2 @@
-{
-#	Turn SSL on or off for this context
-}
-# SSLEngine off
+{ #Turn SSL on or off for this context }
+SSLEngine On

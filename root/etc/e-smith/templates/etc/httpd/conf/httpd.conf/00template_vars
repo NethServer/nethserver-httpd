@@ -4,7 +4,16 @@
     # 
 
     # Default modules to load. See 60modules fragment.
-    @modules = ();
+    @modules = qw(
+         mime
+         dir
+         setenvif
+         authz_host
+         log_config
+         alias
+         autoindex
+         negotiation
+    );
 
     # Compute "localAccess" string for use in template below.
     use esmith::NetworksDB;

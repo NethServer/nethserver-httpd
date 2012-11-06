@@ -40,7 +40,7 @@ User apache
 Group apache
 
 ### Section 2: 'Main' server configuration
-ServerAdmin root@{ "${SystemName}.${DomainName}" }
+ServerAdmin webmaster@{ "${SystemName}.${DomainName}" }
 
 ServerName { "${SystemName}.${DomainName}:80" }
 UseCanonicalName On
