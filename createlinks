@@ -17,7 +17,7 @@ foreach (qw(
     ibay-create 
     ibay-delete
 )) {
-    event_templates($_ qw(/etc/httpd/conf/httpd.conf));
+    event_templates($_, qw(/etc/httpd/conf/httpd.conf));
     event_services($_, qw(httpd reload));
 }
 
