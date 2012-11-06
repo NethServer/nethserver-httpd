@@ -1,0 +1,13 @@
+#!/usr/bin/perl
+
+#
+# nethserver-httpd-conf -- NethServer
+#
+# Copyright (C) 2012 Nethesis srl
+#
+
+use strict;
+use NethServer::Service;
+
+NethServer::Service::manage_remove('nethserver-httpd', 'httpd');
+

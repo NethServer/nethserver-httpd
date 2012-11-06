@@ -1,173 +1,58 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
+#
+# NethServer
+#
+# Copyright (C) 2012 Nethesis srl
+#
+
+use strict;
 use esmith::Build::CreateLinks qw(:all);
 
-# #--------------------------------------------------
-# # actions for console-save event
-# #--------------------------------------------------
-# my $event = "console-save";
-
-# templates2events("/etc/httpd/conf/httpd.conf", $event);
-# templates2events("/etc/httpd/conf.d/ssl.conf", $event);
-# safe_symlink("restart", "root/etc/e-smith/events/$event/services2adjust/httpd");
-
-# #--------------------------------------------------
-# # actions for bootstrap-console-save event
-# #--------------------------------------------------
-# $event = "bootstrap-console-save";
-
-# templates2events("/etc/httpd/conf/httpd.conf", $event);
-# templates2events("/etc/httpd/conf.d/ssl.conf", $event);
-
-# #--------------------------------------------------
-# # actions for domain-create event
-# #--------------------------------------------------
-
-# $event = "domain-create";
-
-# templates2events("/etc/httpd/conf/httpd.conf", $event);
-# templates2events("/etc/httpd/conf.d/ssl.conf", $event);
-# safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
-
-# #--------------------------------------------------
-# # actions for domain-delete event
-# #--------------------------------------------------
-
-# $event = "domain-delete";
-
-# templates2events("/etc/httpd/conf/httpd.conf", $event);
-# templates2events("/etc/httpd/conf.d/ssl.conf", $event);
-# safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
-
-# #--------------------------------------------------
-# # actions for domain-modify event
-# #--------------------------------------------------
-
-# $event = "domain-modify";
-
-# templates2events("/etc/httpd/conf/httpd.conf", $event);
-# templates2events("/etc/httpd/conf.d/ssl.conf", $event);
-# safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
-
-# #--------------------------------------------------
-# # actions for host-create event
-# #--------------------------------------------------
-
-# $event = "host-create";
-
-# templates2events("/etc/httpd/conf/httpd.conf", $event);
-# safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
-
-# #--------------------------------------------------
-# # actions for host-delete event
-# #--------------------------------------------------
-
-# $event = "host-delete";
-
-# templates2events("/etc/httpd/conf/httpd.conf", $event);
-# safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
-
-# #--------------------------------------------------
-# # actions for host-modify event
-# #--------------------------------------------------
-
-# $event = "host-modify";
-
-# templates2events("/etc/httpd/conf/httpd.conf", $event);
-# safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
-
-#--------------------------------------------------
-# actions for ibay-create event
-#--------------------------------------------------
-
-$event = "ibay-create";
-
-templates2events("/etc/httpd/conf/httpd.conf", $event);
-event_actions($event, 'nethserver-httpd-ibaypassword' => '40');
-safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
-
-#--------------------------------------------------
-# actions for ibay-delete event
-#--------------------------------------------------
-
-$event = "ibay-delete";
-
-templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
-
-#--------------------------------------------------
-# actions for ibay-modify event
-# (used after changing parameters for a single i-bay)
-#--------------------------------------------------
-
-$event = "ibay-modify";
-
-templates2events("/etc/httpd/conf/httpd.conf", $event);
-event_actions($event, 'nethserver-httpd-ibaypassword' => '40');
-safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
-
-
-#--------------------------------------------------
-# actions for network-create event
-#--------------------------------------------------
-
-$event = "network-create";
-
-templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
-
-#--------------------------------------------------
-# actions for network-delete event
-#--------------------------------------------------
-
-$event = "network-delete";
-
-templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
-
-#--------------------------------------------------
-# actions for remoteaccess-update event
-#--------------------------------------------------
-
-$event = "remoteaccess-update";
-
-templates2events("/etc/httpd/conf/httpd.conf", $event);
-safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
-
-
-#--------------------------------------------------
-# actions for logrotate event
-#--------------------------------------------------
-
-$event = "logrotate";
-
-safe_symlink("reload", "root/etc/e-smith/events/$event/services2adjust/httpd");
-
-# Set up generic logfile timestamp renaming/symlinking
-
 foreach (qw(
-    /var/log/httpd/error_log
-    /var/log/httpd/access_log
-    ))
-{
-    safe_touch "root/etc/e-smith/events/logrotate/logfiles2timestamp/$_";
-    safe_touch "root/etc/e-smith/events/post-install/logfiles2timestamp/$_";
-    safe_touch "root/etc/e-smith/events/post-upgrade/logfiles2timestamp/$_";
+    network-create 
+    network-delete 
+    remoteaccess-update 
+    ibay-modify 
+    ibay-create 
+    ibay-delete
+)) {
+    event_templates($_ qw(/etc/httpd/conf/httpd.conf));
+    event_services($_, qw(httpd reload));
 }
 
+event_actions($_, qw(nethserver-httpd-ibaypassword 40)) foreach (qw(
+    ibay-modify 
+    ibay-create 
+    ibay-delete   
+));
 
 #--------------------------------------------------
 # actions for nethserver-httpd-update event
 #--------------------------------------------------
 
-event_templates('nethserver-httpd-update', 
-		"/etc/httpd/conf/httpd.conf",
-		"/etc/httpd/conf.d/ssl.conf");
+event_templates('nethserver-httpd-update', qw(
+		/etc/httpd/conf/httpd.conf
+		/etc/httpd/conf.d/ssl.conf
+));
 
-event_actions('nethserver-httpd-update',
-	      'initialize-default-databases' => '00',
-	      'nethserver-httpd-conf' => '20',
-	      'firewall-adjust' => '30',
-	      'runlevel-adjust' => '30');
+event_actions('nethserver-httpd-update', qw(
+	      initialize-default-databases 00
+	      nethserver-httpd-conf 20
+	      firewall-adjust 30
+	      runlevel-adjust 30
+));
 
-safe_symlink("restart", "root/etc/e-smith/events/nethserver-httpd-update/services2adjust/httpd");
+event_services('nethserver-httpd-update', qw(
+               httpd restart
+));
+
+
+#
+# UNINSTALL event
+#
+event_actions('nethserver-httpd-uninstall', qw(
+              nethserver-httpd-uninstall 00
+              runlevel-adjust 30
+              firewall-adjust 40
+));
