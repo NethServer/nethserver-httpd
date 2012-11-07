@@ -32,6 +32,7 @@
 
     $vhosts{$defaultServerName} = {
 	Description => 'Default virtual host',
+	SslMode => 'optional',
     };
 
     '';
