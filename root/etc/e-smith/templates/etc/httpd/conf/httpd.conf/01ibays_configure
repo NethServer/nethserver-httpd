@@ -1,0 +1,83 @@
+{
+    #
+    # 01ibays -- configure virtual hosts to share ibays
+    #
+
+    eval { require esmith::AccountsDB; require esmith::NetworksDB; };
+    
+    if($@) {
+	return '';
+    }
+	
+    # Modules required by basic user authentication
+    push @modules, qw(
+       auth_basic
+       authn_file
+       authz_user
+    );
+
+    # The list of ibays shared among all vhosts:
+    @ibays = ();
+    
+    my $accountsDb = esmith::AccountsDB->open_ro() || return '';
+    my $networksDb = esmith::NetworksDB->open_ro() || return '';
+
+    my %adb = $accountsDb->as_hash;
+    my $localNetworks = join ' ', map { 
+	my $u = $_; 
+	$u =~ s:/255\.255\.255\.255::g; 
+	$u;
+    } $networksDb->local_access_spec;
+
+    foreach my $ibayName (sort map {$_->key} $accountsDb->ibays) {
+
+	my %ih = %{$adb{$ibayName}};
+
+	# Skip if web access is not enabled
+	if($ih{HttpStatus} ne 'enabled') {
+	    next;
+	}
+
+	# Skip if no read access is set
+	if($ih{OtherAccess} !~ /r/) {
+	    warn 'Missing read permssion on ibay ' . $ibayName . "\n";
+	    next;
+	}
+
+	my $vhostName = $ih{HttpVirtualHost};
+
+	my $ibayConf = {
+	    'Name' => $ibayName,
+	    'Path' => '/var/lib/nethserver/ibay/' . $ibayName,
+	    'Description' => $ih{Description},
+	    'Access' => $ih{HttpAccess},
+	    'PrivateAllow' => $localNetworks,
+	    'PasswordStatus' => $ih{HttpPasswordStatus},
+	    'CgiBinStatus' => $ih{HttpCgiBinStatus},
+	    'ServerName' => $vhostName,
+	};
+
+	if($ih{HttpAliasType} eq 'default') {
+	    $ibayConf->{Alias} = $ibayName;
+
+	} elsif($ih{HttpAliasType} eq 'custom') {
+	    $ibayConf->{Alias} = $ih{HttpAliasCustom};
+
+ 	} elsif($ih{HttpAliasType} eq 'root') {
+	    if($vhostName eq '__ANY__') {
+		# Set the defaultDocumentRoot template variable:
+		$defaultDocumentRoot = $ibayConf->{Path};
+	    } else {
+		$vhosts{$vhostName}{DocumentRoot} = $ibayConf->{Path};
+	    }
+
+	} else {
+	    warn 'Unknown HttpAliasType prop for ' . $ibayName . "ibay\n";
+	    next;
+	}
+
+	push @ibays, $ibayConf;
+    }
+
+    '';
+}

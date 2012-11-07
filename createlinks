@@ -21,6 +21,18 @@ foreach (qw(
     event_services($_, qw(httpd reload));
 }
 
+# Set ibay password on ibay events:
+foreach (qw(
+    ibay-create
+    ibay-delete
+    ibay-modify
+)) {
+    event_actions($_, qw(nethserver-httpd-setibayspassword 30));
+}
+
+# Initialize the password database when ibays are installed/updated
+event_actions('nethserver-ibays-update', qw(nethserver-httpd-setibayspassword 40));
+
 #--------------------------------------------------
 # actions for nethserver-httpd-update event
 #--------------------------------------------------
