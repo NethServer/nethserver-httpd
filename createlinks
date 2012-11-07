@@ -21,12 +21,6 @@ foreach (qw(
     event_services($_, qw(httpd reload));
 }
 
-event_actions($_, qw(nethserver-httpd-ibaypassword 40)) foreach (qw(
-    ibay-modify 
-    ibay-create 
-    ibay-delete   
-));
-
 #--------------------------------------------------
 # actions for nethserver-httpd-update event
 #--------------------------------------------------
