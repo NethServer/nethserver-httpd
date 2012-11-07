@@ -24,6 +24,9 @@
     $localAccess = $ndb->local_access_spec();
     $localAccess =~ s#/255\.255\.255\.255##g;
 
+    # Default document root
+    $defaultDocumentRoot = '/var/www/html';
+
     # The default (virtual) hostname
     $defaultServerName = $SystemName . '.' . $DomainName;
 

@@ -1,5 +1,5 @@
 ServerName {$ServerName}
-DocumentRoot {$DocumentRoot || '/var/www/html' }
+DocumentRoot {$DocumentRoot || $defaultDocumentRoot || '/var/www/html' }
 SSLEngine {
     if(defined($SslMode) && $Port != 80 &&
        ($SslMode eq 'required' || $SslMode eq 'optional')) {

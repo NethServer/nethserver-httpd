@@ -41,7 +41,7 @@ ServerAdmin webmaster@{ $defaultServerName }
 
 ServerName { "$defaultServerName:80" }
 UseCanonicalName On
-DocumentRoot "/var/www/html"
+DocumentRoot { $defaultDocumentRoot || "/var/www/html" }
 
 <Directory />
     Options FollowSymLinks
