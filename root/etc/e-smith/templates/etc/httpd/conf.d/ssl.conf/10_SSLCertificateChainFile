@@ -1,6 +1,0 @@
-{
-    my $chain_file = $httpd{SSLCertificateChainFile}
-	or return "# httpd{SSLCertificateChainFile} not set";
-
-    $OUT = "SSLCertificateChainFile $chain_file";
-}

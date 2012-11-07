@@ -1,5 +1,0 @@
-{
-    # Specify which SSL Protocols to accept for this context
-    $OUT .= "SSLProtocol all";
-    $OUT .= " -SSLv2" unless (defined(${'httpd'}{'SSLv2'}) && ${'httpd'}{'SSLv2'} eq 'enabled');
-}

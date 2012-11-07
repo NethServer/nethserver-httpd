@@ -1,0 +1,46 @@
+LoadModule ssl_module modules/mod_ssl.so
+Listen 443
+
+SetEnvIf User-Agent ".*MSIE.*" nokeepalive ssl-unclean-shutdown downgrade-1.0 force-response-1.0
+
+{
+    $OUT = '';
+
+    if($httpd{SSLCertificateChainFile}) {
+	$OUT .= "SSLCertificateChainFile " . $httpd{SSLCertificateChainFile} . "\n";
+    } else {
+	$OUT .= "# httpd{SSLCertificateChainFile} not set";
+    }
+
+    my $crt = $httpd{'SSLCertificateFile'} ||
+	"/home/e-smith/ssl.crt/${SystemName}.${DomainName}.crt";
+
+    if( ! -r $crt ) {
+	# warn "SSLCertificateFile: load default localhost certificate\n";
+	$crt = '/etc/pki/tls/certs/localhost.crt';
+    }
+
+    my $key = $httpd{'SSLCertificateKeyFile'} ||
+	"/home/e-smith/ssl.key/${SystemName}.${DomainName}.key";
+
+    if( ! -r $key ) {
+	# warn "SSLCertificateKeyFile: load default localhost key\n";
+	$key = '/etc/pki/tls/private/localhost.key';
+    }
+	
+    $OUT .= <<SSL_END;
+SSLCertificateFile $crt
+SSLCertificateKeyFile $key
+SSL_END
+}
+
+SSLCipherSuite {$httpd{SSLCipherSuite}};
+SSLPassPhraseDialog  builtin
+SSLSessionCache         shmcb:/var/cache/mod_ssl/scache(512000)
+SSLSessionCacheTimeout  300
+SSLMutex  file:state/ssl_mutex
+SSLRandomSeed startup file:/dev/urandom 512
+SSLRandomSeed connect builtin
+
+SSLProtocol all {'-SSLv2' unless defined $httpd{SSLv2} && $httpd{SSLv2} eq 'enabled'}
+

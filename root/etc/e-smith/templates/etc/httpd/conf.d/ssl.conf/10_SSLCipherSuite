@@ -1,3 +1,0 @@
-{
-    $OUT = "SSLCipherSuite $httpd{SSLCipherSuite}";
-}

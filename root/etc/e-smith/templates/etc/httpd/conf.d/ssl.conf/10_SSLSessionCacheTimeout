@@ -1,5 +1,0 @@
-{
-#   Inter-Process Session Cache:
-#   the expiring timeout (in seconds).
-}
-SSLSessionCacheTimeout  300
