@@ -31,18 +31,15 @@ MaxRequestsPerChild  0
 
 Listen 80
 
-#
-# Load config files from the config directory "/etc/httpd/conf.d".
-#
 Include conf.d/*.conf
 
 User apache
 Group apache
 
 ### Section 2: 'Main' server configuration
-ServerAdmin webmaster@{ "${SystemName}.${DomainName}" }
+ServerAdmin webmaster@{ $defaultServerName }
 
-ServerName { "${SystemName}.${DomainName}:80" }
+ServerName { "$defaultServerName:80" }
 UseCanonicalName On
 DocumentRoot "/var/www/html"
 
@@ -256,5 +253,16 @@ BrowserMatch "^WebDAVFS/1.[0123]" redirect-carefully
 BrowserMatch "^gnome-vfs/1.0" redirect-carefully
 BrowserMatch "^XML Spy" redirect-carefully
 BrowserMatch "^Dreamweaver-WebDAV-SCM1" redirect-carefully
+
+
+#
+# Virtual hosts
+#
+
+NameVirtualHost *:80
+NameVirtualHost *:443
+
+Include nethserver.d/*.vhost
+
 
 

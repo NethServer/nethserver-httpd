@@ -1,11 +1,11 @@
-!!!WARNING!!! 
-
-    DO NOT ADD any .conf file here directly! It will be erased!
+=======
+WARNING
+=======
 
 This directory holds Apache 2.0 virtual hosts configuration files for
 NethServer.
 
-Any file in this directory which have the ".conf" extension will be
+Any file in this directory which have the ".vhost" extension will be
 deleted and re-created during nethserver-httpd-* events.
 
 

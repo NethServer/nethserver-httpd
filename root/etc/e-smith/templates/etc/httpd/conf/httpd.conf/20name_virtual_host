@@ -1,7 +1,0 @@
-{
-    #
-    # 20NameVirtualHost TODO -- add only if at least one virtual host is defined
-    #
-    # NameVirtualHost 0.0.0.0:80
-    # NameVirtualHost 0.0.0.0:443
-}

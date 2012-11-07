@@ -9,7 +9,7 @@ SetEnvIf User-Agent ".*MSIE.*" nokeepalive ssl-unclean-shutdown downgrade-1.0 fo
     if($httpd{SSLCertificateChainFile}) {
 	$OUT .= "SSLCertificateChainFile " . $httpd{SSLCertificateChainFile} . "\n";
     } else {
-	$OUT .= "# httpd{SSLCertificateChainFile} not set";
+	$OUT .= "# SSLCertificateChainFile <not set>\n";
     }
 
     my $crt = $httpd{'SSLCertificateFile'} ||
