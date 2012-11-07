@@ -4,7 +4,7 @@
 $L['Httpd_Title'] = 'Accesso web';
 $L['Status_label'] = 'Abilita accesso web';
 $L['CgiBin_label'] = 'Esegui script (CGI, PHP, SSI)';
-$L['PasswordState_label'] = 'Richiedi la password';
+$L['PasswordStatus_label'] = 'Richiedi la password';
 $L['PasswordValue_label'] = 'Password'; 
 $L['Access_label'] = 'Consenti l\'accesso solo dalle reti locali';
 $L['VirtualHost_label'] = 'Host virtuale';

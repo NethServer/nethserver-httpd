@@ -3,7 +3,7 @@
 $L['Httpd_Title'] = 'Web access';
 $L['Status_label'] = 'Enable web access';
 $L['CgiBin_label'] = 'Execute scripts (CGI, PHP, SSI)';
-$L['PasswordState_label'] = 'Protect by password';
+$L['PasswordStatus_label'] = 'Protect by password';
 $L['PasswordValue_label'] = 'Password'; 
 $L['Access_label'] = 'Allow access from local networks only';
 $L['VirtualHost_label'] = 'Virtual host';

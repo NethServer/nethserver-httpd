@@ -14,7 +14,7 @@ echo $view->fieldsetSwitch('Status', 'enabled', $view::FIELDSETSWITCH_CHECKBOX)-
     )
     ->insert($view->checkBox('Access', 'private')->setAttribute('uncheckedValue', 'public'))
     ->insert(
-        $view->fieldsetSwitch('PasswordState', 'enabled', $view::FIELDSETSWITCH_CHECKBOX | $view::FIELDSETSWITCH_EXPANDABLE)
+        $view->fieldsetSwitch('PasswordStatus', 'enabled', $view::FIELDSETSWITCH_CHECKBOX | $view::FIELDSETSWITCH_EXPANDABLE)
         ->setAttribute('uncheckedValue', 'disabled')
         ->insert($view->textInput('PasswordValue', $view::LABEL_NONE))
     )
