@@ -32,6 +32,7 @@ MaxRequestsPerChild  0
 Listen 80
 
 Include conf.d/*.conf
+Include nethserver.d/*.conf
 
 User apache
 Group apache
