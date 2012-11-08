@@ -18,6 +18,7 @@ echo $view->fieldsetSwitch('Status', 'enabled', $view::FIELDSETSWITCH_CHECKBOX)-
         ->setAttribute('uncheckedValue', 'disabled')
         ->insert($view->textInput('PasswordValue', $view::LABEL_NONE))
     )
-    ->insert($view->checkBox('CgiBin', 'enabled')->setAttribute('uncheckedValue', 'disabled'))
+    // CgiBin is not implemented at httpd.conf template level:
+    //->insert($view->checkBox('CgiBin', 'enabled')->setAttribute('uncheckedValue', 'disabled'))
 
 ;
