@@ -1,3 +1,6 @@
+#
+# 10base
+#
 ServerName {$ServerName}
 DocumentRoot {$DocumentRoot || $defaultDocumentRoot || '/var/www/html' }
 SSLEngine {
@@ -8,3 +11,5 @@ SSLEngine {
 	'Off';
     }
 }
+
+

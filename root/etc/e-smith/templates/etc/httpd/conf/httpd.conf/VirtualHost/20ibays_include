@@ -1,0 +1,17 @@
+#
+# 20ibays_include -- Define ibays aliases specific to this virtual host
+#
+{
+    $OUT = '';
+
+    foreach $ibayConf (@Ibays) {
+	if( ! defined $ibayConf->{Alias}) {
+	    # web roots must not be aliased
+	    next;
+	}
+
+	$OUT .= sprintf "Alias \"/%s\" \"%s\"\n", $ibayConf->{Alias}, $ibayConf->{Path};	
+    }    
+}
+
+

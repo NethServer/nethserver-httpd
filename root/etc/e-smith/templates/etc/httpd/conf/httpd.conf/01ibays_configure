@@ -77,6 +77,13 @@
 	}
 
 	push @ibays, $ibayConf;
+
+	if($vhostName ne '__ANY__') {
+	    if( ! defined $vhosts{$vhostName}{Ibays} ) {
+		$vhosts{$vhostName}{Ibays} = [];
+	    }
+	    push @{ $vhosts{$vhostName}{Ibays} }, $ibayConf;
+	}
     }
 
     '';

@@ -25,7 +25,7 @@
 	});
 
 	if($ibayConf->{ServerName} eq '__ANY__') {
-	    $ANY_IBAYS .= sprintf "Alias \"/%s\" \"%s\"\n", $ibayConf->{Name}, $ibayConf->{Path};
+	    $ANY_IBAYS .= sprintf "Alias \"/%s\" \"%s\"\n", $ibayConf->{Alias}, $ibayConf->{Path};
 	}
     }
 
