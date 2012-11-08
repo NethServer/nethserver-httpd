@@ -25,12 +25,13 @@
 	});
 
 	if($ibayConf->{ServerName} eq '__ANY__') {
-	    $ANY_IBAYS .= sprintf "Alias \"%s\" \"%s\"\n", $ibayConf->{Name}, $ibayConf->{Path};
+	    $ANY_IBAYS .= sprintf "Alias \"/%s\" \"%s\"\n", $ibayConf->{Name}, $ibayConf->{Path};
 	}
     }
 
     if($ANY_IBAYS) {
-	$ANY_IBAYS = "# Global ibays\n" . $ANY_IBAYS;
+	# prepend a comment line:
+	$ANY_IBAYS = "\n# Global ibays\n" . $ANY_IBAYS;
     }
 
     return $ANY_IBAYS;
