@@ -1,20 +1,17 @@
 {
     #
-    # 99virtual_hosts -- expand .vhost templates under nethserver.d
+    # 99virtual_hosts -- expand .vhost templates under nethserver.d/
     # directory
     #
 
     use esmith::templates;
-    my $vhostDir = '/etc/httpd/nethserver.d/';
+    my $outDir = '/etc/httpd/nethserver.d/';
 
     # Clean up .vhost files
-    unlink glob $vhostDir . '*.vhost';
+    unlink glob $outDir . '*.vhost';
 
     foreach my $vhostName (keys %vhosts) {
-	my $output = '';
-
 	my %vhostData = %{$vhosts{$vhostName}};
-
 	my @ports = (80);
 
 	if(defined $vhostData{SslMode}) {
@@ -33,16 +30,16 @@
 
 	foreach $port (@ports) {
 	    $vhostData{Port} = $port;
-	    $output .= esmith::templates::processTemplate({
+	    esmith::templates::processTemplate({
 		MORE_DATA => \%vhostData,
 		TEMPLATE_PATH => '/etc/httpd/conf/httpd.conf/' . $vhostData{TemplatePath},
-		OUTPUT_TYPE => 'string'
+		OUTPUT_TYPE => 'file',
+		OUTPUT_PREFIX => $outDir,
+		OUTPUT_FILENAME => sprintf('%s:%d.vhost', $vhostName, $port)
 	    });
 	}
 
 	delete $vhostData{Port};
-
-	print { open(my $fh, ">", $vhostDir . $vhostName . '.vhost'); $fh } $output, "\n";
     }
 
     '';
