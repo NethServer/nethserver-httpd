@@ -26,8 +26,12 @@
 	    $vhostData{TemplatePath} = 'VirtualHost';
 	}
 
-	$vhostData{ServerName} = $vhostName;
+	if( ! $vhostData{DocumentRoot} ) {
+	    $vhostData{DocumentRoot} = $defaultDocumentRoot || '/var/www/html';
+	}
 
+	$vhostData{ServerName} = $vhostName;
+       
 	foreach $port (@ports) {
 	    $vhostData{Port} = $port;
 	    esmith::templates::processTemplate({

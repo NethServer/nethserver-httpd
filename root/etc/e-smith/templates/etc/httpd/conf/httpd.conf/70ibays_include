@@ -24,7 +24,9 @@
 	    OUTPUT_FILENAME => $ibayConf->{Name} . '.ibay'
 	});
 
-	if($ibayConf->{ServerName} eq '__ANY__') {
+	if($ibayConf->{ServerName} eq '__ANY__'
+	    && $ibayConf->{Alias}
+	    && $ibayConf->{Path}) {
 	    $ANY_IBAYS .= sprintf "Alias \"/%s\" \"%s\"\n", $ibayConf->{Alias}, $ibayConf->{Path};
 	}
     }
