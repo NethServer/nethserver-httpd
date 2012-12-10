@@ -1,0 +1,50 @@
+Summary: nethserver httpd configuration
+Name: nethserver-httpd
+Version: @@VERSION@@
+Release: @@RELEASE@@%{?dist}
+License: GPL
+Source: %{name}-%{version}.tar.gz
+BuildArch: noarch
+URL: https://dev.nethesis.it/projects/%{name}
+
+BuildRequires: nethserver-devtools
+
+AutoReq: no
+Requires: nethserver-base
+Requires: httpd, mod_ssl 
+
+%description
+NethServer httpd configuration (Apache)
+
+%prep
+%setup
+
+%post
+source /etc/nethserver/rpm_hook_functions
+event_queue add %{name}-update
+
+%preun
+source /etc/nethserver/rpm_hook_functions
+signal_event %{name}-uninstall
+
+%build
+perl createlinks
+
+%install
+rm -rf $RPM_BUILD_ROOT
+(cd root   ; find . -depth -print | cpio -dump $RPM_BUILD_ROOT)
+
+%{genfilelist} $RPM_BUILD_ROOT  \
+ --dir /etc/httpd/state 'attr(0755,apache,root)' > e-smith-%{version}-filelist
+
+echo "%doc COPYING"          >> e-smith-%{version}-filelist
+
+%clean 
+rm -rf $RPM_BUILD_ROOT
+
+%files -f e-smith-%{version}-filelist
+%defattr(-,root,root)
+
+%changelog
+* Fri Aug 05 2011 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 0.0.5-1nh
+- Fist release
