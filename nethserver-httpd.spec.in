@@ -45,6 +45,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -f e-smith-%{version}-filelist
 %defattr(-,root,root)
 
+
+
 %changelog
-* Fri Aug 05 2011 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 0.0.5-1nh
-- Fist release
+
