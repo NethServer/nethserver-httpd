@@ -86,6 +86,6 @@ event_templates('certificate-update', qw(
                 /etc/pki/tls/private/localhost.key
 ));
 
-event_actions('certificate-update', qw(
-              httpd graceful
+event_services('certificate-update', qw(
+               httpd graceful
 ));
