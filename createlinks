@@ -47,13 +47,14 @@ foreach (qw(
 # Initialize the password database when ibays are installed/updated
 event_actions('nethserver-ibays-update', qw(nethserver-httpd-setibayspassword 40));
 
-#--------------------------------------------------
-# actions for nethserver-httpd-update event
-#--------------------------------------------------
-
+#
+# nethserver-httpd-update event
+#
 event_templates('nethserver-httpd-update', qw(
 		/etc/httpd/conf/httpd.conf
 		/etc/httpd/conf.d/ssl.conf
+                /etc/pki/tls/certs/localhost.crt
+                /etc/pki/tls/private/localhost.key
 ));
 
 event_actions('nethserver-httpd-update', qw(
@@ -75,4 +76,16 @@ event_actions('nethserver-httpd-uninstall', qw(
               nethserver-httpd-uninstall 00
               runlevel-adjust 30
               firewall-adjust 40
+));
+
+#
+# certificate-update event
+#
+event_templates('certificate-update', qw(
+                /etc/pki/tls/certs/localhost.crt
+                /etc/pki/tls/private/localhost.key
+));
+
+event_actions('certificate-update', qw(
+              httpd graceful
 ));

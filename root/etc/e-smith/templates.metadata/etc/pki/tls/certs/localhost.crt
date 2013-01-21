@@ -1,0 +1,5 @@
+TEMPLATE_PATH="certificate/crt"
+OUTPUT_FILENAME="/etc/pki/tls/certs/localhost.crt"
+PERMS=0600
+UID="root"
+GID="root"
