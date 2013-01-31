@@ -48,4 +48,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jan 31 2013 Davide Principi <davide.principi@nethesis.it> - 1.0.1-1.ns6
+- Implemented nethserver-base certificate management
+
 
