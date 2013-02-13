@@ -7,10 +7,10 @@ Source: %{name}-%{version}.tar.gz
 BuildArch: noarch
 URL: https://dev.nethesis.it/projects/%{name}
 
-BuildRequires: nethserver-devtools
+BuildRequires: nethserver-devtools >= 1.0.0
 
 AutoReq: no
-Requires: nethserver-base
+Requires: nethserver-base >= 1.1.0-2
 Requires: httpd, mod_ssl 
 
 %description
