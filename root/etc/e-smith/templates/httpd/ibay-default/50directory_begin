@@ -1,8 +1,8 @@
-{
-    #
-    # 10directory_begin -- basic ibay directory setup
-    #
-}<Directory {$Path}>
+
+#
+# 10directory_begin -- basic ibay directory setup
+#
+<Directory {$Path}>
     Options None
     Options +Indexes
     Options +Includes

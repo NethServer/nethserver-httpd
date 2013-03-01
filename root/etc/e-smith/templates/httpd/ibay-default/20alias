@@ -1,0 +1,12 @@
+
+#
+# 05alias
+#
+{
+    if( $isDocumentRoot ) {
+       $OUT = sprintf('DocumentRoot "%s"' . "\n", $Path);
+    } else {
+       $OUT = sprintf('Alias "/%s" "%s"' . "\n", $Alias, $Path);
+    }
+}
+
