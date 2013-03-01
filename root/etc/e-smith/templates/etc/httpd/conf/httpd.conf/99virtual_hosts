@@ -22,8 +22,8 @@
 	   } 	    
 	}
 
-	if( ! $vhostData{TemplatePath} ) {
-	    $vhostData{TemplatePath} = 'default';
+	if( ! $vhostData{VhostProfile} ) {
+	    $vhostData{VhostProfile} = 'default';
 	}
 
 	if( ! $vhostData{DocumentRoot} ) {
@@ -36,7 +36,7 @@
 	    $vhostData{Port} = $port;
 	    esmith::templates::processTemplate({
 		MORE_DATA => \%vhostData,
-		TEMPLATE_PATH => 'httpd/vhost-' . $vhostData{TemplatePath},
+		TEMPLATE_PATH => 'httpd/vhost-' . $vhostData{VhostProfile},
 		OUTPUT_TYPE => 'file',
 		OUTPUT_PREFIX => $outDir,
 		OUTPUT_FILENAME => sprintf('%s:%d.vhost', $vhostName, $port)
