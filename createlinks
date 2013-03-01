@@ -89,3 +89,11 @@ event_templates('certificate-update', qw(
 event_services('certificate-update', qw(
                httpd graceful
 ));
+
+
+#
+# migration-import event (refs #1690)
+#
+event_actions('migration-import', qw(
+    nethserver-httpd-migrate 40
+));
