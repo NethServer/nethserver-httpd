@@ -29,6 +29,8 @@
 	$u;
     } $networksDb->local_access_spec;
 
+    my @rootChecks = ();
+
     foreach my $ibayName (sort map {$_->key} $accountsDb->ibays) {
 
 	my %ih = %{$adb{$ibayName}};
@@ -66,6 +68,7 @@
 	    if($vhostName eq '__ANY__') {
 		# Set the defaultDocumentRoot template variable:
 		$defaultDocumentRoot = $ibayConf->{Path};
+		push @rootChecks, $ibayName;
 	    } else {
 		$vhosts{$vhostName}{DocumentRoot} = $ibayConf->{Path};
 	    }
@@ -84,6 +87,12 @@
 	    push @{ $vhosts{$vhostName}{Ibays} }, $ibayConf;
 	}
     }
+
+    # Send a warning message if the configuration is inconsistent. No
+    # more than 1 default document root can be set!
+    if(scalar @rootChecks > 1) {
+	warn "[WARNING] The following ibays want to set default DocumentRoot value: " . join(', ', @rootChecks) . ". Fix your Shared Folder configuration!\n";
+    } 
 
     '';
 }
