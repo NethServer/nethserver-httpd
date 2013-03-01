@@ -36,13 +36,13 @@
 	my %ih = %{$adb{$ibayName}};
 
 	# Skip if web access is not enabled
-	if($ih{HttpStatus} ne 'enabled') {
+	if( ! defined $ih{HttpStatus} || $ih{HttpStatus} ne 'enabled') {
 	    next;
 	}
 
 	# Warn if no read access is set
 	if($ih{OtherAccess} !~ /r/) {
-	    warn 'Missing read permssion on ibay ' . $ibayName . "\n";	    
+	    warn '[WARNING] Missing read permssion on ibay ' . $ibayName . "\n";	    
 	}
 
 	my $vhostName = $ih{HttpVirtualHost};
@@ -75,7 +75,7 @@
 	    }
 
 	} else {
-	    warn 'Unknown HttpAliasType prop for ' . $ibayName . "ibay\n";
+	    warn '[WARNING] Unknown HttpAliasType prop for ' . $ibayName . "ibay\n";
 	    next;
 	}
 

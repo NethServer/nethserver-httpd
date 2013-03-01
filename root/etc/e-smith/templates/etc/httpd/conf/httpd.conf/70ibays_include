@@ -18,7 +18,7 @@
     foreach my $ibayConf (@ibays) {
 	esmith::templates::processTemplate({
 	    MORE_DATA => $ibayConf,
-	    TEMPLATE_PATH => '/etc/httpd/conf/httpd.conf/IBay',
+	    TEMPLATE_PATH => 'httpd/ibay-default',
 	    OUTPUT_TYPE => 'file',
 	    OUTPUT_PREFIX => $outDir,
 	    OUTPUT_FILENAME => $ibayConf->{Name} . '.ibay'
