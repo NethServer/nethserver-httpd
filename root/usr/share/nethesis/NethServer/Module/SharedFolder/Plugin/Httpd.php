@@ -52,9 +52,6 @@ class Httpd extends \Nethgui\Controller\Table\RowPluginAction
             array('AliasCustom', '/^([a-z]|[0-9]){1,12}$/', Table::FIELD, 'HttpAliasCustom'),
         );
 
-        // TODO: read data values from hosts DB
-        $this->parameters['VirtualHostDatasource'] = array(array('www.example.com', 'Todo'));
-
         $this
             ->setDefaultValue('Status', 'enabled')
             ->setDefaultValue('PasswordValue', '')
