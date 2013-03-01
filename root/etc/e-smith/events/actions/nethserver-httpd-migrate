@@ -96,13 +96,13 @@ foreach my $srcIbay ($srcAccountsDb->ibays()) {
     my $ibayPassword = '';
 
     if(defined $publicAccessMap{$srcIbay->prop('PublicAccess')}) {
-	%access = $publicAccessMap{$srcIbay->prop('PublicAccess')};
+	%access = %{$publicAccessMap{$srcIbay->prop('PublicAccess')}};
     } else {
-	%access = $publicAccessMap{'default'};
+	%access = %{$publicAccessMap{'default'}};
     }
 
-    if(defined $shadowDb{$ibayName}) {
-	$ibayPassword = $shadowDb{$ibayName}->pwdp;
+    if(defined $shadowDb->{$ibayName}) {
+	$ibayPassword = '{CRYPT}' . $shadowDb->{$ibayName}->{pwdp};
     }
 
     $dstIbay->merge_props(
