@@ -61,16 +61,25 @@
 
 	if($ih{HttpAliasType} eq 'default') {
 	    $ibayConf->{Alias} = $ibayName;
+	    $ibayConf->{isDocumentRoot} = '';
 
 	} elsif($ih{HttpAliasType} eq 'custom') {
 	    $ibayConf->{Alias} = $ih{HttpAliasCustom};
+	    $ibayConf->{isDocumentRoot} = '';
 
  	} elsif($ih{HttpAliasType} eq 'root') {
+	    $ibayConf->{isDocumentRoot} = '1';
+
 	    if($vhostName eq '__ANY__') {
 		# Set the defaultDocumentRoot template variable:
 		$defaultDocumentRoot = $ibayConf->{Path};
 		push @rootChecks, $ibayName;
 	    } else {
+		# More than one ibay wants to be the DocumentRoot for $vhostName:
+	        if( defined $vhosts{$vhostName}{DocumentRoot}) {
+		    warn "[WARNING] $ibayName wants to override existing DocumentRoot " . 
+			$vhosts{$vhostName}{DocumentRoot} .  " in vhost $vhostName\n";
+		}
 		$vhosts{$vhostName}{DocumentRoot} = $ibayConf->{Path};
 	    }
 
