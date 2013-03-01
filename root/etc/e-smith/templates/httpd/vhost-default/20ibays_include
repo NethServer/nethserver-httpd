@@ -1,17 +1,10 @@
 #
-# 20ibays_include -- Define ibays aliases specific to this virtual host
+# 20ibays_include -- Include ibay configurations specific to this virtual host
 #
 {
     $OUT = '';
 
     foreach $ibayConf (@Ibays) {
-	if( ! defined $ibayConf->{Alias}) {
-	    # web roots must not be aliased
-	    next;
-	}
-
-	$OUT .= sprintf "Alias \"/%s\" \"%s\"\n", $ibayConf->{Alias}, $ibayConf->{Path};	
+	$OUT .= sprintf "Include nethserver.d/%s.ibay\n", $ibayConf->{Name};
     }    
 }
-
-
