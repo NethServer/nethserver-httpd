@@ -60,11 +60,13 @@ my %publicAccessMap = (
 	HttpStatus => 'enabled',
 	HttpAccess => 'public',
 	HttpPasswordStatus => 'disabled',
+	OtherAccess => 'r',
     },
     'global-pw' => {
 	HttpStatus => 'enabled',
 	HttpAccess => 'public',
 	HttpPasswordStatus => 'enabled',
+	OtherAccess => 'r',
     },
     # The 'global-pw-remote' case is currently not implemented in
     # NethServer and is mapped as 'global-pw'. The reason is we do not
@@ -73,16 +75,19 @@ my %publicAccessMap = (
 	HttpStatus => 'enabled',
 	HttpAccess => 'public',
 	HttpPasswordStatus => 'enabled',
+	OtherAccess => 'r',
     },
     'local' => {
 	HttpStatus => 'enabled',
 	HttpAccess => 'private',
 	HttpPasswordStatus => 'disabled',
+	OtherAccess => 'r',
     },
     'local-pw' => {
 	HttpStatus => 'enabled',
 	HttpAccess => 'private',
 	HttpPasswordStatus => 'enabled',
+	OtherAccess => 'r',
     },
     'none' => {
 	HttpStatus => 'disabled',
