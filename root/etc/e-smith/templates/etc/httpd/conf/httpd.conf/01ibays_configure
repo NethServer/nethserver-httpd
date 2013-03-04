@@ -55,7 +55,7 @@
 	    'PrivateAllow' => $localNetworks,
 	    'PasswordStatus' => $ih{HttpPasswordStatus},
 	    'CgiBinStatus' => $ih{HttpCgiBinStatus},
-	    'Profile' => $ih{HttpProfile} || 'default',
+	    'Profile' => $ih{HttpProfileType} || 'default',
 	    'ServerName' => $vhostName,
 	};
 

@@ -95,5 +95,9 @@ event_services('certificate-update', qw(
 # migration-import event (refs #1690)
 #
 event_actions('migration-import', qw(
-    nethserver-httpd-migrate 40
+    nethserver-httpd-migrate-ibays 40
+));
+
+event_services('migration-import', qw(
+               httpd restart
 ));
