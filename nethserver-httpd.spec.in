@@ -34,10 +34,9 @@ perl createlinks
 rm -rf $RPM_BUILD_ROOT
 (cd root   ; find . -depth -print | cpio -dump $RPM_BUILD_ROOT)
 
-%{genfilelist} $RPM_BUILD_ROOT  \
- --dir /etc/httpd/state 'attr(0755,apache,root)' > e-smith-%{version}-filelist
-
-echo "%doc COPYING"          >> e-smith-%{version}-filelist
+%{genfilelist} $RPM_BUILD_ROOT > %{name}-%{version}-filelist
+echo "%config /etc/httpd/conf/ibays.htpasswd" >> %{name}-%{version}-filelist
+echo "%doc COPYING" >> %{name}-%{version}-filelist
 
 %clean 
 rm -rf $RPM_BUILD_ROOT
