@@ -50,16 +50,16 @@
 	my $ibayConf = {
 	    'Name' => $ibayName,
 	    'Path' => '/var/lib/nethserver/ibay/' . $ibayName,
-	    'Description' => $ih{Description},
-	    'Access' => $ih{HttpAccess},
-	    'PrivateAllow' => $localNetworks,
-	    'PasswordStatus' => $ih{HttpPasswordStatus},
-	    'CgiBinStatus' => $ih{HttpCgiBinStatus},
+	    'Description' => $ih{Description} || '',
+	    'Access' => $ih{HttpAccess} || 'private',
+	    'PrivateAllow' => $localNetworks || '',
+	    'PasswordStatus' => $ih{HttpPasswordStatus} || 'disabled',
+	    'CgiBinStatus' => $ih{HttpCgiBinStatus} || 'disabled',
 	    'Profile' => $ih{HttpProfileType} || 'default',
 	    'ServerName' => $vhostName,
 	};
 
-	if($ih{HttpAliasType} eq 'default') {
+	if( ! defined $ih{HttpAliasType} || $ih{HttpAliasType} eq 'default') {
 	    $ibayConf->{Alias} = $ibayName;
 	    $ibayConf->{isDocumentRoot} = '';
 
@@ -84,7 +84,7 @@
 	    }
 
 	} else {
-	    warn '[WARNING] Unknown HttpAliasType prop for ' . $ibayName . "ibay\n";
+	    warn "[WARNING] Unknown HttpAliasType prop for ibay $ibayName\n";
 	    next;
 	}
 
