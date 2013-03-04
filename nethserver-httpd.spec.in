@@ -41,7 +41,7 @@ echo "%doc COPYING" >> %{name}-%{version}-filelist
 %clean 
 rm -rf $RPM_BUILD_ROOT
 
-%files -f e-smith-%{version}-filelist
+%files -f %{name}-%{version}-filelist
 %defattr(-,root,root)
 
 
