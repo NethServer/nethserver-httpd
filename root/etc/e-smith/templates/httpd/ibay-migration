@@ -10,6 +10,12 @@
         $OUT .= sprintf('Alias "/%s/files" "%s/files"' . "\n", $Alias, $Path);    
         $OUT .= sprintf('Alias "/%s/cgi-bin" "%s/cgi-bin"' . "\n", $Alias, $Path);    
     } else {
+
+	if( ! -d $Path . '/html') {
+	    warn "[WARNING] ibay $Name: $Path/html does not exist. Can't set DocumentRoot!";
+	    $OUT.= '# ';
+	}
+
 	$OUT .= sprintf('DocumentRoot "%s/html"' . "\n", $Path);    
         $OUT .= sprintf('Alias "/files" "%s/files"' . "\n", $Path);    
         $OUT .= sprintf('Alias "/cgi-bin" "%s/cgi-bin"' . "\n", $Path);    
