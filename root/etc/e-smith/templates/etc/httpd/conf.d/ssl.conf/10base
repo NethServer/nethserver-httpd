@@ -3,9 +3,9 @@ Listen 443
 
 SetEnvIf User-Agent ".*MSIE.*" nokeepalive ssl-unclean-shutdown downgrade-1.0 force-response-1.0
 
-{ $httpd{SSLCertificateChainFile} ? '' : '# '}SSLCertificateChainFile { $httpd{SSLCertificateChainFile} }
-{ $httpd{SSLCertificateFile} ? '' : '# '}SSLCertificateFile { $httpd{SSLCertificateFile} }
-{ $httpd{SSLCertificateKeyFile} ? '' : '# '}SSLCertificateKeyFile { $httpd{SSLCertificateKeyFile} }
+{ $pki{ChainFile} ? '' : '# '}SSLCertificateChainFile { $pki{ChainFile} }
+SSLCertificateFile /etc/pki/tls/certs/localhost.crt
+SSLCertificateKeyFile /etc/pki/tls/private/localhost.key
 
 SSLCipherSuite {$httpd{SSLCipherSuite}};
 SSLPassPhraseDialog  builtin
