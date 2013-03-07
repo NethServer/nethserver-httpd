@@ -39,7 +39,9 @@
 		TEMPLATE_PATH => 'httpd/vhost-' . $vhostData{VhostProfile},
 		OUTPUT_TYPE => 'file',
 		OUTPUT_PREFIX => $outDir,
-		OUTPUT_FILENAME => sprintf('%s:%d.vhost', $vhostName, $port)
+
+		# Prepend '00' to primary virtual host to make sure it is included at first:
+		OUTPUT_FILENAME => sprintf('%s:%d.vhost', ($vhostName eq $defaultServerName ? '00' : '') . $vhostName, $port)
 	    });
 	}
 

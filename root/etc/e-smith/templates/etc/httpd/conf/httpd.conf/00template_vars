@@ -27,7 +27,7 @@
     # Default document root
     $defaultDocumentRoot = '/var/www/html';
 
-    # The default (virtual) hostname
+    # The primary name-based virtual host:
     $defaultServerName = $SystemName . '.' . $DomainName;
 
     $vhosts{$defaultServerName} = {
