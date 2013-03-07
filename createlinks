@@ -98,7 +98,3 @@ event_actions('migration-import', qw(
     nethserver-httpd-migrate 30
     nethserver-httpd-migrate-ibays 40
 ));
-
-event_services('migration-import', qw(
-               httpd restart
-));
