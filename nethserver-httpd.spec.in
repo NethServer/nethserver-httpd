@@ -44,9 +44,16 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}-%{version}-filelist
 %defattr(-,root,root)
 
-
-
 %changelog
+* Tue Mar 19 2013 Davide Principi <davide.principi@nethesis.it> - 2.0.0-1.ns6
+- Grant read access to Apache web server by adding Posix ACLs. Refs #1734
+- Use certificate management from nethserver-base. Refs #1723
+- Migration support. Refs #1690
+- Support for virtual hosts and ibays profiles. Refs #1690
+- Emit log warnings if some misconfiguration is detected. Refs #1690
+- *.spec.in: fixed %files section; use url_prefix macro in URL tag; 
+  set minimum version requirements. Refs #1690 #1653 #1654
+
 * Thu Jan 31 2013 Davide Principi <davide.principi@nethesis.it> - 1.0.1-1.ns6
 - Implemented nethserver-base certificate management
 
