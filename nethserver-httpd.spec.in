@@ -45,6 +45,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 
 %changelog
+* Tue Mar 26 2013 Davide Principi <davide.principi@nethesis.it> - 2.1.0-1.ns6
+- httpd.conf template: module fragment is expanded before base fragment. *.conf, *.ibay and *.vhost Include must now check if a module is loaded (IfModule !modname). Refs #1793 
+- Bugfixes #1792 #1791
+
 * Tue Mar 19 2013 Davide Principi <davide.principi@nethesis.it> - 2.0.0-1.ns6
 - Grant read access to Apache web server by adding Posix ACLs. Refs #1734
 - Use certificate management from nethserver-base. Refs #1723
