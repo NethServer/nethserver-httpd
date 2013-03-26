@@ -15,5 +15,5 @@ SSLMutex  file:state/ssl_mutex
 SSLRandomSeed startup file:/dev/urandom 512
 SSLRandomSeed connect builtin
 
-SSLProtocol all {'-SSLv2' unless defined $httpd{SSLv2} && $httpd{SSLv2} eq 'enabled'}
+SSLProtocol all {(defined $httpd{SSLv2} && $httpd{SSLv2} eq 'enabled') ? '' : '-SSLv2'}
 
