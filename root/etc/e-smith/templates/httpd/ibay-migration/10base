@@ -1,19 +1,22 @@
 {
     #
-    # ibay-migration profile template
+    # 10base -- ibay-migration profile template
     #
     # This profile configure an ibay migrated from NethService 
     # as an Alias or DocumentRoot
+    #
 
     if( defined $Alias) {
-	$OUT .= sprintf('Alias "/%s" "%s/html"' . "\n", $Alias, $Path);    
         $OUT .= sprintf('Alias "/%s/files" "%s/files"' . "\n", $Alias, $Path);    
         $OUT .= sprintf('Alias "/%s/cgi-bin" "%s/cgi-bin"' . "\n", $Alias, $Path);    
+	# Append the most generic Alias at the end (#1791):
+	$OUT .= sprintf('Alias "/%s" "%s/html"' . "\n", $Alias, $Path);    
     } else {
 
 	if( ! -d $Path . '/html') {
 	    warn "[WARNING] ibay $Name: $Path/html does not exist. Can't set DocumentRoot!";
-	    $OUT.= '# ';
+	    # Comment out the DocumentRoot line below:
+	    $OUT.= '# '; 
 	}
 
 	$OUT .= sprintf('DocumentRoot "%s/html"' . "\n", $Path);    
