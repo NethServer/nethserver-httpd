@@ -20,12 +20,8 @@ NethServer httpd configuration (Apache)
 %setup
 
 %post
-source /etc/nethserver/rpm_hook_functions
-event_queue add %{name}-update
 
 %preun
-source /etc/nethserver/rpm_hook_functions
-signal_event %{name}-uninstall
 
 %build
 perl createlinks

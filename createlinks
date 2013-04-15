@@ -59,24 +59,12 @@ event_templates('nethserver-httpd-update', qw(
 
 event_actions('nethserver-httpd-update', qw(
 	      initialize-default-databases 00
-	      nethserver-httpd-conf 20
-	      firewall-adjust 30
-	      runlevel-adjust 30
 ));
 
 event_services('nethserver-httpd-update', qw(
                httpd restart
 ));
 
-
-#
-# UNINSTALL event
-#
-event_actions('nethserver-httpd-uninstall', qw(
-              nethserver-httpd-uninstall 00
-              runlevel-adjust 30
-              firewall-adjust 40
-));
 
 #
 # certificate-update event
