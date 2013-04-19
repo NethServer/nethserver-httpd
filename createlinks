@@ -87,10 +87,3 @@ event_actions('migration-import', qw(
     nethserver-httpd-migrate-ibays 40
 ));
 
-
-#
-# ibay-{create,modify}, ibay-reset-permissions events (refs #1734)
-#
-event_actions($_, qw(
-    nethserver-httpd-setibayacl 15
-)) foreach (qw(ibay-create ibay-modify ibay-reset-permissions));

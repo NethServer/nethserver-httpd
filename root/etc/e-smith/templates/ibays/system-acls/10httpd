@@ -1,0 +1,18 @@
+{
+ 
+    #
+    # 10httpd
+    #
+
+    my $httpStatus = $ibay{HttpStatus} || '';
+    
+    if($httpStatus eq 'enabled') {
+	# Add ACL for apache user
+	push @systemAclsModify, 'u:apache:rX', 'd:u:apache:rX';
+    } else {
+	# Remove apache ACLs:
+	push @systemAclsRemove, 'u:apache', 'd:u:apache';
+    }
+
+    '';
+}
