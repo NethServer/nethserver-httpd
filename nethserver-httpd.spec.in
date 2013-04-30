@@ -19,10 +19,6 @@ NethServer httpd configuration (Apache)
 %prep
 %setup
 
-%post
-
-%preun
-
 %build
 perl createlinks
 
@@ -41,6 +37,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 
 %changelog
+* Tue Apr 30 2013 Davide Principi <davide.principi@nethesis.it> - 2.2.0-1.ns6
+- Full automatic package install/upgrade/uninstall support #1870 #1872 #1874
+- Use ibays/system-acls template to configure apache permissions #1734 #1891 
+
 * Tue Mar 26 2013 Davide Principi <davide.principi@nethesis.it> - 2.1.0-1.ns6
 - httpd.conf template: module fragment is expanded before base fragment. *.conf, *.ibay and *.vhost Include must now check if a module is loaded (IfModule !modname). Refs #1793 
 - Bugfixes #1792 #1791
