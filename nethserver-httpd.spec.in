@@ -37,6 +37,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 
 %changelog
+* Fri Jun 21 2013 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.1.1-1.ns6
+- Httpd: load all standard CentOS modules #1937
+- Httpd: add cgi support #1918
+
 * Tue Apr 30 2013 Davide Principi <davide.principi@nethesis.it> - 2.2.0-1.ns6
 - Full automatic package install/upgrade/uninstall support #1870 #1872 #1874
 - Use ibays/system-acls template to configure apache permissions #1734 #1891 
