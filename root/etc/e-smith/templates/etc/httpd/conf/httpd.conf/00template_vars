@@ -6,17 +6,8 @@
     # Virtual hosts configurations
     %vhosts = ();
 
-    # Default modules to load. See 60modules fragment.
-    @modules = qw(
-         mime
-         dir
-         setenvif
-         authz_host
-         log_config
-         alias
-         autoindex
-         negotiation
-    );
+     # Extra modules to load.
+    @modules = ();
 
     # Compute "localAccess" string for use in template below.
     use esmith::NetworksDB;
