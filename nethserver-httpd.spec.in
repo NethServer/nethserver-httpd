@@ -37,6 +37,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 
 %changelog
+* Thu Jul 18 2013 Davide Principi <davide.principi@nethesis.it> - 2.2.1-1.ns6
+- Version fix - Enhancement #1937 [NethServer]
+
 * Fri Jun 21 2013 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.1.1-1.ns6
 - Httpd: load all standard CentOS modules #1937
 - Httpd: add cgi support #1918
