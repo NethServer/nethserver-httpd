@@ -9,7 +9,7 @@ $L['Access_label'] = 'Allow access from local networks only';
 $L['VirtualHost_label'] = 'Virtual host';
 $L['ANY_VHOST'] = 'Any';
 
-$L['Alias_label'] = 'Resource path';
+$L['Alias_label'] = 'Web address (URL)';
 $L['AliasType_default_label'] = 'Default';
 $L['AliasType_root_label'] = 'Web site root';
 $L['AliasType_custom_label'] = 'Custom';

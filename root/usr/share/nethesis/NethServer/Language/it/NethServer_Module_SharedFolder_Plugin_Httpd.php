@@ -10,7 +10,7 @@ $L['Access_label'] = 'Consenti l\'accesso solo dalle reti locali';
 $L['VirtualHost_label'] = 'Host virtuale';
 $L['ANY_VHOST'] = 'Tutti';
 
-$L['Alias_label'] = 'Percorso risorsa';
+$L['Alias_label'] = 'Indirizzo web (URL)';
 $L['AliasType_default_label'] = 'Default';
 $L['AliasType_root_label'] = 'Radice del sito web';
 $L['AliasType_custom_label'] = 'Personalizzato';
