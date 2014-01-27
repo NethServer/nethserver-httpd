@@ -7,7 +7,7 @@ Source: %{name}-%{version}.tar.gz
 BuildArch: noarch
 URL: %{url_prefix}/%{name} 
 
-BuildRequires: nethserver-devtools >= 1.0.0
+BuildRequires: nethserver-devtools >= 1.1.0-5
 
 AutoReq: no
 Requires: nethserver-base >= 1.1.0-2
@@ -20,6 +20,7 @@ NethServer httpd configuration (Apache)
 %setup
 
 %build
+%{makedocs}
 perl createlinks
 
 %install
