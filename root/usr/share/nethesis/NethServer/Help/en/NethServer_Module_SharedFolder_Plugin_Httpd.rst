@@ -7,11 +7,11 @@ Enables access to the shared folder from the web.
 
 Virtual Host 
     Allows you to choose which host name is available on the shared
-    folder. The list is editable through the card "Server Alias"
+    folder. The list comes from the card "Server Alias" in the
     module "DNS and DHCP."
 
 Web address (URL)
-    Defines the web address to which the resource is available. 
+    Defines the web address on which the resource is available. 
 
 Allow access only from local networks 
     If only enabled, restricts access to the resource only to local
