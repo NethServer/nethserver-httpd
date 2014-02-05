@@ -38,6 +38,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 
 %changelog
+* Wed Feb 05 2014 Davide Principi <davide.principi@nethesis.it> - 2.2.2-1.ns6
+- RST format for help files - Enhancement #2627 [NethServer]
+- NethCamp 2014 - Task #2618 [NethServer]
+- Lib: synchronize service status prop and chkconfig - Feature #2067 [NethServer]
+
 * Thu Jul 18 2013 Davide Principi <davide.principi@nethesis.it> - 2.2.1-1.ns6
 - Version fix - Enhancement #1937 [NethServer]
 
