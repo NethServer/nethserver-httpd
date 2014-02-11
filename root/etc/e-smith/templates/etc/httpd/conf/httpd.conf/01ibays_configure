@@ -33,11 +33,6 @@
 	    next;
 	}
 
-	# Warn if no read access is set
-	if($ih{OtherAccess} !~ /r/) {
-	    warn '[WARNING] Missing read permssion on ibay ' . $ibayName . "\n";	    
-	}
-
 	my $vhostName = $ih{HttpVirtualHost};
 
 	my $ibayConf = {
