@@ -1,0 +1,2 @@
+Options +Indexes +FollowSymLinks
+DirectoryIndex index.shtml index.htm index.html index.php
