@@ -1,2 +1,3 @@
-Options +Indexes +FollowSymLinks
-DirectoryIndex index.shtml index.htm index.html index.php
+    Options +Indexes +FollowSymLinks
+    DirectoryIndex index.shtml index.htm index.html index.php
+
