@@ -10,6 +10,7 @@ $L['VirtualHost_label'] = 'Virtual host';
 $L['ANY_VHOST'] = 'Any';
 
 $L['Alias_label'] = 'Web address (URL)';
-$L['AliasType_default_label'] = 'Default';
+$L['AliasType_default_label'] = 'Folder name';
 $L['AliasType_root_label'] = 'Web site root';
 $L['AliasType_custom_label'] = 'Custom';
+$L['generated-url_url'] = 'Generated URLs:';

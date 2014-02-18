@@ -11,6 +11,7 @@ $L['VirtualHost_label'] = 'Host virtuale';
 $L['ANY_VHOST'] = 'Tutti';
 
 $L['Alias_label'] = 'Indirizzo web (URL)';
-$L['AliasType_default_label'] = 'Default';
+$L['AliasType_default_label'] = 'Nome cartella';
 $L['AliasType_root_label'] = 'Radice del sito web';
 $L['AliasType_custom_label'] = 'Personalizzato';
+$L['generated-url_url'] = 'URL generati:';
