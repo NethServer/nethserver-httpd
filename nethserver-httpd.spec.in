@@ -38,6 +38,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 
 %changelog
+* Wed Feb 26 2014 Davide Principi <davide.principi@nethesis.it> - 2.3.0-1.ns6
+- httpd FollowSymLinks and DirectoryIndex directives - Enhancement #2649 [NethServer]
+- "Missing read permssion"  warning from httpd.conf template - Enhancement #2637 [NethServer]
+- Simplify Shared Folder/Web access UI module - Enhancement #2631 [NethServer]
+
 * Wed Feb 05 2014 Davide Principi <davide.principi@nethesis.it> - 2.2.2-1.ns6
 - RST format for help files - Enhancement #2627 [NethServer]
 - NethCamp 2014 - Task #2618 [NethServer]
