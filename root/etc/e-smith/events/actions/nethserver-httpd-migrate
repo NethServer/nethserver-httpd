@@ -41,7 +41,7 @@ my $old = $srcConfigDb->get('httpd-e-smith');
 my $new = $dstConfigDb->get('httpd') || $dstConfigDb->new_record('httpd');
 $new->set_prop('access', $old->prop('access') || 'public');
 $new->set_prop('status', $old->prop('status') || 'enabled');
-$new->set_prop('SSLv2', $old->prop('SSLv2') || 'enabled');
+$new->set_prop('SSLv2', $old->prop('SSLv2') || 'disabled');
 $old = $srcConfigDb->get('modSSL');
 $new->set_prop('SSLCipherSuite', $old->prop('CipherSuite') || 'ALL:!aNULL:!ADH:!eNULL:!LOW:!EXP:RC4+RSA:+HIGH:+MEDIUM');
 
