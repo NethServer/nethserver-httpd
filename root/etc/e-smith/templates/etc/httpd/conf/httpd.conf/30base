@@ -41,7 +41,7 @@ Group apache
 ServerAdmin webmaster@{ $defaultServerName }
 
 ServerName { "$defaultServerName:80" }
-UseCanonicalName On
+UseCanonicalName Off
 DocumentRoot { $defaultDocumentRoot || "/var/www/html" }
 
 <Directory />
