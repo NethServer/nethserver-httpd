@@ -139,6 +139,7 @@ foreach my $srcIbay ($srcAccountsDb->ibays()) {
 	HttpPasswordValue => $ibayPassword,
 	HttpAliasType => defined $rootIbay{$ibayName} ? 'root' : 'default',	
 	HttpProfileType => 'migration',
+        HttpCgiBinStatus => $srcIbay->prop('CgiBin') || 'disabled',
 	%access
 	);
 	
