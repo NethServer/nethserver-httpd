@@ -75,7 +75,7 @@ event_templates('certificate-update', qw(
 ));
 
 event_services('certificate-update', qw(
-               httpd graceful
+               httpd reload
 ));
 
 
