@@ -38,6 +38,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 
 %changelog
+* Thu Oct 02 2014 Davide Principi <davide.principi@nethesis.it> - 2.3.2-1.ns6
+- certificate-update event should restart httpd - Bug #2856 [NethServer]
+- HTTP Forbidden access to PHP webapp after migration - Bug #2823 [NethServer]
+
 * Fri Jun 06 2014 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.3.1-1.ns6
 - Preserve IP host name in HTTP requests - Enhancement #2758
 
