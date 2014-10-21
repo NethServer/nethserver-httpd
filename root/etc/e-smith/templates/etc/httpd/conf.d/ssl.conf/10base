@@ -7,7 +7,6 @@ SetEnvIf User-Agent ".*MSIE.*" nokeepalive ssl-unclean-shutdown downgrade-1.0 fo
 SSLCertificateFile /etc/pki/tls/certs/localhost.crt
 SSLCertificateKeyFile /etc/pki/tls/private/localhost.key
 
-SSLCipherSuite {$httpd{SSLCipherSuite}};
 SSLPassPhraseDialog  builtin
 SSLSessionCache         shmcb:/var/cache/mod_ssl/scache(512000)
 SSLSessionCacheTimeout  300
@@ -15,5 +14,8 @@ SSLMutex  file:state/ssl_mutex
 SSLRandomSeed startup file:/dev/urandom 512
 SSLRandomSeed connect builtin
 
-SSLProtocol All {(defined $httpd{SSLv2} && $httpd{SSLv2} eq 'enabled') ? '' : '-SSLv2 -SSLv3'}
+SSLProtocol All -SSLv2 -SSLv3
+{ $httpd{SSLCipherSuite} ? '' : '# '}SSLCipherSuite {$httpd{SSLCipherSuite}};
+
+
 
