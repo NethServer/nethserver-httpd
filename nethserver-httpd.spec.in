@@ -38,6 +38,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 
 %changelog
+* Wed Oct 22 2014 Davide Principi <davide.principi@nethesis.it> - 2.3.3-1.ns6
+- Protection against POODLE SSLv3 Vulnerability - Bug #2921 [NethServer]
+
 * Thu Oct 02 2014 Davide Principi <davide.principi@nethesis.it> - 2.3.2-1.ns6
 - certificate-update event should restart httpd - Bug #2856 [NethServer]
 - HTTP Forbidden access to PHP webapp after migration - Bug #2823 [NethServer]
