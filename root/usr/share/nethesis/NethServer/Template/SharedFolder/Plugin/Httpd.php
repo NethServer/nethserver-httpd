@@ -57,7 +57,6 @@ $view->includeJavascript("
            name = custom;
        }
        if (name != undefined) {
-           console.debug(name);
            d.forEach(function(el) {
                urls += '<li>'+el+'/'+name+'</li>';
            });
