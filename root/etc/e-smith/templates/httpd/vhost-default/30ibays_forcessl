@@ -1,0 +1,26 @@
+#
+### 30ibays_Forcessl -- Include ibay configurations specific to this virtual host
+###
+{
+    use esmith::DB;
+    use esmith::AccountsDB;
+
+    my $a = esmith::AccountsDB->open_ro;
+    my @Ibays = $a->ibays;
+
+    $OUT = '';
+
+    foreach my $ibay (@Ibays) {
+        my $Name = $ibay->key;
+        my $ssl = $ibay->prop('HttpForceSsl') || 'disabled';
+
+        if (($ssl eq 'enabled') && ( $Port == 80 || ! defined $SslMode )) {
+
+        $OUT .= <<HERE
+# Force the SSL encrypted connection for the Ibay $Name
+RewriteEngine On
+RewriteRule ^/$Name(/.*|\$) https://%{HTTP_HOST}/$Name\$1 [R,L]
+HERE
+        }
+    }
+}
