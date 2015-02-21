@@ -1,0 +1,8 @@
+{
+    $OUT .= "    php_admin_flag allow_url_fopen off\n" if ($AllowUrlfOpen eq 'disabled');
+    $OUT .= "    php_admin_value memory_limit $MemoryLimit\n" if ($MemoryLimit ne 'disabled');
+    $OUT .= "    php_admin_value upload_max_filesize $UpMaxFileSize\n" if ($UpMaxFileSize ne 'disabled');
+    $OUT .= "    php_admin_value post_max_size $PostMaxSize\n" if ($PostMaxSize ne 'disabled');
+    $OUT .= "    php_admin_value max_execution_time $MaxExecTime\n" if ($MaxExecTime ne 'disabled');
+    $OUT .= "    php_admin_value max_file_uploads $MaxFileUploads\n" if ($MaxFileUploads ne 'disabled');
+}

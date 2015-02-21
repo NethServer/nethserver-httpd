@@ -45,6 +45,12 @@
 	    'CgiBinStatus' => $ih{HttpCgiBinStatus} || 'disabled',
 	    'Profile' => $ih{HttpProfileType} || 'default',
 	    'ServerName' => $vhostName,
+            'AllowUrlfOpen' => $ih{PhpAllowUrlfOpen} || 'enabled',
+            'MemoryLimit'=> $ih{PhpMemoryLimit} || 'disabled',
+            'UpMaxFileSize'=> $ih{PhpUpMaxFileSize} || 'disabled',
+            'PostMaxSize'=> $ih{PhpPostMaxSize} || 'disabled',
+            'MaxExecTime'=> $ih{PhpMaxExecTime} || 'disabled',
+            'MaxFileUploads'=>$ih{PhpMaxFileUploads} || 'disabled',
 	};
 
 	if( ! defined $ih{HttpAliasType} || $ih{HttpAliasType} eq 'default') {
