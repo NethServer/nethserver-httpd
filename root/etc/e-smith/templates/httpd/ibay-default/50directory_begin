@@ -1,4 +1,3 @@
-
 #
 # 10directory_begin -- basic ibay directory setup
 #
@@ -6,8 +5,18 @@
     Options None
     Options +Indexes
     Options +Includes
-    AllowOverride None 
-{      
+{
+    if ($AllowOverride eq 'enabled') {
+        $OUT = "    AllowOverride  All";
+        }
+    else {
+        $OUT .= "    AllowOverride  None";
+        }
+}
+{
+    $OUT = "    SSLRequireSSL" if ($ForceSsl eq 'enabled');
+}
+{
 	if($Access eq 'private') {
 	    my $access = join(" \\\n        ", split(' ', $PrivateAllow));
 	    $OUT = <<ACCESS
