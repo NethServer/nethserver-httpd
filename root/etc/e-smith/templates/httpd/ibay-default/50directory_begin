@@ -6,7 +6,6 @@
     Options None
     Options +Indexes
     Options +Includes
-    AllowOverride None 
 {      
 	if($Access eq 'private') {
 	    my $access = join(" \\\n        ", split(' ', $PrivateAllow));

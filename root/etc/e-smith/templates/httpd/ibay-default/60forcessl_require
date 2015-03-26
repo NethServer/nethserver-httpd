@@ -1,0 +1,6 @@
+#
+# 60forcessl_require { $ForceSslStatus }
+#
+{ $ForceSslStatus eq 'enabled' ? '' : '# '}SSLRequireSSL
+
+

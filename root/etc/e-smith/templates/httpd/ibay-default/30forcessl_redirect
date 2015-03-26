@@ -1,0 +1,19 @@
+#
+# 30forcessl_redirect { $ForceSslStatus }
+# see https://wiki.apache.org/httpd/RewriteHTTPToHTTPS
+#
+{
+    $OUT = '';
+
+    if( $ForceSslStatus eq 'enabled') {
+	my $name = $isDocumentRoot ? '' : ('/' . $Alias);
+	$OUT .= <<REDIRECT;
+RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteRule ^${name}(/.*) https://%{SERVER_NAME}${name}\$1 [R,L]
+REDIRECT
+    } else {
+	$OUT = '';
+    }
+}
+

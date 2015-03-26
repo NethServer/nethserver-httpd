@@ -47,6 +47,8 @@
 	    'PasswordStatus' => $ih{HttpPasswordStatus} || 'disabled',
 	    'CgiBinStatus' => $ih{HttpCgiBinStatus} || 'disabled',
 	    'Profile' => $ih{HttpProfileType} || 'default',
+	    'AllowOverrideStatus' => $ih{HttpAllowOverrideStatus} || 'disabled',
+	    'ForceSslStatus' => $ih{HttpForceSslStatus} || 'disabled',
 	    'ServerName' => $vhostName,
 	};
 

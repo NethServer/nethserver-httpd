@@ -10,5 +10,5 @@ SSLEngine {
 	'Off';
     }
 }
-
+AccessFileName .htaccess
 

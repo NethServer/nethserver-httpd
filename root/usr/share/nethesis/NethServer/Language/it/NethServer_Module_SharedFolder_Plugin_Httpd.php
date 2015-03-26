@@ -15,3 +15,6 @@ $L['AliasType_default_label'] = 'Nome cartella';
 $L['AliasType_root_label'] = 'Radice del sito web';
 $L['AliasType_custom_label'] = 'Personalizzato';
 $L['generated-url_url'] = 'URL generati:';
+$L['ForceSsl_label'] = 'Richiedi connessione SSL cifrata';
+$L['AllowOverride_label'] = 'Consenti override di .htaccess e dei permessi di scrittura';
+
