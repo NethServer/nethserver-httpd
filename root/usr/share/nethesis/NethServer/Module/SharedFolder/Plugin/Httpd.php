@@ -45,7 +45,7 @@ class Httpd extends \Nethgui\Controller\Table\RowPluginAction
             array('Status', Validate::SERVICESTATUS, Table::FIELD, 'HttpStatus'),
             array('VirtualHost', $virtualHostValidator, Table::FIELD, 'HttpVirtualHost'),
             array('PasswordStatus', Validate::SERVICESTATUS, Table::FIELD, 'HttpPasswordStatus'),
-            array('PasswordValue', $this->createValidator(), Table::FIELD, 'HttpPasswordValue'),
+            array('PasswordValue', Validate::NOTEMPTY, Table::FIELD, 'HttpPasswordValue'),
             array('Access', $this->createValidator()->memberOf('public', 'private'), Table::FIELD, 'HttpAccess'),
             array('CgiBin', Validate::SERVICESTATUS, Table::FIELD, 'HttpCgiBinStatus'),
             array('AliasType', $this->createValidator()->memberOf('default', 'root', 'custom'), Table::FIELD, 'HttpAliasType'),
@@ -63,15 +63,6 @@ class Httpd extends \Nethgui\Controller\Table\RowPluginAction
 
         $this->setSchemaAddition($schema);
         parent::initialize();
-    }
-
-    public function validate(\Nethgui\Controller\ValidationReportInterface $report)
-    {
-        if ($this->parameters['PasswordStatus'] === 'enabled') {
-            // Enable the password-strength check:
-            $this->getValidator('PasswordValue')->platform('password-strength', 'Ibays');
-        }
-        parent::validate($report);
     }
 
     public function prepareView(\Nethgui\View\ViewInterface $view)
