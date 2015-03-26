@@ -13,8 +13,8 @@ Host virtuale
 Indirizzo web (URL)
     Definisce l'indirizzo web a cui è disponibile la risorsa.
 
-Consenti l'accesso solo dalle reti locali
-    Se abiltato, limita l'accesso alla risorsa alle sole reti locali.
+Consenti l'accesso solo dalle reti fidate
+    Se abiltato, limita l'accesso alla risorsa alle sole reti fidate.
 
 Richiedi password
     L'accesso alla risorsa da web non richiede alcuna

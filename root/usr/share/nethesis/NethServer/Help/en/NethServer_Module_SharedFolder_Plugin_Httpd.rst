@@ -13,8 +13,8 @@ Virtual Host
 Web address (URL)
     Defines the web address on which the resource is available. 
 
-Allow access only from local networks 
-    If only enabled, restricts access to the resource only to local
+Allow access only from trusted networks
+    If only enabled, restricts access to the resource only to trusted
     networks.
 
 Require a password 
