@@ -1,7 +1,7 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
 Version: 2.3.3
-Release: 1
+Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
 BuildArch: noarch
