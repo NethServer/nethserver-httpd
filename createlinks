@@ -26,7 +26,6 @@ use esmith::Build::CreateLinks qw(:all);
 foreach (qw(
     network-create 
     network-delete 
-    remoteaccess-update 
     ibay-modify 
     ibay-create 
     ibay-delete
@@ -35,14 +34,19 @@ foreach (qw(
     event_services($_, qw(httpd reload));
 }
 
-# Set ibay password on ibay events:
-foreach (qw(
-    ibay-create
-    ibay-delete
-    ibay-modify
-)) {
-    event_actions($_, qw(nethserver-httpd-setibayspassword 30));
-}
+event_actions('ibay-create', qw(
+    nethserver-httpd-setibayspassword 30
+    nethserver-httpd-sethtwritable 30
+));
+
+event_actions('ibay-modify', qw(
+    nethserver-httpd-setibayspassword 30
+    nethserver-httpd-sethtwritable 30
+));
+
+event_actions('ibay-delete', qw(
+    nethserver-httpd-setibayspassword 30
+));
 
 # Initialize the password database when ibays are installed/updated
 event_actions('nethserver-ibays-update', qw(nethserver-httpd-setibayspassword 40));

@@ -1,0 +1,77 @@
+#!/usr/bin/perl
+
+#
+# Copyright (C) 2015 Nethesis S.r.l.
+# http://www.nethesis.it - nethserver@nethesis.it
+#
+# This script is part of NethServer.
+#
+# NethServer is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License,
+# or any later version.
+#
+# NethServer is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with NethServer.  If not, see COPYING.
+#
+
+use strict;
+eval { require esmith::AccountsDB };
+if($@) {
+    exit(0); # AccountsDB is not available, exit
+}
+
+my $event = shift || die("Missing event argument");
+my $ibay = shift || die("Missing ibay argument");
+my $ibaydir = '/var/lib/nethserver/ibay/' . $ibay;
+my $htwritable = $ibaydir . '/.htwritable';
+
+if( ! -d $ibaydir ) {
+    die("[ERROR] $ibay ibay directory not found\n");
+}
+
+if( ! -f $htwritable) {
+    exit(0); # nothing to do
+}
+
+my $adb = esmith::AccountsDB->open_ro() || die("Could not open Accounts DB");
+my $httpStatus = $adb->get_prop($ibay, 'HttpStatus') || 'disabled';
+my $overrideStatus = $adb->get_prop($ibay, 'HttpAllowOverrideStatus') || 'disabled';
+
+my $args;
+if($httpStatus eq 'enabled') {
+    $args = $overrideStatus eq 'enabled' ? '-m u:apache:rwX,d:u:apache:rwX' : '-m u:apache:r-X,d:u:apache:r-X';
+} else {
+    exit(0);
+}
+
+chdir($ibaydir);
+
+# If open fails for any other reason exit with error
+open(my $fh, '<', $htwritable) || die("[ERROR] Could not open $htwritable: $!\n");
+open(my $sh, '|-',  "/usr/bin/setfacl $args -");
+
+while(my $subdir = <$fh>)
+{
+    # trim trailing blanks:
+    $subdir =~ s/\s+$//;
+
+    # skip comments:
+    if ( $subdir =~ /^\s*#/ ) {
+	next;
+    }
+
+    if( -d $subdir) {
+	print $sh $subdir . "\n";
+    }
+}
+
+close($fh);
+close($sh);
+
+exit($?);
