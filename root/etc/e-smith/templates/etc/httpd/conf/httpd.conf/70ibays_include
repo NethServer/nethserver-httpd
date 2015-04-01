@@ -1,9 +1,6 @@
-#
-# 70ibays_include -- include .ibay templates under nethserver.d/
-#
 {
-    # 
-    # expand IBay templates
+    #
+    #  70ibays_include -- expand IBay templates
     #
 
     use esmith::templates;
@@ -11,8 +8,6 @@
 
     # Clean up .ibay files
     unlink glob $outDir . '*.ibay';
-
-    my $INCLUDES = '';
 
     foreach my $ibayConf (@ibays) {
 	esmith::templates::processTemplate({
@@ -22,21 +17,7 @@
 	    OUTPUT_PREFIX => $outDir,
 	    OUTPUT_FILENAME => $ibayConf->{Name} . '.ibay'
 	});
-
-	# Global ibays are declared in "server config" context and as such are 
-	# accessible from any vhost.
-	if($ibayConf->{ServerName} eq '__ANY__') {
-	    $INCLUDES .= sprintf "Include nethserver.d/%s.ibay\n", $ibayConf->{Name};
-	}
-
     }
 
-    if($INCLUDES) {
-	# prepend a comment line:
-	$INCLUDES = "\n# Include ibay Directory contexts:\n" . $INCLUDES;
-    }
-
-    return $INCLUDES;
+    '';
 }
-
-

@@ -8,9 +8,12 @@
     if($@) {
 	return '';
     }
+
+    # All known ibays, to expand later:
+    @ibays = ();
 	
     # The list of ibays shared among all vhosts:
-    @ibays = ();
+    @globalIbays = ();
     
     my $accountsDb = esmith::AccountsDB->open_ro() || return '';
     my $networksDb = esmith::NetworksDB->open_ro() || return '';
@@ -78,11 +81,20 @@
 
 	push @ibays, $ibayConf;
 
-	if($vhostName ne '__ANY__') {
-	    if( ! defined $vhosts{$vhostName}{Ibays} ) {
-		$vhosts{$vhostName}{Ibays} = [];
+	if($vhostName eq '__ANY__') {
+	    push @globalIbays, $ibayConf;
+	} else {
+	    if( ! defined $vhosts{$vhostName}->{'Ibays'} ) {
+		$vhosts{$vhostName}->{'Ibays'} = [];
 	    }
-	    push @{ $vhosts{$vhostName}{Ibays} }, $ibayConf;
+	    push @{ $vhosts{$vhostName}->{'Ibays'} }, $ibayConf;
+	}
+    }
+
+    # Add global ibays to each virtual host:
+    foreach my $ibayConf (@globalIbays) {
+	foreach my $vh (values %vhosts) {
+	    push @{ $vh->{'Ibays'} }, $ibayConf;
 	}
     }
 
