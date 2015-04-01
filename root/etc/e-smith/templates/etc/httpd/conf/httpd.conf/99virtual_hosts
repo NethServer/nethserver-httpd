@@ -41,7 +41,7 @@
 		OUTPUT_PREFIX => $outDir,
 
 		# Prepend '00' to primary virtual host to make sure it is included at first:
-		OUTPUT_FILENAME => sprintf('%s:%d.vhost', ($vhostName eq $defaultServerName ? '00' : '') . $vhostName, $port)
+		OUTPUT_FILENAME => sprintf('%s:%d.vhost', ($vhostName eq $defaultServerName ? '00default' : $vhostName), $port)
 	    });
 	}
 
