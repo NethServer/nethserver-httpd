@@ -84,9 +84,16 @@
 	if($vhostName eq '__ANY__') {
 	    push @globalIbays, $ibayConf;
 	} else {
+	    # Enable SSL VirtualHost on port 443:
+	    if($ibayConf->{'ForceSslStatus'} eq 'enabled' ) {
+		$vhosts{$vhostName}->{'SslMode'} = 'optional';
+	    }
+
+	    # Initialize vhost specific ibay configuration list:
 	    if( ! defined $vhosts{$vhostName}->{'Ibays'} ) {
 		$vhosts{$vhostName}->{'Ibays'} = [];
 	    }
+
 	    push @{ $vhosts{$vhostName}->{'Ibays'} }, $ibayConf;
 	}
     }
