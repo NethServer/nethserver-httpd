@@ -50,6 +50,8 @@ class Httpd extends \Nethgui\Controller\Table\RowPluginAction
             array('CgiBin', Validate::SERVICESTATUS, Table::FIELD, 'HttpCgiBinStatus'),
             array('AliasType', $this->createValidator()->memberOf('default', 'root', 'custom'), Table::FIELD, 'HttpAliasType'),
             array('AliasCustom', '/^([a-z]|[0-9]){1,12}$/', Table::FIELD, 'HttpAliasCustom'),
+            array('ForceSsl', Validate::SERVICESTATUS, Table::FIELD, 'HttpForceSslStatus'),
+            array('AllowOverride', Validate::SERVICESTATUS, Table::FIELD, 'HttpAllowOverrideStatus'),
         );
 
         $this
@@ -59,6 +61,8 @@ class Httpd extends \Nethgui\Controller\Table\RowPluginAction
             ->setDefaultValue('Access', 'private')
             ->setDefaultValue('CgiBin', 'disabled')
             ->setDefaultValue('AliasType', 'default')
+            ->setDefaultValue('ForceSsl', 'disabled')
+            ->setDefaultValue('AllowOverride', 'disabled')
         ;
 
         $this->setSchemaAddition($schema);

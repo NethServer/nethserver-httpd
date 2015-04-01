@@ -14,3 +14,5 @@ $L['AliasType_default_label'] = 'Folder name';
 $L['AliasType_root_label'] = 'Web site root';
 $L['AliasType_custom_label'] = 'Custom';
 $L['generated-url_url'] = 'Generated URLs:';
+$L['ForceSsl_label'] = 'Require SSL encrypted connection';
+$L['AllowOverride_label'] = 'Allow .htaccess and write permissions overrides';

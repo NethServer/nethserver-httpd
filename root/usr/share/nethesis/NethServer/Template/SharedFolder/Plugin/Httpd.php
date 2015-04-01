@@ -20,6 +20,8 @@ echo $view->fieldsetSwitch('Status', 'enabled', $view::FIELDSETSWITCH_CHECKBOX)-
         ->setAttribute('uncheckedValue', 'disabled')
         ->insert($view->textInput('PasswordValue', $view::LABEL_NONE))
     )
+    ->insert($view->checkbox('ForceSsl', 'enabled')->setAttribute('uncheckedValue', 'disabled'))
+    ->insert($view->checkbox('AllowOverride', 'enabled')->setAttribute('uncheckedValue', 'disabled'))
 ;
 $aliastype_id = $view->getClientEventTarget('AliasType');
 $aliascustom_id = $view->getClientEventTarget('AliasCustom');
