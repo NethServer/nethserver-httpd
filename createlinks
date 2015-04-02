@@ -48,6 +48,13 @@ event_actions('ibay-delete', qw(
     nethserver-httpd-setibayspassword 30
 ));
 
+#
+# ibay-reset-permissions event
+#
+event_actions('ibay-reset-permissions', qw(
+    nethserver-httpd-sethtwritable 30
+));
+
 # Initialize the password database when ibays are installed/updated
 event_actions('nethserver-ibays-update', qw(nethserver-httpd-setibayspassword 40));
 
