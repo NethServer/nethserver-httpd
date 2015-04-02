@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 2.3.3
+Version: 2.4.0
 Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
@@ -38,6 +38,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 
 %changelog
+* Thu Apr 02 2015 Davide Principi <davide.principi@nethesis.it> - 2.4.0-1
+- Require SSL encrypted connection for shared folder - Feature #3102 [NethServer]
+- Allow .htaccess and write permissions overrides - Feature #3097 [NethServer]
+- Validation error setting ibay password - Bug #3094 [NethServer]
+- nethserver-devbox replacements - Feature #3009 [NethServer]
+
 * Wed Oct 22 2014 Davide Principi <davide.principi@nethesis.it> - 2.3.3-1.ns6
 - Protection against POODLE SSLv3 Vulnerability - Bug #2921 [NethServer]
 
