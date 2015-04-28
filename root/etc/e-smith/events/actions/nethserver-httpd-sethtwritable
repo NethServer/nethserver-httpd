@@ -21,6 +21,8 @@
 #
 
 use strict;
+use Cwd 'abs_path';
+
 eval { require esmith::AccountsDB };
 if($@) {
     exit(0); # AccountsDB is not available, exit
@@ -66,9 +68,17 @@ while(my $subdir = <$fh>)
 	next;
     }
 
-    if( -d $subdir) {
-	print $sh $subdir . "\n";
+    if( ! -d $subdir) {
+	next;
     }
+
+    if( abs_path($subdir) !~ /^$ibaydir/ ) {
+	warn("[WARNING] skip non-relative path $subdir\n");
+	next;
+    }
+
+    print $sh $subdir . "\n";
+
 }
 
 close($fh);
