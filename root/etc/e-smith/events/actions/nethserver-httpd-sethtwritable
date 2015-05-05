@@ -68,7 +68,8 @@ while(my $subdir = <$fh>)
 	next;
     }
 
-    if( ! -d $subdir) {
+    if( ! -d $subdir || -l $subdir) {
+	warn("[WARNING] skip non-directory $subdir\n");
 	next;
     }
 
