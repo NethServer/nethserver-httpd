@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 2.4.0
+Version: 2.4.1
 Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
@@ -38,6 +38,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 
 %changelog
+* Tue May 19 2015 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.4.1-1
+- .htwritable not applied recursively to files when permissions are reseted in the Ibay panel - Bug #3139 [NethServer]
+
 * Thu Apr 02 2015 Davide Principi <davide.principi@nethesis.it> - 2.4.0-1
 - Require SSL encrypted connection for shared folder - Feature #3102 [NethServer]
 - Allow .htaccess and write permissions overrides - Feature #3097 [NethServer]
