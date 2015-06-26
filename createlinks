@@ -24,8 +24,7 @@ use strict;
 use esmith::Build::CreateLinks qw(:all);
 
 foreach (qw(
-    network-create 
-    network-delete 
+    trusted-networks-modify
     ibay-modify 
     ibay-create 
     ibay-delete
