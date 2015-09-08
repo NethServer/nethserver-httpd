@@ -10,7 +10,7 @@ SSLCertificateKeyFile /etc/pki/tls/private/localhost.key
 SSLPassPhraseDialog  builtin
 SSLSessionCache         shmcb:/var/cache/mod_ssl/scache(512000)
 SSLSessionCacheTimeout  300
-SSLMutex  file:state/ssl_mutex
+SSLMutex  default
 SSLRandomSeed startup file:/dev/urandom 512
 SSLRandomSeed connect builtin
 
