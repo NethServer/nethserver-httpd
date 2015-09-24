@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 2.4.2
+Version: 2.5.0
 Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
@@ -38,6 +38,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 
 %changelog
+* Thu Sep 24 2015 Davide Principi <davide.principi@nethesis.it> - 2.5.0-1
+- Upgrade SSL/TLS defaults on 6.7 - Enhancement #3246 [NethServer]
+
 * Wed Jul 15 2015 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.4.2-1
 - Event trusted-networks-modify - Enhancement #3195 [NethServer]
 
