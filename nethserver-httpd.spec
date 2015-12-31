@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 2.5.1
+Version: 2.5.2
 Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
@@ -38,6 +38,10 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 
 %changelog
+* Sun Jan 3 2016 stephane de Labrusse <stephdl@de-labrusse.fr> - 2.5.2-1
+- User and group authentification with LDAP for Ibays 
+- Webdav file transfer for Ibays 
+
 * Tue Sep 29 2015 Davide Principi <davide.principi@nethesis.it> - 2.5.1-1
 - Make Italian language pack optional - Enhancement #3265 [NethServer]
 

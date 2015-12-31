@@ -1,0 +1,96 @@
+{
+use esmith::AccountsDB;
+use NethServer::Password;
+
+return '' unless ($PasswordStatus eq 'UserGroup');
+
+my $a = esmith::AccountsDB->open_ro;
+my $HttpPass = NethServer::Password::store('libuser');
+
+#admin RW permissions, we retrieve permissions of the owning group
+my @readuser   = 'admin';
+my @readgroup  = ($GroupAccess eq 'r') ? $OwningGroup : '';
+my @writeuser  = 'admin';
+my @writegroup = ($GroupAccess eq 'rw') ? $OwningGroup : '';
+
+#we separate user and group
+my @users = map { $_->key } $a->users();
+my @groups   = map { $_->key } $a->groups();
+
+foreach my $Reader  (split (/[,]/, $AclRead)) {
+    push @readuser, $Reader if (grep /$Reader/,@users);
+    push @readgroup, $Reader if (grep /$Reader/, @groups);
+    }
+foreach my $Writer  (split (/[,]/, $AclWrite)) {
+    push @writeuser, $Writer if (grep /$Writer/,@users);
+    push @writegroup, $Writer if (grep /$Writer/, @groups);
+    }
+
+#we just want unique name, write access are also read access automatically
+my %seen = ();
+@readuser = sort (grep { ! $seen{ $_ }++ } (@readuser,@writeuser));
+%seen = ();
+@writeuser = sort (grep { ! $seen{ $_ }++ } (@writeuser));
+%seen = ();
+@readgroup = sort (grep { ! $seen{ $_ }++ } (@readgroup,@writegroup));
+%seen = ();
+@writegroup = sort (grep { ! $seen{ $_ }++ } (@writegroup));
+
+#we delimit the allow permissions
+my $webaccess;
+if ($Access eq 'private') {
+    $webaccess = join(" \\\n        ", split(' ', $PrivateAllow));
+    }
+else {
+    $webaccess = 'all';
+    }
+
+#enable DAV if requested
+my $DAVOn = ($WebDav eq 'enabled') ? 'DAV On':'';
+
+    $OUT .= qq (
+#
+## User and group authentification
+#
+    $DAVOn
+    AuthName $Name
+    AuthType Basic
+    AuthBasicProvider ldap
+    AuthzLDAPAuthoritative on
+    AuthLDAPGroupAttribute memberUid
+    AuthLDAPGroupAttributeIsDN off
+    AuthLDAPBindDN cn=libuser,dc=directory,dc=nh
+    AuthLDAPBindPassword $HttpPass
+    AuthLDAPURL "ldap://localhost/ou=People,dc=directory,dc=nh?uid?sub?(objectClass=posixAccount)"
+
+    # Read only access
+    <Limit GET PROPFIND OPTIONS LOCK UNLOCK REPORT>
+        SSLRequireSSL
+        order deny,allow
+        deny from all
+        allow from $webaccess
+        Require ldap-user @readuser
+);
+
+    foreach my $rgroup (@readgroup) {
+    $OUT .= "        Require ldap-group cn=$rgroup,ou=Groups,dc=directory,dc=nh\n" if ($rgroup);
+    }
+
+    $OUT .= qq (        Satisfy all
+    </Limit>
+    # Write access
+    <LimitExcept GET PROPFIND OPTIONS LOCK UNLOCK REPORT>
+        SSLRequireSSL
+        order deny,allow
+        deny from all
+        allow from $webaccess
+        Require ldap-user @writeuser
+);
+
+    foreach my $wgroup (@writegroup) {
+    $OUT .= "        Require ldap-group cn=$wgroup,ou=Groups,dc=directory,dc=nh\n" if ($wgroup);
+    }
+
+    $OUT .= qq (        Satisfy all
+    </LimitExcept>);
+}

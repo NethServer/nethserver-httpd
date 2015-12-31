@@ -15,11 +15,15 @@ echo $view->fieldsetSwitch('Status', 'enabled', $view::FIELDSETSWITCH_CHECKBOX)-
     ->insert($view->literal('<div class="labeled-control generated-url-title">'.$T('generated-url_url').'</div>'))
     ->insert($view->panel()->setAttribute('class', 'generated-url')->setAttribute('tag','ul'))
     ->insert($view->checkBox('Access', 'private')->setAttribute('uncheckedValue', 'public'))
-    ->insert(
-        $view->fieldsetSwitch('PasswordStatus', 'enabled', $view::FIELDSETSWITCH_CHECKBOX | $view::FIELDSETSWITCH_EXPANDABLE)
-        ->setAttribute('uncheckedValue', 'disabled')
-        ->insert($view->textInput('PasswordValue', $view::LABEL_NONE))
+
+    ->insert($view->fieldset()->setAttribute('template', $T('PasswordProtectedShare_label'))
+        ->insert($view->radioButton('PasswordStatus', 'disabled'))
+        ->insert($view->fieldsetSwitch('PasswordStatus', 'enabled', $view::FIELDSETSWITCH_EXPANDABLE)
+            ->insert($view->textInput('PasswordValue', $view::LABEL_NONE)))
+        ->insert($view->fieldsetSwitch('PasswordStatus', 'UserGroup', $view::FIELDSETSWITCH_EXPANDABLE)
+            ->insert($view->checkBox('WebDav', 'enabled')->setAttribute('uncheckedValue', 'disabled')))
     )
+
     ->insert($view->checkbox('ForceSsl', 'enabled')->setAttribute('uncheckedValue', 'disabled'))
     ->insert($view->checkbox('AllowOverride', 'enabled')->setAttribute('uncheckedValue', 'disabled'))
 ;

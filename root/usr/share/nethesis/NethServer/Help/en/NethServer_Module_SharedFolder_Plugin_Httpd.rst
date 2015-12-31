@@ -22,6 +22,16 @@ Require a password
     authentication. Enable this option to require a password: specify
     it in the field below.
 
+Require a user or group
+    The access to the resource from the web requires no
+    authentication. Enable this option to require a User or Group 
+    granted by the ACL Tab, at least with read permissions.
+
+Enable WebDav
+    WebDAV allows users/groups with write permissions to create, change 
+    and move documents on an Ibay (a read-only access is possible). You 
+    must use a webdav client to connect to the share.
+
 Require SSL encrypted connection
     Web clients will be forced to connect to the shared folder using
     the HTTPS protocol.

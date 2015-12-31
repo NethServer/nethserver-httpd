@@ -49,6 +49,11 @@
 	    'Profile' => $ih{HttpProfileType} || 'default',
 	    'AllowOverrideStatus' => $ih{HttpAllowOverrideStatus} || 'disabled',
 	    'ForceSslStatus' => $ih{HttpForceSslStatus} || 'disabled',
+            'AclWrite' => $ih{AclWrite} || '',
+            'AclRead' => $ih{AclRead} || '',
+            'WebDav' => $ih{HttpWebDav} || 'disabled',
+            'GroupAccess' => $ih{GroupAccess} || '',
+            'OwningGroup' => $ih{OwningGroup} || '',
 	    'ServerName' => $vhostName,
 	};
 
