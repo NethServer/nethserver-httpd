@@ -44,7 +44,7 @@ class Httpd extends \Nethgui\Controller\Table\RowPluginAction
         $schema = array(
             array('Status', Validate::SERVICESTATUS, Table::FIELD, 'HttpStatus'),
             array('VirtualHost', $virtualHostValidator, Table::FIELD, 'HttpVirtualHost'),
-            array('PasswordStatus', Validate::SERVICESTATUS, Table::FIELD, 'HttpPasswordStatus'),
+            array('PasswordStatus', $this->createValidator()->memberOf('enabled', 'disabled', 'UserGroup'), Table::FIELD, 'HttpPasswordStatus'),
             array('PasswordValue', Validate::NOTEMPTY, Table::FIELD, 'HttpPasswordValue'),
             array('Access', $this->createValidator()->memberOf('public', 'private'), Table::FIELD, 'HttpAccess'),
             array('CgiBin', Validate::SERVICESTATUS, Table::FIELD, 'HttpCgiBinStatus'),
@@ -52,6 +52,7 @@ class Httpd extends \Nethgui\Controller\Table\RowPluginAction
             array('AliasCustom', '/^([a-z]|[0-9]){1,12}$/', Table::FIELD, 'HttpAliasCustom'),
             array('ForceSsl', Validate::SERVICESTATUS, Table::FIELD, 'HttpForceSslStatus'),
             array('AllowOverride', Validate::SERVICESTATUS, Table::FIELD, 'HttpAllowOverrideStatus'),
+            array('WebDav', Validate::SERVICESTATUS, Table::FIELD, 'HttpWebDav'),
         );
 
         $this
@@ -63,6 +64,7 @@ class Httpd extends \Nethgui\Controller\Table\RowPluginAction
             ->setDefaultValue('AliasType', 'default')
             ->setDefaultValue('ForceSsl', 'disabled')
             ->setDefaultValue('AllowOverride', 'disabled')
+            ->setDefaultValue('WebDav', 'disabled')
         ;
 
         $this->setSchemaAddition($schema);

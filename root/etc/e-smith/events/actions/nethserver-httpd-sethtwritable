@@ -44,6 +44,12 @@ if( ! -f $htwritable) {
 my $adb = esmith::AccountsDB->open_ro() || die("Could not open Accounts DB");
 my $httpStatus = $adb->get_prop($ibay, 'HttpStatus') || 'disabled';
 my $overrideStatus = $adb->get_prop($ibay, 'HttpAllowOverrideStatus') || 'disabled';
+my $WebDav =  $adb->get_prop($ibay, 'HttpWebDav') || 'disabled';
+my $PwdStatus =  $adb->get_prop($ibay, 'HttpPasswordStatus') || 'disabled';
+
+if (($PwdStatus eq 'UserGroup') && ($WebDav eq 'enabled')) {
+    exit(0); # nothing to do, the full permission is set elsewhere
+}
 
 my $args;
 if($httpStatus eq 'enabled') {

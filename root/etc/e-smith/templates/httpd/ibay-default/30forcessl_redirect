@@ -5,7 +5,7 @@
 {
     $OUT = '';
 
-    if( $ForceSslStatus eq 'enabled') {
+    if (($ForceSslStatus eq 'enabled') || ($PasswordStatus eq 'UserGroup')) {
 	my $name = $isDocumentRoot ? '' : ('/' . $Alias);
 	$OUT .= <<REDIRECT;
 RewriteEngine On
