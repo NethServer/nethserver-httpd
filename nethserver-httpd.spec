@@ -7,10 +7,9 @@ Source: %{name}-%{version}.tar.gz
 BuildArch: noarch
 URL: %{url_prefix}/%{name} 
 
-BuildRequires: nethserver-devtools >= 1.1.0-5
+BuildRequires: nethserver-devtools
 
-AutoReq: no
-Requires: nethserver-base >= 1.1.0-2
+Requires: nethserver-base
 Requires: httpd, mod_ssl 
 
 %description
@@ -24,18 +23,15 @@ NethServer httpd configuration (Apache)
 perl createlinks
 
 %install
-rm -rf $RPM_BUILD_ROOT
-(cd root   ; find . -depth -print | cpio -dump $RPM_BUILD_ROOT)
-
-%{genfilelist} $RPM_BUILD_ROOT > %{name}-%{version}-filelist
-echo "%config /etc/httpd/conf/ibays.htpasswd" >> %{name}-%{version}-filelist
-echo "%doc COPYING" >> %{name}-%{version}-filelist
-
-%clean 
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
+(cd root   ; find . -depth -print | cpio -dump %{buildroot})
+%{genfilelist} %{buildroot} > %{name}-%{version}-filelist
 
 %files -f %{name}-%{version}-filelist
 %defattr(-,root,root)
+%doc COPYING
+%dir %{_nseventsdir}/%{name}-update
+%config /etc/httpd/conf/ibays.htpasswd
 
 %changelog
 * Tue Sep 29 2015 Davide Principi <davide.principi@nethesis.it> - 2.5.1-1
