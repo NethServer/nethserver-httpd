@@ -31,7 +31,8 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc COPYING
 %dir %{_nseventsdir}/%{name}-update
-%config /etc/httpd/conf/ibays.htpasswd
+%config %{_sysconfdir}/httpd/conf/ibays.htpasswd
+%attr(0644,root,root) %ghost %{_sysconfdir}/httpd/conf.d/nethserver.conf
 
 %changelog
 * Tue Sep 29 2015 Davide Principi <davide.principi@nethesis.it> - 2.5.1-1
