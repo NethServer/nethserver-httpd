@@ -6,29 +6,29 @@
     Options None
     Options +Indexes
     Options +Includes
-{      
+    <RequireAll>
+{
 	if($Access eq 'private') {
 	    my $access = join(" \\\n        ", split(' ', $PrivateAllow));
-	    $OUT = <<ACCESS
-    Order Deny,Allow
-    Deny from all
-    Allow from $access
-ACCESS
+	    $OUT = "      Require ip $access\n";
 	} else {
-	    $OUT = '';
+	    $OUT = "      Require all granted\n";
 	}
 
 	if($PasswordStatus eq 'enabled') {
 	    my $authName = $Description || $Name;
 	    $OUT .= <<PASSWORD
-    AuthType Basic
-    AuthName "$authName"
-    AuthUserFile conf/ibays.htpasswd
-    Require user $Name
+      AuthType Basic
+      AuthName "$authName"
+      AuthUserFile conf/ibays.htpasswd
+      Require user $Name
 PASSWORD
 	}
 
      $OUT;
 }
+    </RequireAll>
+
+
 
 

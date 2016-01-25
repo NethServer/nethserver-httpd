@@ -1,0 +1,9 @@
+#
+# 10ssl
+#
+# Additional directives for SSL. See also upstream ssl.conf.
+#
+{ $pki{ChainFile} ? '' : '# '}SSLCertificateChainFile { $pki{ChainFile} }
+{ $httpd{SSLCipherSuite} ? '' : '# '}SSLCipherSuite {$httpd{SSLCipherSuite}};
+
+

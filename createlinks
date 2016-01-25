@@ -29,7 +29,7 @@ foreach (qw(
     ibay-create 
     ibay-delete
 )) {
-    event_templates($_, qw(/etc/httpd/conf/httpd.conf));
+    event_templates($_, qw(/etc/httpd/conf.d/nethserver.conf));
     event_services($_, qw(httpd reload));
 }
 
@@ -61,8 +61,7 @@ event_actions('nethserver-ibays-update', qw(nethserver-httpd-setibayspassword 40
 # nethserver-httpd-update event
 #
 event_templates('nethserver-httpd-update', qw(
-		/etc/httpd/conf/httpd.conf
-		/etc/httpd/conf.d/ssl.conf
+		/etc/httpd/conf.d/nethserver.conf
                 /etc/pki/tls/certs/localhost.crt
                 /etc/pki/tls/private/localhost.key
 ));
