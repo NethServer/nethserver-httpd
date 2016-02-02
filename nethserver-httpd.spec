@@ -12,6 +12,9 @@ BuildRequires: nethserver-devtools
 Requires: nethserver-base
 Requires: httpd, mod_ssl 
 
+# Avoid installation of nethserver-directory
+AutoReq: no
+
 %description
 NethServer httpd configuration (Apache)
 
