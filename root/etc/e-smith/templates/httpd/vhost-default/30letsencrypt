@@ -1,0 +1,8 @@
+#
+# 30letsencrypt
+#
+Alias "/.well-known/acme-challenge/" "/var/www/html/.well-known/acme-challenge/"
+<Directory "/var/www/html/.well-known/acme-challenge/">
+    Require all granted
+</Directory>
+

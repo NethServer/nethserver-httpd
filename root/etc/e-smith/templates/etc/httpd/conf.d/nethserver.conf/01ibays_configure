@@ -74,6 +74,9 @@
 			$vhosts{$vhostName}{DocumentRoot} .  " in vhost $vhostName\n";
 		}
 		$vhosts{$vhostName}{DocumentRoot} = $ibayConf->{Path};
+	        $vhosts{$vhostName}{CrtFile} = $ih{HttpCrtFile} || '';
+	        $vhosts{$vhostName}{KeyFile} = $ih{HttpKeyFile} || '';
+	        $vhosts{$vhostName}{ChainFile} = $ih{HttpChainFile} || '';
 	    }
 
 	} else {

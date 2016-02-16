@@ -4,7 +4,7 @@
 ServerName {$ServerName}
 {
     if(defined($SslMode) && $Port != 80 && ($SslMode eq 'required' || $SslMode eq 'optional')) {
-	$OUT = qq(
+        $OUT = qq(
 ErrorLog logs/ssl_error_log
 TransferLog logs/ssl_access_log
 LogLevel warn
@@ -24,13 +24,32 @@ CustomLog logs/ssl_request_log \\
    "%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \\"%r\\" %b"
 
 SSLEngine on
-SSLCertificateFile /etc/pki/tls/certs/localhost.crt
-SSLCertificateKeyFile /etc/pki/tls/private/localhost.key
 );
+
+        if (defined($CrtFile) && -e $CrtFile) {
+            # Custom SSL cert: letsencrypt
+            $OUT .= "SSLCertificateFile $CrtFile\n";
+        } else {
+            $OUT .= "SSLCertificateFile /etc/pki/tls/certs/localhost.crt\n";
+        }
+        if (defined($KeyFile) && -e $KeyFile) {
+            # Custom SSL cert: letsencrypt
+            $OUT .= "SSLCertificateKeyFile $KeyFile\n";
+        } else {
+            $OUT .= "SSLCertificateKeyFile /etc/pki/tls/private/localhost.key\n";
+        }
+        if (defined($ChainFile) && -e $ChainFile) {
+            $OUT .= "SSLCertificateChainFile $ChainFile\n";
+        } elsif ( ($pki{ChainFile} || '') ne '' && -e $pki{ChainFile} ) {
+            $OUT .= "SSLCertificateChainFile ".$pki{ChainFile}."\n";
+        }
+
+        if ($httpd{SSLCipherSuite}) {
+            $OUT .= "SSLCipherSuite ".$httpd{SSLCipherSuite}."\n";
+        }
     }
 }
-{ $pki{ChainFile} ? '' : '# '}SSLCertificateChainFile { $pki{ChainFile} }
-{ $httpd{SSLCipherSuite} ? '' : '# '}SSLCipherSuite {$httpd{SSLCipherSuite}};
+
 
 AccessFileName .htaccess
 
