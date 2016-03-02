@@ -1,3 +1,5 @@
+%define dbconfdir /etc/e-smith/db
+
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
 Version: 2.5.1
@@ -28,6 +30,7 @@ perl createlinks
 %install
 rm -rf %{buildroot}
 (cd root   ; find . -depth -print | cpio -dump %{buildroot})
+mkdir -p %{buildroot}/%{dbconfdir}/proxypass/{migrate,force,defaults}
 %{genfilelist} %{buildroot} > %{name}-%{version}-filelist
 
 %files -f %{name}-%{version}-filelist
@@ -36,6 +39,7 @@ rm -rf %{buildroot}
 %dir %{_nseventsdir}/%{name}-update
 %config %{_sysconfdir}/httpd/conf/ibays.htpasswd
 %attr(0644,root,root) %ghost %{_sysconfdir}/httpd/conf.d/nethserver.conf
+/%{dbconfdir}/proxypass
 
 %changelog
 * Tue Sep 29 2015 Davide Principi <davide.principi@nethesis.it> - 2.5.1-1
