@@ -1,0 +1,54 @@
+#
+# 10base
+#
+{
+    use esmith::ConfigDB;
+    my $db = esmith::ConfigDB->open_ro('proxypass');
+    return "" unless $db;
+    foreach my $path ($db->get_all_by_prop(type => 'ProxyPass'))
+    {
+	my $key = $path->key;
+	my $target = $path->prop('Target');
+	unless (defined $target)
+	{
+	    warn("No Target property specified for ProxyPath $key." .
+		" Skipping...");
+	    next;
+	}
+	my $desc = $path->prop('Description');
+	if (defined $desc)
+	{
+	    $OUT .= "# ProxyPass: $key\n";
+	    $OUT .= "# Description: $desc\n";
+	}
+	$OUT .= "ProxyPass\t/$key\t$target\n";
+	$OUT .= "ProxyPassReverse\t/$key\t$target\n";
+	$OUT .= "<Location /$key>\n";
+
+	my $proxyHTTP = $path->prop('HTTP') || "yes";
+	my $proxyHTTPS = $path->prop('HTTPS') || "yes";
+
+	if ( $proxyHTTP eq "no" )
+	{
+	    $OUT .= "    SSLRequireSSL\n";
+	}
+
+	if ( $proxyHTTPS eq "no" )
+	{
+	    $OUT .= '    SSLRequire (%{HTTPS} eq "NULL")' . "\n";
+	}
+
+	my $valid = $path->prop('ValidFrom');
+	if (defined $valid)
+	{
+	    # Convert from comma separated list to space separated
+	    $valid =~ s/,/ /g;
+	    # Make sure that /32 ValidFrom specs don't cause Apache problems.
+	    $valid =~ s:/255.255.255.255::g;
+	    $OUT .= "    order deny,allow\n";
+	    $OUT .= "    deny from all\n";
+	    $OUT .= "    allow from $valid\n";
+	}
+	$OUT .= "</Location>\n";
+    }
+}

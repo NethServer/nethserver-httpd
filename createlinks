@@ -63,6 +63,7 @@ event_actions('nethserver-ibays-update', qw(nethserver-httpd-setibayspassword 40
 event_templates('nethserver-httpd-update', qw(
 		/etc/httpd/conf/httpd.conf
 		/etc/httpd/conf.d/ssl.conf
+        /etc/httpd/conf.d/proxypass.conf
                 /etc/pki/tls/certs/localhost.crt
                 /etc/pki/tls/private/localhost.key
 ));
