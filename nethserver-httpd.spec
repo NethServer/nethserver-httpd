@@ -1,3 +1,5 @@
+%define dbconfdir /etc/e-smith/db
+
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
 Version: 2.5.2
@@ -27,6 +29,8 @@ perl createlinks
 rm -rf $RPM_BUILD_ROOT
 (cd root   ; find . -depth -print | cpio -dump $RPM_BUILD_ROOT)
 
+mkdir -p $RPM_BUILD_ROOT/%{dbconfdir}/proxypass/{migrate,force,defaults}
+
 %{genfilelist} $RPM_BUILD_ROOT > %{name}-%{version}-filelist
 echo "%config /etc/httpd/conf/ibays.htpasswd" >> %{name}-%{version}-filelist
 echo "%doc COPYING" >> %{name}-%{version}-filelist
@@ -36,6 +40,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}-%{version}-filelist
 %defattr(-,root,root)
+/%{dbconfdir}/proxypass
 
 %changelog
 * Fri Feb 26 2016 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.5.2-1
