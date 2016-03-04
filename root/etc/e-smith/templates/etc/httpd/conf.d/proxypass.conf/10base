@@ -5,7 +5,11 @@
     use esmith::ConfigDB;
     my $db = esmith::ConfigDB->open_ro('proxypass');
     return "" unless $db;
-    foreach my $path ($db->get_all_by_prop(type => 'ProxyPass'))
+    my @proxypass = $db->get_all_by_prop(type => 'ProxyPass');
+    if (@proxypass) {
+        $OUT .= "SSLProxyEngine on\n";
+    }
+    foreach my $path (@proxypass)
     {
 	my $key = $path->key;
 	my $target = $path->prop('Target');
