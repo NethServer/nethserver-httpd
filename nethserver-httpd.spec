@@ -2,7 +2,7 @@
 
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 2.5.1
+Version: 2.5.3
 Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
@@ -42,6 +42,9 @@ mkdir -p %{buildroot}/%{dbconfdir}/proxypass/{migrate,force,defaults}
 /%{dbconfdir}/proxypass
 
 %changelog
+* Fri Mar 04 2016 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.5.3-1
+- Proxy pass support - Feature #3363 [NethServer]
+
 * Tue Sep 29 2015 Davide Principi <davide.principi@nethesis.it> - 2.5.1-1
 - Make Italian language pack optional - Enhancement #3265 [NethServer]
 
