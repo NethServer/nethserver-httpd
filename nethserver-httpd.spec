@@ -2,7 +2,7 @@
 
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 2.5.2
+Version: 2.5.3
 Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
@@ -43,6 +43,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{dbconfdir}/proxypass
 
 %changelog
+* Fri Mar 04 2016 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.5.3-1
+- Proxy pass support - Feature #3363 [NethServer]
+
 * Fri Feb 26 2016 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.5.2-1
 - Let's Encrypt (partial) support  - Feature #3355 [NethServer]
 
