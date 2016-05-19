@@ -36,6 +36,7 @@ mkdir -p %{buildroot}/%{dbconfdir}/proxypass/{migrate,force,defaults}
 %files -f %{name}-%{version}-filelist
 %defattr(-,root,root)
 %doc COPYING
+%doc README.rst
 %dir %{_nseventsdir}/%{name}-update
 %config %{_sysconfdir}/httpd/conf/ibays.htpasswd
 %attr(0644,root,root) %ghost %{_sysconfdir}/httpd/conf.d/nethserver.conf
