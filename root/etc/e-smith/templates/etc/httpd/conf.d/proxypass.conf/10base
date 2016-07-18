@@ -47,11 +47,7 @@
 	{
 	    # Convert from comma separated list to space separated
 	    $valid =~ s/,/ /g;
-	    # Make sure that /32 ValidFrom specs don't cause Apache problems.
-	    $valid =~ s:/255.255.255.255::g;
-	    $OUT .= "    order deny,allow\n";
-	    $OUT .= "    deny from all\n";
-	    $OUT .= "    allow from $valid\n";
+            $OUT .= ' Require ip ' . $valid . "\n";
 	}
 	$OUT .= "</Location>\n";
     }
