@@ -61,7 +61,7 @@ class Modify extends \Nethgui\Controller\Table\Modify
         $cidrList = preg_split('/\s*,\s*/', $this->parameters['ValidFrom']);
         $cidrValidator = $this->createValidator(Validate::CIDR_BLOCK);
         foreach($cidrList as $cidr) {
-            if( ! $cidrValidator->evaluate($cidr)) {
+            if($cidr !== '' && ! $cidrValidator->evaluate($cidr)) {
                 $report->addValidationErrorMessage($this, 'ValidFrom', 'ValidFrom_validator');
                 break;
             }
