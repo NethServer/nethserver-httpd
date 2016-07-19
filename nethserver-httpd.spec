@@ -1,5 +1,3 @@
-%define dbconfdir /etc/e-smith/db
-
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
 Version: 2.6.0
@@ -30,8 +28,15 @@ perl createlinks
 %install
 rm -rf %{buildroot}
 (cd root   ; find . -depth -print | cpio -dump %{buildroot})
-mkdir -p %{buildroot}/%{dbconfdir}/proxypass/{migrate,force,defaults}
-%{genfilelist} %{buildroot} > %{name}-%{version}-filelist
+mkdir -p %{buildroot}/%{_nsdbconfdir}/proxypass/{migrate,force,defaults}
+%{genfilelist} %{buildroot} | sed '
+\|^%{_nsuidir}/| d
+\|^%{_sysconfdir}/httpd/conf/ibays.htpasswd| d
+' > %{name}-%{version}-filelist
+
+%{genfilelist} %{buildroot} | sed -n '
+\|^%{_nsuidir}/| p
+' > %{name}-proxypass-%{version}-filelist
 
 %files -f %{name}-%{version}-filelist
 %defattr(-,root,root)
@@ -40,7 +45,12 @@ mkdir -p %{buildroot}/%{dbconfdir}/proxypass/{migrate,force,defaults}
 %dir %{_nseventsdir}/%{name}-update
 %config %{_sysconfdir}/httpd/conf/ibays.htpasswd
 %attr(0644,root,root) %ghost %{_sysconfdir}/httpd/conf.d/nethserver.conf
-/%{dbconfdir}/proxypass
+
+%package proxypass
+Summary: Reverse proxy UI
+Requires: %{name}
+%description proxypass
+%files proxypass -f %{name}-proxypass-%{version}-filelist
 
 %changelog
 * Thu Jul 07 2016 Stefano Fancello <stefano.fancello@nethesis.it> - 2.6.0-1
