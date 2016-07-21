@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 2.6.0
+Version: 3.0.0
 Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
@@ -53,6 +53,10 @@ Requires: %{name}
 %files proxypass -f %{name}-proxypass-%{version}-filelist
 
 %changelog
+* Thu Jul 21 2016 Davide Principi <davide.principi@nethesis.it> - 3.0.0-1
+- Incremented major version for ns7
+- Reverse proxy page - NethServer/dev#5064
+
 * Thu Jul 07 2016 Stefano Fancello <stefano.fancello@nethesis.it> - 2.6.0-1
 - First NS7 release
 
