@@ -25,37 +25,10 @@ use esmith::Build::CreateLinks qw(:all);
 
 foreach (qw(
     trusted-networks-modify
-    ibay-modify 
-    ibay-create 
-    ibay-delete
 )) {
     event_templates($_, qw(/etc/httpd/conf.d/nethserver.conf));
     event_services($_, qw(httpd reload));
 }
-
-event_actions('ibay-create', qw(
-    nethserver-httpd-setibayspassword 30
-    nethserver-httpd-sethtwritable 30
-));
-
-event_actions('ibay-modify', qw(
-    nethserver-httpd-setibayspassword 30
-    nethserver-httpd-sethtwritable 30
-));
-
-event_actions('ibay-delete', qw(
-    nethserver-httpd-setibayspassword 30
-));
-
-#
-# ibay-reset-permissions event
-#
-event_actions('ibay-reset-permissions', qw(
-    nethserver-httpd-sethtwritable 30
-));
-
-# Initialize the password database when ibays are installed/updated
-event_actions('nethserver-ibays-update', qw(nethserver-httpd-setibayspassword 40));
 
 #
 # nethserver-httpd-update event
@@ -95,9 +68,7 @@ event_services('certificate-update', qw(
 #
 event_actions('migration-import', qw(
     nethserver-httpd-migrate 30
-    nethserver-httpd-migrate-ibays 40
 ));
-
 
 #
 # nethserver-httpd-save event
