@@ -5,15 +5,12 @@ Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
 BuildArch: noarch
-URL: %{url_prefix}/%{name} 
+URL: %{url_prefix}/%{name}
 
 BuildRequires: nethserver-devtools
 
 Requires: nethserver-base
-Requires: httpd, mod_ssl 
-
-# Avoid installation of nethserver-directory
-AutoReq: no
+Requires: httpd, mod_ssl
 
 %description
 NethServer httpd configuration (Apache)
@@ -31,7 +28,6 @@ rm -rf %{buildroot}
 mkdir -p %{buildroot}/%{_nsdbconfdir}/proxypass/{migrate,force,defaults}
 %{genfilelist} %{buildroot} | sed '
 \|^%{_nsuidir}/| d
-\|^%{_sysconfdir}/httpd/conf/ibays.htpasswd| d
 ' > %{name}-%{version}-filelist
 
 %{genfilelist} %{buildroot} | sed -n '
@@ -43,7 +39,6 @@ mkdir -p %{buildroot}/%{_nsdbconfdir}/proxypass/{migrate,force,defaults}
 %doc COPYING
 %doc README.rst
 %dir %{_nseventsdir}/%{name}-update
-%config %{_sysconfdir}/httpd/conf/ibays.htpasswd
 %attr(0644,root,root) %ghost %{_sysconfdir}/httpd/conf.d/nethserver.conf
 
 %package proxypass
@@ -110,10 +105,10 @@ Requires: %{name}
 
 * Tue Apr 30 2013 Davide Principi <davide.principi@nethesis.it> - 2.2.0-1.ns6
 - Full automatic package install/upgrade/uninstall support #1870 #1872 #1874
-- Use ibays/system-acls template to configure apache permissions #1734 #1891 
+- Use ibays/system-acls template to configure apache permissions #1734 #1891
 
 * Tue Mar 26 2013 Davide Principi <davide.principi@nethesis.it> - 2.1.0-1.ns6
-- httpd.conf template: module fragment is expanded before base fragment. *.conf, *.ibay and *.vhost Include must now check if a module is loaded (IfModule !modname). Refs #1793 
+- httpd.conf template: module fragment is expanded before base fragment. *.conf, *.ibay and *.vhost Include must now check if a module is loaded (IfModule !modname). Refs #1793
 - Bugfixes #1792 #1791
 
 * Tue Mar 19 2013 Davide Principi <davide.principi@nethesis.it> - 2.0.0-1.ns6
@@ -122,7 +117,7 @@ Requires: %{name}
 - Migration support. Refs #1690
 - Support for virtual hosts and ibays profiles. Refs #1690
 - Emit log warnings if some misconfiguration is detected. Refs #1690
-- *.spec.in: fixed %files section; use url_prefix macro in URL tag; 
+- *.spec.in: fixed %files section; use url_prefix macro in URL tag;
   set minimum version requirements. Refs #1690 #1653 #1654
 
 * Thu Jan 31 2013 Davide Principi <davide.principi@nethesis.it> - 1.0.1-1.ns6

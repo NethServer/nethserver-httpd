@@ -1,4 +1,0 @@
-#
-# { $ServerName . ':' . $Port . ($Description ? "\n# " . $Description : '')  }
-#
-<VirtualHost *:{$Port}>
