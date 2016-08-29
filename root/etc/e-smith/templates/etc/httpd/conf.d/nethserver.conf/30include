@@ -1,8 +1,0 @@
-#
-# 30include -- old ns6 vhost definitions
-#
-
-IncludeOptional nethserver.d/*.vhost
-
-
-
