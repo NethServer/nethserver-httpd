@@ -35,6 +35,7 @@ foreach (qw(
 #
 event_templates('nethserver-httpd-update', qw(
 		/etc/httpd/conf.d/nethserver.conf
+                /etc/httpd/conf.d/default-virtualhost.inc
                 /etc/httpd/conf.d/proxypass.conf
                 /etc/pki/tls/certs/localhost.crt
                 /etc/pki/tls/private/localhost.key
