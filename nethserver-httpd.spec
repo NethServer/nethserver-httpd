@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.0.0
+Version: 3.1.0
 Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
@@ -49,6 +49,9 @@ Requires: %{name}
 %files proxypass -f %{name}-proxypass-%{version}-filelist
 
 %changelog
+* Thu Sep 01 2016 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.1.0-1
+- Apache vhost-default template expansion - NethServer/dev#5088
+
 * Thu Jul 21 2016 Davide Principi <davide.principi@nethesis.it> - 3.0.0-1
 - Incremented major version for ns7
 - Reverse proxy page - NethServer/dev#5064
