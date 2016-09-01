@@ -40,6 +40,7 @@ mkdir -p %{buildroot}/%{_nsdbconfdir}/proxypass/{migrate,force,defaults}
 %doc README.rst
 %dir %{_nseventsdir}/%{name}-update
 %attr(0644,root,root) %ghost %{_sysconfdir}/httpd/conf.d/nethserver.conf
+%attr(0644,root,root) %ghost %{_sysconfdir}/httpd/conf.d/default-virtualhost.inc
 
 %package proxypass
 Summary: Reverse proxy UI
