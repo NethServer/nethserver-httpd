@@ -1,0 +1,9 @@
+[main]
+host = https://www.transifex.com
+
+[nethserver-v6.SharedFolder_Plugin_Httpd]
+source_file = root/usr/share/nethesis/NethServer/Language/en/NethServer_Module_SharedFolder_Plugin_Httpd.php
+source_lang = en
+type = PHP_ALT_ARRAY
+
+
