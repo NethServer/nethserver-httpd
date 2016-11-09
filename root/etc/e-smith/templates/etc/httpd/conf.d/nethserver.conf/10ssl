@@ -4,6 +4,6 @@
 # Additional directives for SSL. See also upstream ssl.conf.
 #
 { ($pki{ChainFile} && -e $pki{ChainFile})? '' : '# '}SSLCertificateChainFile { $pki{ChainFile} }
-{ $httpd{SSLCipherSuite} ? '' : '# '}SSLCipherSuite {$httpd{SSLCipherSuite}};
+{ $httpd{SSLCipherSuite} ? '' : '# '}SSLCipherSuite {$httpd{SSLCipherSuite}}
 
 
