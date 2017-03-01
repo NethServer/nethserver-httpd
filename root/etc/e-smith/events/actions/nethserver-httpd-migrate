@@ -38,13 +38,10 @@ my $srcAccountsDb = esmith::DB::db->open_ro(join('', $sourceDir, $esmithDbDir, '
 my $dstConfigDb = esmith::DB::db->open('configuration') || die("Could not open destination account db\n");
 my $dstProxyPassDb = esmith::DB::db->open('proxypass') || die("Could not open destination proxypass db\n");
 
-my $old = $srcConfigDb->get('httpd-e-smith');
-my $new = $dstConfigDb->get('httpd') || $dstConfigDb->new_record('httpd');
-$new->set_prop('access', $old->prop('access') || 'public');
-$new->set_prop('status', $old->prop('status') || 'enabled');
+my $new = $dstConfigDb->get('httpd');
 
 my $cipherSuite = $srcConfigDb->get_prop('modSSL', 'CipherSuite') || '';
-if($cipherSuite) {
+if($new && $cipherSuite) {
     $new->set_prop('SSLCipherSuite', $cipherSuite);
 }
 
