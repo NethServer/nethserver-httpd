@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.1.1
+Version: 3.1.2
 Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
@@ -49,6 +49,9 @@ Requires: %{name}
 %files proxypass -f %{name}-proxypass-%{version}-filelist
 
 %changelog
+* Mon Mar 06 2017 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.1.2-1
+- Migration from sme8 - NethServer/dev#5196
+
 * Wed Nov 09 2016 Davide Principi <davide.principi@nethesis.it> - 3.1.1-1
 - Use SSLCipherSuite upstream default from ssl.conf
 
