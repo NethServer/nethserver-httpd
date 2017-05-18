@@ -57,6 +57,7 @@ event_services('nethserver-httpd-update', qw(
 event_templates('certificate-update', qw(
                 /etc/pki/tls/certs/localhost.crt
                 /etc/pki/tls/private/localhost.key
+                /etc/httpd/conf.d/nethserver.conf
 ));
 
 event_services('certificate-update', qw(
