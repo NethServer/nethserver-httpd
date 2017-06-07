@@ -54,7 +54,7 @@ class Modify extends \Nethgui\Controller\Table\Modify
             $report->addValidationErrorMessage($this, 'Name', 'Name_Already_Exists');
         }
 
-        if ( ! filter_var($this->parameters['Target'], FILTER_VALIDATE_URL) || strpos($this->parameters['Target'], 'http') !== 0 ) {
+        if ( ! filter_var($this->parameters['Target'], FILTER_VALIDATE_URL) || (strpos($this->parameters['Target'], 'http') !== 0 ) && ( strpos($this->parameters['Target'], 'ws') !== 0)) {
             $report->addValidationErrorMessage($this, 'Target', 'Invalid_Target');
         }
 
