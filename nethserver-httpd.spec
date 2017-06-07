@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.1.3
+Version: 3.1.4
 Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
@@ -49,6 +49,9 @@ Requires: %{name}
 %files proxypass -f %{name}-proxypass-%{version}-filelist
 
 %changelog
+* Wed Jun 07 2017 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.1.4-1
+- Allow WebSocket Proxy Pass - NethServer/dev#5311
+
 * Mon May 22 2017 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.1.3-1
 - PKI: SSL chain file not updated after certificate-update - Bug NethServer/dev#5283
 
