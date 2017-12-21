@@ -8,7 +8,7 @@
     $old_default = "ALL:!aNULL:!ADH:!eNULL:!LOW:!EXP:RC4+RSA:+HIGH:+MEDIUM";
     $cur = $DB->get_prop('httpd', 'SSLCipherSuite');
 
-    if ($cur = $old_default) {
+    if ($cur eq $old_default) {
         $DB->set_prop('httpd', 'SSLCipherSuite', 'DEFAULT:!EXP:!SSLv2:!DES:!IDEA:!SEED:+3DES');
     }
     '';
