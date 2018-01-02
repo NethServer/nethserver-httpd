@@ -2,7 +2,7 @@
 
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 2.5.3
+Version: 2.5.4
 Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
@@ -43,6 +43,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{dbconfdir}/proxypass
 
 %changelog
+* Tue Jan 02 2018 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.5.4-1
+- SSL ciphers not adjustable - Bug #3443
+
 * Fri Mar 04 2016 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.5.3-1
 - Proxy pass support - Feature #3363 [NethServer]
 
