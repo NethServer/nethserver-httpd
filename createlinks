@@ -82,3 +82,16 @@ event_templates('nethserver-httpd-save', qw(
 event_services('nethserver-httpd-save', qw(
                httpd reload
 ));
+
+#
+# tls-policy-save event
+#
+
+event_templates('tls-policy-save', qw(
+        /etc/httpd/conf.d/nethserver.conf
+));
+
+event_services('tls-policy-save', qw(
+        httpd reload
+));
+
