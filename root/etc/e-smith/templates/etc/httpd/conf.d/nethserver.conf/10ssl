@@ -3,57 +3,8 @@
 #
 # Additional directives for SSL. See also upstream ssl.conf.
 #
-{
- my $tlsPolicy = $tls{'policy'} || 'legacy';
- my $chainfile = ($pki{ChainFile} && -e $pki{ChainFile})? '': '#';
- my $ciphersuite = ($httpd{SSLCipherSuite})? '' : '#';
 
- if ($tlsPolicy eq 'legacy') {
-    $OUT = $chainfile . "SSLCertificateChainFile $pki{ChainFile}\n";
-    $OUT .= $ciphersuite . "SSLCipherSuite $httpd{SSLCipherSuite}\n";
- }
- elsif ($tlsPolicy eq '20180330') {
-    $OUT .= << 'EOF';
-<VirtualHost _default_:443>
-ErrorLog logs/ssl_error_log
-TransferLog logs/ssl_access_log
-LogLevel warn
-SSLEngine on
-
+{ ($pki{ChainFile} && -e $pki{ChainFile})? '' : '# '}SSLCertificateChainFile { $pki{ChainFile} }
 SSLCertificateFile /etc/pki/tls/certs/localhost.crt
 SSLCertificateKeyFile /etc/pki/tls/private/localhost.key
-
-EOF
-
-    $OUT .= $chainfile . "SSLCertificateChainFile $pki{ChainFile}\n";
-
-    $OUT .= << 'EOF';
-SSLProtocol all -SSLv2 -SSLv3
-
-SSLCipherSuite EDH+CAMELLIA:EDH+aRSA:EECDH+aRSA+AESGCM:EECDH+aRSA+SHA256:EECDH:\
-+CAMELLIA128:+AES128:+SSLv3:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!DSS:!RC4:\
-!SEED:!IDEA:!ECDSA:kEDH:CAMELLIA128-SHA:AES128-SHA
-
-SSLHonorCipherOrder on
-SSLCompression Off
-
-<Files ~ "\.(cgi|shtml|phtml|php3?)$">
-    SSLOptions +StdEnvVars
-</Files>
-
-<Directory "/var/www/cgi-bin">
-    SSLOptions +StdEnvVars
-</Directory>
-
-BrowserMatch "MSIE [2-5]" \
-        nokeepalive ssl-unclean-shutdown \
-        downgrade-1.0 force-response-1.0
-
-CustomLog logs/ssl_request_log \
-        "%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \"%r\" %b"
-</VirtualHost>
-EOF
- }
-}
-
 
