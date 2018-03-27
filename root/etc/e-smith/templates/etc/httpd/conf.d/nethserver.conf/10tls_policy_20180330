@@ -3,6 +3,7 @@
 
  if ($tlsPolicy >= 20180330) {
      $OUT .= qq(
+# cipher selection 2018-03-30
 SSLProtocol all -SSLv2 -SSLv3
 
 SSLCipherSuite EDH+CAMELLIA:EDH+aRSA:EECDH+aRSA+AESGCM:EECDH+aRSA+SHA256:EECDH:\\

@@ -1,8 +1,12 @@
 {
- my $tlsPolicy = $tls{'policy'} || 'legacy';
+ my $tlsPolicy = $tls{'policy'} || '';
  my $ciphersuite = ($httpd{SSLCipherSuite})? '' : '#';
 
- if (($tlsPolicy eq 'legacy') || ($tlsPolicy eq '')) {
-    $OUT .= $ciphersuite . "SSLCipherSuite $httpd{SSLCipherSuite}\n";
+ if ($tlsPolicy eq '') {
+
+    $OUT .= "
+# cipher selection 2017-10-26 (Legacy)
+$ciphersuite SSLCipherSuite $httpd{SSLCipherSuite}
+";
  }
 }
