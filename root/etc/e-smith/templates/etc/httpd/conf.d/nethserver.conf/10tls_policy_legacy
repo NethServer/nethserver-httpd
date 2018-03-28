@@ -1,0 +1,12 @@
+{
+ my $tlsPolicy = $tls{'policy'} || '';
+ my $ciphersuite = ($httpd{SSLCipherSuite})? '' : '#';
+
+ if ($tlsPolicy eq '') {
+
+    $OUT .= "
+# cipher selection 2017-10-26 (Legacy)
+$ciphersuite SSLCipherSuite $httpd{SSLCipherSuite}
+";
+ }
+}
