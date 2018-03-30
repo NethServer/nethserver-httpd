@@ -1,4 +1,9 @@
-
+#
+# 50ssl_default_virtualhost
+#
+{
+    my $tlsPolicy = $tls{'policy'} || '';
+    my $virtual_host_ssl = <<'EOF';
 <VirtualHost *:443>
 ErrorLog logs/ssl_error_log
 TransferLog logs/ssl_access_log
@@ -18,5 +23,14 @@ BrowserMatch "MSIE [2-5]" \
         downgrade-1.0 force-response-1.0
 
 CustomLog logs/ssl_request_log \
-        "%t %h %\{SSL_PROTOCOL\}x %\{SSL_CIPHER\}x \"%r\" %b"
+        "%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \"%r\" %b"
 </VirtualHost>
+EOF
+
+    if($tlsPolicy) {
+        $OUT = $virtual_host_ssl;
+    } else {
+        $OUT = "# use default upstream ssl.conf definition";
+    }
+}
+
