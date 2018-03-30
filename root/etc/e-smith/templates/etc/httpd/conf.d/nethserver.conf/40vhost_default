@@ -1,0 +1,7 @@
+#
+# 40vhost_default -- include directives in global scope
+#                    rewrite configuration setting is not passed from global to virtualhost scope
+#                    alias and other core directives are passed, instead
+#
+IncludeOptional conf.d/default-virtualhost.inc
+
