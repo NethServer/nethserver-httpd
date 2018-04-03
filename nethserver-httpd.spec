@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.1.4
+Version: 3.2.0
 Release: 1%{?dist}
 License: GPL
 Source: %{name}-%{version}.tar.gz
@@ -49,6 +49,9 @@ Requires: %{name}
 %files proxypass -f %{name}-proxypass-%{version}-filelist
 
 %changelog
+* Tue Apr 03 2018 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.2.0-1
+- Hardening TLS policy 2018-03-30 - NethServer/dev#5438
+
 * Wed Jun 07 2017 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.1.4-1
 - Allow WebSocket Proxy Pass - NethServer/dev#5311
 
