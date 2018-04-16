@@ -1,0 +1,19 @@
+{
+    use JSON;
+    use File::Basename;
+    my $certs = decode_json(`/usr/libexec/nethserver/cert-list`);
+
+    if ($Port == 443) {
+        $OUT .= "    #20ssl_engine\n";
+        $OUT .= "    SSLEngine On\n";
+    }
+
+    if ($Port == 443 && exists ${$certs}{$SslCertificate})
+    {
+        $OUT .= "    SSLCertificateFile \"" . ${$certs}{$SslCertificate}{'file'} ."\"\n";
+        $OUT .= "    SSLCertificateKeyFile \"" . ${$certs}{$SslCertificate}{'key'} ."\"\n";
+        if (${$certs}{$SslCertificate}{'chain'} ne ""){
+            $OUT .= "    SSLCertificateChainFile \"" . ${$certs}{$SslCertificate}{'chain'} ."\"\n";
+        }
+    }
+}

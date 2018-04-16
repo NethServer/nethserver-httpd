@@ -1,0 +1,4 @@
+    # Reverse Proxy
+    ProxyPass  / {{$Target}}/ max=3 retry=30
+    ProxyPassReverse / {{$Target}}/
+
