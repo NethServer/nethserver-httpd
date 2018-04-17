@@ -24,7 +24,6 @@ namespace NethServer\Module;
 
 class ProxyPass extends \Nethgui\Controller\TabsController
 {
-
     protected function initializeAttributes(\Nethgui\Module\ModuleAttributesInterface $base)
     {
         return \Nethgui\Module\SimpleModuleAttributesProvider::extendModuleAttributes($base, 'Gateway');
@@ -32,38 +31,9 @@ class ProxyPass extends \Nethgui\Controller\TabsController
 
     public function initialize()
     {
-        $columns = array(
-            'Key',
-            'Target',
-            'Protocol',
-            'Description',
-            'Actions'
-        );
-
-        $this
-            ->setTableAdapter($this->getPlatform()->getTableAdapter('proxypass', 'ProxyPass'))
-            ->setColumns($columns)
-            ->addTableAction(new \NethServer\Module\ProxyPass\Modify('create'))
-            ->addTableAction(new \Nethgui\Controller\Table\Help('Help'))
-            ->addRowAction(new \NethServer\Module\ProxyPass\Modify('update'))
-            ->addRowAction(new \NethServer\Module\ProxyPass\Modify('delete'))
-        ;
-
         parent::initialize();
-    }
-
-    public function prepareViewForColumnProtocol(\Nethgui\Controller\Table\Read $action, \Nethgui\View\ViewInterface $view, $key, $values, &$rowMetadata)
-    {
-         $protocols = array();
-         if ($values['HTTP'] == 'yes') {
-            $protocols[] = 'HTTP';
-         }
-         if ($values['HTTPS'] == 'yes') {
-            $protocols[] = 'HTTPS';
-         }
-
-         return implode(' / ', $protocols);
+        $this->addChild(new \NethServer\Module\ProxyPass\ProxyPassPath());
+        $this->addChild(new \NethServer\Module\ProxyPass\ProxyPassVhost());
     }
 
 }
-

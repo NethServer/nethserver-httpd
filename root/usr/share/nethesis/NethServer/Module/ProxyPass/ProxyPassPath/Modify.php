@@ -1,5 +1,5 @@
 <?php
-namespace NethServer\Module\ProxyPass;
+namespace NethServer\Module\ProxyPass\ProxyPassPath;
 
 /*
  * Copyright (C) 2016 Nethesis Srl
