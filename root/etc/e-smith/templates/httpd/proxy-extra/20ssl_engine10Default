@@ -6,7 +6,8 @@
     if ($Port == 443) {
         $OUT .= "    #20ssl_engine\n";
         $OUT .= "    SSLEngine On\n";
-    }
+        $OUT .= "    SSLProxyEngine On\n";
+}
 
     if ($Port == 443 && exists ${$certs}{$SslCertificate})
     {
