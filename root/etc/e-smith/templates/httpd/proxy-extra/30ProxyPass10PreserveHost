@@ -1,0 +1,5 @@
+{
+    if ( $PreserveHost eq 'yes' ) {
+        $OUT .= "   ProxyPreserveHost On\n";
+    }
+}
