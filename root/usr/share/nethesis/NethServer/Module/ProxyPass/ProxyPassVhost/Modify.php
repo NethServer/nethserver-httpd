@@ -40,6 +40,8 @@ class Modify extends \Nethgui\Controller\Table\Modify
             array('ValidFrom', Validate::ANYTHING, \Nethgui\Controller\Table\Modify::FIELD),
             array('Description', Validate::ANYTHING, \Nethgui\Controller\Table\Modify::FIELD),
             array('SslCertificate', Validate::ANYTHING, \Nethgui\Controller\Table\Modify::FIELD),
+            array('CertVerification', Validate::YES_NO, \Nethgui\Controller\Table\Modify::FIELD),
+            array('PreserveHost', Validate::YES_NO, \Nethgui\Controller\Table\Modify::FIELD),
 
         );
         $this->setSchema($parameterSchema);

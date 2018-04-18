@@ -23,3 +23,5 @@ $L['Name_Already_Exists'] = 'The given `${0}` name already exists';
 $L['Vhost_Already_Exists'] = 'The given `${0}` virtualhost already exists';
 $L['SslCertificate_label'] = 'SSL/TLS certificate';
 $L['Default_Ssl_certificate_label'] = 'Default certificate';
+$L['PreserveHost_label'] = 'Use Host header for proxy request';
+$L['CertVerification_label'] = 'No certificate verification of ssl proxy';
