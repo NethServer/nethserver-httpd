@@ -54,7 +54,7 @@ class Modify extends \Nethgui\Controller\Table\Modify
         }
 
         if ($this->getIdentifier() === 'create' && $this->getPlatform()->getDatabase('proxypass')->getKey($this->parameters['Vhost']) ) {
-            $report->addValidationErrorMessage($this, 'Vhost', 'Vhost_Already_Exists');
+            $report->addValidationErrorMessage($this, 'Vhost', 'Vhost_Already_Exists', array ($this->parameters['Vhost']));
         }
 
         if ( ! filter_var($this->parameters['Target'], FILTER_VALIDATE_URL) || (strpos($this->parameters['Target'], 'http') !== 0 ) && ( strpos($this->parameters['Target'], 'ws') !== 0)) {
