@@ -45,6 +45,9 @@ class Modify extends \Nethgui\Controller\Table\Modify
 
         );
         $this->setSchema($parameterSchema);
+
+        $this->declareParameter('CreateHostRecords', Validate::ANYTHING);
+        $this->setDefaultValue('CreateHostRecords', '0');
     }
 
     public function validate(\Nethgui\Controller\ValidationReportInterface $report)
@@ -86,6 +89,18 @@ class Modify extends \Nethgui\Controller\Table\Modify
 
         parent::process();
 
+    }
+
+    protected function processCreate($key)
+    {
+        if ($this->parameters['CreateHostRecords'] !== '1') {
+            return;
+        }
+        $hostsDb = $this->getPlatform()->getDatabase('hosts');
+            if( ! $hostsDb->getKey($this->parameters['Vhost'])) {
+                $hostsDb->setKey($this->parameters['Vhost'], 'self', array('Description' => ($this->parameters['Description'] ?: 'Virtual host')));
+            }
+        $this->getPlatform()->signalEvent('host-modify', array(\Nethgui\array_head($this->parameters['Vhost'])));
     }
 
     protected function onParametersSaved($changedParameters)

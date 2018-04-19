@@ -25,3 +25,5 @@ $L['SslCertificate_label'] = 'SSL/TLS certificate';
 $L['Default_Ssl_certificate_label'] = 'Default certificate';
 $L['PreserveHost_label'] = 'Forward HTTP "Host" header to target';
 $L['CertVerification_label'] = 'Accept invalid SSL certificate from target';
+$L['ExtraFields_label'] = 'Additional actions';
+$L['CreateHostRecords_label'] = 'Create a record under "DNS > Server alias" page for each virtual host name';
