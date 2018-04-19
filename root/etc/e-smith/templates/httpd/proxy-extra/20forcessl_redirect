@@ -1,6 +1,6 @@
 {
     $OUT = '';
-    if ($HTTP eq 'no' || $Target =~ 'https://') {
+    if ($HTTP eq 'no' || $Target =~ m|^https://|) {
 	$OUT .= <<REDIRECT;
     # forcessl_redirect
     RewriteEngine On
