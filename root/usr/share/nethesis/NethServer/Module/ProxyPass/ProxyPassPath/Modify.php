@@ -33,7 +33,7 @@ class Modify extends \Nethgui\Controller\Table\Modify
         parent::initialize();
         $parameterSchema = array(
             array('Name', Validate::USERNAME, \Nethgui\Controller\Table\Modify::KEY),
-            array('Target', Validate::ANYTHING, \Nethgui\Controller\Table\Modify::FIELD),
+            array('Target', Validate::NOTEMPTY, \Nethgui\Controller\Table\Modify::FIELD),
             array('HTTP', Validate::YES_NO, \Nethgui\Controller\Table\Modify::FIELD),
             array('HTTPS', FALSE, \Nethgui\Controller\Table\Modify::FIELD),
             array('ValidFrom', Validate::ANYTHING, \Nethgui\Controller\Table\Modify::FIELD),
