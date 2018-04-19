@@ -46,8 +46,8 @@ class Modify extends \Nethgui\Controller\Table\Modify
         );
         $this->setSchema($parameterSchema);
 
-        $this->declareParameter('CreateHostRecords', Validate::ANYTHING);
-        $this->setDefaultValue('CreateHostRecords', '0');
+        $this->declareParameter('CreateHostRecords', Validate::YES_NO);
+        $this->setDefaultValue('CreateHostRecords', 'no');
     }
 
     public function validate(\Nethgui\Controller\ValidationReportInterface $report)
@@ -93,7 +93,7 @@ class Modify extends \Nethgui\Controller\Table\Modify
 
     protected function processCreate($key)
     {
-        if ($this->parameters['CreateHostRecords'] !== '1') {
+        if ($this->parameters['CreateHostRecords'] !== 'yes') {
             return;
         }
         $hostsDb = $this->getPlatform()->getDatabase('hosts');
