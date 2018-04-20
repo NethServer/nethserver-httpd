@@ -1,0 +1,23 @@
+{
+use esmith::ConfigDB;
+my $db = esmith::ConfigDB->open_ro('proxypass');
+return "" unless $db;
+my @proxypass = $db->get_all_by_prop('type' => 'VhostReverse');
+if (@proxypass) {
+    $OUT .= <<'EOF';
+#
+# Default virtualhost
+#
+
+<VirtualHost *:80>
+    IncludeOptional conf.d/default-virtualhost.inc
+</VirtualHost>
+
+#
+# End of default virtualhost
+#
+EOF
+}
+        $OUT .= '';
+
+}

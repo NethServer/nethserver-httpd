@@ -1,8 +1,8 @@
 <?php
-namespace NethServer\Module\ProxyPass;
+namespace NethServer\Module\ProxyPass\ProxyPassVhost;
 
 /*
- * Copyright (C) 2016 Nethesis Srl
+ * Copyright (C) 2018 Nethesis Srl
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,9 +21,10 @@ namespace NethServer\Module\ProxyPass;
 use Nethgui\System\PlatformInterface as Validate;
 
 /**
- * CRUD actions on proxypass records
+ * CRUD actions on proxypass records for apache virtualhost
  *
  * @author Davide Principi <davide.principi@nethesis.it>
+ * @author Stephane de Labrusse <stephdl@de-labrusse.fr>
  */
 class Modify extends \Nethgui\Controller\Table\Modify
 {
@@ -32,14 +33,21 @@ class Modify extends \Nethgui\Controller\Table\Modify
     {
         parent::initialize();
         $parameterSchema = array(
-            array('Name', Validate::USERNAME, \Nethgui\Controller\Table\Modify::KEY),
-            array('Target', Validate::ANYTHING, \Nethgui\Controller\Table\Modify::FIELD),
+            array('Vhost', Validate::HOSTNAME_FQDN, \Nethgui\Controller\Table\Modify::KEY),
+            array('Target', Validate::NOTEMPTY, \Nethgui\Controller\Table\Modify::FIELD),
             array('HTTP', Validate::YES_NO, \Nethgui\Controller\Table\Modify::FIELD),
             array('HTTPS', FALSE, \Nethgui\Controller\Table\Modify::FIELD),
             array('ValidFrom', Validate::ANYTHING, \Nethgui\Controller\Table\Modify::FIELD),
             array('Description', Validate::ANYTHING, \Nethgui\Controller\Table\Modify::FIELD),
+            array('SslCertificate', Validate::ANYTHING, \Nethgui\Controller\Table\Modify::FIELD),
+            array('CertVerification', Validate::YES_NO, \Nethgui\Controller\Table\Modify::FIELD),
+            array('PreserveHost', Validate::YES_NO, \Nethgui\Controller\Table\Modify::FIELD),
+
         );
         $this->setSchema($parameterSchema);
+
+        $this->declareParameter('CreateHostRecords', Validate::YES_NO);
+        $this->setDefaultValue('CreateHostRecords', 'no');
     }
 
     public function validate(\Nethgui\Controller\ValidationReportInterface $report)
@@ -50,8 +58,8 @@ class Modify extends \Nethgui\Controller\Table\Modify
             return;
         }
 
-        if ($this->getIdentifier() === 'create' && $this->getPlatform()->getDatabase('proxypass')->getKey($this->parameters['Name']) ) {
-            $report->addValidationErrorMessage($this, 'Name', 'Name_Already_Exists');
+        if ($this->getIdentifier() === 'create' && $this->getPlatform()->getDatabase('proxypass')->getKey($this->parameters['Vhost']) ) {
+            $report->addValidationErrorMessage($this, 'Vhost', 'Vhost_Already_Exists', array ($this->parameters['Vhost']));
         }
 
         if ( ! filter_var($this->parameters['Target'], FILTER_VALIDATE_URL) || (strpos($this->parameters['Target'], 'http') !== 0 ) && ( strpos($this->parameters['Target'], 'ws') !== 0)) {
@@ -83,11 +91,43 @@ class Modify extends \Nethgui\Controller\Table\Modify
 
     }
 
+    protected function processCreate($key)
+    {
+        if ($this->parameters['CreateHostRecords'] !== 'yes') {
+            return;
+        }
+        $hostsDb = $this->getPlatform()->getDatabase('hosts');
+            if( ! $hostsDb->getKey($this->parameters['Vhost'])) {
+                $hostsDb->setKey($this->parameters['Vhost'], 'self', array('Description' => ($this->parameters['Description'] ?: 'Virtual host')));
+            }
+        $this->getPlatform()->signalEvent('host-modify', array(\Nethgui\array_head($this->parameters['Vhost'])));
+    }
+
     protected function onParametersSaved($changedParameters)
     {
         $this->getPlatform()->signalEvent('nethserver-httpd-save');
     }
 
+    protected function getSslCertificateDatasource()
+    {
+        static $ds;
+        if (isset($ds)) {
+            return $ds;
+        }
+
+        $output = array();
+        \exec('/usr/libexec/nethserver/cert-list', $output);
+        $data = json_decode($output[0], TRUE);
+        if ( ! is_array($data)) {
+            $data = array();
+        }
+
+        foreach ($data as $key => $value) {
+            $ds[] = array($key, $value['file']);
+        }
+
+        return $ds;
+    }
 
     public function prepareView(\Nethgui\View\ViewInterface $view)
     {
@@ -95,5 +135,6 @@ class Modify extends \Nethgui\Controller\Table\Modify
         if($this->getIdentifier() === 'delete') {
             $view->setTemplate('Nethgui\Template\Table\Delete');
         }
+    $view['SslCertificateDatasource'] = array_merge(array(array('', $view->translate('Default_Ssl_certificate_label'))), $this->getSslCertificateDatasource());
     }
 }

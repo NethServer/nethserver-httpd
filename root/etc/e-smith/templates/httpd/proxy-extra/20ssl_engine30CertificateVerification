@@ -1,0 +1,13 @@
+{
+# If enabled, the reverse proxy
+# do not verify the remote certificate
+
+    if ($Port == 443 && $CertVerification eq 'yes'){
+        $OUT .= << 'EOF';
+    SSLProxyVerify none
+    SSLProxyCheckPeerCN off
+    SSLProxyCheckPeerName off
+    SSLProxyCheckPeerExpire off
+EOF
+    }
+}

@@ -1,0 +1,12 @@
+{
+    # Allowed network
+    if ($ValidFrom) {
+    # Convert from comma separated list to space separated
+    $ValidFrom =~ s/,/ /g;
+    $OUT .= '        Require ip ' . $ValidFrom;
+    }
+    else {
+        $OUT .= '        Require all granted';
+    }
+    $OUT .= "\n        SSLRequireSSL" if ($HTTP eq 'no');
+}

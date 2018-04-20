@@ -1,0 +1,10 @@
+
+
+# 
+# Virtual Host {{$VhostName}} - *:{{$Port}}
+# Description : {{$Description}}
+
+<VirtualHost *:{{$Port}}>
+
+    ServerName {{$VhostName}}
+
