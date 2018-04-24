@@ -1,9 +1,0 @@
-[main]
-host = https://www.transifex.com
-
-[nethserver.VirtualHosts]
-source_file = root/usr/share/nethesis/NethServer/Language/en/NethServer_Module_VirtualHosts.php
-source_lang = en
-type = PHP_ALT_ARRAY
-
-
