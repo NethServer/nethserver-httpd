@@ -3,7 +3,20 @@
     use esmith::ConfigDB;
     my $db = esmith::ConfigDB->open_ro('proxypass') || die("Can't open proxypass db");
 
-    foreach my $proxy ($db->get_all_by_prop('type'=>'VhostReverse')) {
+    my @proxypass = $db->get_all_by_prop('type' => 'VhostReverse');
+    if (@proxypass) {
+        $OUT .= <<'EOF';
+#
+# Default virtualhost for proxypass
+#
+<VirtualHost *:80>
+    IncludeOptional conf.d/default-virtualhost.inc
+</VirtualHost>
+
+EOF
+    }
+
+    foreach my $proxy (@proxypass) {
         my %proxyData = $proxy->props();
         my @ports = (443, 80);
 
@@ -17,5 +30,5 @@
             });
         }
     }
-        $OUT .= '';
+    $OUT .= '';
 }

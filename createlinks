@@ -37,6 +37,7 @@ event_templates('nethserver-httpd-update', qw(
 		/etc/httpd/conf.d/nethserver.conf
                 /etc/httpd/conf.d/default-virtualhost.inc
                 /etc/httpd/conf.d/proxypass.conf
+                /etc/httpd/conf.d/virtualhosts.conf
                 /etc/pki/tls/certs/localhost.crt
                 /etc/pki/tls/private/localhost.key
                 /etc/httpd/conf.d/welcome.conf
@@ -77,6 +78,7 @@ event_actions('migration-import', qw(
 #
 event_templates('nethserver-httpd-save', qw(
     /etc/httpd/conf.d/proxypass.conf
+    /etc/httpd/conf.d/virtualhosts.conf
 ));
 
 event_services('nethserver-httpd-save', qw(
