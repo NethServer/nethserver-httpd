@@ -48,6 +48,7 @@ class Modify extends \Nethgui\Controller\Table\Modify
 
         $this->declareParameter('CreateHostRecords', Validate::YES_NO);
         $this->setDefaultValue('CreateHostRecords', 'no');
+        $this->setDefaultValue('PreserveHost', 'yes');
     }
 
     public function validate(\Nethgui\Controller\ValidationReportInterface $report)
