@@ -1,0 +1,86 @@
+#!/usr/bin/perl
+#
+# Copyright (C) 2017 Nethesis S.r.l.
+# http://www.nethesis.it - nethserver@nethesis.it
+#
+# This script is part of NethServer.
+#
+# NethServer is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License,
+# or any later version.
+#
+# NethServer is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with NethServer.  If not, see COPYING.
+#
+#
+# Convert an ibay to a virtualhost and move all data
+#
+
+use esmith::ConfigDB;
+use esmith::event;
+
+my $event = shift;
+my $ibay_name = shift;
+
+my $src_db = esmith::ConfigDB->open('accounts') or die("Can't open accounts db");
+my $dst_db = esmith::ConfigDB->open('vhosts')  or die("Can't open vhosts db");
+
+my $ibay = $src_db->get($ibay_name) or die ("Shared folder '$ibay_name' not found");
+my $ibay_dir = "/var/lib/nethserver/ibay/$ibay_name";
+my $http_status = $ibay->prop('HttpStatus') || 'disabled';
+my $alias = $ibay->prop('HttpVirtualHost') || '__ANY__';
+my $subfolder = $ibay->prop('HttpAliasCustom') || '';
+my $vhost_dir;
+my $event;
+
+if ($http_status eq 'disabled') {
+    die("The original shared folder '$ibay_name' is not configured for HTTP access");
+}
+if ($alias eq '__ANY__') {
+    $vhost_dir = "/var/www/html";
+    $subfolder = $ibay_name;
+    $ibay_name = 'default';
+    $event = 'vhost-modify';
+    if ( -d "$vhost_dir/$subfolder" ) {
+       die("Directory '$vhost_dir/$subfolder' already exists!");
+    }
+} else {
+    $vhost_dir = "/var/lib/nethserver/vhost/$ibay_name";
+    $event = 'vhost-create';
+    my %props = (
+        type => 'vhost', status => 'enabled', SslCertificate => '', FtpStatus => 'disabled',
+        Access => $ibay->prop('HttpAccess') || 'public', 
+        Description => $ibay->prop('Description'). " [migration]",
+        ForceSslStatus => ( $ibay->prop('HttpForceSsl') || 'disabled' ),
+        PasswordStatus => ( $ibay->prop('HttpPasswordStatus') || 'disabled' ),
+        PasswordValue => ( $ibay->prop('HttpPasswordValue') || '' ),
+        ServerNames => $alias,
+        status => 'enabled'
+    );
+    $dst_db->new_record($ibay_name, \%props) or ("Can't create new virtual host record '$ibay_name': $!");
+}
+
+if ($subfolder) {
+    if ( ! -d $vhost_dir ) {
+        system("/usr/bin/mkdir -p $vhost_dir");
+        system("/usr/bin/chown -R ftp:apache $vhost_dir");
+    }
+    system("/usr/bin/mv -v $ibay_dir $vhost_dir/$subfolder");
+    system("/usr/bin/chown -R ftp:apache $vhost_dir/$subfolder");
+    system("/usr/bin/setfacl -d -b -R $vhost_dir/$subfolder");
+} else {
+    system("/usr/bin/mv -v $ibay_dir $vhost_dir");
+    system("/usr/bin/chown -R ftp:apache $vhost_dir");
+    system("/usr/bin/setfacl -d -b -R $vhost_dir");
+}
+
+esmith::event::event_signal($event, $ibay_name);
+
+# Delete record of migrated ibay
+$ibay->delete();

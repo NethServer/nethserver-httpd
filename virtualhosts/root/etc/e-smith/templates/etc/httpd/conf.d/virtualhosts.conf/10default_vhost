@@ -1,0 +1,6 @@
+#
+# 10default_vhost
+#
+<VirtualHost _default_:80>
+    IncludeOptional conf.d/default-virtualhost.inc
+</VirtualHost>

@@ -1,0 +1,37 @@
+#
+# 20virtual_hosts -- expand extra virtual hosts 
+#
+{
+    use esmith::templates;
+    use esmith::ConfigDB;
+    my $vdb = esmith::ConfigDB->open_ro('vhosts') || die("Can't open vhosts db");
+
+    foreach my $vhost ($vdb->get_all_by_prop('type'=>'vhost')) {
+	my %vhostData = $vhost->props();
+	my @ports = (443, 80);
+
+        #skip if vhost status is not enabled
+        if( !defined($vhostData{status}) || $vhostData{status} ne 'enabled' ){
+            next;
+        }
+ 
+
+        #set virtual host name as document root under /var/lib/nethserver/vhost/
+	$vhostData{DocumentRoot} = '/var/lib/nethserver/vhost/'.$vhost->key;
+
+        foreach $ServerName (split(/,/,$vhostData{ServerNames})) {
+	    foreach $port (@ports) {
+                $vhostData{VhostName} = $vhost->key;
+	        $vhostData{ServerName} = $ServerName;
+	        $vhostData{Port} = $port;
+	        $OUT .= esmith::templates::processTemplate({
+		    MORE_DATA => \%vhostData,
+		    TEMPLATE_PATH => 'httpd/vhost-extra',
+		    OUTPUT_TYPE => 'string',
+	        });
+	    }
+        }
+
+    }
+
+}

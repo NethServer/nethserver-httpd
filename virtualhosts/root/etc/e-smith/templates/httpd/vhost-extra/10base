@@ -1,0 +1,9 @@
+
+
+# 
+# Virtual Host {{$VhostName}} - {{$ServerName}}:{{$Port}}
+#
+
+<VirtualHost *:{{$Port}}>
+    DocumentRoot "{{$DocumentRoot}}"
+    ServerName {{$ServerName}}
