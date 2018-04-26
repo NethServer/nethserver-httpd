@@ -1,0 +1,10 @@
+{
+    $OUT = '';
+    foreach my $dir (glob('/var/www/html/*')) {
+        my $rpm = `LANG=C /usr/bin/rpm -qf $dir`;
+        if ($rpm =~ /is not owned by any package/) {
+            $OUT .= "$dir\n";
+        }
+    }
+    $OUT =~ s/\s+$//;
+}

@@ -1,0 +1,24 @@
+#!/usr/bin/perl
+
+use esmith::ConfigDB;
+
+my $cdb = esmith::ConfigDB->open_ro or die "Couldn't open ConfigDB\n";
+my $adb = esmith::ConfigDB->open_ro('vhosts') or die "Couldn't open VhostsDB\n";
+
+my $vsftpd = $cdb->get('vsftpd');
+my $usertype = $vsftpd->prop('UserType') || 'virtual';
+
+if ($usertype ne 'virtual') {
+    exit 0;
+}
+
+for my $vhost ( $adb->get_all_by_prop( type => 'vhost' ) )
+{
+    open (USER, '>>/etc/vsftpd/users/'.$vhost->key);
+    if ($vhost->key eq 'default') {
+        print USER "local_root=/var/www/html\n";
+    } else {
+        print USER "local_root=/var/lib/nethserver/vhost/".$vhost->key."\n";
+    }
+    close (USER);
+}

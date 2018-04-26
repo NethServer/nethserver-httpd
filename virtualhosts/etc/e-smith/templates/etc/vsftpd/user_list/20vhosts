@@ -1,0 +1,28 @@
+#
+# 20vhosts
+# Users for virtual hosts
+#
+{
+    use esmith::ConfigDB;
+
+    my $adb = esmith::ConfigDB->open_ro('vhosts') or die "Couldn't open VhostsDB\n";
+
+    $OUT = '';
+
+    my $usertype = $vsftpd{'UserType'} || 'virtual';
+    if ($usertype ne 'virtual') {
+        $OUT .= "# VirtualHosts disables since UserType is set to 'system'\n";
+        return '';
+    }
+
+    for my $vhost ( $adb->get_all_by_prop( type => 'vhost' ) )
+    {
+        my $status = $vhost->prop('FtpStatus') || 'disabled';
+        next if ($status eq 'disabled');
+        my $pass = $vhost->prop('FtpPassword') || '';
+        next if ($pass eq '');
+
+        $OUT .= $vhost->key . "\n";
+   }
+
+}

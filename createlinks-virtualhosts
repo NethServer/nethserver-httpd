@@ -1,0 +1,111 @@
+#
+# Copyright (C) 2018 Nethesis S.r.l.
+# http://www.nethesis.it - nethserver@nethesis.it
+#
+# This script is part of NethServer.
+#
+# NethServer is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License,
+# or any later version.
+#
+# NethServer is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with NethServer.  If not, see COPYING.
+#
+
+use esmith::Build::CreateLinks qw(:all);
+use File::Path;
+
+# create
+event_actions('vhost-create', qw(
+	     nethserver-virtualhosts-create 20
+             nethserver-virtualhosts-setbasicpassword 30
+             nethserver-virtualhosts-ftp-save 60
+));
+event_templates('vhost-create', qw(
+                /etc/httpd/conf.d/virtualhosts.conf
+));
+event_services('vhost-create', qw(
+               httpd reload
+));
+
+
+# modify
+event_actions('vhost-modify', qw(
+             nethserver-virtualhosts-setbasicpassword 30
+             nethserver-virtualhosts-ftp-save 60
+));
+event_templates('vhost-modify', qw(
+                /etc/httpd/conf.d/virtualhosts.conf
+));
+event_services('vhost-modify', qw(
+               httpd reload
+));
+
+
+# delete
+event_actions('vhost-delete', qw(
+	     nethserver-virtualhosts-delete 30
+             nethserver-virtualhosts-ftp-save 60
+));
+event_templates('vhost-delete', qw(
+    /etc/httpd/conf.d/virtualhosts.conf
+));
+event_services('vhost-delete', qw(
+    httpd reload
+));
+
+#--------------------------------------------------
+# actions for nethserver-virtualhosts-update event
+#--------------------------------------------------
+
+my $event = 'nethserver-httpd-virtualhosts-update';
+event_templates($event, qw(
+    /etc/httpd/conf.d/virtualhosts.conf
+    /etc/backup-data.d/nethserver-virtualhosts.include
+));
+
+event_actions($event, qw(
+	     initialize-default-databases 00
+));
+
+event_services($event, qw(
+    httpd reload
+));
+
+#--------------------------------------------------
+# actions for nethserver-vsftpd-save event
+#--------------------------------------------------
+
+$event = 'nethserver-vsftpd-save';
+
+event_actions($event, qw(
+             nethserver-virtualhosts-ftp-chroot 30
+));
+
+#--------------------------------------------------
+# actions for vhost-migrate-ibay event
+#--------------------------------------------------
+
+$event = 'vhost-migrate-ibay';
+
+event_actions($event, qw(
+    nethserver-virtualhosts-migrate-ibay 30
+));
+
+
+
+#--------------------------------------------------
+# actions for vhost-name validator
+#--------------------------------------------------
+validator_actions('vhost-create', qw(
+                  uniq-vhost 20
+));
+
+
+

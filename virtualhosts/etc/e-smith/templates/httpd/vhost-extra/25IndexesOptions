@@ -1,0 +1,14 @@
+{
+use esmith::ConfigDB;
+my $vdb = esmith::ConfigDB->open_ro('vhosts') || die("Can't open vhosts db");
+
+my $indexes = $vdb->get_prop("$VhostName",'Indexes') || '';
+return unless ($indexes eq 'enabled');
+
+$OUT .= << 'EOF';
+        #25IndexesOption
+        <LocationMatch "^/">
+            Options +Indexes
+        </LocationMatch>
+EOF
+}

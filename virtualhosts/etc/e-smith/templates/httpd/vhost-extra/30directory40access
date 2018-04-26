@@ -1,0 +1,20 @@
+        # access {{$Access}}
+{
+	if($Access eq 'private') {
+            use esmith::NetworksDB; 
+            my $networksDb = esmith::NetworksDB->open_ro() || return '';
+            my $localNetworks = join ' ', map {
+                my $u = $_;
+                $u =~ s:/255\.255\.255\.255::g;
+                $u;
+              } $networksDb->local_access_spec;
+            my $PrivateAllow = $localNetworks || '';
+	    my $access = join(" \\\n        ", split(' ', $PrivateAllow));
+	    $OUT = "        Require ip $access\n";
+	} else {
+	    $OUT = "        Require all granted\n";
+	}
+
+
+     $OUT;
+}

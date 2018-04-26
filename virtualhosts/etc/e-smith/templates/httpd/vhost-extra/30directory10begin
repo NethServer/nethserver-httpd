@@ -1,0 +1,2 @@
+    # 30directory -- basic directory setup
+    <Directory {$DocumentRoot}>
