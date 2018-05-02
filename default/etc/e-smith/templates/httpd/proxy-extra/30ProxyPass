@@ -1,4 +1,5 @@
-    # Reverse Proxy
+    # Reverse Proxy (with exclusion of local Letsencrypt challenge path)
+    ProxyPassMatch ^/.well-known/acme-challenge/ !
     ProxyPass  / {{$Target}}/ max=3 retry=30
     ProxyPassReverse / {{$Target}}/
 
