@@ -22,7 +22,7 @@ NethServer httpd configuration (Apache)
 
 %package proxypass
 Summary: Reverse proxy configuration and UI
-Requires: %{name}
+Requires: %{name} >= %{version}-%{release}
 %description proxypass
 NethServer reverse proxy configuration (Apache)
 %files proxypass -f proxypass.lst
@@ -33,7 +33,7 @@ NethServer reverse proxy configuration (Apache)
 
 %package virtualhosts
 Summary: Reverse proxy configuration and UI
-Requires: %{name}
+Requires: %{name} >= %{version}-%{release}
 BuildArch: noarch
 Requires: nethserver-vsftpd
 Obsoletes: nethserver-virtualhosts < 2
