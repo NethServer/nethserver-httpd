@@ -164,7 +164,7 @@ class Modify extends \Nethgui\Controller\Table\Modify
         }
 
         $output = array();
-        \exec('/usr/libexec/nethserver/cert-list', $output);
+        \exec('/usr/bin/sudo /usr/libexec/nethserver/cert-list', $output);
         $data = json_decode($output[0], TRUE);
         if ( ! is_array($data)) {
             $data = array();

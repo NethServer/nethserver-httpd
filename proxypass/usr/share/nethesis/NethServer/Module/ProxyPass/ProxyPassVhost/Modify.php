@@ -117,7 +117,7 @@ class Modify extends \Nethgui\Controller\Table\Modify
         }
 
         $output = array();
-        \exec('/usr/libexec/nethserver/cert-list', $output);
+        \exec('/usr/bin/sudo /usr/libexec/nethserver/cert-list', $output);
         $data = json_decode($output[0], TRUE);
         if ( ! is_array($data)) {
             $data = array();
@@ -136,6 +136,6 @@ class Modify extends \Nethgui\Controller\Table\Modify
         if($this->getIdentifier() === 'delete') {
             $view->setTemplate('Nethgui\Template\Table\Delete');
         }
-    $view['SslCertificateDatasource'] = array_merge(array(array('', $view->translate('Default_Ssl_certificate_label'))), $this->getSslCertificateDatasource());
+        $view['SslCertificateDatasource'] = array_merge(array(array('', $view->translate('Default_Ssl_certificate_label'))), $this->getSslCertificateDatasource());
     }
 }
