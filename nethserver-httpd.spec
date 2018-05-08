@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.2.0
+Version: 3.2.1
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
@@ -75,6 +75,10 @@ done
 
 
 %changelog
+* Tue May 08 2018 Stephane de Labrusse <stephdl@de-labrusse.fr> - 3.2.1-1
+- Reverse proxy for virtualhost - NethServer/dev#5454
+- One rpm to build nethserver-httpd, nethserver-httpd-virtualhost, nethserver-httpd-proxypass
+
 * Fri Apr 20 2018 Stephane de Labrusse <stephdl@de-labrusse.fr> - 1.0.6-1
 - Description prop of host key is '1' - Bug NethServer/dev#5462
 - The key is not verified in nethserver-virtualhosts - Bug NethServer/dev#5461
