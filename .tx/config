@@ -2,11 +2,13 @@
 host = https://www.transifex.com
 
 [nethserver.ProxyPass]
-source_file = root/usr/share/nethesis/NethServer/Language/en/NethServer_Module_ProxyPass.php
+source_file = proxypass/usr/share/nethesis/NethServer/Language/en/NethServer_Module_ProxyPass.php
 source_lang = en
 type = PHP_ALT_ARRAY
 
 [nethserver.VirtualHosts]
-source_file = root/usr/share/nethesis/NethServer/Language/en/NethServer_Module_VirtualHosts.php
+source_file = virtualhosts/usr/share/nethesis/NethServer/Language/en/NethServer_Module_VirtualHosts.php
 source_lang = en
 type = PHP_ALT_ARRAY
+
+
