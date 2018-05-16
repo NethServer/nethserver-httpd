@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.2.1
+Version: 3.2.2
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
@@ -75,6 +75,9 @@ done
 
 
 %changelog
+* Wed May 16 2018 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.2.2-1
+- Rebuild for NS 7.5 - NethServer/dev#5490
+
 * Tue May 08 2018 Stephane de Labrusse <stephdl@de-labrusse.fr> - 3.2.1-1
 - Reverse proxy for virtualhost - NethServer/dev#5454
 - One rpm to build nethserver-httpd, nethserver-httpd-virtualhost, nethserver-httpd-proxypass
