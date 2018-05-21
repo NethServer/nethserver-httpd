@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.2.2
+Version: 3.2.3
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
@@ -75,6 +75,9 @@ done
 
 
 %changelog
+* Mon May 21 2018 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.2.3-1
+- Remove direct link to server manager from default index page - Thanks to danb35
+
 * Wed May 16 2018 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.2.2-1
 - Rebuild for NS 7.5 - NethServer/dev#5490
 
