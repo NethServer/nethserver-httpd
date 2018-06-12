@@ -1,7 +1,7 @@
 {
  my $tlsPolicy = $tls{'policy'} || '0';
 
- if ($tlsPolicy >= 20180330) {
+ if ($tlsPolicy == 20180330) {
      $OUT .= qq(
 # cipher selection 2018-03-30
 SSLProtocol all -SSLv2 -SSLv3
