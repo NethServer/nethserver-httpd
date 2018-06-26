@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.2.4
+Version: 3.2.5
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
@@ -75,6 +75,9 @@ done
 
 
 %changelog
+* Tue Jun 26 2018 Davide Principi <davide.principi@nethesis.it> - 3.2.5-1
+- Allow Elliptic Curve Criptography (ECC) certificate - NethServer/dev#5509
+
 * Thu Jun 07 2018 Davide Principi <davide.principi@nethesis.it> - 3.2.4-1
 - Virtualhosts: "SSLEngine on" added only with non-default certificate - Bug NethServer/dev#5515
 
