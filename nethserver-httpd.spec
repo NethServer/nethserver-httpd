@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.2.5
+Version: 3.2.6
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
@@ -75,6 +75,9 @@ done
 
 
 %changelog
+* Thu Jul 12 2018 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.2.6-1
+- Virtualhosts: freepbx wrongly included inside the data backup - Bug NethServer/dev#5540
+
 * Tue Jun 26 2018 Davide Principi <davide.principi@nethesis.it> - 3.2.5-1
 - Allow Elliptic Curve Criptography (ECC) certificate - NethServer/dev#5509
 
