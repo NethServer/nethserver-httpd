@@ -24,7 +24,7 @@ $basicInfo->insert($view->checkBox('Access', 'private')->setAttribute('unchecked
         ->insert($view->fieldsetSwitch('PasswordStatus', 'enabled', $view::FIELDSETSWITCH_CHECKBOX | $view::FIELDSETSWITCH_EXPANDABLE)
                 ->setAttribute('uncheckedValue', 'disabled')
                     ->insert($view->textInput('HttpUserName', $view::STATE_DISABLED | $view::STATE_READONLY))
-                    ->insert($view->textInput('PasswordValue'))
+                    ->insert($view->textInput('PasswordValue', $view::TEXTINPUT_PASSWORD))
                 )
         ->insert($view->checkbox('ForceSslStatus', 'enabled')->setAttribute('uncheckedValue', 'disabled'))
 
@@ -34,7 +34,7 @@ $basicInfo->insert($view->checkBox('Access', 'private')->setAttribute('unchecked
         ->insert($view->fieldsetSwitch('FtpStatus', 'enabled', $view::FIELDSETSWITCH_CHECKBOX | $view::FIELDSETSWITCH_EXPANDABLE)
                 ->setAttribute('uncheckedValue', 'disabled')
                 ->insert($view->textInput('FtpUserName', $view::STATE_DISABLED | $view::STATE_READONLY))
-                ->insert($view->textInput('FtpPassword'))
+                ->insert($view->textInput('FtpPassword', $view::TEXTINPUT_PASSWORD))
                 )
 ;
 
