@@ -12,7 +12,7 @@ echo $view->panel()
         ->insert($view->fieldsetSwitch('FtpStatus', 'enabled', $view::FIELDSETSWITCH_CHECKBOX | $view::FIELDSETSWITCH_EXPANDABLE)
                 ->setAttribute('uncheckedValue', 'disabled')
                 ->insert($view->textInput('FtpUserName', $view::STATE_DISABLED | $view::STATE_READONLY))
-                ->insert($view->textInput('FtpPassword'))
+                ->insert($view->textInput('FtpPassword', $view::TEXTINPUT_PASSWORD))
                 )
 ;
 
