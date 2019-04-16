@@ -1,0 +1,85 @@
+#!/usr/bin/perl
+
+#
+# Copyright (C) 2019 Nethesis S.r.l.
+# http://www.nethesis.it - nethserver@nethesis.it
+#
+# This script is part of NethServer.
+#
+# NethServer is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License,
+# or any later version.
+#
+# NethServer is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with NethServer.  If not, see COPYING.
+#
+
+use strict;
+use esmith::ConfigDB;
+use JSON;
+
+
+require '/usr/libexec/nethserver/api/lib/helper_functions.pl';
+
+my $inputData = readInput();
+my $ret = undef;
+
+if($inputData->{'action'} eq 'proxypass') {
+    $ret = readProxypass();
+    print encode_json($ret);
+    exit (0);
+} elsif ($inputData->{'action'} eq 'virtualhost'){
+    $ret = readVhost();
+    print encode_json($ret);
+    exit (0);
+}
+
+
+sub readVhost
+{
+    my $vdb = esmith::ConfigDB->open_ro('vhosts');
+    my @vhosts = ();
+    my $ret = {
+        'virtualhost' => \@vhosts,
+    };
+
+    foreach ($vdb->get_all_by_prop('type' => 'vhost')) {
+        push @vhosts, +{
+            $_->props(),
+            'name' => $_->key,
+        };
+    }
+
+    return $ret;
+}
+
+sub readProxypass
+{
+    my $pdb = esmith::ConfigDB->open_ro('proxypass');
+    my @proxypass = ();
+
+    my $ret = {
+        'proxypass' => \@proxypass,
+    };
+
+    foreach ($pdb->get_all_by_prop('type' => 'VhostReverse')) {
+        push @proxypass, +{
+            $_->props(),
+            'name' => $_->key,
+        };
+    }
+
+    foreach ($pdb->get_all_by_prop('type' => 'ProxyPass')) {
+        push @proxypass, +{
+            $_->props(),
+            'name' => $_->key,
+        };
+    }
+    return $ret; 
+}
