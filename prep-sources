@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Prepare source for RPM build
+
+# download langs from transifex
+
+# tar directory
+pushd ui && npm install && npm run build && cd dist && tar cvzf ../../nethserver-httpd-ui.tar.gz *
+popd

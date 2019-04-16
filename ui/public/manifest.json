@@ -1,0 +1,11 @@
+{
+    "version": 0,
+    "priority": 10,
+    "menu": {
+        "index": {
+            "label": "NethServer httpd",
+            "order": 40
+        }
+    },
+    "content-security-policy": "default-src 'self' 'unsafe-inline' 'unsafe-eval'"
+}

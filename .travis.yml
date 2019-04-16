@@ -24,6 +24,8 @@ env:
         -e STAGES_PACK
         -e UPLOAD_DEST
         "
+install:
+- bash prep-sources &> /dev/null
 
 script: >
     docker run -ti --name makerpms ${EVARS}

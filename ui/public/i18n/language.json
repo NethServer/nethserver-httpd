@@ -1,0 +1,23 @@
+{
+    "virtualhosts":{
+
+    },
+    "about": {
+        "title": "About",
+        "website": "Web site",
+        "bug_tracker": "Bug tracker"
+    },
+    "logs": {
+    "title": "Logs",
+    "follow": "Follow",
+    "stop_follow": "Stop"
+    },
+    "dashboard":{
+    },
+    "proxypass":{
+
+    },
+    "docs":{
+
+    }
+}
