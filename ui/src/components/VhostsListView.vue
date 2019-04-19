@@ -24,7 +24,7 @@
   <div class="list-group list-view-pf list-view-pf-view no-mg-top mg-top-10">
     <div v-bind:key="item.id" v-for="item in items" class="list-group-item">
       <div class="list-view-pf-actions">
-        <button class="btn btn-default" v-on:click="$emit('item-edit', item)">
+        <button :disabled="item.status === 'disabled'" class="btn btn-default" v-on:click="$emit('item-edit', item)">
           <span class="fa fa-pencil"></span>
           {{ $t('virtualhost.item_edit_button')}}
         </button>
@@ -42,15 +42,15 @@
           </button>
           <ul class="dropdown-menu dropdown-menu-right" v-bind:aria-labelledby="item.id + '-ddm'">
             <li>
-              <a href="#" v-on:click="$emit('item-disable', item)">
-                <span class="pficon pficon-messages span-right-margin"></span>
-                {{ $t('virtualhost.item_disable_button') }}
+              <a @click="toggleLock(item)">
+                <span class="pficon pficon-locked span-right-margin"></span>
+                {{ item.status === 'disabled' ? $t('virtualhost.item_enable_button') : $t('virtualhost.item_disable_button') }}
               </a>
             </li>
             <li role="separator" class="divider"></li>
             <li>
               <a href="#" v-on:click="$emit('item-delete', item)">
-                <span class="fa fa-times span-right-margin"></span>
+                <span class="fa pficon-delete span-right-margin"></span>
                 {{ $t('virtualhost.item_delete_button') }}
               </a>
             </li>
@@ -61,8 +61,7 @@
       <div class="list-view-pf-main-info small-list">
         <div class="list-view-pf-left">
           <span
-            v-bind:class="['fa', 'list-view-pf-icon-sm', smartIcon(item)]"
-            v-bind:title="$t('virtualhost.icon-tooltip-' + smartIcon(item))"
+            class="fa list-view-pf-icon-sm pficon-folder-open"
           ></span>
         </div>
         <div class="list-view-pf-body">
@@ -133,32 +132,62 @@ export default {
     return {};
   },
   methods: {
-    smartIcon: function(item) {
-      if (item.TransportType == "LocalDelivery") {
-        return item.isPrimaryDomain ? "fa-inbox" : "fa-at";
-      } else {
-        return "fa-paper-plane-o";
-      }
-    },
-    smartDescription: function(item) {
-      var parts = [];
-      if (item.Description) {
-        parts.push(item.Description);
-      }
-      if (item.OpenDkimStatus == "enabled") {
-        parts.push(this.$t("virtualhost.item_dkim"));
-      }
-      if (item.DisclaimerStatus == "enabled") {
-        parts.push(this.$t("virtualhost.item_disclaimer"));
-      }
-      if (item.AlwaysBccStatus == "enabled") {
-        parts.push(this.$t("virtualhost.item_bcc", item));
-      }
-      if (item.UnknownRecipientsActionType == "deliver") {
-        parts.push(this.$t("virtualhost.item_unknown_recipients"));
-      }
-      return parts.join(", ");
-    },
+      
+      toggleLock(item) {
+
+         var context = this;
+        nethserver.notifications.success = context.$i18n.t("virtualhost.virtualhost_" +
+            (item.status == 'enabled' ? "disabled" : "enabled") +
+            "_ok"
+        );
+        nethserver.notifications.error = context.$i18n.t("virtualhost.virtualhost_" +
+            (item.status == 'enabled' ? "disabled" : "enabled") +
+            "_Failed"
+        );
+          nethserver.exec(
+            ["nethserver-httpd/update"],
+            {
+              action: "toggle-lock",
+              virtualhost:{"name":item.name}
+            },
+            function(stream) {
+              console.info("vhost-toggle-lock", stream);
+            },
+            function(success) {
+                //update the value of button
+                item.status === 'disabled' ? item.status = 'enabled' : item.status = 'disabled';
+            },
+            function(error, data) {
+                console.error(error, data);
+            }
+          );
+        },
+    // smartIcon: function(item) {
+    //   if (item.TransportType == "LocalDelivery") {
+    //     return item.isPrimaryDomain ? "fa-inbox" : "fa-at";
+    //   } else {
+    //     return "fa-paper-plane-o";
+    //   }
+    // },
+    // smartDescription: function(item) {
+    //   var parts = [];
+    //   if (item.Description) {
+    //     parts.push(item.Description);
+    //   }
+    //   if (item.OpenDkimStatus == "enabled") {
+    //     parts.push(this.$t("virtualhost.item_dkim"));
+    //   }
+    //   if (item.DisclaimerStatus == "enabled") {
+    //     parts.push(this.$t("virtualhost.item_disclaimer"));
+    //   }
+    //   if (item.AlwaysBccStatus == "enabled") {
+    //     parts.push(this.$t("virtualhost.item_bcc", item));
+    //   }
+    //   if (item.UnknownRecipientsActionType == "deliver") {
+    //     parts.push(this.$t("virtualhost.item_unknown_recipients"));
+    //   }
+    //   return parts.join(", ");
+    // },
     // checkStatus(domain) {
     //   console.log(domain);
     //   var popover = $(
