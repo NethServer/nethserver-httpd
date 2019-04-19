@@ -45,8 +45,10 @@ sub readVhost
 {
     my $vdb = esmith::ConfigDB->open_ro('vhosts');
     my @vhosts = ();
+    my @certs =();
     my $ret = {
         'virtualhost' => \@vhosts,
+        'certificates'=> \@certs
     };
 
     foreach ($vdb->get_all_by_prop('type' => 'vhost')) {
@@ -54,6 +56,10 @@ sub readVhost
             $_->props(),
             'name' => $_->key,
         };
+    }
+
+    foreach my $crt (keys decode_json(`/usr/libexec/nethserver/cert-list`)) {
+        push(@certs, $crt);
     }
 
     return $ret;
