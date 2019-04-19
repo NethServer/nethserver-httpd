@@ -89,7 +89,200 @@ select {
                                 <input type="text" v-model="Description" v-bind:id="id + '-di'" class="form-control">
                             </div>
                         </div>
+                        <!-- FQDN -->
+                        <div v-if="name !== 'default'" class="form-group">
+                            <label class="col-sm-3 control-label" v-bind:for="id + '-di'">{{ $t('virtualhost.ServerNames') }}</label>
+                            <div class="col-sm-9">
+                                <input type="text" v-model="ServerNames" v-bind:id="id + '-ServerName'" class="form-control">
+                            </div>
+                        </div>
+                        <!-- trusted network -->
+                        <div v-if="name !== 'default'">
+                            
+                        <div 
+                          v-bind:class="['form-group', vErrors.Access ? 'has-error' : '']"
+                        >
+                          <label
+                            class="col-sm-3 control-label"
+                            v-bind:for="id + '-access'"
+                          >{{$t('virtualhost.Trusted_Network_Only')}}</label>
+                          <div class="col-sm-9">
+                            <input type="checkbox"  true-value="private" false-value="public" v-model="Access" class="form-control">
+                            <span v-if="vErrors.Access" class="help-block">{{ vErrors.Access }}</span>
+                          </div>
+                        </div>
+                        </div>
+                        <!-- Httpd Access -->
+                        <div v-if="name !== 'default'">
 
+                        <div class="form-group">
+                            <label
+                            class="col-sm-3 control-label"
+                            for="textInput-modal-markup"
+                            >{{$t('virtualhost.Apache_Authentication')}}
+                        </label>
+                        <div class="col-sm-9">
+                            <toggle-button
+                            class="min-toggle"
+                            :width="40"
+                            :height="20"
+                            :color="{checked: '#0088ce', unchecked: '#bbbbbb'}"
+                            :value="PasswordStatus == 'enabled'"
+                            :sync="true"
+                            @change="PasswordStatus == 'enabled' ? PasswordStatus = 'disabled' : PasswordStatus = 'enabled'"
+                            />
+                        </div>
+                    </div>
+                    
+                    <div v-if="PasswordStatus == 'enabled'">
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" v-bind:for="id + '-ni'">{{ $t('virtualhost.UserName') }}</label>
+                            <div class="col-sm-9">
+                                <input disabled type="text" v-model="name" v-bind:id="id + '-ni'" class="form-control">
+                                <span v-if="vErrors.name" class="help-block">{{ vErrors.name }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-if="PasswordStatus == 'enabled'"
+                    :class="['form-group', vErrors.PasswordValue ? 'has-error' : '']">
+                    <label
+                    class="col-sm-3 control-label"
+                    for="textInput-modal-markup"
+                    >{{$t('virtualhost.PasswordValue')}}
+                </label>
+                <div class="col-sm-9">
+                    <input  type="password" v-model="PasswordValue" name="PasswordValue" class="form-control">
+                    <span v-if="vErrors.PasswordValue" class="help-block">{{ vErrors.PasswordValue }}</span>
+                </div>
+            </div>
+            </div>
+
+<!-- SSL forced -->
+
+
+<div v-if="name !== 'default'">
+
+                        <div
+                          v-bind:class="['form-group', vErrors.ForceSslStatus ? 'has-error' : '']"
+                        >
+                          <label
+                            class="col-sm-3 control-label"
+                            v-bind:for="id + '-ssl'"
+                          >{{$t('virtualhost.Force_HTTPS')}}</label>
+                          <div class="col-sm-9">
+                            <input type="checkbox"  true-value="enabled" false-value="disabled" v-model="ForceSslStatus" class="form-control">
+                            <span v-if="vErrors.ForceSslStatus" class="help-block">{{ vErrors.ForceSslStatus }}</span>
+                          </div>
+                        </div>
+                        
+                        <!-- root directory file listing  -->
+                        <div
+                          v-bind:class="['form-group', vErrors.Indexes ? 'has-error' : '']"
+                        >
+                          <label
+                            class="col-sm-3 control-label"
+                            v-bind:for="id + '-indexes'"
+                          >{{$t('virtualhost.Root_file_listing')}}</label>
+                          <div class="col-sm-9">
+                            <input type="checkbox"  true-value="enabled" false-value="disabled" v-model="Indexes" class="form-control">
+                            <span v-if="vErrors.Indexes" class="help-block">{{ vErrors.Indexes }}</span>
+                          </div>
+                        </div>
+                        
+                        <!-- Certificate -->
+                        <div
+                          v-bind:class="['form-group', vErrors.Indexes ? 'has-error' : '']"
+                        >
+                          <label
+                            class="col-sm-3 control-label"
+                            v-bind:for="id + '-certs'"
+                          >{{$t('virtualhost.SSL/TLS_certs')}}</label>
+                        <div class="col-sm-9">
+                        <select 
+                          type="text"
+                          v-model="SslCertificate"
+                          class="combobox form-control col-sm-9"
+                        >
+                             <option value="">{{$t('virtualhost.default_certificate')}}</option>
+                             <option v-for="cert in certificates" 
+                                  :value="cert"
+                                  >
+                                {{cert}}
+                             </option>
+                        </select>
+                        <span v-if="vErrors.SslCertificate" class="help-block">{{ vErrors.SslCertificate }}</span>
+
+                        </div>
+                        </div>
+                    </div>
+                    
+                        <!-- FTP access -->
+                        <div class="form-group">
+                            
+                            <label
+                            class="col-sm-3 control-label"
+                            for="textInput-modal-markup"
+                            >{{$t('virtualhost.Ftp_Authentication')}}
+                        </label>
+                        <div class="col-sm-9">
+                            <toggle-button
+                            class="min-toggle"
+                            :width="40"
+                            :height="20"
+                            :color="{checked: '#0088ce', unchecked: '#bbbbbb'}"
+                            :value="FtpStatus == 'enabled'"
+                            :sync="true"
+                            @change="FtpStatus == 'enabled' ? FtpStatus = 'disabled' : FtpStatus = 'enabled'"
+                            />
+                        </div>
+                    </div>
+                    
+                    <div v-if="FtpStatus == 'enabled'">
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" v-bind:for="id + '-ni'">{{ $t('virtualhost.UserName') }}</label>
+                            <div class="col-sm-9">
+                                <input disabled type="text" v-model="name" v-bind:id="id + '-ni'" class="form-control">
+                                <span v-if="vErrors.name" class="help-block">{{ vErrors.name }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-if="FtpStatus == 'enabled'"
+                    :class="['form-group', vErrors.FtpPassword ? 'has-error' : '']">
+                    <label
+                    class="col-sm-3 control-label"
+                    for="textInput-modal-markup"
+                    >{{$t('virtualhost.FtpPassword')}}
+                </label>
+                <div class="col-sm-9">
+                    <input  type="password" v-model="FtpPassword" name="FtpPassword" class="form-control">
+                    <span v-if="vErrors.FtpPassword" class="help-block">{{ vErrors.FtpPassword }}</span>
+                </div>
+            </div>
+                        
+                        
+                    <!-- hosts record creation -->
+                        <div v-if="useCase == 'create'"
+                          v-bind:class="['form-group', vErrors.CreateHostRecords ? 'has-error' : '']"
+                        >
+                          <label
+                            class="col-sm-3 control-label"
+                            v-bind:for="id + '-hostRecord'"
+                          >{{$t('virtualhost.CreateHostRecords')}}</label>
+                          <div class="col-sm-9">
+                            <input type="checkbox" true-value="1" false-value="0" v-model="CreateHostRecords" class="form-control">
+                            <span v-if="vErrors.CreateHostRecords" class="help-block">{{ vErrors.CreateHostRecords }}</span>
+                          </div>
+                        </div>
+
+                        
+                        
+                        
+                        
+                        <!-- 
                         <legend class="fields-section-header-pf" aria-expanded="true">
                             <span class="field-section-toggle-pf">{{ $t('virtualhost.destination_fieldset_label', {name}) }}</span>
                         </legend>
@@ -183,18 +376,18 @@ select {
                                 >{{$t('virtualhost.unknown_recipients_label')}}
                             </label>
                             <div class="col-sm-9">
-                                <!-- <select v-model="vMailboxKey" v-on:click="onFallbackMailboxClick($event)" v-on:focusin="onFallbackMailboxClick($event)" class="col-sm-9 form-control" v-bind:id="id + '-uradms'" name="UnknownRecipientsActionDeliverMailbox">
+                                <select v-model="vMailboxKey" v-on:click="onFallbackMailboxClick($event)" v-on:focusin="onFallbackMailboxClick($event)" class="col-sm-9 form-control" v-bind:id="id + '-uradms'" name="UnknownRecipientsActionDeliverMailbox">
                                     <option v-if="vMailboxCallState == 'loading'" disabled>{{ $t('virtualhost.mailbox_loading_message') }}</option>
                                     <option v-else v-for="(el, elk) in vMailboxes.entries()" v-bind:key="elk" v-bind:value="el[0]">{{ getMailboxLabel(el[1]) }}</option>
-                                </select> -->
+                                </select>
                             </div>
-                        </div>
+                        </div> -->
 
 
 
 
 
-                        <div v-if="TransportType == 'Relay'"
+                        <!-- <div v-if="TransportType == 'Relay'"
                             :class="['form-group', vErrors.RelayHost ? 'has-error' : '']">
                             <label
                                 class="col-sm-3 control-label"
@@ -205,10 +398,10 @@ select {
                                 <input :placeholder="$t('virtualhost.relay_host_help')" type="input" v-model="RelayHost" v-bind:id="id + '-transportRelayServer'" name="RelayHost" class="form-control">
                                 <span v-if="RelayHost" class="help-block">{{ vErrors.RelayHost }}</span>
                             </div>
-                        </div>
+                        </div> -->
 
 
-                        <legend v-if="withDisclaimer" class="fields-section-header-pf" aria-expanded="true">
+                        <!-- <legend v-if="withDisclaimer" class="fields-section-header-pf" aria-expanded="true">
                             <span class="field-section-toggle-pf">{{ $t('domains.disclaimers') }}</span>
                         </legend>
 
@@ -242,7 +435,7 @@ select {
                                 <textarea :placeholder="$t('virtualhost.disclaimer_text_help')" class="form-control min-textarea-height" v-model="DisclaimerText" maxlength='2048'></textarea>
                                 <span v-if="vErrors.DisclaimerText" class="help-block">{{ vErrors.DisclaimerText }}</span>
                             </div>
-                        </div>
+                        </div> -->
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -262,25 +455,28 @@ select {
 import execp from '@/execp'
 
 var attrs = [
-    'DisclaimerStatus',
-    'TransportType',
-    'RelayHost',
     'name',
     'Description',
-    'AlwaysBccStatus',
-    'AlwaysBccAddress',
-    'UnknownRecipientsActionType',
-    'DisclaimerText',
-    'isPrimaryDomain',
+    'ServerNames',
+    'Access',
+    "PasswordStatus",
+    "PasswordValue",
+    "ForceSslStatus",
+    "Indexes",
+    "FtpStatus",
+    "FtpPassword",
+    "SslCertificate",
+    "CreateHostRecords"
 ];
 
 export default {
-    name: "ModalDomainEdit",
+    name: "ModalVhostEdit",
     props: {
         'id': String,
         'useCase': String,
         'virtualhost': Object,
-        'withDisclaimer': Boolean,
+        'certificates': Array,
+        // 'withDisclaimer': Boolean,
     },
     watch: {
         virtualhost: function(newval) {
@@ -296,11 +492,11 @@ export default {
     },
     data() {
         var obj = {
-            vMailboxes: new Map(),
+            // vMailboxes: new Map(),
             vErrors: {},
-            vMailboxKey: '',
-            vMailboxCallState: 'loading',
-            unknownRecipientMailbox: {},
+            // vMailboxKey: '',
+            // vMailboxCallState: 'loading',
+            // unknownRecipientMailbox: {},
             loader: false
         }
         for(let i in attrs) {
@@ -320,7 +516,7 @@ export default {
             }
             // inputData.virtualhost['unknownRecipientMailbox'] = this.vMailboxes.get(this.vMailboxKey)
             this.vErrors = {}
-            execp("nethserver-mail/domains/validate", inputData)
+            execp("nethserver-httpd/validate", inputData)
             .catch((validationError) => {
                 let err = {}
                 for(let i in validationError.attributes) {
@@ -346,7 +542,7 @@ export default {
                     "_error"
                 );
 
-                return execp("nethserver-mail/domains/update", inputData, true) // start another async call
+                return execp("nethserver-httpd/update", inputData, true) // start another async call
             })
             .finally(() => {
                 // stop the spinner

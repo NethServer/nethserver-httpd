@@ -28,7 +28,7 @@
           <span class="fa fa-pencil"></span>
           {{ $t('virtualhost.item_edit_button')}}
         </button>
-        <div class="dropdown pull-right dropdown-kebab-pf">
+        <div  class="dropdown pull-right dropdown-kebab-pf">
           <button
             class="btn btn-link dropdown-toggle"
             type="button"
@@ -36,6 +36,7 @@
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
+            :disabled="item.name === 'default'"
           >
             <span class="fa fa-ellipsis-v"></span>
           </button>
@@ -124,7 +125,7 @@
 
 <script>
 export default {
-  name: "DomainsListView",
+  name: "VhostsListView",
   props: {
     items: Array
   },

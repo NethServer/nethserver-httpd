@@ -32,8 +32,8 @@
     <doc-info
       :placement="'top'"
       :title="$t('docs.virtualhost')"
-      :chapter="'mail'"
-      :section="'domains'"
+      :chapter="'virtual_hosts'"
+      :section="''"
       :inline="false"
       :lang="'en'"
     ></doc-info>
@@ -51,38 +51,42 @@
       <h3>{{$t('actions')}}</h3>
       <button
         class="btn btn-primary btn-lg"
-        v-on:click="openModal('modalCreateDomain', createDefaultVhost())"
+        v-on:click="openModal('modalCreateVhost', createDefaultVhost())"
       >{{ $t('virtualhost.create_domain_button') }}</button>
 
       <h3>{{$t('list')}}</h3>
-      <domains-list-view
+      <vhosts-list-view
         v-bind:items="virtualhost"
+        v-bind:certificates="certificates"
         v-on:modal-close="read"
-        v-on:item-edit="openModal('modalEditDomain', $event)"
-        v-on:item-delete="openModal('modalDeleteDomain', $event)"
+        v-on:item-edit="openModal('modalEditVhost', $event)"
+        v-on:item-delete="openModal('modalDeleteVhost', $event)"
         v-on:item-dkim="openModal('modalEditDkim', $event)"
-      ></domains-list-view>
+      ></vhosts-list-view>
     </div>
 
-<modal-domain-edit
-      id="modalCreateDomain"
+<modal-vhost-edit
+      id="modalCreateVhost"
       v-on:modal-close="read($event)"
       use-case="create"
       v-bind:virtualhost="currentItem"
-    ></modal-domain-edit>
+              v-bind:certificates="certificates"
+
+    ></modal-vhost-edit>
     
-<modal-domain-edit
-      id="modalEditDomain"
+<modal-vhost-edit
+      id="modalEditVhost"
       v-on:modal-close="read"
       use-case="edit"
       v-bind:virtualhost="currentItem"
-    ></modal-domain-edit>
-    <modal-domain-edit
-      id="modalDeleteDomain"
+              v-bind:certificates="certificates"
+    ></modal-vhost-edit>
+    <modal-vhost-edit
+      id="modalDeleteVhost"
       v-on:modal-close="read"
       use-case="delete"
       v-bind:virtualhost="currentItem"
-    ></modal-domain-edit> 
+    ></modal-vhost-edit> 
     
     
     
@@ -98,15 +102,15 @@
 
 <script>
 import execp from "@/execp";
-import DomainsListView from "@/components/DomainsListView.vue";
-import ModalDomainEdit from "@/components/ModalDomainEdit.vue";
+import VhostsListView from "@/components/VhostsListView.vue";
+import ModalVhostEdit from "@/components/ModalVhostEdit.vue";
 // import ModalDkimEdit from "@/components/ModalDkimEdit.vue";
 
 export default {
   name: "Virtualhosts",
   components: {
-    DomainsListView,
-    ModalDomainEdit,
+    VhostsListView,
+    ModalVhostEdit,
     // ModalDkimEdit
   },
   beforeRouteLeave(to, from, next) {
@@ -120,27 +124,37 @@ export default {
     return {
       vReadStatus: "running",
       virtualhost: [],
-      isDisclaimerAvailable: false,
-      isServerAvailable: false,
+      certificates:[],
+      // isDisclaimerAvailable: false,
+      // isServerAvailable: false,
       currentItem: {},
-      dkimRawData: "",
-      dkimTxtRecord: "",
-      defaultRecipientMailbox: {}
+      // dkimRawData: "",
+      // dkimTxtRecord: "",
+      // defaultRecipientMailbox: {}
     };
   },
   methods: {
     createDefaultVhost() {
       return {
-        unknownRecipientMailbox: this.defaultRecipientMailbox,
+        // unknownRecipientMailbox: this.defaultRecipientMailbox,
         name: "",
-        isPrimaryDomain: false,
-        TransportType: this.isServerAvailable ? "LocalDelivery" : "Relay",
-        AlwaysBccStatus: "disabled",
-        DisclaimerStatus: "disabled",
-        OpenDkimStatus: "disabled",
-        AlwaysBccAddress: "",
-        UnknownRecipientsActionType: "bounce",
-        Description: ""
+        Access: "private",
+        PasswordStatus:"disabled",
+        FtpPassword:"",
+        ForceSslStatus:"disabled",
+        Indexes:"disabled",
+        FtpStatus:"enabled",
+        FtpPassword:"",
+        certificates: "",
+        // isPrimaryDomain: false,
+        // TransportType: this.isServerAvailable ? "LocalDelivery" : "Relay",
+        // AlwaysBccStatus: "disabled",
+        // DisclaimerStatus: "disabled",
+        // OpenDkimStatus: "disabled",
+        // AlwaysBccAddress: "",
+        // UnknownRecipientsActionType: "bounce",
+        Description: "",
+        CreateHostRecords:"1"
       };
     },
     openModal(id, item) {
@@ -158,13 +172,13 @@ export default {
           }
           this.vReadStatus = "success";
 
-          setTimeout(function() {
-            $("[data-toggle=popover]")
-              .popovers()
-              .on("hidden.bs.popover", function(e) {
-                $(e.target).data("bs.popover").inState.click = false;
-              });
-          }, 250);
+          // setTimeout(function() {
+          //   $("[data-toggle=popover]")
+          //     .popovers()
+          //     .on("hidden.bs.popover", function(e) {
+          //       $(e.target).data("bs.popover").inState.click = false;
+          //     });
+          // }, 250);
         })
         .catch(error => {
           this.vReadStatus = "error";
