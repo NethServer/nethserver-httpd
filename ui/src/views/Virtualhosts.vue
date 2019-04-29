@@ -154,6 +154,7 @@ export default {
         // AlwaysBccAddress: "",
         // UnknownRecipientsActionType: "bounce",
         Description: "",
+        status: "enabled",
         CreateHostRecords:"1"
       };
     },

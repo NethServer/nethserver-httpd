@@ -466,7 +466,8 @@ var attrs = [
     "FtpStatus",
     "FtpPassword",
     "SslCertificate",
-    "CreateHostRecords"
+    "CreateHostRecords",
+    "status"
 ];
 
 export default {
