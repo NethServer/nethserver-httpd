@@ -43,7 +43,7 @@
           <ul class="dropdown-menu dropdown-menu-right" v-bind:aria-labelledby="item.id + '-ddm'">
             <li>
               <a @click="toggleLock(item)">
-                <span class="pficon pficon-locked span-right-margin"></span>
+                <span :class="[item.status === 'disabled' ? 'pficon pficon-unlocked' : 'pficon pficon-locked','span-right-margin']"></span>
                 {{ item.status === 'disabled' ? $t('virtualhost.item_enable_button') : $t('virtualhost.item_disable_button') }}
               </a>
             </li>
