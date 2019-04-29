@@ -68,10 +68,17 @@ if($input->{'action'} eq 'create') {
 } elsif($input->{'action'} eq 'edit') {
     $eventName = 'vhost-modify';
     $db->get($vhostName)->merge_props(%props);
-} 
+}  elsif ($input->{'action'} eq 'toggle-lock') {
+    $eventName = 'vhost-modify';
+    my $status = $db->get_prop($vhostName, 'status') || 'disabled';
+    if ($status eq 'enabled') {
+        $db->set_prop($vhostName,'status','disabled');
+    } else {
+        $db->set_prop($vhostName,'status','enabled');
+    }
+}
 
 my @eventArgs = $vhostName;
-
 esmith::event::set_json_log(1);
 
 if(esmith::event::event_signal($eventName, @eventArgs)) {
