@@ -1,6 +1,47 @@
 {
-    "virtualhosts":{
-
+    "are_you_sure": "Are you sure",
+    "modal": {
+        "cancel_button": "Cancel",
+        "delete_button": "Delete",
+        "create_button": "Create",
+        "apply_button": "Apply changes",
+        "save_button": "Save",
+        "spinner_message": "Applying changes"
+    },
+    "virtualhost":{
+        "vhost_created_ok": "The virtualhost has been well created",
+        "vhost_created_error": "The virtualhost has not been created",
+        "vhost_updated_ok": "The virtualhost has been well updated",
+        "vhost_updated_error": "The virtualhost has not been updated",
+        "edit_title": "Edit the virtualhost {name}",
+        "create_title": "Create the virtualhost",
+        "delete_title":"Delete the virtualhost {name}",
+        "delete_confirm_message": "If {0} is deleted, this website will be deleted",
+        "create_virtualhost_button":"Create a new virtualhost",
+        "item_edit_button":"Edit",
+        "item_disable_button":"Disable",
+        "item_delete_button":"Delete",
+        "item_enable_button":"Enable",
+        "title":"Virtualhosts",
+        "name": "Name",
+        "description_label": "Description",
+        "Ftp_Authentication": "Enable FTP access",
+        "UserName": "User Name",
+        "FtpPassword": "Password",
+        "ServerNames": "Virtual host names (FQDN)",
+        "Trusted_Network_Only": "Allow access from trusted networks only",
+        "Apache_Authentication": "Require HTTP authentication",
+        "PasswordValue": "Password",
+        "Force_HTTPS": "Require SSL encrypted connection",
+        "Root_file_listing": "Root directory file listings",
+        "SSL/TLS_certs": "SSL/TLS certificate",
+        "default_certificate": "Default certificate",
+        "virtualhost_disabled_ok": "The virtualhost has well been disabled",
+        "virtualhost_disabled__Failed": "The virtualhost has not been disabled",
+        "virtualhost_enabled_ok": "The virtualhost has well been enabled",
+        "virtualhost_enabled__Failed": "The virtualhost has not been enabled",
+        "CreateHostRecords": "Create a record under \"DNS > Server alias\" page for each virtual host name"
+         
     },
     "about": {
         "title": "About",
@@ -13,11 +54,13 @@
     "stop_follow": "Stop"
     },
     "dashboard":{
+        "title": "Dashboard"
     },
     "proxypass":{
-
+        "title": "ProxyPass"
     },
     "docs":{
-
+        "more_info_about": "More info about",
+        "virtualhost": "Virtual hosts"
     }
 }

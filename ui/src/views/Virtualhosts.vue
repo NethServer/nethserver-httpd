@@ -52,7 +52,7 @@
       <button
         class="btn btn-primary btn-lg"
         v-on:click="openModal('modalCreateVhost', createDefaultVhost())"
-      >{{ $t('virtualhost.create_domain_button') }}</button>
+      >{{ $t('virtualhost.create_virtualhost_button') }}</button>
 
       <h3>{{$t('list')}}</h3>
       <vhosts-list-view

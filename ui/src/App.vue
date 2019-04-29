@@ -34,7 +34,7 @@
             <router-link tag="li" to="/virtualhosts" active-class="active" class="list-group-item">
                 <a>
                     <span class="fa pficon-repository"></span>
-                    <span class="list-group-item-value">{{$t('virtualhosts.title')}}</span>
+                    <span class="list-group-item-value">{{$t('virtualhost.title')}}</span>
                 </a>
             </router-link>
             <li class="li-empty"></li>

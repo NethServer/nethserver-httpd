@@ -136,11 +136,11 @@ export default {
       toggleLock(item) {
 
          var context = this;
-        nethserver.notifications.success = context.$i18n.t("virtualhost.virtualhost_" +
+        nethserver.notifications.success = context.$t("virtualhost.virtualhost_" +
             (item.status == 'enabled' ? "disabled" : "enabled") +
             "_ok"
         );
-        nethserver.notifications.error = context.$i18n.t("virtualhost.virtualhost_" +
+        nethserver.notifications.error = context.$t("virtualhost.virtualhost_" +
             (item.status == 'enabled' ? "disabled" : "enabled") +
             "_Failed"
         );

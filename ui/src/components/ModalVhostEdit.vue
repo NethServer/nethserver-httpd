@@ -42,7 +42,7 @@ select {
 </style>
 
 <template>
-    <div v-bind:id="id" data-backdrop="static" class="modal modal-domain-edit" tabindex="-1" role="dialog" v-bind:aria-labelledby="id + 'Label'" aria-hidden="true">
+    <div v-bind:id="id" data-backdrop="static" class="modal modal-vhost-edit" tabindex="-1" role="dialog" v-bind:aria-labelledby="id + 'Label'" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -60,7 +60,7 @@ select {
                     <div class="alert alert-warning alert-dismissable">
                         <span class="pficon pficon-warning-triangle-o"></span>
                         <strong>{{$t('warning')}}. </strong>
-                        <i18n path="domain.delete_confirm_message" tag="span">
+                        <i18n path="virtualhost.delete_confirm_message" tag="span">
                             <b>{{ this.virtualhost.name }}</b>
                         </i18n>
                     </div>
@@ -533,12 +533,12 @@ export default {
                 window.jQuery(this.$el).modal('hide') // on successful resolution close the dialog
 
                 nethserver.notifications.success = this.$t(
-                    "domain.domain_" +
+                    "virtualhost.vhost_" +
                     (this.useCase == 'create' ? "created" : "updated") +
                     "_ok"
                 );
                 nethserver.notifications.error = this.$t(
-                    "domain.domain_" +
+                    "virtualhost.vhost_" +
                     (this.useCase == 'create' ? "created" : "updated") +
                     "_error"
                 );
