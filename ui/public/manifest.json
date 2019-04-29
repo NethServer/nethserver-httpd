@@ -3,7 +3,7 @@
     "priority": 10,
     "menu": {
         "index": {
-            "label": "NethServer httpd",
+            "label": "Apache",
             "order": 40
         }
     },
