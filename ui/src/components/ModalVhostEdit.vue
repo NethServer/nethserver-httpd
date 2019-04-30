@@ -94,6 +94,7 @@ select {
                             <label class="col-sm-3 control-label" v-bind:for="id + '-di'">{{ $t('virtualhost.ServerNames') }}</label>
                             <div class="col-sm-9">
                                 <input type="text" v-model="ServerNames" v-bind:id="id + '-ServerName'" class="form-control">
+                                <span v-if="vErrors.ServerNames" class="help-block">{{ vErrors.ServerNames }}</span>
                             </div>
                         </div>
                         <!-- trusted network -->

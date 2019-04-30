@@ -64,5 +64,13 @@
     "docs":{
         "more_info_about": "More info about",
         "virtualhost": "Virtual hosts"
+    },
+    "validation":{
+        "validation_failed": "Validation failed",
+        "valid_memberOf_enabled, disabled": "Can be enabled or disabled",
+        "valid_fqdn": "Must be a valid FQDN like 'server.domain.org'",
+        "key_not_found": "virtualhost not found",
+        "key_already_exists": "A virtualhost with the same name already exists",
+        "valid_notEmpty": "This field can not be empty"
     }
 }
