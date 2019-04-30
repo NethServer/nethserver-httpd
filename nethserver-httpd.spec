@@ -79,7 +79,7 @@ mkdir -p %{buildroot}/usr/libexec/nethserver/api/%{name}/
 tar xf %{SOURCE1} -C %{buildroot}/usr/share/cockpit/%{name}/
 cp -a %{name}.json %{buildroot}/usr/share/cockpit/nethserver/applications/
 cp -a api/* %{buildroot}/usr/libexec/nethserver/api/%{name}/
-chmod +x %{buildroot}/usr/libexec/nethserver/api/%{name}/*
+chmod +x %{buildroot}/usr/libexec/nethserver/api/%{name}/*/*
 
 for package in default proxypass virtualhosts; do
     (cd ${package}; find . -depth -print | cpio -dump %{buildroot})

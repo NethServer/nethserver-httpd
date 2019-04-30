@@ -164,7 +164,7 @@ export default {
     },
     read(eventData = {}) {
       this.vReadStatus = "running";
-      execp("nethserver-httpd/read", {"action":"virtualhost"})
+      execp("nethserver-httpd/virtualhost/read", {"action":"virtualhost"})
         .then(result => {
           for (let k in result) {
             if (result.hasOwnProperty(k)) {

@@ -145,7 +145,7 @@ export default {
             "_Failed"
         );
           nethserver.exec(
-            ["nethserver-httpd/update"],
+            ["nethserver-httpd/virtualhost/update"],
             {
               action: "toggle-lock",
               virtualhost:{"name":item.name}

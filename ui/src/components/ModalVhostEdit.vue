@@ -517,7 +517,7 @@ export default {
             }
             // inputData.virtualhost['unknownRecipientMailbox'] = this.vMailboxes.get(this.vMailboxKey)
             this.vErrors = {}
-            execp("nethserver-httpd/validate", inputData)
+            execp("nethserver-httpd/virtualhost/validate", inputData)
             .catch((validationError) => {
                 let err = {}
                 for(let i in validationError.attributes) {
@@ -543,7 +543,7 @@ export default {
                     "_error"
                 );
 
-                return execp("nethserver-httpd/update", inputData, true) // start another async call
+                return execp("nethserver-httpd/virtualhost/update", inputData, true) // start another async call
             })
             .finally(() => {
                 // stop the spinner

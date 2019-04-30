@@ -41,7 +41,6 @@ my $CreateHostRecords = $input->{'virtualhost'}->{'CreateHostRecords'} || 0;
 my %props = (
     'Access' => $input->{'virtualhost'}->{'Access'},
     'Description' => $input->{'virtualhost'}->{'Description'},
-    'TransportType' => $input->{'virtualhost'}->{'TransportType'},
     'ForceSslStatus' => $input->{'virtualhost'}->{'ForceSslStatus'},
     'FtpPassword' => $input->{'virtualhost'}->{'FtpPassword'},
     'FtpStatus' => $input->{'virtualhost'}->{'FtpStatus'},
