@@ -39,14 +39,39 @@
     ></doc-info>
 
  <div v-if="vReadStatus == 'running'" class="spinner spinner-lg view-spinner"></div>
-        <div v-else-if="vReadStatus == 'error'">
+        <div v-else-if="vReadStatus == 'error'  && view.menu.installed">
       <div class="alert alert-danger">
         <span class="pficon pficon-error-circle-o"></span>
         <strong>OOOPS!</strong> An unexpected error has occurred:
         <pre>{{ vReadError }}</pre>
       </div>
-  </div>
-    <div v-else class="spaced"> 
+        </div>
+
+    <!-- <div v-show="!view.isLoaded" class="spinner spinner-lg"></div> -->
+     <div v-if="!view.menu.installed && view.isLoaded">
+      <div class="blank-slate-pf" id>
+        <div class="blank-slate-pf-icon">
+          <span class="pficon pficon pficon-add-circle-o"></span>
+        </div>
+        <h1>{{$t('package_required')}}</h1>
+        <p>{{$t('package_required_desc')}}.</p>
+        <pre>{{view.menu.packages.join(' ')}}</pre>
+        <div class="blank-slate-pf-main-action">
+          <button
+            :disabled="view.isInstalling"
+            @click="installPackages()"
+            class="btn btn-primary btn-lg"
+          >{{view.menu.packages.length == 1 ? $t('install_package') : $t('install_packages')}}</button>
+          <div v-if="view.isInstalling" class="spinner spinner-sm"></div>
+        </div>
+      </div>
+    </div>
+    
+   
+
+    <div v-else-if="view.menu.installed && view.isLoaded">
+        
+    <div  class="spaced"> 
         
       <h3>{{$t('actions')}}</h3>
       <button
@@ -98,6 +123,7 @@
       v-bind:dkimTxtRecord="dkimTxtRecord"
     ></modal-dkim-edit> -->
   </div>
+</div>
 </template>
 
 <script>
@@ -113,15 +139,48 @@ export default {
     ModalVhostEdit,
     // ModalDkimEdit
   },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.view.isLoaded = false;
+      nethserver.exec(
+        ["nethserver-httpd/feature/read"],
+        {
+          name: vm.$route.path.substr(1)
+        },
+        null,
+        function(success) {
+          try {
+            success = JSON.parse(success);
+          } catch (e) {
+            console.error(e);
+          }
+          vm.view.menu = success;
+          vm.view.isLoaded = true;
+        },
+        function(error) {
+          console.error(error);
+        },
+        true // sudo
+      );
+    });
+  },
+  mounted() {
+      this.read();
+  },
   beforeRouteLeave(to, from, next) {
     $(".modal").modal("hide");
     next();
   },
-  mounted() {
-    this.read();
-  },
   data() {
     return {
+    view: {
+        isLoaded: false,
+        isInstalling: false,
+        menu: {
+            installed: false,
+            packages: []
+        }
+    },
       vReadStatus: "running",
       virtualhost: [],
       certificates:[],
@@ -134,6 +193,29 @@ export default {
     };
   },
   methods: {
+    installPackages() {
+      this.view.isInstalling = true;
+      // notification
+      nethserver.notifications.success = this.$i18n.t("packages_installed_ok");
+      nethserver.notifications.error = this.$i18n.t("packages_installed_error");
+      nethserver.exec(
+        ["nethserver-httpd/feature/update"],
+        {
+          name: this.$route.path.substr(1)
+        },
+        function(stream) {
+          console.info("install-package", stream);
+        },
+        function(success) {
+          // reload page
+           window.location.reload();
+          // document.location.reload(true);
+        },
+        function(error) {
+          console.error(error);
+        }
+      );
+    },
     createDefaultVhost() {
       return {
         // unknownRecipientMailbox: this.defaultRecipientMailbox,

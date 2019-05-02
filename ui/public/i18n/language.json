@@ -1,5 +1,11 @@
 {
     "are_you_sure": "Are you sure",
+    "package_required": "Missing packages",
+    "package_required_desc": "To access this page you have to install the required packages listed below",
+    "install_package": "Install package",
+    "install_packages": "Install packages",
+    "packages_installed_ok": "Packages installed successfully!",
+    "packages_installed_error": "Packages not installed.",
     "modal": {
         "cancel_button": "Cancel",
         "delete_button": "Delete",
