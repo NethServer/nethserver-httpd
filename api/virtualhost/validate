@@ -22,6 +22,7 @@
 require_once("/usr/libexec/nethserver/api/lib/Helpers.php");
 $data = readInput();
 $vdb = new EsmithDatabase('vhosts');
+$hdb = new EsmithDatabase('hosts');
 $v = new LegacyValidator($data['virtualhost']);
 
 
@@ -53,8 +54,12 @@ if($data['virtualhost']['FtpStatus'] == 'enabled') {
 $serverList = explode(',', $data['virtualhost']['ServerNames']);
 $Validator = $v->createValidator()->hostname();
 foreach ($serverList  as $el) {
+    $keyExists = $hdb->getType($el) == 'self';
     if (!$Validator->evaluate($el) ) {
         $v->addValidationError('ServerNames', "valid_fqdn");
+    }
+    if ($keyExists) {
+        $v->addValidationError('ServerNames', 'hostname_key_exists');     
     }
 }
 

@@ -77,6 +77,7 @@
         "valid_fqdn": "Must be a valid FQDN like 'server.domain.org'",
         "key_not_found": "virtualhost not found",
         "key_already_exists": "A virtualhost with the same name already exists",
-        "valid_notEmpty": "This field can not be empty"
+        "valid_notEmpty": "This field can not be empty",
+        "hostname_key_exists":"The Virtual host names (FQDN) is already used"
     }
 }
