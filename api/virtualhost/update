@@ -60,6 +60,7 @@ if($input->{'action'} eq 'create') {
         foreach my $hostname (@hostnames){
             $hdb->new_record($hostname, {'type' => 'self', 'Description' => ($input->{'virtualhost'}->{'Description'}|| 'Virtual Host')});
         }
+    esmith::event::event_signal('host-modify', @hostnames);
     }
 } elsif($input->{'action'} eq 'delete') {
     $eventName = 'vhost-delete';
