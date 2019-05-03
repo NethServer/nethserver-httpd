@@ -68,6 +68,7 @@
           <div class="list-view-pf-description">
             <div class="list-group-item-heading">{{ item.name }}</div>
             <div class="list-group-item-text">{{ item.Description }}</div>
+            <div class="list-group-item-text">{{ item.ServerNames }}</div>
           </div>
           
           
