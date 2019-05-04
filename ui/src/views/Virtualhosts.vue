@@ -38,106 +38,90 @@
       :lang="'en'"
     ></doc-info>
 
- <div v-if="vReadStatus == 'running'" class="spinner spinner-lg view-spinner"></div>
-        <div v-else-if="vReadStatus == 'error'  && view.menu.installed">
-      <div class="alert alert-danger">
-        <span class="pficon pficon-error-circle-o"></span>
-        <strong>OOOPS!</strong> An unexpected error has occurred:
-        <pre>{{ vReadError }}</pre>
-      </div>
-        </div>
+    <div v-if="vReadStatus == 'running'" class="spinner spinner-lg view-spinner"></div>
+    <div v-else-if="vReadStatus == 'error'  && view.menu.installed">
+        <div class="alert alert-danger">
+            <span class="pficon pficon-error-circle-o"></span>
+            <strong>OOOPS!</strong> An unexpected error has occurred:
+            <pre>{{ vReadError }}</pre>
+         </div>
+    </div>
 
-    <!-- <div v-show="!view.isLoaded" class="spinner spinner-lg"></div> -->
-     <div v-if="!view.menu.installed && view.isLoaded">
+    <div v-if="!view.menu.installed && view.isLoaded">
       <div class="blank-slate-pf" id>
         <div class="blank-slate-pf-icon">
-          <span class="pficon pficon pficon-add-circle-o"></span>
+            <span class="pficon pficon pficon-add-circle-o"></span>
         </div>
         <h1>{{$t('package_required')}}</h1>
         <p>{{$t('package_required_desc')}}.</p>
         <pre>{{view.menu.packages.join(' ')}}</pre>
         <div class="blank-slate-pf-main-action">
-          <button
-            :disabled="view.isInstalling"
-            @click="installPackages()"
-            class="btn btn-primary btn-lg"
-          >{{view.menu.packages.length == 1 ? $t('install_package') : $t('install_packages')}}</button>
-          <div v-if="view.isInstalling" class="spinner spinner-sm"></div>
+              <button
+                :disabled="view.isInstalling"
+                @click="installPackages()"
+                class="btn btn-primary btn-lg"
+              >{{view.menu.packages.length == 1 ? $t('install_package') : $t('install_packages')}}</button>
+              <div v-if="view.isInstalling" class="spinner spinner-sm"></div>
         </div>
       </div>
     </div>
-    
-   
 
     <div v-else-if="view.menu.installed && view.isLoaded">
-        
-    <div  class="spaced"> 
-        
-      <h3>{{$t('actions')}}</h3>
-      <button
-        class="btn btn-primary btn-lg"
-        v-on:click="openModal('modalCreateVhost', createDefaultVhost())"
-      >{{ $t('virtualhost.create_virtualhost_button') }}</button>
+        <div  class="spaced"> 
+          <h3>{{$t('actions')}}</h3>
+          <button
+            class="btn btn-primary btn-lg"
+            v-on:click="openModal('modalCreateVhost', createDefaultVhost())"
+          >{{ $t('virtualhost.create_virtualhost_button') }}</button>
 
-      <h3>{{$t('list')}}</h3>
-      <vhosts-list-view
-        v-bind:items="virtualhost"
-        v-bind:certificates="certificates"
-        v-on:modal-close="read"
-        v-on:item-edit="openModal('modalEditVhost', $event)"
-        v-on:item-delete="openModal('modalDeleteVhost', $event)"
-        v-on:item-dkim="openModal('modalEditDkim', $event)"
-      ></vhosts-list-view>
+          <h3>{{$t('list')}}</h3>
+          <vhosts-list-view
+            v-bind:items="virtualhost"
+            v-bind:certificates="certificates"
+            v-on:modal-close="read"
+            v-on:item-edit="openModal('modalEditVhost', $event)"
+            v-on:item-delete="openModal('modalDeleteVhost', $event)"
+            v-on:item-dkim="openModal('modalEditDkim', $event)"
+          ></vhosts-list-view>
+        </div>
+
+        <modal-vhost-edit
+          id="modalCreateVhost"
+          v-on:modal-close="read($event)"
+          use-case="create"
+          v-bind:virtualhost="currentItem"
+                  v-bind:certificates="certificates"
+
+        ></modal-vhost-edit>
+        
+        <modal-vhost-edit
+          id="modalEditVhost"
+          v-on:modal-close="read"
+          use-case="edit"
+          v-bind:virtualhost="currentItem"
+                  v-bind:certificates="certificates"
+        ></modal-vhost-edit>
+
+        <modal-vhost-edit
+          id="modalDeleteVhost"
+          v-on:modal-close="read"
+          use-case="delete"
+          v-bind:virtualhost="currentItem"
+        ></modal-vhost-edit> 
     </div>
-
-<modal-vhost-edit
-      id="modalCreateVhost"
-      v-on:modal-close="read($event)"
-      use-case="create"
-      v-bind:virtualhost="currentItem"
-              v-bind:certificates="certificates"
-
-    ></modal-vhost-edit>
-    
-<modal-vhost-edit
-      id="modalEditVhost"
-      v-on:modal-close="read"
-      use-case="edit"
-      v-bind:virtualhost="currentItem"
-              v-bind:certificates="certificates"
-    ></modal-vhost-edit>
-    <modal-vhost-edit
-      id="modalDeleteVhost"
-      v-on:modal-close="read"
-      use-case="delete"
-      v-bind:virtualhost="currentItem"
-    ></modal-vhost-edit> 
-    
-    
-    
-    <!-- <modal-dkim-edit
-      id="modalEditDkim"
-      v-on:modal-close="read"
-      v-bind:domain="currentItem"
-      v-bind:dkimRawData="dkimRawData"
-      v-bind:dkimTxtRecord="dkimTxtRecord"
-    ></modal-dkim-edit> -->
   </div>
-</div>
 </template>
 
 <script>
 import execp from "@/execp";
 import VhostsListView from "@/components/VhostsListView.vue";
 import ModalVhostEdit from "@/components/ModalVhostEdit.vue";
-// import ModalDkimEdit from "@/components/ModalDkimEdit.vue";
 
 export default {
   name: "Virtualhosts",
   components: {
     VhostsListView,
     ModalVhostEdit,
-    // ModalDkimEdit
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
@@ -184,12 +168,7 @@ export default {
       vReadStatus: "running",
       virtualhost: [],
       certificates:[],
-      // isDisclaimerAvailable: false,
-      // isServerAvailable: false,
       currentItem: {},
-      // dkimRawData: "",
-      // dkimTxtRecord: "",
-      // defaultRecipientMailbox: {}
     };
   },
   methods: {
@@ -209,7 +188,6 @@ export default {
         function(success) {
           // reload page
            window.location.reload();
-          // document.location.reload(true);
         },
         function(error) {
           console.error(error);
@@ -218,7 +196,6 @@ export default {
     },
     createDefaultVhost() {
       return {
-        // unknownRecipientMailbox: this.defaultRecipientMailbox,
         name: "",
         Access: "private",
         PasswordStatus:"disabled",
@@ -228,13 +205,6 @@ export default {
         FtpStatus:"enabled",
         FtpPassword:"",
         certificates: "",
-        // isPrimaryDomain: false,
-        // TransportType: this.isServerAvailable ? "LocalDelivery" : "Relay",
-        // AlwaysBccStatus: "disabled",
-        // DisclaimerStatus: "disabled",
-        // OpenDkimStatus: "disabled",
-        // AlwaysBccAddress: "",
-        // UnknownRecipientsActionType: "bounce",
         Description: "",
         status: "enabled",
         CreateHostRecords:"1"
@@ -254,28 +224,11 @@ export default {
             }
           }
           this.vReadStatus = "success";
-
-          // setTimeout(function() {
-          //   $("[data-toggle=popover]")
-          //     .popovers()
-          //     .on("hidden.bs.popover", function(e) {
-          //       $(e.target).data("bs.popover").inState.click = false;
-          //     });
-          // }, 250);
         })
         .catch(error => {
           this.vReadStatus = "error";
           this.vReadError = error;
         })
-        // .then(() => {
-        //   if (eventData.nextAction == "open-dkim-modal") {
-        //     for (let i in this.domains) {
-        //       if (this.domains[i].name == eventData.id) {
-        //         this.openModal("modalEditDkim", this.domains[i]);
-        //       }
-        //     }
-        //   }
-        // });
     }
   }
 };
