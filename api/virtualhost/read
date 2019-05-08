@@ -30,16 +30,13 @@ require '/usr/libexec/nethserver/api/lib/helper_functions.pl';
 my $inputData = readInput();
 my $ret = undef;
 
-if($inputData->{'action'} eq 'proxypass') {
-    $ret = readProxypass();
-    print encode_json($ret);
-    exit (0);
-} elsif ($inputData->{'action'} eq 'virtualhost'){
+if ($inputData->{'action'} eq 'virtualhost'){
     $ret = readVhost();
     print encode_json($ret);
     exit (0);
+} else {
+    error();
 }
-
 
 sub readVhost
 {

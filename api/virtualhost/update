@@ -76,6 +76,8 @@ if($input->{'action'} eq 'create') {
     } else {
         $db->set_prop($vhostName,'status','enabled');
     }
+} else {
+    error();
 }
 
 my @eventArgs = $vhostName;
