@@ -1,0 +1,70 @@
+#!/usr/bin/php
+<?php
+/*
+ * Copyright (C) 2019 Nethesis S.r.l.
+ * http://www.nethesis.it - nethserver@nethesis.it
+ *
+ * This script is part of NethServer.
+ *
+ * NethServer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License,
+ * or any later version.
+ *
+ * NethServer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with NethServer.  If not, see COPYING.
+*/
+require_once("/usr/libexec/nethserver/api/lib/Helpers.php");
+$data = readInput();
+$pdb = new EsmithDatabase('proxypass');
+$hdb = new EsmithDatabase('hosts');
+
+if(isset ($data['proxypass']['name'])) {
+    $v = new LegacyValidator($data['proxypass']);
+    $v->declareParameter('name', Validate::USERNAME);
+}
+elseif(isset ($data['vhostreverse']['name'])) {
+    $v = new LegacyValidator($data['vhostreverse']);
+    $v->declareParameter('name', Validate::HOSTNAME_FQDN);
+}
+
+// check if key exists
+if($data['action'] == 'create') {
+    if($pdb->getKey($v->parameters['name'])) {
+        $v->addValidationError('name', "key_already_exists", $v->parameters['name']);
+    }
+}
+
+$v->declareParameter('Description', Validate::ANYTHING);
+$v->declareParameter('ValidFrom', Validate::ANYTHING);
+$v->declareParameter('Target', Validate::NOTEMPTY);
+$v->declareParameter('HTTP', Validate::YES_NO);
+$v->declareParameter('HTTPS', Validate::YES_NO);
+$v->declareParameter('CertVerification', Validate::YES_NO);
+$v->declareParameter('PreserveHost', Validate::YES_NO);
+$v->declareParameter('SslCertificate', Validate::ANYTHING);
+
+$cidrList = preg_split('/\s*,\s*/', $v->parameters['ValidFrom']);
+$cidrValidator = $v->createValidator(Validate::CIDR_BLOCK);
+foreach($cidrList as $cidr) {
+    if($cidr !== '' && ! $cidrValidator->evaluate($cidr)) {
+        $v->addValidationError('ValidFrom', 'ValidFromCIDR_validator', $cidr);
+        break;
+    }
+}
+
+if ( ! filter_var($v->parameters['Target'], FILTER_VALIDATE_URL) || (strpos($v->parameters['Target'], 'http') !== 0 ) && ( strpos($v->parameters['Target'], 'ws') !== 0)) {
+    $v->addValidationError('Target', 'Invalid_Target', $v->parameters['Target']);
+}
+
+# Validate the input
+if ($v->validate()) {
+    success();
+} else {
+    error($v);
+}
