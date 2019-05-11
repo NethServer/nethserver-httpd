@@ -46,7 +46,7 @@
         "virtualhost_disabled__Failed": "The virtualhost has not been disabled",
         "virtualhost_enabled_ok": "The virtualhost has well been enabled",
         "virtualhost_enabled__Failed": "The virtualhost has not been enabled",
-        "CreateHostRecords": "Create a record under \"DNS > Server alias\" page for each virtual host name"
+        "CreateHostRecords": "Create a record under \"DNS > Server alias\" page for the proxypass name"
          
     },
     "about": {
@@ -69,7 +69,8 @@
     },
     "docs":{
         "more_info_about": "More info about",
-        "virtualhost": "Virtual hosts"
+        "virtualhost": "Virtual hosts",
+        "Reverse_Proxy": "Reverse Proxy"
     },
     "validation":{
         "validation_failed": "Validation failed",
@@ -78,6 +79,37 @@
         "key_not_found": "virtualhost not found",
         "key_already_exists": "A virtualhost with the same name already exists",
         "valid_notEmpty": "This field can not be empty",
-        "hostname_key_exists":"The Virtual host names (FQDN) is already used"
+        "hostname_key_exists":"The Virtual host names (FQDN) is already used",
+        "valid_hostname_fqdn_1_9223372036854775807": "Must be a valid FQDN like 'server.domain.org'",
+        "ValidFromCIDR_validator": "Must be a valid CIDR like '10.10.10.0/16'"
+    },
+    "proxypass":{
+        "paths": "Paths",
+        "virtualhosts": "Virtual Hosts",
+        "HttpdForced": "HTTPS",
+        "HttpdNotForced": "HTTPS/HTTPS",
+        "edit_title": "Edit the proxypass {name}",
+        "create_title": "Create the proxypass",
+        "delete_title":"Delete the proxypass {name}",
+        "delete_confirm_message": "If {0} is deleted, this proxypass will be deleted",
+        "create_Proxypass_button":"Create a new virtualhost",
+        "item_edit_button":"Edit",
+        "item_disable_button":"Disable",
+        "item_delete_button":"Delete",
+        "item_enable_button":"Enable",
+        "title": "Reverse proxy",
+        "name": "Name",
+        "name_help":"A URL <path name>",
+        "description_label": "Description",
+        "ValidFromCIDR": "Access from CIDR networks",
+        "ForceHTTPS": "Require SSL encrypted connection",
+        "Target": "Target URL",
+        "SSL/TLS_certs": "SSL/TLS certificate",
+        "AcceptInvalidCertificateFromTarget": "Accept invalid SSL certificate from target",
+        "PreserveHostHeaderToTarget":"Forward HTTP \"Host\" header to target",
+        "CreateHostRecords": "Create a record under \"DNS > Server alias\" page for each virtual host name",
+        "default_certificate": "Default certificate",
+        "vhost_name_help": "A valid fully qualified domain name",
+        "CIDR_Comma_Sperated_List": "Empty or a CIDR comma separated list"
     }
 }
