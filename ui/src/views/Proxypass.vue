@@ -111,7 +111,8 @@
               use-case="delete"
               v-bind:proxypass="currentItem"
             ></modal-proxypass-path-edit> 
-            </div><!-- end paths -->
+            </div>
+            <!-- end paths -->
 
             <div
             class="tab-pane fade active"
@@ -123,42 +124,40 @@
               <h3>{{$t('actions')}}</h3>
               <button
                 class="btn btn-primary btn-lg"
-                v-on:click="openModal('modalCreateVhost', createDefaultVhost())"
-              >{{ $t('proxypass.create_virtualhost_button') }}</button>
+                v-on:click="openModal('modalCreateVhostReverse', createDefaultVhost())"
+              >{{ $t('proxypass.create_Proxypass_button') }}</button>
 
               <h3>{{$t('list')}}</h3>
               <proxypass-vhost-list-view
-                v-bind:items="virtualhost"
+                v-bind:items="vhostreverse"
                 v-bind:certificates="certificates"
                 v-on:modal-close="read"
-                v-on:item-edit="openModal('modalEditVhost', $event)"
-                v-on:item-delete="openModal('modalDeleteVhost', $event)"
-                v-on:item-dkim="openModal('modalEditDkim', $event)"
+                v-on:item-edit="openModal('modalEditVhostReverse', $event)"
+                v-on:item-delete="openModal('modalDeleteVhostReverse', $event)"
               ></proxypass-vhost-list-view>
             </div>
 
             <modal-proxypass-vhost-edit
-              id="modalCreateVhost"
+              id="modalCreateVhostReverse"
               v-on:modal-close="read($event)"
               use-case="create"
-              v-bind:virtualhost="currentItem"
-                      v-bind:certificates="certificates"
-
+              v-bind:vhostreverse="currentItem"
+              v-bind:certificates="certificates"
             ></modal-proxypass-vhost-edit>
             
             <modal-proxypass-vhost-edit
-              id="modalEditVhost"
+              id="modalEditVhostReverse"
               v-on:modal-close="read"
               use-case="edit"
-              v-bind:virtualhost="currentItem"
-                      v-bind:certificates="certificates"
+              v-bind:vhostreverse="currentItem"
+              v-bind:certificates="certificates"
             ></modal-proxypass-vhost-edit>
 
             <modal-proxypass-vhost-edit
-              id="modalDeleteVhost"
+              id="modalDeleteVhostReverse"
               v-on:modal-close="read"
               use-case="delete"
-              v-bind:virtualhost="currentItem"
+              v-bind:vhostreverse="currentItem"
             ></modal-proxypass-vhost-edit> 
             </div><!-- end vhost -->
         </div> <!-- end navbar -->
