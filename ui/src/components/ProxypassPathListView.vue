@@ -54,7 +54,7 @@
       <div class="list-view-pf-main-info small-list">
         <div class="list-view-pf-left">
           <span
-            class="fa list-view-pf-icon-sm pficon-folder-open"
+            class="fa list-view-pf-icon-sm pficon-service"
           ></span>
         </div>
         <div class="list-view-pf-body">
