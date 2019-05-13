@@ -92,7 +92,7 @@
         "create_title": "Create the proxypass",
         "delete_title":"Delete the proxypass {name}",
         "delete_confirm_message": "If {0} is deleted, this proxypass will be stopped",
-        "create_Proxypass_button":"Create a new virtualhost",
+        "create_Proxypass_button":"Create a new reverse proxy",
         "item_edit_button":"Edit",
         "item_disable_button":"Disable",
         "item_delete_button":"Delete",
