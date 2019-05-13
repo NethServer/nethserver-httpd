@@ -81,8 +81,8 @@
                 class="btn btn-primary btn-lg"
                 v-on:click="openModal('modalCreatePath', createDefaultPath())"
               >{{ $t('proxypass.create_Proxypass_button') }}</button>
-
-              <h3>{{$t('list')}}</h3>
+              <h3 v-if="!proxypass.length">{{$t('proxypass.NoDataToDisplay')}}</h3>
+              <h3 v-else>{{$t('list')}}</h3>
               <proxypass-path-list-view
                 v-bind:items="proxypass"
                 v-on:modal-close="read"
@@ -127,7 +127,8 @@
                 v-on:click="openModal('modalCreateVhostReverse', createDefaultVhost())"
               >{{ $t('proxypass.create_Proxypass_button') }}</button>
 
-              <h3>{{$t('list')}}</h3>
+              <h3 v-if="!vhostreverse.length">{{$t('proxypass.NoDataToDisplay')}}</h3>
+              <h3 v-else>{{$t('list')}}</h3>
               <proxypass-vhost-list-view
                 v-bind:items="vhostreverse"
                 v-bind:certificates="certificates"

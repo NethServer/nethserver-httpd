@@ -16,9 +16,9 @@
     },
     "virtualhost":{
         "vhost_created_ok": "The virtualhost has been well created",
-        "vhost_created_error": "The virtualhost has not been created",
+        "vhost_created_error": "The virtualhost has not been created well",
         "vhost_updated_ok": "The virtualhost has been well updated",
-        "vhost_updated_error": "The virtualhost has not been updated",
+        "vhost_updated_error": "The virtualhost has not been updated well",
         "edit_title": "Edit the virtualhost {name}",
         "create_title": "Create the virtualhost",
         "delete_title":"Delete the virtualhost {name}",
@@ -43,9 +43,9 @@
         "SSL/TLS_certs": "SSL/TLS certificate",
         "default_certificate": "Default certificate",
         "virtualhost_disabled_ok": "The virtualhost has well been disabled",
-        "virtualhost_disabled__Failed": "The virtualhost has not been disabled",
+        "virtualhost_disabled_Failed": "The virtualhost has not been disabled well",
         "virtualhost_enabled_ok": "The virtualhost has well been enabled",
-        "virtualhost_enabled__Failed": "The virtualhost has not been enabled",
+        "virtualhost_enabled_Failed": "The virtualhost has not been enabled well",
         "CreateHostRecords": "Create a record under \"DNS > Server alias\" page for the proxypass name"
          
     },
@@ -91,7 +91,7 @@
         "edit_title": "Edit the proxypass {name}",
         "create_title": "Create the proxypass",
         "delete_title":"Delete the proxypass {name}",
-        "delete_confirm_message": "If {0} is deleted, this proxypass will be deleted",
+        "delete_confirm_message": "If {0} is deleted, this proxypass will be stopped",
         "create_Proxypass_button":"Create a new virtualhost",
         "item_edit_button":"Edit",
         "item_disable_button":"Disable",
@@ -110,6 +110,15 @@
         "CreateHostRecords": "Create a record under \"DNS > Server alias\" page for each virtual host name",
         "default_certificate": "Default certificate",
         "vhost_name_help": "A valid fully qualified domain name",
-        "CIDR_Comma_Sperated_List": "Empty or a CIDR comma separated list"
+        "CIDR_Comma_Sperated_List": "Empty or a CIDR comma separated list",
+        "ProxypassPath_created_ok": "The proxypass has well been created",
+        "ProxypassPath_created_Failed": "The proxypass has not been created well",
+        "ProxypassPath_updated_ok": "The proxypass has well been updated",
+        "ProxypassPath_updated_Failed": "The proxypass has not been updated well",
+        "vhost_created_ok": "The proxypass has well been created",
+        "vhost_created_Failed": "The proxypass has not been created well",
+        "vhost_updated_ok": "The proxypass has well been updated",
+        "vhost_updated_Failed": "The proxypass has not been updated well",
+        "NoDataToDisplay": "You have no reverse proxy"
     }
 }
