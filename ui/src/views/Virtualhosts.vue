@@ -81,7 +81,6 @@
             v-on:modal-close="read"
             v-on:item-edit="openModal('modalEditVhost', $event)"
             v-on:item-delete="openModal('modalDeleteVhost', $event)"
-            v-on:item-dkim="openModal('modalEditDkim', $event)"
           ></vhosts-list-view>
         </div>
 
