@@ -79,7 +79,7 @@ select {
                         <div v-bind:class="['form-group', vErrors.name ? 'has-error' : '']">
                             <label class="col-sm-3 control-label" v-bind:for="id + '-ni'">{{ $t('virtualhost.name') }}</label>
                             <div class="col-sm-9">
-                                <input :disabled="useCase != 'create'" :placeholder="$t('virtualhost.name_help')" type="text" v-model="name" v-bind:id="id + '-ni'" class="form-control">
+                                <input :disabled="useCase != 'create'" type="text" v-model="name" v-bind:id="id + '-ni'" class="form-control">
                                 <span v-if="vErrors.name" class="help-block">{{ vErrors.name }}</span>
                             </div>
                         </div>
@@ -93,7 +93,7 @@ select {
                         <div v-if="name !== 'default'" class="form-group">
                             <label class="col-sm-3 control-label" v-bind:for="id + '-di'">{{ $t('virtualhost.ServerNames') }}</label>
                             <div class="col-sm-9">
-                                <input type="text" v-model="ServerNames" v-bind:id="id + '-ServerName'" class="form-control">
+                                <input type="text" v-model="ServerNames" :placeholder="$t('virtualhost.FQDN_help')" v-bind:id="id + '-ServerName'" class="form-control">
                                 <span v-if="vErrors.ServerNames" class="help-block">{{ vErrors.ServerNames }}</span>
                             </div>
                         </div>
