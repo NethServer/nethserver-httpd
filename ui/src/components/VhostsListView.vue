@@ -66,7 +66,8 @@
         </div>
         <div class="list-view-pf-body">
           <div class="list-view-pf-description">
-            <div class="list-group-item-heading">{{ item.name }}</div>
+            <div class="list-group-item-heading">{{ item.name }}
+            <span :class="[item.status === 'disabled' ? 'pficon pficon-locked':'','span-right-margin']"></span></div>
             <div class="list-group-item-text">{{ item.Description }}</div>
             <div class="list-group-item-text">{{ item.ServerNames }}</div>
           </div>
