@@ -1,0 +1,124 @@
+#!/usr/bin/perl
+
+#
+# Copyright (C) 2019 Nethesis S.r.l.
+# http://www.nethesis.it - nethserver@nethesis.it
+#
+# This script is part of NethServer.
+#
+# NethServer is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License,
+# or any later version.
+#
+# NethServer is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with NethServer.  If not, see COPYING.
+#
+
+use strict;
+use warnings;
+use esmith::ConfigDB;
+use NethServer::Service;
+use File::Path qw(make_path);
+use JSON;
+
+require '/usr/libexec/nethserver/api/lib/helper_functions.pl';
+
+sub is_running
+{
+    my $service = shift || 0;
+    my $db = shift || 0;
+    my $s = NethServer::Service->new($service, $db) || return 0;
+    return $s->is_running() ? 1 : 0;
+}
+
+
+my $input = readInput();
+my $cmd = $input->{'action'};
+
+if ($cmd eq 'live') {
+    # 
+    # Read stats for dashboard 
+    #
+    my $ret = {};
+    my $cdb = esmith::ConfigDB->open_ro();
+    my $vdb = esmith::ConfigDB->open_ro('vhosts');
+    my $pdb = esmith::ConfigDB->open_ro('proxypass');
+
+    # Services isRunning
+    $ret->{'services'} = {};
+    my @services = ("httpd");
+    foreach (@services) {
+        $ret->{'services'}{$_} = is_running($_, $cdb);
+    }
+
+
+    # vhost/Proxypass list
+    my @vhosts = $vdb->get_all();
+    my @VhostReverse = $pdb->get_all_by_prop('type' => 'VhostReverse');
+    my @ProxyPass = $pdb->get_all_by_prop('type' => 'ProxyPass');
+
+    # perl magic: extract only keys and return a reference to the array
+    $ret->{'virtualhost'} = [ map {$_->key} @vhosts ];
+    $ret->{'vhostreverse'} = [ map {$_->key} @VhostReverse ];
+    $ret->{'proxypass'} = [ map {$_->key} @ProxyPass ];
+
+    # Counters
+    $ret->{'statistics'}{'virtualhosts'} = scalar @vhosts;
+    $ret->{'statistics'}{'VhostReverse'} = $pdb ? scalar @VhostReverse  : 0;
+    $ret->{'statistics'}{'ProxyPass'} = $pdb ? scalar @ProxyPass : 0;
+
+    # Packages isInstalled
+    my %packages = (
+        'virtualhost' => '/etc/e-smith/db/vhosts/defaults/default/type',
+    );
+    foreach (keys %packages) {
+        $ret->{'packages'}{$_} = (-e $packages{$_}) ? 1 : 0;
+    }
+
+    print encode_json($ret);
+} elsif ($cmd eq 'apacheStatus') {
+
+    my $url="http://localhost/apacheStatus?auto";
+    my $server_status = get($url);
+    my($total_accesses,$total_kbytes,$cpuload,$uptime, $reqpersec,$bytespersec,$bytesperreq,$busyworkers, $idleworkers,$totalworkers);
+    my $ret = {};
+
+    if (! $server_status) {
+        error('NotReachable',"Can't access $url Check apache configuration");
+        exit(1);
+    }
+
+    $total_accesses = $1 if ($server_status =~ /Total\ Accesses:\ ([\d\.]+)/ig)||0;
+    $total_kbytes = $1 if ($server_status =~ /Total\ kBytes:\ ([\d\.]+)/gi);
+    $cpuload = $1 if ($server_status =~ /CPULoad:\ ([\d\.]+)/gi);
+    $uptime = $1 if ($server_status =~ /Uptime:\ ([\d\.]+)/gi);
+    $reqpersec = $1 if ($server_status =~ /ReqPerSec:\ ([\d\.]+)/gi);
+    $bytespersec = $1 if ($server_status =~ /BytesPerSec:\ ([\d\.]+)/gi);
+    $bytesperreq = $1 if ($server_status =~ /BytesPerReq:\ ([\d\.]+)/gi);
+    $busyworkers = $1 if ($server_status =~ /BusyWorkers:\ ([\d\.]+)/gi);
+    $idleworkers = $1 if ($server_status =~ /IdleWorkers:\ ([\d\.]+)/gi);
+    $totalworkers = $busyworkers + $idleworkers;
+
+
+    $ret->{'TotalAccess'} = $total_accesses;
+    $ret->{'Total_kbytes'} = $total_kbytes;
+    $ret->{'Uptime'} = $uptime;
+    $ret->{'ReqPerSec'} = $reqpersec;
+    $ret->{'BytesPerSec'} = $bytespersec;
+    $ret->{'BytesPerReq'} = $bytesperreq;
+    $ret->{'BusyWorkers'} = $busyworkers;
+    $ret->{'IdleWorkers'} = $idleworkers;
+    $ret->{'TotalWorkers'} = "$totalworkers";
+    $ret->{'CPULoad'} = $cpuload;
+
+    print encode_json($ret);
+
+} else {
+    error();
+}
