@@ -84,7 +84,7 @@ if ($cmd eq 'live') {
     print encode_json($ret);
 } elsif ($cmd eq 'apacheStatus') {
 
-    my $url="http://localhost/apacheStatus?auto";
+    my $url="http://localhost/server-status?auto";
     my $server_status = get($url);
     my($total_accesses,$total_kbytes,$cpuload,$uptime, $reqpersec,$bytespersec,$bytesperreq,$busyworkers, $idleworkers,$totalworkers);
     my $ret = {};
