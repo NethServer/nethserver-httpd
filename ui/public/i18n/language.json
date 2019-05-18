@@ -62,7 +62,30 @@
      "filter_label": "Regexp filter"
     },
     "dashboard":{
-        "title": "Dashboard"
+        "title": "Dashboard",
+        "apache_stats": "Statistics",
+        "apache_uptime":"Uptime",
+        "number_VhostReverse": "Virtualhosts reverse proxy",
+        "number_ProxyPass":"Paths reverse proxy",
+        "number_virtualhosts":"Virtualhosts domain name",
+        "minute":"minute(s)",
+        "day":"day(s)",
+        "hour":"hour(s)",
+        "Total_kbytes": "Bandwidth usage",
+        "TotalAccess": "Incoming Requests",
+        "MB": "MBytes",
+        "GB":"GBytes",
+        "TB":"TBytes",
+        "informations": "Informations",
+        "ReqPerSec": "Requests per second",
+        "BytesPerReq": "Bytes per request",
+        "BytesPerSec":"Bytes per second",
+        "services":"Service",
+        "httpd":"Apache",
+        "mysqld": "Mysql",
+        "LampStatus": "Lamp status",
+        "version": "version",
+        "status":"status"
     },
     "proxypass":{
         "title": "ProxyPass"
