@@ -26,6 +26,7 @@ use esmith::ConfigDB;
 use NethServer::Service;
 use File::Path qw(make_path);
 use JSON;
+use LWP::Simple;
 
 require '/usr/libexec/nethserver/api/lib/helper_functions.pl';
 
@@ -40,6 +41,13 @@ sub is_running
 
 my $input = readInput();
 my $cmd = $input->{'action'};
+my @php = ("56","70","71","72","73");
+    my @phpSCL = ();
+    foreach (@php) {
+    push @phpSCL, "rh-php$_-php-fpm";
+    push @phpSCL, "php$_-php-fpm";
+    }
+
 
 if ($cmd eq 'live') {
     # 
@@ -52,11 +60,11 @@ if ($cmd eq 'live') {
 
     # Services isRunning
     $ret->{'services'} = {};
-    my @services = ("httpd");
+    my @services = ("httpd","mysqld",@phpSCL);
     foreach (@services) {
         $ret->{'services'}{$_} = is_running($_, $cdb);
     }
-
+    $ret->{'services'}{'php'} = 1 if (-f '/etc/e-smith/db/configuration/defaults/php/type');
 
     # vhost/Proxypass list
     my @vhosts = $vdb->get_all();
@@ -76,12 +84,51 @@ if ($cmd eq 'live') {
     # Packages isInstalled
     my %packages = (
         'virtualhost' => '/etc/e-smith/db/vhosts/defaults/default/type',
+        'mysqld' => '/etc/e-smith/db/configuration/defaults/mysqld/type',
+        'httpd' => '/etc/e-smith/db/configuration/defaults/httpd/type',
+        'php' => '/etc/e-smith/db/configuration/defaults/php/type',
     );
     foreach (keys %packages) {
         $ret->{'packages'}{$_} = (-e $packages{$_}) ? 1 : 0;
     }
 
+
+    foreach my $v (@phpSCL) {
+        if (-f "/etc/e-smith/db/configuration/defaults/$v/type"){
+            $ret->{'packages'}{"$v"} = 1;
+        } else {
+            $ret->{'packages'}{"$v"} = 0;
+        }
+    }
+
+
+    # lamp version
+    my $http = `/usr/sbin/httpd -v`;
+    my $httpVersion = $1 if ($http =~/Apache\/([\d+\.]+)/gi);
+    $ret->{'versions'}{'httpd'} = $httpVersion;
+
+    my $php = `/usr/bin/php -v`;
+    my $phpVersion = $1 if ($php =~/PHP\ ([\d+\.]+)/gi);
+    $ret->{'versions'}{'php'} = $phpVersion;
+
+    foreach my $v (@phpSCL) {
+        if (-f "/etc/e-smith/db/configuration/defaults/$v/type"){
+            my $scl = $v;
+            $scl =~ s/-php-fpm//;
+            my $php = `scl enable $scl 'php -v'`;
+            my $phpVersion = $1 if ($php =~/PHP\ ([\d+\.]+)/gi);
+            $ret->{'versions'}{"$v"} = $phpVersion;
+        }
+    }
+
+    if (-f '/etc/e-smith/db/configuration/defaults/mysqld/type'){
+        my $mysql = `/usr/bin/mysql -V`;
+        my $mysqlVersion = $1 if ($mysql =~/Distrib\ ([\d+\.]+[\-\w]+)/gi);
+        $ret->{'versions'}{'mysqld'} = $mysqlVersion;
+    }
+
     print encode_json($ret);
+
 } elsif ($cmd eq 'apacheStatus') {
 
     my $url="http://localhost/server-status?auto";
