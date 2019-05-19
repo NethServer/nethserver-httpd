@@ -130,10 +130,8 @@ if ($cmd eq 'live') {
     print encode_json($ret);
 
 } elsif ($cmd eq 'apacheStatus') {
-
     my $url="http://localhost/server-status?auto";
     my $server_status = get($url);
-    my($total_accesses,$total_kbytes,$cpuload,$uptime, $reqpersec,$bytespersec,$bytesperreq,$busyworkers, $idleworkers,$totalworkers);
     my $ret = {};
 
     if (! $server_status) {
@@ -141,17 +139,29 @@ if ($cmd eq 'live') {
         exit(1);
     }
 
-    $total_accesses = $1 if ($server_status =~ /Total\ Accesses:\ ([\d\.]+)/ig)||0;
-    $total_kbytes = $1 if ($server_status =~ /Total\ kBytes:\ ([\d\.]+)/gi);
-    $cpuload = $1 if ($server_status =~ /CPULoad:\ ([\d\.]+)/gi);
-    $uptime = $1 if ($server_status =~ /Uptime:\ ([\d\.]+)/gi);
-    $reqpersec = $1 if ($server_status =~ /ReqPerSec:\ ([\d\.]+)/gi);
-    $bytespersec = $1 if ($server_status =~ /BytesPerSec:\ ([\d\.]+)/gi);
-    $bytesperreq = $1 if ($server_status =~ /BytesPerReq:\ ([\d\.]+)/gi);
-    $busyworkers = $1 if ($server_status =~ /BusyWorkers:\ ([\d\.]+)/gi);
-    $idleworkers = $1 if ($server_status =~ /IdleWorkers:\ ([\d\.]+)/gi);
-    $totalworkers = $busyworkers + $idleworkers;
+    my $total_accesses = $1 if ($server_status =~ /Total\ Accesses:\ ([\d\.]+)/ig)||0;
+    my $total_kbytes = $1 if ($server_status =~ /Total\ kBytes:\ ([\d\.]+)/gi);
+    my $cpuload = $1 if ($server_status =~ /CPULoad:\ ([\d\.]+)/gi);
+    my $uptime = $1 if ($server_status =~ /Uptime:\ ([\d\.]+)/gi);
+    my $reqpersec = $1 if ($server_status =~ /ReqPerSec:\ ([\d\.]+)/gi);
+    my $bytespersec = $1 if ($server_status =~ /BytesPerSec:\ ([\d\.]+)/gi);
+    my $bytesperreq = $1 if ($server_status =~ /BytesPerReq:\ ([\d\.]+)/gi);
+    my $busyworkers = $1 if ($server_status =~ /BusyWorkers:\ ([\d\.]+)/gi);
+    my $idleworkers = $1 if ($server_status =~ /IdleWorkers:\ ([\d\.]+)/gi);
+    my $totalworkers = $1 if ($server_status =~ /Scoreboard:\ (.+)/gi);
 
+    #count the number of occurence to make a graph
+    my $startingworkers = $totalworkers =~ tr/S//;
+    my $readingworkers = $totalworkers =~ tr/R//;
+    my $sendingreplyworkers = $totalworkers =~ tr/W//;
+    my $keepaliveworkers = $totalworkers =~ tr/K//;
+    my $dnslookupworkers = $totalworkers =~ tr/D//;
+    my $closingworkers = $totalworkers =~ tr/C//;
+    my $loggingworkers = $totalworkers =~ tr/L//;
+    my $gracefullyworkers = $totalworkers =~ tr/G//;
+    my $idlecleanupworkers = $totalworkers =~ tr/I//;
+    my $waitingworkers = $totalworkers =~ tr/\.//;
+    $totalworkers = length($totalworkers);
 
     $ret->{'TotalAccess'} = $total_accesses;
     $ret->{'Total_kbytes'} = $total_kbytes;
@@ -163,8 +173,16 @@ if ($cmd eq 'live') {
     $ret->{'IdleWorkers'} = $idleworkers;
     $ret->{'TotalWorkers'} = "$totalworkers";
     $ret->{'CPULoad'} = $cpuload;
-
-    print encode_json($ret);
+    $ret->{'StartingWorkers'} = "$startingworkers";
+    $ret->{'ReadingWorkers'} = "$readingworkers";
+    $ret->{'ReplyingWorkers'} = "$sendingreplyworkers";
+    $ret->{'KeepAliveWorkers'} = "$keepaliveworkers";
+    $ret->{'DnsLookupWorkers'} = "$dnslookupworkers";
+    $ret->{'ClosingWorkers'} = "$closingworkers";
+    $ret->{'LoggingWorkers'} = "$loggingworkers";
+    $ret->{'GraceFullyFinishingWorkers'} = "$gracefullyworkers";
+    $ret->{'IdleCleanupWorkers'} = "$idlecleanupworkers";
+    $ret->{'WaitingWorkers'} = "$waitingworkers";
 
 } else {
     error();
