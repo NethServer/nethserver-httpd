@@ -71,11 +71,6 @@ if ($cmd eq 'live') {
     my @VhostReverse = $pdb->get_all_by_prop('type' => 'VhostReverse');
     my @ProxyPass = $pdb->get_all_by_prop('type' => 'ProxyPass');
 
-    # perl magic: extract only keys and return a reference to the array
-    $ret->{'virtualhost'} = [ map {$_->key} @vhosts ];
-    $ret->{'vhostreverse'} = [ map {$_->key} @VhostReverse ];
-    $ret->{'proxypass'} = [ map {$_->key} @ProxyPass ];
-
     # Counters
     $ret->{'statistics'}{'virtualhosts'} = scalar @vhosts;
     $ret->{'statistics'}{'VhostReverse'} = $pdb ? scalar @VhostReverse  : 0;
@@ -141,7 +136,6 @@ if ($cmd eq 'live') {
 
     my $total_accesses = $1 if ($server_status =~ /Total\ Accesses:\ ([\d\.]+)/ig)||0;
     my $total_kbytes = $1 if ($server_status =~ /Total\ kBytes:\ ([\d\.]+)/gi);
-    my $cpuload = $1 if ($server_status =~ /CPULoad:\ ([\d\.]+)/gi);
     my $uptime = $1 if ($server_status =~ /Uptime:\ ([\d\.]+)/gi);
     my $reqpersec = $1 if ($server_status =~ /ReqPerSec:\ ([\d\.]+)/gi);
     my $bytespersec = $1 if ($server_status =~ /BytesPerSec:\ ([\d\.]+)/gi);
@@ -161,7 +155,6 @@ if ($cmd eq 'live') {
     my $gracefullyworkers = $totalworkers =~ tr/G//;
     my $idlecleanupworkers = $totalworkers =~ tr/I//;
     my $waitingworkers = $totalworkers =~ tr/\.//;
-    $totalworkers = length($totalworkers);
 
     $ret->{'TotalAccess'} = $total_accesses;
     $ret->{'Total_kbytes'} = $total_kbytes;
@@ -169,20 +162,19 @@ if ($cmd eq 'live') {
     $ret->{'ReqPerSec'} = $reqpersec;
     $ret->{'BytesPerSec'} = $bytespersec;
     $ret->{'BytesPerReq'} = $bytesperreq;
-    $ret->{'BusyWorkers'} = $busyworkers;
-    $ret->{'IdleWorkers'} = $idleworkers;
-    $ret->{'TotalWorkers'} = "$totalworkers";
-    $ret->{'CPULoad'} = $cpuload;
-    $ret->{'StartingWorkers'} = "$startingworkers";
-    $ret->{'ReadingWorkers'} = "$readingworkers";
-    $ret->{'ReplyingWorkers'} = "$sendingreplyworkers";
-    $ret->{'KeepAliveWorkers'} = "$keepaliveworkers";
-    $ret->{'DnsLookupWorkers'} = "$dnslookupworkers";
-    $ret->{'ClosingWorkers'} = "$closingworkers";
-    $ret->{'LoggingWorkers'} = "$loggingworkers";
-    $ret->{'GraceFullyFinishingWorkers'} = "$gracefullyworkers";
-    $ret->{'IdleCleanupWorkers'} = "$idlecleanupworkers";
-    $ret->{'WaitingWorkers'} = "$waitingworkers";
+    $ret->{'statistics'}{'BusyWorkers'} = $busyworkers;
+    $ret->{'statistics'}{'IdleWorkers'} = $idleworkers;
+    $ret->{'statistics'}{'StartingWorkers'} = $startingworkers;
+    $ret->{'statistics'}{'ReadingWorkers'} = $readingworkers;
+    $ret->{'statistics'}{'ReplyingWorkers'} = $sendingreplyworkers;
+    $ret->{'statistics'}{'KeepAliveWorkers'} = $keepaliveworkers;
+    $ret->{'statistics'}{'DnsLookupWorkers'} = $dnslookupworkers;
+    $ret->{'statistics'}{'ClosingWorkers'} = $closingworkers;
+    $ret->{'statistics'}{'LoggingWorkers'} = $loggingworkers;
+    $ret->{'statistics'}{'GraceFullyFinishingWorkers'} = $gracefullyworkers;
+    $ret->{'statistics'}{'IdleCleanupWorkers'} = $idlecleanupworkers;
+    $ret->{'statistics'}{'WaitingWorkers'} = $waitingworkers;
+
 
 } else {
     error();

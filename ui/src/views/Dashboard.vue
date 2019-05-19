@@ -1,28 +1,15 @@
 <template>
     <div>
         <h2>{{$t('dashboard.title')}}</h2>
-        <div v-if="!view.isLoaded && !view.statsLoaded" class="spinner spinner-lg"></div>
-        <div v-if="view.isLoaded && view.statsLoaded">
-            <h3>{{$t('dashboard.LampStatus')}}</h3>
-            <div class="row  row-status">
-              <div
-                v-for="(s,i) in services"
-                :key="i"
-                v-if="live.packages[i]" class="stats-container col-xs-12 col-sm-4 col-md-3 col-lg-2"
-              >
-                <span v-if="live.packages[i]"
-                  :class="['card-pf-utilization-card-details-count stats-count', s ? 'pficon pficon-ok' : 'pficon-error-circle-o']"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  :title="$t('dashboard.status')+': '+ (s ? $t('enabled') : $t('disabled'))"
-                ></span>
-                <span v-if="live.packages[i]" class="card-pf-utilization-card-details-description stats-description">
-                  <span class="card-pf-utilization-card-details-line-2 stats-text">{{i}} {{$t('dashboard.version')}}: {{live.versions[i]}}</span>
-                </span>
-              </div>
-              <div class="stats-container" v-if="!services">{{$t('dashboard.no_info_found')}}</div>
+        <div v-if=" !view.statsLoaded" class="spinner spinner-lg"></div>
+        <div v-if="view.statsLoaded">
+            <!-- <h3 >{{$t('dashboard.WorkerApacheStatus')}}</h3> -->
+            <!-- <div v-if="Object.keys(status.statistics).length == 0" class="empty-piechart">
+                <span class="fa fa-pie-chart"></span>
+                <div>{{ $t('dashboard.empty_piechart_label') }}</div>
             </div>
-
+            <div v-else id="fail2ban-pie-chart">{{$t('dashboard.WorkerApacheStatus')}}</div>
+            <div class="divider"></div> -->
 
             <div class="divider"></div>
             <h3>{{$t('dashboard.informations')}}</h3>
@@ -37,23 +24,70 @@
                 <h4 class="col-xs-6 col-sm-4 col-md-3 col-lg-2">{{$t('dashboard.apache_uptime')}}: {{status.Uptime}}</h4>
                 <h4 class="col-xs-6 col-sm-4 col-md-3 col-lg-2" >{{$t('dashboard.TotalAccess')}}: {{status.TotalAccess}}</h4>
                 <h4 class="col-xs-6 col-sm-4 col-md-3 col-lg-2" >{{$t('dashboard.Total_kbytes')}}: {{status.Total_kbytes}}</h4>
-            </div>
-            <div class="row ">
+            <!-- </div>
+            <div class="row "> -->
                 <h4 class="col-xs-6 col-sm-4 col-md-3 col-lg-2">{{$t('dashboard.ReqPerSec')}}: {{status.ReqPerSec}}</h4>
                 <h4 class="col-xs-6 col-sm-4 col-md-3 col-lg-2" >{{$t('dashboard.BytesPerSec')}}: {{status.BytesPerSec}}</h4>
                 <h4 class="col-xs-6 col-sm-4 col-md-3 col-lg-2" >{{$t('dashboard.BytesPerReq')}}: {{status.BytesPerReq}}</h4>
+
+                <!-- <h4 >{{$t('dashboard.WorkerApacheStatus')}}</h4> -->
+                <span v-if="Object.keys(status.statistics).length == 0" class="empty-piechart">
+                    <span class="fa fa-pie-chart"></span>
+                    <div>{{ $t('dashboard.empty_piechart_label') }}</div>
+                </span>
+                <span v-else id="fail2ban-pie-chart"></span>
+                
             </div>
+
             <div class="divider"></div>
+        <h3>{{$t('dashboard.LampStatus')}}</h3>
+        <div class="row  row-status">
+            <div
+            v-for="(s,i) in services"
+            :key="i"
+            v-if="live.packages[i]" class="stats-container col-xs-12 col-sm-4 col-md-3 col-lg-2"
+            >
+            <span v-if="live.packages[i]"
+            :class="['card-pf-utilization-card-details-count stats-count', s ? 'pficon pficon-ok' : 'pficon-error-circle-o']"
+            data-toggle="tooltip"
+            data-placement="top"
+            :title="$t('dashboard.status')+': '+ (s ? $t('enabled') : $t('disabled'))"
+            ></span>
+            <span v-if="live.packages[i]" class="card-pf-utilization-card-details-description stats-description">
+                <span class="card-pf-utilization-card-details-line-2 stats-text">{{i}} {{$t('dashboard.version')}}: {{live.versions[i]}}</span>
+            </span>
+        </div>
+        <div class="stats-container" v-if="!services">{{$t('dashboard.no_info_found')}}</div>
+        </div>
         </div>
     </div>
 </template>
 
 <script>
+import generatePieChart from "@/piechart";
 export default {
   name: "Dashboard",
   mounted() {
     this.getLive();
     this.getApacheStatus();
+},
+    updated() {
+    var $ = window.jQuery;
+    $('[data-toggle="tooltip"]').tooltip();
+    if (!this.rspamdPieChart) {
+      this.rspamdPieChart = generatePieChart("#fail2ban-pie-chart", {
+          names: {
+          WaitingWorkers: this.$t("dashboard.AvailableWorkers"),
+          greylist: this.$t("dashboard.greylist_rspamd_graph_label"),
+          probable: this.$t("dashboard.probable_rspamd_graph_label"),
+          clean: this.$t("dashboard.clean_rspamd_graph_label")
+        },
+         columns: []
+       });
+    }
+    this.rspamdPieChart.load({
+   json: this.status.statistics
+   });
   },
   data() {
     return {
@@ -90,7 +124,21 @@ export default {
           BusyWorkers:"",
           CPULoad:"",
           TotalWorkers:"",
-          IdleWorkers:""
+          IdleWorkers:"",
+          statistics:{
+            IdleCleanupWorkers: "",
+            ClosingWorkers: "",
+            DnsLookupWorkers: "",
+            ReadingWorkers: "",
+            GraceFullyFinishingWorkers: "",
+            KeepAliveWorkers: "",
+            ReplyingWorkers: "",
+            StartingWorkers: "",
+            BusyWorkers: "",
+            WaitingWorkers: "",
+            LoggingWorkers: "",
+            IdleWorkers: ""
+          }
       },
       loaders: false,
     };
@@ -147,6 +195,7 @@ export default {
               console.error(e);
             }
             context.status = success;
+            context.status.statistics = success.statistics;
             //context.status.Uptime = sucess.Uptime;
             if (Number(success.Uptime) < 3600) {
                 context.status.Uptime = parseFloat((Number(success.Uptime) / 60).toFixed(0)) + ' ' + context.$t("dashboard.minute");
