@@ -41,12 +41,17 @@ sub is_running
 
 my $input = readInput();
 my $cmd = $input->{'action'};
+
+#php scl
 my @php = ("56","70","71","72","73");
-    my @phpSCL = ();
-    foreach (@php) {
+my @phpSCL = ();
+foreach (@php) {
     push @phpSCL, "rh-php$_-php-fpm";
     push @phpSCL, "php$_-php-fpm";
-    }
+}
+
+#postgresql scl
+my @psql = ('rh-postgresql94-postgresql');
 
 
 if ($cmd eq 'live') {
@@ -60,7 +65,7 @@ if ($cmd eq 'live') {
 
     # Services isRunning
     $ret->{'services'} = {};
-    my @services = ("httpd","mysqld",@phpSCL);
+    my @services = ("httpd","mysqld",@phpSCL,@psql,'postgresql');
     foreach (@services) {
         $ret->{'services'}{$_} = is_running($_, $cdb);
     }
@@ -87,8 +92,16 @@ if ($cmd eq 'live') {
         $ret->{'packages'}{$_} = (-e $packages{$_}) ? 1 : 0;
     }
 
-
+    # detect if php scl are installed
     foreach my $v (@phpSCL) {
+        if (-f "/etc/e-smith/db/configuration/defaults/$v/type"){
+            $ret->{'packages'}{"$v"} = 1;
+        } else {
+            $ret->{'packages'}{"$v"} = 0;
+        }
+    }
+    # detect if postgresql & scl are installed
+    foreach my $v (@psql,'postgresql') {
         if (-f "/etc/e-smith/db/configuration/defaults/$v/type"){
             $ret->{'packages'}{"$v"} = 1;
         } else {
@@ -97,15 +110,17 @@ if ($cmd eq 'live') {
     }
 
 
-    # lamp version
+    # lamp version (find version if rpm is installed)
     my $http = `/usr/sbin/httpd -v`;
     my $httpVersion = $1 if ($http =~/Apache\/([\d+\.]+)/gi);
     $ret->{'versions'}{'httpd'} = $httpVersion;
 
+    # default php
     my $php = `/usr/bin/php -v`;
     my $phpVersion = $1 if ($php =~/PHP\ ([\d+\.]+)/gi);
     $ret->{'versions'}{'php'} = $phpVersion;
 
+    # php scl
     foreach my $v (@phpSCL) {
         if (-f "/etc/e-smith/db/configuration/defaults/$v/type"){
             my $scl = $v;
@@ -116,10 +131,27 @@ if ($cmd eq 'live') {
         }
     }
 
+    #mysql version
     if (-f '/etc/e-smith/db/configuration/defaults/mysqld/type'){
         my $mysql = `/usr/bin/mysql -V`;
         my $mysqlVersion = $1 if ($mysql =~/Distrib\ ([\d+\.]+[\-\w]+)/gi);
         $ret->{'versions'}{'mysqld'} = $mysqlVersion;
+    }
+    #postgresql scl
+    foreach my $v (@psql) {
+        if (-f "/etc/e-smith/db/configuration/defaults/$v/type"){
+            my $scl = $v;
+            $scl =~ s/-postgresql$//;
+            my $psql = `scl enable $scl 'psql --version'`;
+            my $version = $1 if ($psql =~/\(PostgreSQL\)\ ([\d+\.]+)/gi);
+            $ret->{'versions'}{"$v"} = $version;
+        }
+    }
+    # default postgresql
+    if (-f "/etc/e-smith/db/configuration/defaults/postgresql/type"){
+        my $psql = `psql --version`;
+        my $version = $1 if ($psql =~/\(PostgreSQL\)\ ([\d+\.]+)/gi);
+        $ret->{'versions'}{'postgresql'} = $version;
     }
 
     print encode_json($ret);
