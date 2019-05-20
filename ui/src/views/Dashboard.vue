@@ -8,7 +8,7 @@
                 <span class="fa fa-pie-chart"></span>
                 <div>{{ $t('dashboard.empty_piechart_label') }}</div>
             </div>
-            <div v-else id="fail2ban-pie-chart">{{$t('dashboard.WorkerApacheStatus')}}</div>
+            <div v-else id="apache-pie-chart">{{$t('dashboard.WorkerApacheStatus')}}</div>
             <div class="divider"></div> -->
 
             <div class="divider"></div>
@@ -35,7 +35,7 @@
                     <span class="fa fa-pie-chart"></span>
                     <div>{{ $t('dashboard.empty_piechart_label') }}</div>
                 </span>
-                <span v-else id="fail2ban-pie-chart"></span>
+                <span v-else id="apache-pie-chart"></span>
                 
             </div>
 
@@ -74,18 +74,40 @@ export default {
     updated() {
     var $ = window.jQuery;
     $('[data-toggle="tooltip"]').tooltip();
-    if (!this.rspamdPieChart) {
-      this.rspamdPieChart = generatePieChart("#fail2ban-pie-chart", {
+    if (!this.apachePieChart) {
+      this.apachePieChart = generatePieChart("#apache-pie-chart", {
           names: {
-          WaitingWorkers: this.$t("dashboard.AvailableWorkers"),
-          greylist: this.$t("dashboard.greylist_rspamd_graph_label"),
-          probable: this.$t("dashboard.probable_rspamd_graph_label"),
-          clean: this.$t("dashboard.clean_rspamd_graph_label")
+              AvailableWorkers: this.$t("dashboard.AvailableWorkers"),
+              IdleWorkers: this.$t("dashboard.IdleWorkers"),
+              LoggingWorkers: this.$t("dashboard.LoggingWorkers"),
+              BusyWorkers: this.$t("dashboard.BusyWorkers"),
+              StartingWorkers: this.$t("dashboard.StartingWorkers"),
+              ReplyingWorkers: this.$t("dashboard.ReplyingWorkers"),
+              KeepAliveWorkers: this.$t("dashboard.KeepAliveWorkers"),
+              GraceFullyFinishingWorkers: this.$t("dashboard.GraceFullyFinishingWorkers"),
+              DnsLookupWorkers: this.$t("dashboard.DnsLookupWorkers"),
+              ClosingWorkers: this.$t("dashboard.ClosingWorkers"),
+              IdleCleanupWorkers: this.$t("dashboard.IdleCleanupWorkers"),
+              ReadingWorkers: this.$t("dashboard.ReadingWorkers")
+          },
+          colors: {
+              AvailableWorkers: $.pfPaletteColors.green,
+              IdleWorkers: $.pfPaletteColors.green,
+              LoggingWorkers: $.pfPaletteColors.blue,
+              BusyWorkers: $.pfPaletteColors.red,
+              StartingWorkers: $.pfPaletteColors.red,
+              ReplyingWorkers: $.pfPaletteColors.red,
+              KeepAliveWorkers: $.pfPaletteColors.orange,
+              GraceFullyFinishingWorkers: $.pfPaletteColors.orange,
+              DnsLookupWorkers: $.pfPaletteColors.blue,
+              ClosingWorkers: $.pfPaletteColors.orange,
+              IdleCleanupWorkers: $.pfPaletteColors.orange,
+              ReadingWorkers: $.pfPaletteColors.red
         },
          columns: []
        });
     }
-    this.rspamdPieChart.load({
+    this.apachePieChart.load({
    json: this.status.statistics
    });
   },

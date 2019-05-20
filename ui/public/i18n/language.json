@@ -85,7 +85,18 @@
         "mysqld": "Mysql",
         "LampStatus": "Lamp status",
         "version": "version",
-        "status":"status"
+        "status":"status",
+        "BusyWorkers":"Sending reply",
+        "IdleWorkers":"Waiting connection",
+        "StartingWorkers":"Starting up",
+        "ReadingWorkers":"Reading Request",
+        "KeepAliveWorkers":"Keepalive (read)",
+        "DnsLookupWorkers":"DNS lookup",
+        "ClosingWorkers":"Closing connection",
+        "LoggingWorkers":"Logging",
+        "GraceFullyFinishingWorkers":"Gracefully Finishing",
+        "IdleCleanupWorkers":"Idle cleanup",
+        "AvailableWorkers":"Open slots without process"
     },
     "proxypass":{
         "title": "ProxyPass"

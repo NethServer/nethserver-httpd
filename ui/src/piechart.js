@@ -28,17 +28,13 @@ export default function generatePieChart(bindto, data) {
     pieChartRightConfig.data = data
     pieChartRightConfig.data.expand = false
     pieChartRightConfig.data.type = 'donut'
-    pieChartRightConfig.color={ pattern:[ $.pfPaletteColors.red,
-        $.pfPaletteColors.blue,$.pfPaletteColors.orange,
-        $.pfPaletteColors.green, $.pfPaletteColors.gold,
-        $.pfPaletteColors.purple]};
     pieChartRightConfig.legend = {
-            show: false,
-            position: 'top'
+            show: true,
+            position: 'right'
     }
     pieChartRightConfig.size = {
-        width: 200,
-        height: 200
+        width: 400,
+        height: 400
       }
     ;
     return c3.generate(pieChartRightConfig)

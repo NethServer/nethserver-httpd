@@ -175,8 +175,8 @@ if ($cmd eq 'live') {
     my $busyworkers = $1 if ($server_status =~ /BusyWorkers:\ ([\d\.]+)/gi);
     my $idleworkers = $1 if ($server_status =~ /IdleWorkers:\ ([\d\.]+)/gi);
     my $totalworkers = $1 if ($server_status =~ /Scoreboard:\ (.+)/gi);
-
-    #count the number of occurence to make a graph
+    
+    # count the number of occurences
     my $startingworkers = $totalworkers =~ tr/S//;
     my $readingworkers = $totalworkers =~ tr/R//;
     my $sendingreplyworkers = $totalworkers =~ tr/W//;
@@ -186,8 +186,9 @@ if ($cmd eq 'live') {
     my $loggingworkers = $totalworkers =~ tr/L//;
     my $gracefullyworkers = $totalworkers =~ tr/G//;
     my $idlecleanupworkers = $totalworkers =~ tr/I//;
-    my $waitingworkers = $totalworkers =~ tr/\.//;
+    my $availableworkers = $totalworkers =~ tr/\.//;
 
+    # make the json
     $ret->{'TotalAccess'} = $total_accesses;
     $ret->{'Total_kbytes'} = $total_kbytes;
     $ret->{'Uptime'} = $uptime;
@@ -198,15 +199,13 @@ if ($cmd eq 'live') {
     $ret->{'statistics'}{'IdleWorkers'} = $idleworkers;
     $ret->{'statistics'}{'StartingWorkers'} = $startingworkers;
     $ret->{'statistics'}{'ReadingWorkers'} = $readingworkers;
-    $ret->{'statistics'}{'ReplyingWorkers'} = $sendingreplyworkers;
     $ret->{'statistics'}{'KeepAliveWorkers'} = $keepaliveworkers;
     $ret->{'statistics'}{'DnsLookupWorkers'} = $dnslookupworkers;
     $ret->{'statistics'}{'ClosingWorkers'} = $closingworkers;
     $ret->{'statistics'}{'LoggingWorkers'} = $loggingworkers;
     $ret->{'statistics'}{'GraceFullyFinishingWorkers'} = $gracefullyworkers;
     $ret->{'statistics'}{'IdleCleanupWorkers'} = $idlecleanupworkers;
-    $ret->{'statistics'}{'WaitingWorkers'} = $waitingworkers;
-
+    $ret->{'statistics'}{'AvailableWorkers'} = $availableworkers;
 
 } else {
     error();
