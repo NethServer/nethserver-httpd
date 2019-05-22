@@ -96,7 +96,11 @@
         "LoggingWorkers":"Logging",
         "GraceFullyFinishingWorkers":"Gracefully Finishing",
         "IdleCleanupWorkers":"Idle cleanup",
-        "AvailableWorkers":"Open slots without process"
+        "AvailableWorkers":"Open slots without process",
+        "default_rpm_version":"Default web stack",
+        "PHP_scl":"PHP sofware collection",
+        "databases_scl":"Database software collection",
+        "apache_worker_status": "Status of Apache workers"
     },
     "proxypass":{
         "title": "ProxyPass"

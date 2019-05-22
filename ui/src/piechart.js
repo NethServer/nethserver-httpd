@@ -34,7 +34,7 @@ export default function generatePieChart(bindto, data) {
     }
     pieChartRightConfig.size = {
         width: 400,
-        height: 400
+        height: 300
       }
     ;
     return c3.generate(pieChartRightConfig)

@@ -3,62 +3,203 @@
         <h2>{{$t('dashboard.title')}}</h2>
         <div v-if=" !view.statsLoaded" class="spinner spinner-lg"></div>
         <div v-if="view.statsLoaded">
-            <!-- <h3 >{{$t('dashboard.WorkerApacheStatus')}}</h3> -->
-            <!-- <div v-if="Object.keys(status.statistics).length == 0" class="empty-piechart">
-                <span class="fa fa-pie-chart"></span>
-                <div>{{ $t('dashboard.empty_piechart_label') }}</div>
-            </div>
-            <div v-else id="apache-pie-chart">{{$t('dashboard.WorkerApacheStatus')}}</div>
-            <div class="divider"></div> -->
+            <div class="row row-eq-height row-stat divider row-status container-fluid">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">
+                        {{ $t('dashboard.apache_worker_status') }}
+                      </h3>
+                    </div>
+                    <div class="panel-body">
+                        <span v-if="Object.keys(status.statistics).length == 0" class="empty-piechart">
+                            <span class="fa fa-pie-chart"></span>
+                            <div>{{ $t('dashboard.empty_piechart_label') }}</div>
+                        </span>
+                        <span v-else id="apache-pie-chart"></span>
+                    </div>
+                  </div>
+                </div>
 
-            <div class="divider"></div>
-            <h3>{{$t('dashboard.informations')}}</h3>
-            <div class="row ">
-                <h4 v-if="live.packages.virtualhost" class="col-xs-6 col-sm-4 col-md-3 col-lg-2">{{$t('dashboard.number_virtualhosts')}}: {{live.statistics.virtualhosts}}</h4>
-                <h4 class="col-xs-6 col-sm-4 col-md-3 col-lg-2" >{{$t('dashboard.number_VhostReverse')}}: {{live.statistics.VhostReverse}}</h4>
-                <h4 class="col-xs-6 col-sm-4 col-md-3 col-lg-2" >{{$t('dashboard.number_ProxyPass')}}: {{live.statistics.ProxyPass}}</h4>
-            </div>
-            <div class="divider"></div>
-            <h3>{{$t('dashboard.apache_stats')}}</h3>
-            <div class="row ">
-                <h4 class="col-xs-6 col-sm-4 col-md-3 col-lg-2">{{$t('dashboard.apache_uptime')}}: {{status.Uptime}}</h4>
-                <h4 class="col-xs-6 col-sm-4 col-md-3 col-lg-2" >{{$t('dashboard.TotalAccess')}}: {{status.TotalAccess}}</h4>
-                <h4 class="col-xs-6 col-sm-4 col-md-3 col-lg-2" >{{$t('dashboard.Total_kbytes')}}: {{status.Total_kbytes}}</h4>
-            <!-- </div>
-            <div class="row "> -->
-                <h4 class="col-xs-6 col-sm-4 col-md-3 col-lg-2">{{$t('dashboard.ReqPerSec')}}: {{status.ReqPerSec}}</h4>
-                <h4 class="col-xs-6 col-sm-4 col-md-3 col-lg-2" >{{$t('dashboard.BytesPerSec')}}: {{status.BytesPerSec}}</h4>
-                <h4 class="col-xs-6 col-sm-4 col-md-3 col-lg-2" >{{$t('dashboard.BytesPerReq')}}: {{status.BytesPerReq}}</h4>
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h3 class="panel-title">
+                            {{ $t('dashboard.apache_stats') }}
+                          </h3>
+                        </div>
+                        <div class="panel-body">
+                            <span class="card-pf-utilization-card-details-count stats-description-small col-xs-6">{{$t('dashboard.apache_uptime')}}: </span>
+                            <span
+                              class="card-pf-utilization-card-details-description stats-description-small col-xs-6"
+                            >
+                              <span
+                                class="card-pf-utilization-card-details-line-2 stats-text-small"
+                              >{{status.Uptime}}</span>
+                            </span>
+                            
+                            <span class="card-pf-utilization-card-details-count stats-description-small col-xs-6">{{$t('dashboard.TotalAccess')}}: </span>
+                            <span
+                              class="card-pf-utilization-card-details-description stats-description-small col-xs-6"
+                            >
+                              <span
+                                class="card-pf-utilization-card-details-line-2 stats-text-small"
+                              >{{status.TotalAccess}}</span>
+                            </span>
 
-                <!-- <h4 >{{$t('dashboard.WorkerApacheStatus')}}</h4> -->
-                <span v-if="Object.keys(status.statistics).length == 0" class="empty-piechart">
-                    <span class="fa fa-pie-chart"></span>
-                    <div>{{ $t('dashboard.empty_piechart_label') }}</div>
-                </span>
-                <span v-else id="apache-pie-chart"></span>
-                
-            </div>
+                            <span class="card-pf-utilization-card-details-count stats-description-small col-xs-6">{{$t('dashboard.Total_kbytes')}}: </span>
+                            <span
+                              class="card-pf-utilization-card-details-description stats-description-small col-xs-6"
+                            >
+                              <span
+                                class="card-pf-utilization-card-details-line-2 stats-text-small"
+                              >{{status.Total_kbytes}}</span>
+                            </span>
 
-            <div class="divider"></div>
-        <h3>{{$t('dashboard.LampStatus')}}</h3>
-        <div class="row  row-status">
-            <div
-            v-for="(s,i) in services"
-            :key="i"
-            v-if="live.packages[i]" class="stats-container col-xs-12 col-sm-4 col-md-3 col-lg-2"
-            >
-            <span v-if="live.packages[i]"
-            :class="['card-pf-utilization-card-details-count stats-count', s ? 'pficon pficon-ok' : 'pficon-error-circle-o']"
-            data-toggle="tooltip"
-            data-placement="top"
-            :title="$t('dashboard.status')+': '+ (s ? $t('enabled') : $t('disabled'))"
-            ></span>
-            <span v-if="live.packages[i]" class="card-pf-utilization-card-details-description stats-description">
-                <span class="card-pf-utilization-card-details-line-2 stats-text">{{i}} {{$t('dashboard.version')}}: {{live.versions[i]}}</span>
-            </span>
-        </div>
-        <div class="stats-container" v-if="!services">{{$t('dashboard.no_info_found')}}</div>
-        </div>
+                            <span class="card-pf-utilization-card-details-count stats-description-small col-xs-6">{{$t('dashboard.ReqPerSec')}}: </span>
+                            <span
+                              class="card-pf-utilization-card-details-description stats-description-small col-xs-6"
+                            >
+                              <span
+                                class="card-pf-utilization-card-details-line-2 stats-text-small"
+                              >{{status.ReqPerSec}}</span>
+                            </span>
+
+                            <span class="card-pf-utilization-card-details-count stats-description-small col-xs-6">{{$t('dashboard.BytesPerSec')}}: </span>
+                            <span
+                              class="card-pf-utilization-card-details-description stats-description-small col-xs-6"
+                            >
+                              <span
+                                class="card-pf-utilization-card-details-line-2 stats-text-small"
+                              >{{status.BytesPerSec}}</span>
+                            </span>
+
+                            <span class="card-pf-utilization-card-details-count stats-description-small col-xs-6">{{$t('dashboard.BytesPerReq')}}: </span>
+                            <span
+                              class="card-pf-utilization-card-details-description stats-description-small col-xs-6"
+                            >
+                              <span
+                                class="card-pf-utilization-card-details-line-2 stats-text-small"
+                              >{{status.BytesPerReq}}</span>
+                            </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">
+                        {{ $t('dashboard.informations') }}
+                      </h3>
+                    </div>
+                    <div class="panel-body">
+                        <span v-if="live.packages.virtualhost" class="card-pf-utilization-card-details-count stats-description-small col-xs-6">{{$t('dashboard.number_virtualhosts')}}: </span>
+                        <span v-if="live.packages.virtualhost"
+                          class="card-pf-utilization-card-details-description stats-description-small col-xs-6"
+                        >
+                          <span
+                            class="card-pf-utilization-card-details-line-2 stats-text-small"
+                          >{{live.statistics.virtualhosts}}</span>
+                        </span>
+                        
+                        
+                        <span class="card-pf-utilization-card-details-count stats-description-small col-xs-6">{{$t('dashboard.number_VhostReverse')}}: </span>
+                        <span
+                          class="card-pf-utilization-card-details-description stats-description-small col-xs-6"
+                        >
+                          <span
+                            class="card-pf-utilization-card-details-line-2 stats-text-small"
+                          >{{live.statistics.VhostReverse}}</span>
+                        </span>
+                        
+                        <span class="card-pf-utilization-card-details-count stats-description-small col-xs-6">{{$t('dashboard.number_ProxyPass')}}: </span>
+                        <span
+                          class="card-pf-utilization-card-details-description stats-description-small col-xs-6"
+                        >
+                          <span
+                            class="card-pf-utilization-card-details-line-2 stats-text-small"
+                          >{{live.statistics.ProxyPass}}</span>
+                        </span>
+                    </div>
+                  </div>
+                </div>
+            </div><!--  end first panel -->
+
+            <div class="row row-eq-height row-stat divider row-status container-fluid">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">
+                        {{ $t('dashboard.default_rpm_version') }}
+                      </h3>
+                    </div>
+                    <div class="panel-body">
+                        <span v-for="(item, key) in live.versions.default">
+                          <span
+                            class="card-pf-utilization-card-details-count stats-description-small col-xs-6"
+                          >{{key}}</span>
+                          <span
+                            class="card-pf-utilization-card-details-description stats-description-small col-xs-6"
+                          >
+                            <span
+                              class="card-pf-utilization-card-details-line-2 stats-text-small"
+                            >{{ item }}</span>
+                            </span>
+                        </span>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">
+                        {{ $t('dashboard.PHP_scl') }}
+                      </h3>
+                    </div>
+                    <div class="panel-body">
+                        <span v-for="(item, key) in live.versions.php_SCL">
+                          <span
+                            class="card-pf-utilization-card-details-count stats-description-small col-xs-6"
+                          >{{key}}</span>
+                          <span
+                            class="card-pf-utilization-card-details-description stats-description-small col-xs-6"
+                          >
+                            <span
+                              class="card-pf-utilization-card-details-line-2 stats-text-small"
+                            >{{ item }}</span>
+                            </span>
+                        </span>
+                    </div>
+                  </div>
+                </div>
+            
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">
+                        {{ $t('dashboard.databases_scl') }}
+                      </h3>
+                    </div>
+                    <div class="panel-body">
+                        <span v-for="(item, key) in live.versions.database_SCL">
+                          <span
+                            class="card-pf-utilization-card-details-count stats-description-small col-xs-6"
+                          >{{key}}</span>
+                          <span
+                            class="card-pf-utilization-card-details-description stats-description-small col-xs-6"
+                          >
+                            <span
+                              class="card-pf-utilization-card-details-line-2 stats-text-small"
+                            >{{ item }}</span>
+                            </span>
+                        </span>
+                    </div>
+                  </div>
+                </div>
+            </div><!--  end second panel -->
         </div>
     </div>
 </template>
@@ -117,52 +258,13 @@ export default {
         isLoaded: false,
         statsLoaded: false
       },
-      configuration:{
-          IPList: "",
-          JailStatus:"",
-          JailEnabled:""
-      },
       live: {
-          packages:{
-              virtualhost:""
-          },
-          statistics: {
-              ProxyPass: "",
-              VhostReverse: "",
-              virtualhosts: ""
-          },
-          services:{
-              httpd:"",
-              mysqld:""
-          }
+          packages:{},
+          statistics: {},
+          services:{},
+          versions:{}
       },
-      status:{
-          Total_kbytes:"",
-          Uptime:"",
-          TotalAccess:"",
-          BytesPerSec:"",
-          BytesPerReq:"",
-          ReqPerSec:"",
-          BusyWorkers:"",
-          CPULoad:"",
-          TotalWorkers:"",
-          IdleWorkers:"",
-          statistics:{
-            IdleCleanupWorkers: "",
-            ClosingWorkers: "",
-            DnsLookupWorkers: "",
-            ReadingWorkers: "",
-            GraceFullyFinishingWorkers: "",
-            KeepAliveWorkers: "",
-            ReplyingWorkers: "",
-            StartingWorkers: "",
-            BusyWorkers: "",
-            WaitingWorkers: "",
-            LoggingWorkers: "",
-            IdleWorkers: ""
-          }
-      },
-      loaders: false,
+      status:{},
     };
   },
   methods: {
@@ -218,7 +320,7 @@ export default {
             }
             context.status = success;
             context.status.statistics = success.statistics;
-            //context.status.Uptime = sucess.Uptime;
+
             if (Number(success.Uptime) < 3600) {
                 context.status.Uptime = parseFloat((Number(success.Uptime) / 60).toFixed(0)) + ' ' + context.$t("dashboard.minute");
             } else if (Number(success.Uptime) < 86400) {
@@ -257,29 +359,51 @@ export default {
   font-size: 92px;
   color: #bbbbbb;
 }
-.pficon-on-running {
-    margin-right: 2px;
-}
+
 .divider {
     border-top: 1px solid #d1d1d1;
 }
+
+/* lamp-status */
 .row-status {
   margin-left: -5px;
   margin-right: 0px;
 }
-.stats-container {
-  padding: 20px !important;
-  border-width: initial !important;
-  border-style: none !important;
-  border-color: initial !important;
-  border-image: initial !important;
-}
-.stats-count {
-  font-size: 26px;
-  font-weight: 300;
-  margin-right: 10px;
+
+/* panel */
+
+.stats-description-small {
   float: left;
-  line-height: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 2;
+}
+
+.stats-text-small {
+  line-height: 0.5;
+}
+.panel-body {
+  flex-grow: 1;
+}
+.row-eq-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-flow: row wrap;
+}
+.row-eq-height > div {
+  margin: 20px 0;
+}
+.row-eq-height .panel {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.panel-body {
+  flex-grow: 1;
 }
 </style>
 
