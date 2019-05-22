@@ -42,34 +42,28 @@ sub is_running
 my $input = readInput();
 my $cmd = $input->{'action'};
 
-#php scl
-my @php = ("56","70","71","72","73");
-my @phpSCL = ();
-foreach (@php) {
-    push @phpSCL, "rh-php$_-php-fpm";
-    push @phpSCL, "php$_-php-fpm";
-}
-
-#postgresql scl
-my @psql = ('rh-postgresql94-postgresql');
-
-
 if ($cmd eq 'live') {
-    # php scl
+    
     my @phpSCL = ();
     foreach (glob('/etc/e-smith/db/configuration/defaults/*php*-php-fpm')) {
         $_ =~ s|/etc/e-smith/db/configuration/defaults/||;
         push @phpSCL, $_;
     }
 
-    #postgresql scl
     my @psqlSCL = ();
     foreach (glob('/etc/e-smith/db/configuration/defaults/rh-postgresql*-postgresql')) {
         $_ =~ s|/etc/e-smith/db/configuration/defaults/||;
         push @psqlSCL, $_;
     }
-    
+
+    my @mariadbSCL = ();
+    foreach (glob ('/etc/e-smith/db/configuration/defaults/rh-mariadb*-mariadb')) {
+        $_ =~ s|/etc/e-smith/db/configuration/defaults/||;
+        push @mariadbSCL, $_;
+    }
+
     my @rpms = ('mysqld','httpd','postgresql');
+
 
     # 
     # Read stats for dashboard 
@@ -79,13 +73,14 @@ if ($cmd eq 'live') {
     my $vdb = esmith::ConfigDB->open_ro('vhosts');
     my $pdb = esmith::ConfigDB->open_ro('proxypass');
 
-    # Services isRunning
+    # Services
     $ret->{'services'} = {};
-    my @services = (@rpms,@phpSCL,@psqlSCL);
+    my @services = (@rpms,@phpSCL,@psqlSCL,@mariadbSCL);
     foreach (@services) {
         $ret->{'services'}{$_} = is_running($_, $cdb);
     }
-    $ret->{'services'}{'php'} = 1 if (-f '/etc/e-smith/db/configuration/defaults/php/type');
+
+    $ret->{'services'}{'php'} = (-e '/etc/e-smith/db/configuration/defaults/php/type') ? 1 : 0;
 
     # vhost list
     my @vhosts = $vdb->get_all();
@@ -93,63 +88,77 @@ if ($cmd eq 'live') {
     my @ProxyPass = $pdb->get_all_by_prop('type' => 'ProxyPass');
 
     # Counters
-    $ret->{'statistics'}{'virtualhosts'} = scalar @vhosts;
+    $ret->{'statistics'}{'virtualhosts'} = $vdb ? scalar @vhosts : 0;
     $ret->{'statistics'}{'VhostReverse'} = $pdb ? scalar @VhostReverse  : 0;
     $ret->{'statistics'}{'ProxyPass'} = $pdb ? scalar @ProxyPass : 0;
 
-    # packages isInstalled
-    foreach my $v (@phpSCL, @psqlSCL,@rpms,'php') {
-        if (-f "/etc/e-smith/db/configuration/defaults/$v/type"){
-            $ret->{'packages'}{"$v"} = 1;
-        } else {
-            $ret->{'packages'}{"$v"} = 0;
-        }
-    }
+    # validation  if nethserver-virtualhosts is installed 
     $ret->{'packages'}{"virtualhost"} = (-e '/etc/e-smith/db/vhosts/defaults/default/type') ? 1 : 0; 
 
-    # lamp version find version if installed
-    my $http = `/usr/sbin/httpd -v`;
-    my $httpVersion = $1 if ($http =~/Apache\/([\d+\.]+)/gi);
-    $ret->{'versions'}{'httpd'} = $httpVersion;
 
-    my $php = `/usr/bin/php -v`;
-    my $phpVersion = $1 if ($php =~/PHP\ ([\d+\.]+)/gi);
-    $ret->{'versions'}{'php'} = $phpVersion;
+    # lamp version
+    if ((-f "/etc/e-smith/db/configuration/defaults/httpd/type") &&
+        ($ret->{'services'}{'httpd'} == 1 )){
+            my $http = `/usr/sbin/httpd -v`;
+            my $httpVersion = $1 if ($http =~/Apache\/([\d+\.]+)/gi);
+            $ret->{'versions'}{'default'}{'httpd'} = $httpVersion;
+    }
+
+    if ($ret->{'services'}{'php'} == 1){
+        my $php = `/usr/bin/php -v`;
+        my $phpVersion = $1 if ($php =~/PHP\ ([\d+\.]+)/gi);
+        $ret->{'versions'}{'default'}{'php'} = $phpVersion;
+    }
 
     foreach my $v (@phpSCL) {
-        if (-f "/etc/e-smith/db/configuration/defaults/$v/type"){
-            my $scl = $v;
-            $scl =~ s/-php-fpm//;
-            my $php = `scl enable $scl 'php -v'`;
-            my $phpVersion = $1 if ($php =~/PHP\ ([\d+\.]+)/gi);
-            $ret->{'versions'}{'php_SCL'}{"$v"} = $phpVersion;
+        if ((-f "/etc/e-smith/db/configuration/defaults/$v/type") &&
+            ($ret->{'services'}{$v} == 1 )){
+                my $scl = $v;
+                $scl =~ s/-php-fpm//;
+                my $php = `scl enable $scl 'php -v'`;
+                my $phpVersion = $1 if ($php =~/PHP\ ([\d+\.]+)/gi);
+                $ret->{'versions'}{'php_SCL'}{"$v"} = $phpVersion;
         }
     }
 
-    if (-f '/etc/e-smith/db/configuration/defaults/mysqld/type'){
-        my $mysql = `/usr/bin/mysql -V`;
-        my $mysqlVersion = $1 if ($mysql =~/Distrib\ ([\d+\.]+[\-\w]+)/gi);
-        $ret->{'versions'}{'mysqld'} = $mysqlVersion;
+    if ((-f '/etc/e-smith/db/configuration/defaults/mysqld/type') && 
+        ($ret->{'services'}{'mysqld'} == 1 )){
+            my $mysql = `/usr/bin/mysql -V`;
+            my $mysqlVersion = $1 if ($mysql =~/Distrib\ ([\d+\.]+[\-\w]+)/gi);
+            $ret->{'versions'}{'default'}{'mysqld'} = $mysqlVersion;
     }
 
+    foreach my $v (@mariadbSCL) {
+        if ((-f "/etc/e-smith/db/configuration/defaults/$v/type") &&
+            ($ret->{'services'}{$v} == 1 )){
+                my $scl = $v;
+                $scl =~ s/-mariadb$//;
+                my $mysql = `scl enable $scl 'mysql -V'`;
+                my $version = $1 if ($mysql =~/Distrib\ ([\d+\.]+[\-\w]+)/gi);
+                $ret->{'versions'}{'database_SCL'}{"$scl"} = $version;
+        }
+    }
 
     foreach my $v (@psqlSCL) {
-        if (-f "/etc/e-smith/db/configuration/defaults/$v/type"){
-            my $scl = $v;
-            $scl =~ s/-postgresql$//;
-            my $psql = `scl enable $scl 'psql --version'`;
-            my $version = $1 if ($psql =~/\(PostgreSQL\)\ ([\d+\.]+)/gi);
-            $ret->{'versions'}{'database_scl'}{"$v"} = $version;
+        if ((-f "/etc/e-smith/db/configuration/defaults/$v/type") && 
+            ($ret->{'services'}{$v} == 1 )){
+                my $scl = $v;
+                $scl =~ s/-postgresql$//;
+                my $psql = `scl enable $scl 'psql --version'`;
+                my $version = $1 if ($psql =~/\(PostgreSQL\)\ ([\d+\.]+)/gi);
+                $ret->{'versions'}{'database_SCL'}{"$scl"} = $version;
         }
     }
-    # default postgresql
-    if (-f "/etc/e-smith/db/configuration/defaults/postgresql/type"){
-        my $psql = `psql --version`;
-        my $version = $1 if ($psql =~/\(PostgreSQL\)\ ([\d+\.]+)/gi);
-    $ret->{'versions'}{'postgresql'} = $version;
+
+    if ((-f "/etc/e-smith/db/configuration/defaults/postgresql/type") && 
+        ($ret->{'services'}{'postgresql'} == 1 )){
+           my $psql = `psql --version`;
+           my $version = $1 if ($psql =~/\(PostgreSQL\)\ ([\d+\.]+)/gi);
+           $ret->{'versions'}{'default'}{'postgresql'} = $version;
     }    
 
     print encode_json($ret);
+
 
 } elsif ($cmd eq 'apacheStatus') {
     my $url="http://localhost/server-status?auto";
