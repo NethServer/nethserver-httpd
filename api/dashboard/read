@@ -211,6 +211,8 @@ if ($cmd eq 'live') {
     $ret->{'statistics'}{'IdleCleanupWorkers'} = $idlecleanupworkers;
     $ret->{'statistics'}{'AvailableWorkers'} = $availableworkers;
 
+    print encode_json($ret);
+
 } else {
     error();
 }
