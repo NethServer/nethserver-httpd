@@ -1,6 +1,6 @@
 {
     "id": "nethserver-httpd",
-    "name": "Apache",
+    "name": "Web Server",
     "summary": "Nethserver integration of apache",
     "description": "Nethserver integration of apache",
     "url": "",
