@@ -61,28 +61,3 @@ sub readVhost
 
     return $ret;
 }
-
-sub readProxypass
-{
-    my $pdb = esmith::ConfigDB->open_ro('proxypass');
-    my @proxypass = ();
-
-    my $ret = {
-        'proxypass' => \@proxypass,
-    };
-
-    foreach ($pdb->get_all_by_prop('type' => 'VhostReverse')) {
-        push @proxypass, +{
-            $_->props(),
-            'name' => $_->key,
-        };
-    }
-
-    foreach ($pdb->get_all_by_prop('type' => 'ProxyPass')) {
-        push @proxypass, +{
-            $_->props(),
-            'name' => $_->key,
-        };
-    }
-    return $ret; 
-}
