@@ -95,7 +95,12 @@ if ($cmd eq 'live') {
 
 
 
-    # lamp version
+    # Rpm version of the web stack if isInstalled
+
+    #Set a default return, UI expecting it
+    # default version of centos
+    $ret->{'versions'}{'default'}= {};
+
     if ((-f "/etc/e-smith/db/configuration/defaults/httpd/type") &&
         ($ret->{'services'}{'httpd'} == 1 )){
             my $http = `/usr/sbin/httpd -v`;
@@ -109,6 +114,23 @@ if ($cmd eq 'live') {
         $ret->{'versions'}{'default'}{'php'} = $phpVersion;
     }
 
+    if ((-f '/etc/e-smith/db/configuration/defaults/mysqld/type') && 
+        ($ret->{'services'}{'mysqld'} == 1 )){
+            my $mysql = `/usr/bin/mysql -V`;
+            my $mysqlVersion = $1 if ($mysql =~/Distrib\ ([\d+\.]+[\-\w]+)/gi);
+            $ret->{'versions'}{'default'}{'mysqld'} = $mysqlVersion;
+    }
+
+    if ((-f "/etc/e-smith/db/configuration/defaults/postgresql/type") && 
+        ($ret->{'services'}{'postgresql'} == 1 )){
+           my $psql = `psql --version`;
+           my $version = $1 if ($psql =~/\(PostgreSQL\)\ ([\d+\.]+)/gi);
+           $ret->{'versions'}{'default'}{'postgresql'} = $version;
+    } 
+
+    #Set a default return, UI expecting it
+    # rh-php software collection
+    $ret->{'versions'}{'php_SCL'}= {};
     foreach my $v (@phpSCL) {
         if ((-f "/etc/e-smith/db/configuration/defaults/$v/type") &&
             ($ret->{'services'}{$v} == 1 )){
@@ -120,13 +142,9 @@ if ($cmd eq 'live') {
         }
     }
 
-    if ((-f '/etc/e-smith/db/configuration/defaults/mysqld/type') && 
-        ($ret->{'services'}{'mysqld'} == 1 )){
-            my $mysql = `/usr/bin/mysql -V`;
-            my $mysqlVersion = $1 if ($mysql =~/Distrib\ ([\d+\.]+[\-\w]+)/gi);
-            $ret->{'versions'}{'default'}{'mysqld'} = $mysqlVersion;
-    }
-
+    #Set a default return, UI expecting it
+    # rh-postgresql software collection
+    $ret->{'versions'}{'database_SCL'}= {};
     foreach my $v (@psqlSCL) {
         if ((-f "/etc/e-smith/db/configuration/defaults/$v/type") && 
             ($ret->{'services'}{$v} == 1 )){
@@ -137,13 +155,6 @@ if ($cmd eq 'live') {
                 $ret->{'versions'}{'database_SCL'}{"$scl"} = $version;
         }
     }
-
-    if ((-f "/etc/e-smith/db/configuration/defaults/postgresql/type") && 
-        ($ret->{'services'}{'postgresql'} == 1 )){
-           my $psql = `psql --version`;
-           my $version = $1 if ($psql =~/\(PostgreSQL\)\ ([\d+\.]+)/gi);
-           $ret->{'versions'}{'default'}{'postgresql'} = $version;
-    }    
 
     print encode_json($ret);
 
