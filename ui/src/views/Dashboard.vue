@@ -152,7 +152,7 @@
                   </div>
                 </div>
 
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                <div  class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
                   <div class="panel panel-default">
                     <div class="panel-heading">
                       <h3 class="panel-title">
@@ -160,7 +160,11 @@
                       </h3>
                     </div>
                     <div class="panel-body">
-                        <span v-for="(item, key) in live.versions.php_SCL">
+                        <span v-if="Object.keys(live.versions.php_SCL).length == 0">
+                            <div class="card-pf-utilization-card-details-count stats-description-small col-xs-6"
+                            >{{ $t('dashboard.no_installed_software') }}</div>
+                        </span>
+                        <span v-else v-for="(item, key) in live.versions.php_SCL">
                           <span
                             class="card-pf-utilization-card-details-count stats-description-small col-xs-6"
                           >{{key}}</span>
@@ -184,7 +188,11 @@
                       </h3>
                     </div>
                     <div class="panel-body">
-                        <span v-for="(item, key) in live.versions.database_SCL">
+                        <span v-if="Object.keys(live.versions.database_SCL).length == 0">
+                            <div  class="card-pf-utilization-card-details-count stats-description-small col-xs-6"
+                            >{{ $t('dashboard.no_installed_software') }}</div>
+                        </span>
+                        <span v-else v-for="(item, key) in live.versions.database_SCL">
                           <span
                             class="card-pf-utilization-card-details-count stats-description-small col-xs-6"
                           >{{key}}</span>
@@ -262,7 +270,11 @@ export default {
           packages:{},
           statistics: {},
           services:{},
-          versions:{}
+          versions:{
+              database_SCL:{},
+              php_SCL:{},
+              default:{}
+          }
       },
       status:{},
     };

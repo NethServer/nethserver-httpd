@@ -100,7 +100,9 @@
         "default_rpm_version":"Default web stack",
         "PHP_scl":"PHP sofware collection",
         "databases_scl":"Database software collection",
-        "apache_worker_status": "Status of Apache workers"
+        "apache_worker_status": "Status of Apache workers",
+        "no_installed_software":"You have no software",
+        "empty_piechart_label": "No data to create the graph"
     },
     "proxypass":{
         "title": "ProxyPass"
