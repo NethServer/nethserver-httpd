@@ -76,18 +76,23 @@ if ($cmd eq 'live') {
 
     $ret->{'services'}{'php'} = (-e '/etc/e-smith/db/configuration/defaults/php/type') ? 1 : 0;
 
-    # vhost list
-    my @vhosts = $vdb->get_all();
+    # validation  if nethserver-virtualhosts is installed 
+    $ret->{'packages'}{"virtualhost"} = (-e '/etc/e-smith/db/vhosts/defaults/default/type') ? 1 : 0; 
+
+    # vhost list if nethserver-virtualhost isInstalled
+    if ($ret->{'packages'}{"virtualhost"} == 1) {
+        my @vhosts = $vdb->get_all();
+        # Counter
+        $ret->{'statistics'}{'virtualhosts'} = $vdb ? scalar @vhosts : 0;
+    }
+
+    #Proxypass List
     my @VhostReverse = $pdb->get_all_by_prop('type' => 'VhostReverse');
     my @ProxyPass = $pdb->get_all_by_prop('type' => 'ProxyPass');
-
     # Counters
-    $ret->{'statistics'}{'virtualhosts'} = $vdb ? scalar @vhosts : 0;
     $ret->{'statistics'}{'VhostReverse'} = $pdb ? scalar @VhostReverse  : 0;
     $ret->{'statistics'}{'ProxyPass'} = $pdb ? scalar @ProxyPass : 0;
 
-    # validation  if nethserver-virtualhosts is installed 
-    $ret->{'packages'}{"virtualhost"} = (-e '/etc/e-smith/db/vhosts/defaults/default/type') ? 1 : 0; 
 
 
     # lamp version
