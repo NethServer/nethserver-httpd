@@ -45,7 +45,7 @@ my $cmd = $input->{'action'};
 if ($cmd eq 'live') {
     
     my @phpSCL = ();
-    foreach (glob('/etc/e-smith/db/configuration/defaults/*php*-php-fpm')) {
+    foreach (glob('/etc/e-smith/db/configuration/defaults/rh-php*-php-fpm')) {
         $_ =~ s|/etc/e-smith/db/configuration/defaults/||;
         push @phpSCL, $_;
     }
@@ -54,12 +54,6 @@ if ($cmd eq 'live') {
     foreach (glob('/etc/e-smith/db/configuration/defaults/rh-postgresql*-postgresql')) {
         $_ =~ s|/etc/e-smith/db/configuration/defaults/||;
         push @psqlSCL, $_;
-    }
-
-    my @mariadbSCL = ();
-    foreach (glob ('/etc/e-smith/db/configuration/defaults/rh-mariadb*-mariadb')) {
-        $_ =~ s|/etc/e-smith/db/configuration/defaults/||;
-        push @mariadbSCL, $_;
     }
 
     my @rpms = ('mysqld','httpd','postgresql');
@@ -75,7 +69,7 @@ if ($cmd eq 'live') {
 
     # Services
     $ret->{'services'} = {};
-    my @services = (@rpms,@phpSCL,@psqlSCL,@mariadbSCL);
+    my @services = (@rpms,@phpSCL,@psqlSCL);
     foreach (@services) {
         $ret->{'services'}{$_} = is_running($_, $cdb);
     }
@@ -126,17 +120,6 @@ if ($cmd eq 'live') {
             my $mysql = `/usr/bin/mysql -V`;
             my $mysqlVersion = $1 if ($mysql =~/Distrib\ ([\d+\.]+[\-\w]+)/gi);
             $ret->{'versions'}{'default'}{'mysqld'} = $mysqlVersion;
-    }
-
-    foreach my $v (@mariadbSCL) {
-        if ((-f "/etc/e-smith/db/configuration/defaults/$v/type") &&
-            ($ret->{'services'}{$v} == 1 )){
-                my $scl = $v;
-                $scl =~ s/-mariadb$//;
-                my $mysql = `scl enable $scl 'mysql -V'`;
-                my $version = $1 if ($mysql =~/Distrib\ ([\d+\.]+[\-\w]+)/gi);
-                $ret->{'versions'}{'database_SCL'}{"$scl"} = $version;
-        }
     }
 
     foreach my $v (@psqlSCL) {
