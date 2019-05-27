@@ -37,20 +37,29 @@ my $hdb = esmith::ConfigDB->open('hosts');
 my $input = readInput();
 my $vhostName = $input->{'virtualhost'}->{'name'};
 my $CreateHostRecords = $input->{'virtualhost'}->{'CreateHostRecords'} || 0;
+my %props = ();
 
-my %props = (
-    'Access' => $input->{'virtualhost'}->{'Access'},
-    'Description' => $input->{'virtualhost'}->{'Description'},
-    'ForceSslStatus' => $input->{'virtualhost'}->{'ForceSslStatus'},
-    'FtpPassword' => $input->{'virtualhost'}->{'FtpPassword'},
-    'FtpStatus' => $input->{'virtualhost'}->{'FtpStatus'},
-    'Indexes' => $input->{'virtualhost'}->{'Indexes'},
-    'PasswordStatus' => $input->{'virtualhost'}->{'PasswordStatus'},
-    'PasswordValue' => $input->{'virtualhost'}->{'PasswordValue'},
-    'ServerNames' => $input->{'virtualhost'}->{'ServerNames'},
-    'SslCertificate' => $input->{'virtualhost'}->{'SslCertificate'},
-    'status' => $input->{'virtualhost'}->{'status'},
-);
+if ($vhostName eq 'default'){
+     %props = (
+        'Description' => $input->{'virtualhost'}->{'Description'},
+        'FtpPassword' => $input->{'virtualhost'}->{'FtpPassword'},
+        'FtpStatus' => $input->{'virtualhost'}->{'FtpStatus'},
+    );
+} else {
+     %props = (
+        'Access' => $input->{'virtualhost'}->{'Access'},
+        'Description' => $input->{'virtualhost'}->{'Description'},
+        'ForceSslStatus' => $input->{'virtualhost'}->{'ForceSslStatus'},
+        'FtpPassword' => $input->{'virtualhost'}->{'FtpPassword'},
+        'FtpStatus' => $input->{'virtualhost'}->{'FtpStatus'},
+        'Indexes' => $input->{'virtualhost'}->{'Indexes'},
+        'PasswordStatus' => $input->{'virtualhost'}->{'PasswordStatus'},
+        'PasswordValue' => $input->{'virtualhost'}->{'PasswordValue'},
+        'ServerNames' => $input->{'virtualhost'}->{'ServerNames'},
+        'SslCertificate' => $input->{'virtualhost'}->{'SslCertificate'},
+        'status' => $input->{'virtualhost'}->{'status'},
+    );
+}
 
 if($input->{'action'} eq 'create') {
     $eventName = 'vhost-create';
