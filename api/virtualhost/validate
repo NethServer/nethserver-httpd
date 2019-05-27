@@ -35,34 +35,36 @@ if($data['action'] == 'create') {
 
 $v->declareParameter('name', Validate::USERNAME);
 $v->declareParameter('Description', Validate::ANYTHING);
-$v->declareParameter('ServerNames', Validate::NOTEMPTY);
-$v->declareParameter('PasswordStatus', Validate::SERVICESTATUS);
-$v->declareParameter('Indexes', Validate::SERVICESTATUS);
-$v->declareParameter('Access', $v->createValidator()->memberOf('public', 'private'));
-$v->declareParameter('ForceSslStatus', Validate::SERVICESTATUS);
-$v->declareParameter('SslCertificate', Validate::ANYTHING);
+
 $v->declareParameter('FtpStatus', Validate::SERVICESTATUS);
-
-if($data['virtualhost']['PasswordStatus'] == 'enabled') {
-    $v->declareParameter('PasswordValue', Validate::NOTEMPTY);
-}
-
 if($data['virtualhost']['FtpStatus'] == 'enabled') {
     $v->declareParameter('FtpPassword', Validate::NOTEMPTY);
 }
 
-$serverList = explode(',', $data['virtualhost']['ServerNames']);
-$Validator = $v->createValidator()->hostname();
-foreach ($serverList  as $el) {
-    $keyExists = $hdb->getType($el) == 'self';
-    if (!$Validator->evaluate($el) ) {
-        $v->addValidationError('ServerNames', "valid_fqdn");
+if($data['virtualhost']['name'] != 'default') {
+    $v->declareParameter('ServerNames', Validate::NOTEMPTY);
+    $v->declareParameter('Indexes', Validate::SERVICESTATUS);
+    $v->declareParameter('Access', $v->createValidator()->memberOf('public', 'private'));
+    $v->declareParameter('ForceSslStatus', Validate::SERVICESTATUS);
+    $v->declareParameter('SslCertificate', Validate::ANYTHING);
+
+    $v->declareParameter('PasswordStatus', Validate::SERVICESTATUS);
+    if($data['virtualhost']['PasswordStatus'] == 'enabled') {
+        $v->declareParameter('PasswordValue', Validate::NOTEMPTY);
     }
-    if ($keyExists) {
-        $v->addValidationError('ServerNames', 'hostname_key_exists');     
+
+    $serverList = explode(',', $data['virtualhost']['ServerNames']);
+    $Validator = $v->createValidator()->hostname();
+    foreach ($serverList  as $el) {
+        $keyExists = $hdb->getType($el) == 'self';
+        if (!$Validator->evaluate($el) ) {
+            $v->addValidationError('ServerNames', "valid_fqdn");
+        }
+        if ($keyExists) {
+            $v->addValidationError('ServerNames', 'hostname_key_exists');     
+        }
     }
 }
-
 # Validate the input
 if ($v->validate()) {
     success();
