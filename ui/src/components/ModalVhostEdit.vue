@@ -138,9 +138,9 @@ select {
 
                             <div v-if="PasswordStatus == 'enabled'">
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label" v-bind:for="id + '-ni'">{{ $t('virtualhost.UserName') }}</label>
+                                    <label class="col-sm-3 control-label" v-bind:for="id + '-un'">{{ $t('virtualhost.UserName') }}</label>
                                     <div class="col-sm-9">
-                                        <input disabled type="text" v-model="name" v-bind:id="id + '-ni'" class="form-control">
+                                        <input disabled type="text" v-model="name" v-bind:id="id + '-un'" class="form-control">
                                         <span v-if="vErrors.name" class="help-block">{{ vErrors.name }}</span>
                                     </div>
                                 </div>
@@ -239,9 +239,9 @@ select {
                     
                         <div v-if="FtpStatus == 'enabled'">
                             <div class="form-group">
-                                <label class="col-sm-3 control-label" v-bind:for="id + '-ni'">{{ $t('virtualhost.UserName') }}</label>
+                                <label class="col-sm-3 control-label" v-bind:for="id + '-fun'">{{ $t('virtualhost.UserName') }}</label>
                                 <div class="col-sm-9">
-                                    <input disabled type="text" v-model="name" v-bind:id="id + '-ni'" class="form-control">
+                                    <input disabled type="text" v-model="name" v-bind:id="id + '-fun'" class="form-control">
                                     <span v-if="vErrors.name" class="help-block">{{ vErrors.name }}</span>
                                 </div>
                             </div>
