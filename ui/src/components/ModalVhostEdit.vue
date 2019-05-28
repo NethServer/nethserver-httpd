@@ -64,6 +64,11 @@ select {
                             <b>{{ this.virtualhost.name }}</b>
                         </i18n>
                     </div>
+                    <div class="alert alert-info alert-dismissable">
+                      <span class="pficon pficon-info"></span>
+                      <strong>{{$t('info')}}</strong>
+                      {{$t('virtualhost.dnsHostRecord_do_not_be_removed')}}.
+                    </div>
                     <form class="form-horizontal">
                         <div class="form-group">
                             <label

@@ -48,7 +48,8 @@
         "virtualhost_enabled_Failed": "The virtualhost has not been enabled well",
         "FQDN_help": "A comma separated list of fully qualified domain names",
         "advanced_mode":"Advanced settings",
-        "automatic_HostRecord_creation": "The DNS record of each virtual hosts names will be automatically created on this server"
+        "automatic_HostRecord_creation": "The DNS record of each virtual hosts names will be automatically created on this server",
+        "dnsHostRecord_do_not_be_removed": "The DNS records will not be removed automatically, you can do it manually"
     },
     "about": {
         "title": "About",
