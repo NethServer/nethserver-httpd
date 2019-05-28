@@ -33,7 +33,7 @@ export default function generatePieChart(bindto, data) {
             position: 'right'
     }
     pieChartRightConfig.size = {
-        width: 400,
+        width: 300,
         height: 300
       }
     ;

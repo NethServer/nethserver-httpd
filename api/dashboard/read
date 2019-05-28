@@ -180,15 +180,6 @@ if ($cmd eq 'live') {
     my $totalworkers = $1 if ($server_status =~ /Scoreboard:\ (.+)/gi);
     
     # count the number of occurences
-    my $startingworkers = $totalworkers =~ tr/S//;
-    my $readingworkers = $totalworkers =~ tr/R//;
-    my $sendingreplyworkers = $totalworkers =~ tr/W//;
-    my $keepaliveworkers = $totalworkers =~ tr/K//;
-    my $dnslookupworkers = $totalworkers =~ tr/D//;
-    my $closingworkers = $totalworkers =~ tr/C//;
-    my $loggingworkers = $totalworkers =~ tr/L//;
-    my $gracefullyworkers = $totalworkers =~ tr/G//;
-    my $idlecleanupworkers = $totalworkers =~ tr/I//;
     my $availableworkers = $totalworkers =~ tr/\.//;
 
     # make the json
@@ -198,17 +189,9 @@ if ($cmd eq 'live') {
     $ret->{'ReqPerSec'} = $reqpersec;
     $ret->{'BytesPerSec'} = $bytespersec;
     $ret->{'BytesPerReq'} = $bytesperreq;
-    $ret->{'statistics'}{'BusyWorkers'} = $busyworkers;
+    $ret->{'statistics'}{'RunningWorkers'} = $busyworkers;
     $ret->{'statistics'}{'IdleWorkers'} = $idleworkers;
-    $ret->{'statistics'}{'StartingWorkers'} = $startingworkers;
-    $ret->{'statistics'}{'ReadingWorkers'} = $readingworkers;
-    $ret->{'statistics'}{'KeepAliveWorkers'} = $keepaliveworkers;
-    $ret->{'statistics'}{'DnsLookupWorkers'} = $dnslookupworkers;
-    $ret->{'statistics'}{'ClosingWorkers'} = $closingworkers;
-    $ret->{'statistics'}{'LoggingWorkers'} = $loggingworkers;
-    $ret->{'statistics'}{'GraceFullyFinishingWorkers'} = $gracefullyworkers;
-    $ret->{'statistics'}{'IdleCleanupWorkers'} = $idlecleanupworkers;
-    $ret->{'statistics'}{'AvailableWorkers'} = $availableworkers;
+    $ret->{'statistics'}{'SpareWorkers'} = $availableworkers;
 
     print encode_json($ret);
 

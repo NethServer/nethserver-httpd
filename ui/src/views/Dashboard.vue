@@ -226,32 +226,14 @@ export default {
     if (!this.apachePieChart) {
       this.apachePieChart = generatePieChart("#apache-pie-chart", {
           names: {
-              AvailableWorkers: this.$t("dashboard.AvailableWorkers"),
+              SpareWorkers: this.$t("dashboard.SpareWorkers"),
               IdleWorkers: this.$t("dashboard.IdleWorkers"),
-              LoggingWorkers: this.$t("dashboard.LoggingWorkers"),
-              BusyWorkers: this.$t("dashboard.BusyWorkers"),
-              StartingWorkers: this.$t("dashboard.StartingWorkers"),
-              ReplyingWorkers: this.$t("dashboard.ReplyingWorkers"),
-              KeepAliveWorkers: this.$t("dashboard.KeepAliveWorkers"),
-              GraceFullyFinishingWorkers: this.$t("dashboard.GraceFullyFinishingWorkers"),
-              DnsLookupWorkers: this.$t("dashboard.DnsLookupWorkers"),
-              ClosingWorkers: this.$t("dashboard.ClosingWorkers"),
-              IdleCleanupWorkers: this.$t("dashboard.IdleCleanupWorkers"),
-              ReadingWorkers: this.$t("dashboard.ReadingWorkers")
+              RunningWorkers: this.$t("dashboard.RunningWorkers")
           },
           colors: {
-              AvailableWorkers: $.pfPaletteColors.green,
-              IdleWorkers: $.pfPaletteColors.green,
-              LoggingWorkers: $.pfPaletteColors.blue,
-              BusyWorkers: $.pfPaletteColors.red,
-              StartingWorkers: $.pfPaletteColors.red,
-              ReplyingWorkers: $.pfPaletteColors.red,
-              KeepAliveWorkers: $.pfPaletteColors.orange,
-              GraceFullyFinishingWorkers: $.pfPaletteColors.orange,
-              DnsLookupWorkers: $.pfPaletteColors.blue,
-              ClosingWorkers: $.pfPaletteColors.orange,
-              IdleCleanupWorkers: $.pfPaletteColors.orange,
-              ReadingWorkers: $.pfPaletteColors.red
+              SpareWorkers: $.pfPaletteColors.green,
+              IdleWorkers: $.pfPaletteColors.orange,
+              RunningWorkers: $.pfPaletteColors.red
         },
          columns: []
        });
