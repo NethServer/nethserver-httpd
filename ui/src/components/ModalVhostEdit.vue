@@ -75,6 +75,14 @@ select {
                 </div>
 
                 <div v-else class="modal-body">
+                    <!-- hosts record creation -->
+                    <div v-if="useCase == 'create'">
+                    <div class="alert alert-info alert-dismissable">
+                      <span class="pficon pficon-info"></span>
+                      <strong>{{$t('info')}}</strong>
+                      {{$t('virtualhost.automatic_HostRecord_creation')}}.
+                    </div>
+                    </div>
                     <form class="form-horizontal">
                         <div v-bind:class="['form-group', vErrors.name ? 'has-error' : '']">
                             <label class="col-sm-3 control-label" v-bind:for="id + '-ni'">{{ $t('virtualhost.name') }}</label>
@@ -271,20 +279,7 @@ select {
                             </div>
                         </div>
 
-                        <!-- hosts record creation -->
-                        <div v-if="useCase == 'create'"
-                          v-bind:class="['form-group', vErrors.CreateHostRecords ? 'has-error' : '']"
-                        >
-                            <label
-                                class="col-sm-3 control-label"
-                                v-bind:for="id + '-hostRecord'"
-                                >{{$t('virtualhost.CreateHostRecords')}}
-                            </label>
-                             <div class="col-sm-9">
-                                <input type="checkbox" true-value="1" false-value="0" v-model="CreateHostRecords" class="form-control">
-                                <span v-if="vErrors.CreateHostRecords" class="help-block">{{ vErrors.CreateHostRecords }}</span>
-                            </div>
-                        </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -314,7 +309,6 @@ var attrs = [
     "FtpStatus",
     "FtpPassword",
     "SslCertificate",
-    "CreateHostRecords",
     "status"
 ];
 

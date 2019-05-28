@@ -205,8 +205,7 @@ export default {
         FtpPassword:"",
         certificates: "",
         Description: "",
-        status: "enabled",
-        CreateHostRecords:"1"
+        status: "enabled"
       };
     },
     openModal(id, item) {
