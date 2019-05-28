@@ -201,7 +201,7 @@ export default {
         FtpPassword:"",
         ForceSslStatus:"disabled",
         Indexes:"disabled",
-        FtpStatus:"enabled",
+        FtpStatus:"disabled",
         FtpPassword:"",
         certificates: "",
         Description: "",

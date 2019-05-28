@@ -97,9 +97,20 @@ select {
                                 <span v-if="vErrors.ServerNames" class="help-block">{{ vErrors.ServerNames }}</span>
                             </div>
                         </div>
-                        
+
+                         <!-- advanced menu -->
+                        <legend   class="fields-section-header-pf" aria-expanded="true">
+                            <span
+                            :class="['fa fa-angle-right field-section-toggle-pf', advanced ? 'fa-angle-down' : '']"
+                            ></span>
+                            <a
+                            class="field-section-toggle-pf"
+                            @click="toggleAdvancedMode()"
+                            >{{$t('virtualhost.advanced_mode')}}</a>
+                        </legend>
+
                         <!-- trusted network -->
-                        <div v-if="name !== 'default'">
+                        <div v-if="name !== 'default' && advanced">
                             <div 
                               v-bind:class="['form-group', vErrors.Access ? 'has-error' : '']"
                             >
@@ -116,7 +127,7 @@ select {
                         </div>
                         
                         <!-- Httpd Access -->
-                        <div v-if="name !== 'default'">
+                        <div v-if="name !== 'default' && advanced ">
                             <div class="form-group">
                                 <label
                                     class="col-sm-3 control-label"
@@ -136,7 +147,7 @@ select {
                                 </div>
                             </div>
 
-                            <div v-if="PasswordStatus == 'enabled'">
+                            <div v-if="PasswordStatus == 'enabled' && advanced">
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label" v-bind:for="id + '-un'">{{ $t('virtualhost.UserName') }}</label>
                                     <div class="col-sm-9">
@@ -146,7 +157,7 @@ select {
                                 </div>
                             </div>
 
-                            <div v-if="PasswordStatus == 'enabled'"
+                            <div v-if="PasswordStatus == 'enabled' && advanced"
                             :class="['form-group', vErrors.PasswordValue ? 'has-error' : '']">
                                 <label
                                     class="col-sm-3 control-label"
@@ -161,7 +172,7 @@ select {
                         </div>
 
                         <!-- SSL forced -->
-                        <div v-if="name !== 'default'">
+                        <div v-if="name !== 'default' && advanced">
                             <div
                               v-bind:class="['form-group', vErrors.ForceSslStatus ? 'has-error' : '']"
                             >
@@ -177,7 +188,7 @@ select {
                             </div>
                             
                             <!-- root directory file listing  -->
-                            <div
+                            <div 
                               v-bind:class="['form-group', vErrors.Indexes ? 'has-error' : '']"
                             >
                               <label
@@ -218,7 +229,7 @@ select {
                         </div>
 
                         <!-- FTP access -->
-                        <div class="form-group">
+                        <div v-if="advanced" class="form-group">
                             <label
                                 class="col-sm-3 control-label"
                                 for="textInput-modal-markup"
@@ -237,7 +248,7 @@ select {
                             </div>
                         </div>
                     
-                        <div v-if="FtpStatus == 'enabled'">
+                        <div v-if="FtpStatus == 'enabled' && advanced">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" v-bind:for="id + '-fun'">{{ $t('virtualhost.UserName') }}</label>
                                 <div class="col-sm-9">
@@ -247,7 +258,7 @@ select {
                             </div>
                         </div>
 
-                        <div v-if="FtpStatus == 'enabled'"
+                        <div v-if="FtpStatus == 'enabled' && advanced"
                         :class="['form-group', vErrors.FtpPassword ? 'has-error' : '']">
                             <label
                                 class="col-sm-3 control-label"
@@ -382,6 +393,10 @@ export default {
         })
     },
     methods: {
+        toggleAdvancedMode() {
+  this.advanced = !this.advanced;
+  this.$forceUpdate();
+},
     },
 }
 </script>

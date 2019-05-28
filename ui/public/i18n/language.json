@@ -47,7 +47,8 @@
         "virtualhost_enabled_ok": "The virtualhost has well been enabled",
         "virtualhost_enabled_Failed": "The virtualhost has not been enabled well",
         "CreateHostRecords": "Create a record under \"DNS > Server alias\" page for the proxypass name",
-        "FQDN_help": "A comma separated list of fully qualified domain names"
+        "FQDN_help": "A comma separated list of fully qualified domain names",
+        "advanced_mode":"Advanced settings"
     },
     "about": {
         "title": "About",
