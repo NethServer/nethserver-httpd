@@ -205,7 +205,8 @@ export default {
         FtpPassword:"",
         certificates: "",
         Description: "",
-        status: "enabled"
+        status: "enabled",
+        togglePass: false
       };
     },
     openModal(id, item) {

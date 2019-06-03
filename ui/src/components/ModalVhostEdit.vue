@@ -177,9 +177,20 @@ select {
                                     for="textInput-modal-markup"
                                     >{{$t('virtualhost.PasswordValue')}}
                                 </label>
-                                <div class="col-sm-9">
-                                    <input  type="password" v-model="PasswordValue" name="PasswordValue" class="form-control">
+                                <div class="col-sm-6">
+                                    <input  :type="togglePass ? 'text' : 'password'"
+                                        v-model="PasswordValue" name="PasswordValue" class="form-control"
+                                    >
                                     <span v-if="vErrors.PasswordValue" class="help-block">{{ vErrors.PasswordValue }}</span>
+                                </div>
+                                <div class="col-sm-3">
+                                    <button
+                                    class="btn btn-primary"
+                                    type="button"
+                                    @click="togglePassHidden()"
+                                    >
+                                    <span :class="['fa', togglePass ? 'fa-eye' : 'fa-eye-slash']"></span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -325,6 +336,7 @@ export default {
         'virtualhost': Object,
         'certificates': Array,
     },
+    togglePass: false,
     watch: {
         virtualhost: function(newval) {
             this.vErrors = {}
@@ -393,9 +405,13 @@ export default {
     },
     methods: {
         toggleAdvancedMode() {
-  this.advanced = !this.advanced;
-  this.$forceUpdate();
-},
+          this.advanced = !this.advanced;
+          this.$forceUpdate();
+        },
+        togglePassHidden() {
+          this.togglePass = !this.togglePass;
+          this.$forceUpdate();
+        },
     },
 }
 </script>
