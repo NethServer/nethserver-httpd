@@ -54,7 +54,7 @@ if ($vhostName eq 'default'){
         'Indexes' => $input->{'virtualhost'}->{'Indexes'},
         'PasswordStatus' => $input->{'virtualhost'}->{'PasswordStatus'},
         'PasswordValue' => $input->{'virtualhost'}->{'PasswordValue'},
-        'ServerNames' => $input->{'virtualhost'}->{'ServerNames'},
+        'ServerNames' => join (',',@{$input->{'virtualhost'}->{'ServerNames'}}),
         'SslCertificate' => $input->{'virtualhost'}->{'SslCertificate'},
         'status' => $input->{'virtualhost'}->{'status'},
     );

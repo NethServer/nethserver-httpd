@@ -102,12 +102,21 @@ select {
                                 <input type="text" v-model="Description" v-bind:id="id + '-di'" class="form-control">
                             </div>
                         </div>
+                        
                         <!-- FQDN -->
                         <div v-if="name !== 'default'" class="form-group">
-                            <label class="col-sm-3 control-label" v-bind:for="id + '-di'">{{ $t('virtualhost.ServerNames') }}</label>
+                        <label
+                                class="col-sm-3 control-label"
+                                for="textInput-modal-markup"
+                                >{{$t('virtualhost.ServerNames')}}
+                        </label>
                             <div class="col-sm-9">
-                                <input type="text" v-model="ServerNames" :placeholder="$t('virtualhost.FQDN_help')" v-bind:id="id + '-ServerName'" class="form-control">
-                                <span v-if="vErrors.ServerNames" class="help-block">{{ vErrors.ServerNames }}</span>
+                                <textarea v-bind:id="id + '-ServerName'" v-model="ServerNames" class="form-control" 
+                                    :placeholder="$t('virtualhost.FQDN_help')"></textarea>
+                                <span v-if="vErrors.ServerNames" class="help-block">
+                                    {{$t('validation.validation_failed')}}:
+                                    {{vErrors.ServerNames}}
+                                </span>
                             </div>
                         </div>
 
@@ -341,7 +350,7 @@ export default {
         virtualhost: function(newval) {
             this.vErrors = {}
             for(let i in attrs) {
-                this[attrs[i]] = newval[attrs[i]] || "";
+                this[attrs[i]] = newval[attrs[i]].split(",").join("\n") || newval[attrs[i]] || "";
             }
         },
     },
@@ -363,7 +372,10 @@ export default {
                 virtualhost: {}
             }
             for(let i in attrs) {
-                inputData.virtualhost[attrs[i]] = this[attrs[i]]
+                inputData.virtualhost[attrs[i]] = this[attrs[i]];
+                if (this[attrs[i]].match(/\n/)) { 
+                    inputData.virtualhost[attrs[i]] = this[attrs[i]].split("\n")
+                }
             }
             this.vErrors = {}
             execp("nethserver-httpd/virtualhost/validate", inputData)

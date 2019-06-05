@@ -53,15 +53,15 @@ if($data['virtualhost']['name'] != 'default') {
         $v->declareParameter('PasswordValue', Validate::NOTEMPTY);
     }
 
-    $serverList = explode(',', $data['virtualhost']['ServerNames']);
+    $serverList = $data['virtualhost']['ServerNames'];
     $Validator = $v->createValidator()->hostname();
     foreach ($serverList  as $el) {
         $keyExists = $hdb->getType($el) == 'self';
         if (!$Validator->evaluate($el) ) {
-            $v->addValidationError('ServerNames', "valid_fqdn");
+            $v->addValidationError('ServerNames', "valid_fqdn", $el);
         }
         if ($keyExists) {
-            $v->addValidationError('ServerNames', 'hostname_key_exists');     
+            $v->addValidationError('ServerNames', 'hostname_key_exists',$el);
         }
     }
 }

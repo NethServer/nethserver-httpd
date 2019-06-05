@@ -46,7 +46,7 @@
         "virtualhost_disabled_Failed": "The virtualhost has not been disabled well",
         "virtualhost_enabled_ok": "The virtualhost has well been enabled",
         "virtualhost_enabled_Failed": "The virtualhost has not been enabled well",
-        "FQDN_help": "A comma separated list of fully qualified domain names",
+        "FQDN_help": "A list of one fully qualified domain name per line",
         "advanced_mode":"Advanced settings",
         "automatic_HostRecord_creation": "The DNS record of each virtual hosts names will be automatically created on this server",
         "dnsHostRecord_do_not_be_removed": "The DNS records will not be removed automatically, you can do it manually"
