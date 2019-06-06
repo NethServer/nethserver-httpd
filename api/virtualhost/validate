@@ -33,8 +33,8 @@ if($data['action'] == 'create') {
     }
 }
 
-$v->declareParameter('name', Validate::USERNAME);
-$v->declareParameter('Description', Validate::ANYTHING);
+$v->declareParameter('name', Validate::NOTEMPTY);
+$v->declareParameter('Description', Validate::NOTEMPTY);
 
 $v->declareParameter('FtpStatus', Validate::SERVICESTATUS);
 if($data['virtualhost']['FtpStatus'] == 'enabled') {

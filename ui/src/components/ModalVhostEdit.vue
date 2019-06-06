@@ -89,17 +89,14 @@ select {
                     </div>
                     </div>
                     <form class="form-horizontal">
-                        <div v-bind:class="['form-group', vErrors.name ? 'has-error' : '']">
-                            <label class="col-sm-3 control-label" v-bind:for="id + '-ni'">{{ $t('virtualhost.name') }}</label>
-                            <div class="col-sm-9">
-                                <input :disabled="useCase != 'create'" type="text" v-model="name" v-bind:id="id + '-ni'" class="form-control">
-                                <span v-if="vErrors.name" class="help-block">{{ vErrors.name }}</span>
-                            </div>
-                        </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label" v-bind:for="id + '-di'">{{ $t('virtualhost.description_label') }}</label>
                             <div class="col-sm-9">
-                                <input type="text" v-model="Description" v-bind:id="id + '-di'" class="form-control">
+                                <input required type="text" v-model="Description" v-bind:id="id + '-di'" class="form-control">
+                                <span v-if="vErrors.Description" class="help-block">
+                                    {{$t('validation.validation_failed')}}:
+                                    {{vErrors.Description}}
+                                </span>
                             </div>
                         </div>
                         
