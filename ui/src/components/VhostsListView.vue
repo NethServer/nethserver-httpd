@@ -66,9 +66,17 @@
         </div>
         <div class="list-view-pf-body">
           <div class="list-view-pf-description">
-            <div class="list-group-item-text">{{ item.Description }}
-            <span :class="[item.status === 'disabled' ? 'pficon pficon-locked':'','span-right-margin']"></span></div>
+            <span :class="[item.status === 'disabled' ? 'pficon pficon-locked':'','span-right-margin']"></span>
+            <div class="list-group-item-text">
+                <strong :class="[item.status === 'disabled' ? 'gray':'','big-name']">{{ item.Description }}</strong>
+            </div>
             <div class="list-group-item-text">{{ item.ServerNames }}</div>
+            <div class="list-view-pf-additional-info-item">
+                <span :class="[(item.PasswordStatus === 'enabled' && item.status === 'enabled') ? 'fa  fa-check green':'fa  fa-times red','span-left-margin']"></span>
+            <strong>{{$t('virtualhost.http')}}</strong>
+                <span :class="[item.FtpStatus === 'enabled' ? 'fa  fa-check green':'fa  fa-times red','span-left-margin']"></span>
+                <strong>{{$t('virtualhost.ftp')}}</strong>
+            </div>
           </div>
         </div>
       </div>
@@ -128,5 +136,23 @@ export default {
 }
 .list-group-item-text {
   width: calc(40% - 40px) !important;
+}
+.green {
+  color: #3f9c35;
+}
+.red {
+  color: #cc0000;
+}
+.gray {
+  color: #72767b !important;
+}
+.big-name {
+  font-size: 16px;
+}
+.span-right-margin {
+  margin-right: 4px;
+}
+.span-left-margin {
+  margin-left: 5px;
 }
 </style>

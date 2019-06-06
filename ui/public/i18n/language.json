@@ -49,7 +49,9 @@
         "FQDN_help": "A list of one fully qualified domain name per line",
         "advanced_mode":"Advanced settings",
         "automatic_HostRecord_creation": "The DNS record of each virtual hosts names will be automatically created on this server",
-        "dnsHostRecord_do_not_be_removed": "The DNS records will not be removed automatically, you can do it manually"
+        "dnsHostRecord_do_not_be_removed": "The DNS records will not be removed automatically, you can do it manually",
+        "http": "HTTP",
+        "ftp": "FTP"
     },
     "about": {
         "title": "About",
