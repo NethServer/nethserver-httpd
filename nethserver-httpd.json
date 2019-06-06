@@ -2,7 +2,7 @@
     "id": "nethserver-httpd",
     "name": "Web Server",
     "summary": "Nethserver integration of apache",
-    "description": "Nethserver integration of apache",
+    "description": "Provides FTP and apache virtualhost/proxypass",
     "url": "",
     "homepage": "https://github.com/NethServer/nethserver-httpd",
     "provides": ["nethserver-httpd"],
