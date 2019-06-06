@@ -56,12 +56,15 @@ if($data['virtualhost']['name'] != 'default') {
     $serverList = $data['virtualhost']['ServerNames'];
     $Validator = $v->createValidator()->hostname();
     foreach ($serverList  as $el) {
-        $keyExists = $hdb->getType($el) == 'self';
         if (!$Validator->evaluate($el) ) {
             $v->addValidationError('ServerNames', "valid_fqdn", $el);
         }
-        if ($keyExists) {
-            $v->addValidationError('ServerNames', 'hostname_key_exists',$el);
+        #Valid if the fqdn is not already used
+        foreach ($vdb->getAll() as $key => $props) {
+            $vhost = $vdb->getProp($key, 'ServerNames');
+            if (strpos($vhost,$el) and ($key !== $data['virtualhost']['name'])) {
+                $v->addValidationError('ServerNames', 'valid_fqdn_already_used',$el);
+            }
         }
     }
 }

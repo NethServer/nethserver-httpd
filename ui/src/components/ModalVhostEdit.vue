@@ -350,7 +350,11 @@ export default {
         virtualhost: function(newval) {
             this.vErrors = {}
             for(let i in attrs) {
-                this[attrs[i]] = newval[attrs[i]].split(",").join("\n") || newval[attrs[i]] || "";
+                this[attrs[i]] = newval[attrs[i]] || "";
+            }
+            // split servername array (index2)
+            if (this[attrs[2]]) {
+                this[attrs[2]] = newval[attrs[2]].split(",").join("\n") || "";
             }
         },
     },
@@ -373,10 +377,10 @@ export default {
             }
             for(let i in attrs) {
                 inputData.virtualhost[attrs[i]] = this[attrs[i]];
-                if (this[attrs[i]].match(/\n/)) { 
-                    inputData.virtualhost[attrs[i]] = this[attrs[i]].split("\n")
-                }
             }
+            // split ServerName(index2)
+            inputData.virtualhost[attrs[2]] = this[attrs[2]].split("\n");
+            
             this.vErrors = {}
             execp("nethserver-httpd/virtualhost/validate", inputData)
             .catch((validationError) => {

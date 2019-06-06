@@ -206,7 +206,7 @@ export default {
         certificates: "",
         Description: "",
         status: "enabled",
-        togglePass: false
+        togglePass: false,
       };
     },
     openModal(id, item) {
