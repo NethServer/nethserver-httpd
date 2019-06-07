@@ -76,7 +76,7 @@
             aria-labelledby="paths-tab"
             >
             <div  class="spaced"> 
-              <h3>{{$t('actions')}}</h3>
+              <h3>{{$t('action')}}</h3>
               <button
                 class="btn btn-primary btn-lg"
                 v-on:click="openModal('modalCreatePath', createDefaultPath())"
@@ -121,7 +121,7 @@
             aria-labelledby="virtualhosts-tab"
             >
             <div  class="spaced"> 
-              <h3>{{$t('actions')}}</h3>
+              <h3>{{$t('action')}}</h3>
               <button
                 class="btn btn-primary btn-lg"
                 v-on:click="openModal('modalCreateVhostReverse', createDefaultVhost())"

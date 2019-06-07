@@ -68,7 +68,7 @@
 
     <div v-else-if="view.menu.installed && view.isLoaded">
         <div  class="spaced"> 
-          <h3>{{$t('actions')}}</h3>
+          <h3>{{$t('action')}}</h3>
           <button
             class="btn btn-primary btn-lg"
             v-on:click="openModal('modalCreateVhost', createDefaultVhost())"

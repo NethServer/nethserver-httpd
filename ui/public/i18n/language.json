@@ -6,6 +6,8 @@
     "install_packages": "Install packages",
     "packages_installed_ok": "Packages installed successfully!",
     "packages_installed_error": "Packages not installed.",
+    "action":"Action",
+    "list": "List",
     "modal": {
         "cancel_button": "Cancel",
         "delete_button": "Delete",
