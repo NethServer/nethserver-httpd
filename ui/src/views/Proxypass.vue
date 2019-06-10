@@ -46,8 +46,6 @@
             <pre>{{ vReadError }}</pre>
          </div>
     </div>
-    
-
             <div  class="spaced"> 
               <div  v-if="!proxypass.length && vReadStatus !== 'running'" class="blank-slate-pf">
                 <div class="blank-slate-pf-icon">
@@ -61,22 +59,23 @@
                     v-on:click="openModal('modalCreateVhostReverse', createDefaultVhost())"
                   >{{ $t('proxypass.create_Proxypass_button') }}</button>
                 </div>
-          </div>
-
-              <h3 v-else>{{$t('list')}}</h3>
-              <div class="blank-slate-pf-main-action">
-                <button
-                  class="btn btn-primary btn-lg"
-                  v-on:click="openModal('modalCreateVhostReverse', createDefaultVhost())"
-                >{{ $t('proxypass.create_Proxypass_button') }}</button>
               </div>
-              <proxypass-vhost-list-view
-                v-bind:items="proxypass"
-                v-bind:certificates="certificates"
-                v-on:modal-close="read"
-                v-on:item-edit="openModal('modalEditVhostReverse', $event)"
-                v-on:item-delete="openModal('modalDeleteVhostReverse', $event)"
-              ></proxypass-vhost-list-view>
+              <div v-else-if="proxypass.length && vReadStatus !== 'running'">
+                  <h3>{{$t('list')}}</h3>
+                  <div class="blank-slate-pf-main-action">
+                    <button
+                      class="btn btn-primary btn-lg"
+                      v-on:click="openModal('modalCreateVhostReverse', createDefaultVhost())"
+                    >{{ $t('proxypass.create_Proxypass_button') }}</button>
+                  </div>
+                  <proxypass-vhost-list-view
+                    v-bind:items="proxypass"
+                    v-bind:certificates="certificates"
+                    v-on:modal-close="read"
+                    v-on:item-edit="openModal('modalEditVhostReverse', $event)"
+                    v-on:item-delete="openModal('modalDeleteVhostReverse', $event)"
+                  ></proxypass-vhost-list-view>
+              </div>
             </div>
 
             <modal-proxypass-vhost-edit

@@ -59,10 +59,15 @@ select {
                 <div v-if="useCase == 'delete'" class="modal-body">
                     <div class="alert alert-warning alert-dismissable">
                         <span class="pficon pficon-warning-triangle-o"></span>
-                        <strong>{{$t('warning')}}. </strong>
+                        <strong>{{$t('warning')}}: </strong>
                         <i18n path="proxypass.delete_confirm_message" tag="span">
                             <b>{{ this.proxypass.name }}</b>
                         </i18n>
+                    </div>
+                    <div v-if="type === 'VhostReverse' || (name[0] !== '/' && name)" class="alert alert-info alert-dismissable">
+                      <span class="pficon pficon-info"></span>
+                      <strong>{{$t('info')}}: </strong>
+                      {{$t('proxypass.dnsHostRecord_do_not_be_removed')}}.
                     </div>
                     <form class="form-horizontal">
                         <div class="form-group">
@@ -75,6 +80,11 @@ select {
                 </div>
 
                 <div v-else class="modal-body">
+                    <div v-if="type === 'VhostReverse' || (name[0] !== '/' && name)" class="alert alert-info alert-dismissable">
+                      <span class="pficon pficon-info"></span>
+                      <strong>{{$t('info')}}: </strong>
+                      {{$t('proxypass.automatic_HostRecord_creation')}}.
+                    </div>
                     <form class="form-horizontal">
                         <div v-bind:class="['form-group', vErrors.name ? 'has-error' : '']">
                             <label 

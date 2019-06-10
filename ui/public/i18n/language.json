@@ -8,6 +8,8 @@
     "packages_installed_error": "Packages not installed.",
     "action":"Action",
     "list": "List",
+    "warning":"Warning",
+    "info":"Info",
     "modal": {
         "cancel_button": "Cancel",
         "delete_button": "Delete",
@@ -142,7 +144,7 @@
         "description_label": "Description",
         "ValidFromCIDR": "Access from CIDR networks",
         "ForceHTTPS": "Require SSL encrypted connection",
-        "Target": "Target URL",
+        "Target": "Destination URL",
         "SSL/TLS_certs": "SSL/TLS certificate",
         "AcceptInvalidCertificateFromTarget": "Accept invalid SSL certificate from target",
         "PreserveHostHeaderToTarget":"Forward HTTP \"Host\" header to target",
@@ -158,6 +160,8 @@
         "vhost_created_Failed": "The proxypass has not been created well",
         "vhost_updated_ok": "The proxypass has well been updated",
         "vhost_updated_Failed": "The proxypass has not been updated well",
-        "NoDataToDisplay": "You have no reverse proxy"
+        "NoDataToDisplay": "You have no reverse proxy",
+        "dnsHostRecord_do_not_be_removed": "The DNS record of the reverse proxy will not be removed automatically, you can do it manually",
+        "automatic_HostRecord_creation": "The DNS record of the reverse proxy will be automatically created on this server"
     }
 }
