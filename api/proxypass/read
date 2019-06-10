@@ -43,16 +43,14 @@ sub readProxypass
     my $pdb = esmith::ConfigDB->open_ro('proxypass');
     my @proxypass = ();
     my @certs = ();
-    my @vhostreverse = ();
 
     my $ret = {
         'proxypass' => \@proxypass,
         'certificates'=> \@certs,
-        'vhostreverse' => \@vhostreverse
     };
 
     foreach ($pdb->get_all_by_prop('type' => 'VhostReverse')) {
-        push @vhostreverse, +{
+        push @proxypass, +{
             $_->props(),
             'name' => $_->key,
         };
@@ -61,7 +59,7 @@ sub readProxypass
     foreach ($pdb->get_all_by_prop('type' => 'ProxyPass')) {
         push @proxypass, +{
             $_->props(),
-            'name' => $_->key,
+            'name' => '/'.$_->key,
         };
     }
     foreach my $crt (keys decode_json(`/usr/libexec/nethserver/cert-list`)) {

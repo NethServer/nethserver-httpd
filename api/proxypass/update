@@ -35,9 +35,8 @@ my $db = esmith::ConfigDB->open('proxypass');
 my $hdb = esmith::ConfigDB->open('hosts');
 
 my $input = readInput();
-my $proxyPassName = $input->{'proxypass'}->{'name'};
-my $vhostReverseName = $input->{'vhostreverse'}->{'name'};
-my $CreateHostRecords = $input->{'vhostreverse'}->{'CreateHostRecords'} || 0;
+my $name = $input->{'proxypass'}->{'name'};
+
 
 my %proxypass = (
     'HTTP' => $input->{'proxypass'}->{'HTTP'},
@@ -48,40 +47,35 @@ my %proxypass = (
 );
 
 my %vhostreverse = (
-    'HTTP' => $input->{'vhostreverse'}->{'HTTP'},
-    'Description' => $input->{'vhostreverse'}->{'Description'},
-    'HTTPS' => $input->{'vhostreverse'}->{'HTTPS'},
-    'Target' => $input->{'vhostreverse'}->{'Target'},
-    'ValidFrom' => $input->{'vhostreverse'}->{'ValidFrom'},
-    'CertVerification' => $input->{'vhostreverse'}->{'CertVerification'},
-    'PreserveHost' => $input->{'vhostreverse'}->{'PreserveHost'},
-    'SslCertificate' => $input->{'vhostreverse'}->{'SslCertificate'},
+    'HTTP' => $input->{'proxypass'}->{'HTTP'},
+    'Description' => $input->{'proxypass'}->{'Description'},
+    'HTTPS' => $input->{'proxypass'}->{'HTTPS'},
+    'Target' => $input->{'proxypass'}->{'Target'},
+    'ValidFrom' => $input->{'proxypass'}->{'ValidFrom'},
+    'CertVerification' => $input->{'proxypass'}->{'CertVerification'},
+    'PreserveHost' => $input->{'proxypass'}->{'PreserveHost'},
+    'SslCertificate' => $input->{'proxypass'}->{'SslCertificate'},
 );
 
 if($input->{'action'} eq 'create') {
     $eventName = 'nethserver-httpd-save';
-    if ($proxyPassName) {
-        $db->new_record($proxyPassName, {'type' => 'ProxyPass', %proxypass});
-    } elsif ($vhostReverseName) {
-        $db->new_record($vhostReverseName, {'type' => 'VhostReverse', %vhostreverse});
-        if ($CreateHostRecords == 1) {
-            $hdb->new_record($vhostReverseName, {'type' => 'self', 'Description' => ($input->{'vhostreverse'}->{'Description'}|| 'vhost Reverse')});
-            esmith::event::event_signal('host-modify', $vhostReverseName);
-        }
+    if ($input->{'proxypass'}->{'type'} eq 'ProxyPass') {
+        $db->new_record($name, {'type' => 'ProxyPass', %proxypass});
+    } elsif ($input->{'proxypass'}->{'type'} eq 'VhostReverse') {
+        $db->new_record($name, {'type' => 'VhostReverse', %vhostreverse});
+            $hdb->new_record($name, {'type' => 'self', 'Description' => ($input->{'vhostreverse'}->{'Description'}|| 'vhost Reverse')});
+            esmith::event::event_signal('host-modify', $name);
     }
 } elsif($input->{'action'} eq 'delete') {
     $eventName = 'nethserver-httpd-save';
-    if ($proxyPassName) {
-        $db->set_prop($proxyPassName, 'type', 'proxyPass-deleted');
-    } elsif  ($vhostReverseName) {
-        $db->set_prop($vhostReverseName, 'type', 'vhostReverse-deleted');
-    }
+        $db->set_prop($name, 'type', 'proxyPass-deleted');
+    
 } elsif($input->{'action'} eq 'edit') {
     $eventName = 'nethserver-httpd-save';
-    if ($proxyPassName) {
-        $db->get($proxyPassName)->merge_props(%proxypass);
-    } elsif  ($vhostReverseName) {
-        $db->get($vhostReverseName)->merge_props(%vhostreverse);
+    if ($input->{'proxypass'}->{'type'} eq 'ProxyPass') {
+        $db->get($name)->merge_props(%proxypass);
+    } elsif  ($input->{'proxypass'}->{'type'} eq 'VhostReverse') {
+        $db->get($name)->merge_props(%vhostreverse);
     }
 } else {
     error();
@@ -93,12 +87,8 @@ if(esmith::event::event_signal($eventName)) {
     $ret = {'state' => 'success'};
     if($input->{'action'} eq 'delete') {
         $db->reload();
-        if ($proxyPassName) {
-            $db->get($proxyPassName)->delete();
-        } elsif ($vhostReverseName) {
-            $db->get($vhostReverseName)->delete();
+            $db->get($name)->delete();
         }
-    }
 } else {
     $ret = {
         'type' => 'Error',

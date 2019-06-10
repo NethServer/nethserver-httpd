@@ -45,9 +45,12 @@ $v->declareParameter('ValidFrom', Validate::ANYTHING);
 $v->declareParameter('Target', Validate::NOTEMPTY);
 $v->declareParameter('HTTP', Validate::YES_NO);
 $v->declareParameter('HTTPS', Validate::YES_NO);
-$v->declareParameter('CertVerification', Validate::YES_NO);
-$v->declareParameter('PreserveHost', Validate::YES_NO);
-$v->declareParameter('SslCertificate', Validate::ANYTHING);
+
+if ($data['proxypass']['type'] === 'VhostReverse'){
+    $v->declareParameter('CertVerification', Validate::YES_NO);
+    $v->declareParameter('PreserveHost', Validate::YES_NO);
+    $v->declareParameter('SslCertificate', Validate::ANYTHING);
+}
 
 $cidrList = preg_split('/\s*,\s*/', $v->parameters['ValidFrom']);
 $cidrValidator = $v->createValidator(Validate::CIDR_BLOCK);
