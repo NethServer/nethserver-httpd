@@ -162,6 +162,7 @@
         "vhost_updated_Failed": "The proxypass has not been updated well",
         "NoDataToDisplay": "You have no reverse proxy",
         "dnsHostRecord_do_not_be_removed": "The DNS record of the reverse proxy will not be removed automatically, you can do it manually",
-        "automatic_HostRecord_creation": "The DNS record of the reverse proxy will be automatically created on this server"
+        "automatic_HostRecord_creation": "The DNS record of the reverse proxy will be automatically created on this server",
+        "advanced_mode":"Advanced settings"
     }
 }

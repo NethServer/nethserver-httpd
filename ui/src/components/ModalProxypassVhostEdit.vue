@@ -106,56 +106,7 @@ select {
                                 <input type="text" v-model="Description" v-bind:id="id + '-di'" class="form-control">
                             </div>
                         </div>
-                        <!-- ValidFrom -->
-                        <div  class="form-group">
-                            <label class="col-sm-3 control-label"  v-bind:for="id + '-di'">{{ $t('proxypass.ValidFromCIDR') }}</label>
-                            <div class="col-sm-9">
-                                <input type="text" v-model="ValidFrom" :placeholder="$t('proxypass.CIDR_Comma_Sperated_List')" v-bind:id="id + '-ValidFrom'" class="form-control">
-                                <span v-if="vErrors.ValidFrom" class="help-block">{{ vErrors.ValidFrom }}</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Certificate -->
-                        <div v-if="type === 'VhostReverse' || (name[0] !== '/' && name)"
-                          v-bind:class="['form-group', vErrors.SslCertificate ? 'has-error' : '']"
-                        >
-                              <label
-                                class="col-sm-3 control-label"
-                                v-bind:for="id + '-SslCertificate'"
-                              >{{$t('proxypass.SSL/TLS_certs')}}
-                              </label>
-                              <div class="col-sm-9">
-                                <select 
-                                  type="text"
-                                  v-model="SslCertificate"
-                                  class="combobox form-control col-sm-9"
-                                >
-                                     <option value="">{{$t('proxypass.default_certificate')}}</option>
-                                     <option v-for="cert in certificates" 
-                                          :value="cert"
-                                          >
-                                        {{cert}}
-                                     </option>
-                                </select>
-                                <span v-if="vErrors.SslCertificate" class="help-block">{{ vErrors.SslCertificate }}</span>
-                              </div>
-                        </div>
 
-                       <!-- SSL forced -->
-                        <div
-                        v-bind:class="['form-group', vErrors.HTTP ? 'has-error' : '']"
-                        >
-                        <label
-                        class="col-sm-3 control-label"
-                        v-bind:for="id + '-HTTP'"
-                        >{{$t('proxypass.ForceHTTPS')}}
-                        </label>
-                        <div class="col-sm-9">
-                            <input type="checkbox"  true-value="no" false-value="yes" v-model="HTTP" class="form-control">
-                            <span v-if="vErrors.HTTP" class="help-block">{{ vErrors.HTTP }}</span>
-                        </div>
-                        </div>
-                        
                         <!-- Target -->
                         <div class="form-group">
                             <label class="col-sm-3 control-label" v-bind:for="id + '-Target'">{{ $t('proxypass.Target') }}</label>
@@ -164,35 +115,97 @@ select {
                                 <span v-if="vErrors.Target" class="help-block">{{ vErrors.Target }}</span>
                             </div>
                         </div>
-                        
-                        <!-- CertVerification-->
-                        <div v-if="type === 'VhostReverse' || (name[0] !== '/' && name)"
-                        v-bind:class="['form-group', vErrors.CertVerification ? 'has-error' : '']"
-                        >
-                        <label
-                        class="col-sm-3 control-label"
-                        v-bind:for="id + '-CertVerification'"
-                        >{{$t('proxypass.AcceptInvalidCertificateFromTarget')}}
-                        </label>
-                        <div class="col-sm-9">
-                            <input type="checkbox"  true-value="yes" false-value="no" v-model="CertVerification" class="form-control">
-                            <span v-if="vErrors.CertVerification" class="help-block">{{ vErrors.CertVerification }}</span>
-                        </div>
-                        </div>
 
-                        <!-- PreserveHost-->
-                        <div v-if="type === 'VhostReverse' || (name[0] !== '/' && name)"
-                        v-bind:class="['form-group', vErrors.PreserveHost ? 'has-error' : '']"
-                        >
-                        <label
-                        class="col-sm-3 control-label"
-                        v-bind:for="id + '-PreserveHost'"
-                        >{{$t('proxypass.PreserveHostHeaderToTarget')}}
-                        </label>
-                        <div class="col-sm-9">
-                            <input type="checkbox"  true-value="yes" false-value="no" v-model="PreserveHost" class="form-control">
-                            <span v-if="vErrors.PreserveHost" class="help-block">{{ vErrors.PreserveHost }}</span>
-                        </div>
+                        <!-- advanced menu -->
+                       <legend   class="fields-section-header-pf" aria-expanded="true">
+                           <span
+                           :class="['fa fa-angle-right field-section-toggle-pf', advanced ? 'fa-angle-down' : '']"
+                           ></span>
+                           <a
+                           class="field-section-toggle-pf"
+                           @click="toggleAdvancedMode()"
+                           >{{$t('virtualhost.advanced_mode')}}</a>
+                       </legend>
+                        <div v-if="advanced">
+                            <!-- ValidFrom -->
+                            <div  class="form-group">
+                                <label class="col-sm-3 control-label"  v-bind:for="id + '-di'">{{ $t('proxypass.ValidFromCIDR') }}</label>
+                                <div class="col-sm-9">
+                                    <input type="text" v-model="ValidFrom" :placeholder="$t('proxypass.CIDR_Comma_Sperated_List')" v-bind:id="id + '-ValidFrom'" class="form-control">
+                                    <span v-if="vErrors.ValidFrom" class="help-block">{{ vErrors.ValidFrom }}</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Certificate -->
+                            <div v-if="type === 'VhostReverse' || (name[0] !== '/' && name)"
+                              v-bind:class="['form-group', vErrors.SslCertificate ? 'has-error' : '']"
+                            >
+                                  <label
+                                    class="col-sm-3 control-label"
+                                    v-bind:for="id + '-SslCertificate'"
+                                  >{{$t('proxypass.SSL/TLS_certs')}}
+                                  </label>
+                                  <div class="col-sm-9">
+                                    <select 
+                                      type="text"
+                                      v-model="SslCertificate"
+                                      class="combobox form-control col-sm-9"
+                                    >
+                                         <option value="">{{$t('proxypass.default_certificate')}}</option>
+                                         <option v-for="cert in certificates" 
+                                              :value="cert"
+                                              >
+                                            {{cert}}
+                                         </option>
+                                    </select>
+                                    <span v-if="vErrors.SslCertificate" class="help-block">{{ vErrors.SslCertificate }}</span>
+                                  </div>
+                            </div>
+
+                           <!-- SSL forced -->
+                            <div
+                            v-bind:class="['form-group', vErrors.HTTP ? 'has-error' : '']"
+                            >
+                            <label
+                            class="col-sm-3 control-label"
+                            v-bind:for="id + '-HTTP'"
+                            >{{$t('proxypass.ForceHTTPS')}}
+                            </label>
+                            <div class="col-sm-9">
+                                <input type="checkbox"  true-value="no" false-value="yes" v-model="HTTP" class="form-control">
+                                <span v-if="vErrors.HTTP" class="help-block">{{ vErrors.HTTP }}</span>
+                            </div>
+                            </div>
+
+                            <!-- CertVerification-->
+                            <div v-if="type === 'VhostReverse' || (name[0] !== '/' && name)"
+                            v-bind:class="['form-group', vErrors.CertVerification ? 'has-error' : '']"
+                            >
+                            <label
+                            class="col-sm-3 control-label"
+                            v-bind:for="id + '-CertVerification'"
+                            >{{$t('proxypass.AcceptInvalidCertificateFromTarget')}}
+                            </label>
+                            <div class="col-sm-9">
+                                <input type="checkbox"  true-value="yes" false-value="no" v-model="CertVerification" class="form-control">
+                                <span v-if="vErrors.CertVerification" class="help-block">{{ vErrors.CertVerification }}</span>
+                            </div>
+                            </div>
+
+                            <!-- PreserveHost-->
+                            <div v-if="type === 'VhostReverse' || (name[0] !== '/' && name)"
+                            v-bind:class="['form-group', vErrors.PreserveHost ? 'has-error' : '']"
+                            >
+                            <label
+                            class="col-sm-3 control-label"
+                            v-bind:for="id + '-PreserveHost'"
+                            >{{$t('proxypass.PreserveHostHeaderToTarget')}}
+                            </label>
+                            <div class="col-sm-9">
+                                <input type="checkbox"  true-value="yes" false-value="no" v-model="PreserveHost" class="form-control">
+                                <span v-if="vErrors.PreserveHost" class="help-block">{{ vErrors.PreserveHost }}</span>
+                            </div>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -231,6 +244,7 @@ export default {
         'useCase': String,
         'proxypass': Object,
         'certificates': Array,
+        advanced:false
     },
     watch: {
         proxypass: function(newval) {
@@ -306,6 +320,10 @@ export default {
         })
     },
     methods: {
+            toggleAdvancedMode() {
+              this.advanced = !this.advanced;
+              this.$forceUpdate();
+            },
     },
 }
 </script>

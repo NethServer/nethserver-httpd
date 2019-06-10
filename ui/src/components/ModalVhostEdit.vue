@@ -125,7 +125,7 @@ select {
                             <a
                             class="field-section-toggle-pf"
                             @click="toggleAdvancedMode()"
-                            >{{$t('virtualhost.advanced_mode')}}</a>
+                            >{{$t('proxypass.advanced_mode')}}</a>
                         </legend>
 
                         <!-- trusted network -->
