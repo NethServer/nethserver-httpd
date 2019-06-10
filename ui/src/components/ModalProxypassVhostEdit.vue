@@ -86,7 +86,7 @@ select {
                       {{$t('proxypass.automatic_HostRecord_creation')}}.
                     </div>
                     <form class="form-horizontal">
-                        <div v-bind:class="['form-group', vErrors.name ? 'has-error' : '']">
+                        <div  v-show="useCase === 'create'"  v-bind:class="['form-group', vErrors.name ? 'has-error' : '']">
                             <label 
                                 class="col-sm-3 control-label" v-bind:for="id + '-ni'">{{ $t('proxypass.name') }}
                                 <doc-info
@@ -96,7 +96,7 @@ select {
                                 ></doc-info>
                             </label>
                             <div class="col-sm-9">
-                                <input :disabled="useCase != 'create'" :placeholder="$t('proxypass.vhost_name_help')" type="text" v-model="name" v-bind:id="id + '-ni'" class="form-control">
+                                <input :placeholder="$t('proxypass.vhost_name_help')" type="text" v-model="name" v-bind:id="id + '-ni'" class="form-control">
                                 <span v-if="vErrors.name" class="help-block">{{ vErrors.name }}</span>
                             </div>
                         </div>
