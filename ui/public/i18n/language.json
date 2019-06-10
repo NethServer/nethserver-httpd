@@ -102,13 +102,11 @@
         "no_installed_software":"You have no software",
         "empty_piechart_label": "No data to create the graph"
     },
-    "proxypass":{
-        "title": "ProxyPass"
-    },
     "docs":{
         "more_info_about": "More info about",
         "virtualhost": "Virtual hosts",
-        "Reverse_Proxy": "Reverse Proxy"
+        "Reverse_Proxy": "Reverse Proxy",
+        "path-and-virtual-host-rules": "If you want to create an URL path rule, the name field must start with a '/'. If you need to create A virtual host name rule, then the name field must match a virtual host name"
     },
     "validation":{
         "validation_failed": "Validation failed",
@@ -123,6 +121,8 @@
         "ValidFromCIDR_validator": "Must be a valid CIDR like '10.10.10.0/16'"
     },
     "proxypass":{
+        "title": "ProxyPass",
+        "name_help": "Help for the name field",
         "paths": "Paths",
         "virtualhosts": "Virtual Hosts",
         "HttpdForced": "HTTPS",

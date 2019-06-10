@@ -46,91 +46,32 @@
             <pre>{{ vReadError }}</pre>
          </div>
     </div>
+    
 
-        <ul class="nav nav-tabs nav-tabs-pf">
-          <li>
-            <a
-              @click="initListeners(0)"
-              class="nav-link"
-              data-toggle="tab"
-              href="#paths-tab"
-              id="paths-tab-parent"
-            >{{$t('proxypass.paths')}}</a>
-          </li>
-          <li>
-            <a
-              @click="initListeners(1)"
-              class="nav-link"
-              data-toggle="tab"
-              href="#virtualhosts-tab"
-              id="virtualhosts-tab-parent"
-            >{{$t('proxypass.virtualhosts')}}</a>
-          </li>
-        </ul>
-
-        <div class="tab-content">
-            <div
-            class="tab-pane fade active"
-            id="paths-tab"
-            role="tabpanel"
-            aria-labelledby="paths-tab"
-            >
             <div  class="spaced"> 
-              <h3>{{$t('action')}}</h3>
-              <button
-                class="btn btn-primary btn-lg"
-                v-on:click="openModal('modalCreatePath', createDefaultPath())"
-              >{{ $t('proxypass.create_Proxypass_button') }}</button>
-              <h3 v-if="!proxypass.length">{{$t('proxypass.NoDataToDisplay')}}</h3>
+              <div  v-if="!proxypass.length && vReadStatus !== 'running'" class="blank-slate-pf">
+                <div class="blank-slate-pf-icon">
+                  <span class="fa list-view-pf-icon-sm pficon-service"></span>
+                </div>
+                <!-- <h1>{{ $t('sharedfolders.title') }}</h1> -->
+                <h1>{{ $t("proxypass.NoDataToDisplay") }}</h1>
+                <div class="blank-slate-pf-main-action">
+                  <button
+                    class="btn btn-primary btn-lg"
+                    v-on:click="openModal('modalCreateVhostReverse', createDefaultVhost())"
+                  >{{ $t('proxypass.create_Proxypass_button') }}</button>
+                </div>
+          </div>
+
               <h3 v-else>{{$t('list')}}</h3>
-              <proxypass-path-list-view
-                v-bind:items="proxypass"
-                v-on:modal-close="read"
-                v-on:item-edit="openModal('modalEditPath', $event)"
-                v-on:item-delete="openModal('modalDeletePath', $event)"
-              ></proxypass-path-list-view>
-            </div>
-
-            <modal-proxypass-path-edit
-              id="modalCreatePath"
-              v-on:modal-close="read($event)"
-              use-case="create"
-              v-bind:proxypass="currentItem"
-            ></modal-proxypass-path-edit>
-            
-            <modal-proxypass-path-edit
-              id="modalEditPath"
-              v-on:modal-close="read"
-              use-case="edit"
-              v-bind:proxypass="currentItem"
-            ></modal-proxypass-path-edit>
-
-            <modal-proxypass-path-edit
-              id="modalDeletePath"
-              v-on:modal-close="read"
-              use-case="delete"
-              v-bind:proxypass="currentItem"
-            ></modal-proxypass-path-edit> 
-            </div>
-            <!-- end paths -->
-
-            <div
-            class="tab-pane fade active"
-            id="virtualhosts-tab"
-            role="tabpanel"
-            aria-labelledby="virtualhosts-tab"
-            >
-            <div  class="spaced"> 
-              <h3>{{$t('action')}}</h3>
-              <button
-                class="btn btn-primary btn-lg"
-                v-on:click="openModal('modalCreateVhostReverse', createDefaultVhost())"
-              >{{ $t('proxypass.create_Proxypass_button') }}</button>
-
-              <h3 v-if="!vhostreverse.length">{{$t('proxypass.NoDataToDisplay')}}</h3>
-              <h3 v-else>{{$t('list')}}</h3>
+              <div class="blank-slate-pf-main-action">
+                <button
+                  class="btn btn-primary btn-lg"
+                  v-on:click="openModal('modalCreateVhostReverse', createDefaultVhost())"
+                >{{ $t('proxypass.create_Proxypass_button') }}</button>
+              </div>
               <proxypass-vhost-list-view
-                v-bind:items="vhostreverse"
+                v-bind:items="proxypass"
                 v-bind:certificates="certificates"
                 v-on:modal-close="read"
                 v-on:item-edit="openModal('modalEditVhostReverse', $event)"
@@ -142,7 +83,7 @@
               id="modalCreateVhostReverse"
               v-on:modal-close="read($event)"
               use-case="create"
-              v-bind:vhostreverse="currentItem"
+              v-bind:proxypass="currentItem"
               v-bind:certificates="certificates"
             ></modal-proxypass-vhost-edit>
             
@@ -150,7 +91,7 @@
               id="modalEditVhostReverse"
               v-on:modal-close="read"
               use-case="edit"
-              v-bind:vhostreverse="currentItem"
+              v-bind:proxypass="currentItem"
               v-bind:certificates="certificates"
             ></modal-proxypass-vhost-edit>
 
@@ -158,36 +99,26 @@
               id="modalDeleteVhostReverse"
               v-on:modal-close="read"
               use-case="delete"
-              v-bind:vhostreverse="currentItem"
+              v-bind:proxypass="currentItem"
             ></modal-proxypass-vhost-edit> 
             </div><!-- end vhost -->
-        </div> <!-- end navbar -->
-
-
-<!-- </div> -->
 
 </template>
 
 <script>
 import execp from "@/execp";
-import ProxypassPathListView from "@/components/ProxypassPathListView.vue";
-import ModalProxypassPathEdit from "@/components/ModalProxypassPathEdit.vue";
 import ProxypassVhostListView from "@/components/ProxypassVhostListView.vue";
 import ModalProxypassVhostEdit from "@/components/ModalProxypassVhostEdit.vue";
 
 export default {
   name: "Proxypass",
   components: {
-    ProxypassPathListView,
-    ModalProxypassPathEdit,
     ProxypassVhostListView,
     ModalProxypassVhostEdit
   },
   mounted() {
       $("#paths-tab-parent").click();
       this.read();
-      this.initListeners(0);
-
   },
   beforeRouteLeave(to, from, next) {
     $(".modal").modal("hide");
@@ -196,46 +127,18 @@ export default {
   data() {
     return {
       vReadStatus: "running",
-      vhostreverse:[],
       proxypass:[],
       certificates:[],
       currentItem: {},
     };
   },
   methods: {
-    initListeners(index) {
-      var context = this;
-
-      setTimeout(function() {
-        context.enablePopover();
-        $(
-          $(".pagination-controls.pull-right>a.page-btn:first-child")[index]
-        ).on("click", function() {
-          context.enablePopover();
-        });
-        $($(".pagination-controls.pull-right>a.page-btn:last-child")[index]).on(
-          "click",
-          function() {
-            context.enablePopover();
-          }
-        );
-      }, 500);
-    },
     enablePopover() {
       $("[data-toggle=popover]")
         .popovers()
         .on("hidden.bs.popover", function(e) {
           $(e.target).data("bs.popover").inState.click = false;
         });
-    },
-    createDefaultPath() {
-      return {
-        name: "",
-        HTTP:"yes",
-        HTTPS:"yes",
-        Target:"",
-        ValidFrom:""
-      };
     },
     createDefaultVhost() {
       return {
@@ -247,7 +150,6 @@ export default {
         CertVerification:"no",
         PreserveHost: "yes",
         SslCertificate: "",
-        CreateHostRecords:"1"
       };
     },
     openModal(id, item) {

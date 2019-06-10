@@ -26,7 +26,7 @@
       <div class="list-view-pf-actions">
         <button  class="btn btn-default" v-on:click="$emit('item-edit', item)">
           <span class="fa fa-pencil"></span>
-          {{ $t('virtualhost.item_edit_button')}}
+          {{ $t('proxypass.item_edit_button')}}
         </button>
         <div  class="dropdown pull-right dropdown-kebab-pf">
           <button
@@ -44,7 +44,7 @@
             <li>
               <a href="#" v-on:click="$emit('item-delete', item)">
                 <span class="fa pficon-delete span-right-margin"></span>
-                {{ $t('virtualhost.item_delete_button') }}
+                {{ $t('proxypass.item_delete_button') }}
               </a>
             </li>
           </ul>

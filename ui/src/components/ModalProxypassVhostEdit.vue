@@ -50,9 +50,9 @@ select {
                         <span class="pficon pficon-close"></span>
                     </button>
                     <h4 class="modal-title" v-bind:id="id + 'Label'">
-                        <span v-if="useCase == 'delete'"      >{{ $t('proxypass.delete_title', this.vhostreverse) }}</span>
-                        <span v-else-if="useCase == 'create'" >{{ $t('proxypass.create_title', this.vhostreverse) }}</span>
-                        <span v-else                          >{{ $t('proxypass.edit_title', this.vhostreverse) }}</span>
+                        <span v-if="useCase == 'delete'"      >{{ $t('proxypass.delete_title', this.proxypass) }}</span>
+                        <span v-else-if="useCase == 'create'" >{{ $t('proxypass.create_title', this.proxypass) }}</span>
+                        <span v-else                          >{{ $t('proxypass.edit_title', this.proxypass) }}</span>
                     </h4>
                 </div>
 
@@ -61,7 +61,7 @@ select {
                         <span class="pficon pficon-warning-triangle-o"></span>
                         <strong>{{$t('warning')}}. </strong>
                         <i18n path="proxypass.delete_confirm_message" tag="span">
-                            <b>{{ this.vhostreverse.name }}</b>
+                            <b>{{ this.proxypass.name }}</b>
                         </i18n>
                     </div>
                     <form class="form-horizontal">
@@ -77,7 +77,14 @@ select {
                 <div v-else class="modal-body">
                     <form class="form-horizontal">
                         <div v-bind:class="['form-group', vErrors.name ? 'has-error' : '']">
-                            <label class="col-sm-3 control-label" v-bind:for="id + '-ni'">{{ $t('proxypass.name') }}</label>
+                            <label 
+                                class="col-sm-3 control-label" v-bind:for="id + '-ni'">{{ $t('proxypass.name') }}
+                                <doc-info
+                                   :placement="'right'"
+                                   :chapter="'path-and-virtual-host-rules'"
+                                   :inline="true"
+                                ></doc-info>
+                            </label>
                             <div class="col-sm-9">
                                 <input :disabled="useCase != 'create'" :placeholder="$t('proxypass.vhost_name_help')" type="text" v-model="name" v-bind:id="id + '-ni'" class="form-control">
                                 <span v-if="vErrors.name" class="help-block">{{ vErrors.name }}</span>
@@ -90,7 +97,7 @@ select {
                             </div>
                         </div>
                         <!-- ValidFrom -->
-                        <div class="form-group">
+                        <div  class="form-group">
                             <label class="col-sm-3 control-label"  v-bind:for="id + '-di'">{{ $t('proxypass.ValidFromCIDR') }}</label>
                             <div class="col-sm-9">
                                 <input type="text" v-model="ValidFrom" :placeholder="$t('proxypass.CIDR_Comma_Sperated_List')" v-bind:id="id + '-ValidFrom'" class="form-control">
@@ -99,7 +106,7 @@ select {
                         </div>
                         
                         <!-- Certificate -->
-                        <div
+                        <div v-if="type === 'VhostReverse' || (name[0] !== '/' && name)"
                           v-bind:class="['form-group', vErrors.SslCertificate ? 'has-error' : '']"
                         >
                               <label
@@ -149,7 +156,7 @@ select {
                         </div>
                         
                         <!-- CertVerification-->
-                        <div
+                        <div v-if="type === 'VhostReverse' || (name[0] !== '/' && name)"
                         v-bind:class="['form-group', vErrors.CertVerification ? 'has-error' : '']"
                         >
                         <label
@@ -164,7 +171,7 @@ select {
                         </div>
 
                         <!-- PreserveHost-->
-                        <div
+                        <div v-if="type === 'VhostReverse' || (name[0] !== '/' && name)"
                         v-bind:class="['form-group', vErrors.PreserveHost ? 'has-error' : '']"
                         >
                         <label
@@ -177,22 +184,6 @@ select {
                             <span v-if="vErrors.PreserveHost" class="help-block">{{ vErrors.PreserveHost }}</span>
                         </div>
                         </div>
-                        
-                        <!-- hosts record creation -->
-                        <div v-if="useCase == 'create'"
-                          v-bind:class="['form-group', vErrors.CreateHostRecords ? 'has-error' : '']"
-                        >
-                            <label
-                                class="col-sm-3 control-label"
-                                v-bind:for="id + '-hostRecord'"
-                                >{{$t('virtualhost.CreateHostRecords')}}
-                            </label>
-                             <div class="col-sm-9">
-                                <input type="checkbox" true-value="1" false-value="0" v-model="CreateHostRecords" class="form-control">
-                                <span v-if="vErrors.CreateHostRecords" class="help-block">{{ vErrors.CreateHostRecords }}</span>
-                            </div>
-                        </div>
-
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -218,9 +209,9 @@ var attrs = [
     'HTTPS',
     "PreserveHost",
     "SslCertificate",
-    "CreateHostRecords",
     "ValidFrom",
-    "CertVerification"
+    "CertVerification",
+    "type"
 ];
 
 export default {
@@ -228,11 +219,11 @@ export default {
     props: {
         'id': String,
         'useCase': String,
-        'vhostreverse': Object,
+        'proxypass': Object,
         'certificates': Array,
     },
     watch: {
-        vhostreverse: function(newval) {
+        proxypass: function(newval) {
             this.vErrors = {}
             for(let i in attrs) {
                 this[attrs[i]] = newval[attrs[i]] || "";
@@ -254,10 +245,16 @@ export default {
             this.loader = true
             var inputData = {
                 action: this.$props['useCase'],
-                vhostreverse: {}
+                proxypass: {}
             }
             for(let i in attrs) {
-                inputData.vhostreverse[attrs[i]] = this[attrs[i]]
+                inputData.proxypass[attrs[i]] = this[attrs[i]]
+            }
+            if ( this.name[0]=== '/') {
+                inputData.proxypass[attrs[9]] = 'ProxyPass';
+                inputData.proxypass[attrs[0]] = this.name.substring(1);
+            } else {
+                inputData.proxypass[attrs[9]] = 'VhostReverse';
             }
             this.vErrors = {}
             execp("nethserver-httpd/proxypass/validate", inputData)
@@ -267,6 +264,7 @@ export default {
                     let attr = validationError.attributes[i]
                     err[attr.parameter] = this.$t('validation.' + attr.error)
                 }
+
                 this.vErrors = err
                 this.loader = false
                 return Promise.reject(validationError) // still unresolved
