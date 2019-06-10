@@ -59,14 +59,14 @@ select {
                 <div v-if="useCase == 'delete'" class="modal-body">
                     <div class="alert alert-warning alert-dismissable">
                         <span class="pficon pficon-warning-triangle-o"></span>
-                        <strong>{{$t('warning')}}. </strong>
+                        <strong>{{$t('warning')}}: </strong>
                         <i18n path="virtualhost.delete_confirm_message" tag="span">
                             <b>{{ this.virtualhost.name }}</b>
                         </i18n>
                     </div>
                     <div class="alert alert-info alert-dismissable">
                       <span class="pficon pficon-info"></span>
-                      <strong>{{$t('info')}}</strong>
+                      <strong>{{$t('info')}}: </strong>
                       {{$t('virtualhost.dnsHostRecord_do_not_be_removed')}}.
                     </div>
                     <form class="form-horizontal">
@@ -84,7 +84,7 @@ select {
                     <div v-if="useCase == 'create'">
                     <div class="alert alert-info alert-dismissable">
                       <span class="pficon pficon-info"></span>
-                      <strong>{{$t('info')}}</strong>
+                      <strong>{{$t('info')}}: </strong>
                       {{$t('virtualhost.automatic_HostRecord_creation')}}.
                     </div>
                     </div>
