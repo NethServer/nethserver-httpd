@@ -341,6 +341,7 @@ export default {
         'useCase': String,
         'virtualhost': Object,
         'certificates': Array,
+        advanced: false,
     },
     togglePass: false,
     watch: {
