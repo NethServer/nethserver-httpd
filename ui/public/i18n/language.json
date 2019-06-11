@@ -10,6 +10,10 @@
     "list": "List",
     "warning":"Warning",
     "info":"Info",
+    "delete": "Delete",
+    "save":"Save",
+    "edit": "Edit",
+    
     "modal": {
         "cancel_button": "Cancel",
         "delete_button": "Delete",
