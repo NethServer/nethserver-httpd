@@ -70,7 +70,11 @@
             <div class="list-group-item-text">
                 <strong :class="[item.status === 'disabled' ? 'gray':'','big-name']">{{ item.Description }}</strong>
             </div>
-            <div class="list-group-item-text">{{ item.ServerNames }}</div>
+            <div class="list-group-item-text">
+                <strong>
+                    {{ item.ServerNames }}
+                </strong>
+            </div>
             <div class="list-view-pf-additional-info-item">
                 <span :class="[(item.PasswordStatus === 'enabled' && item.status === 'enabled') ? 'fa  fa-check green':'fa  fa-times red','span-left-margin']"></span>
             <strong>{{$t('virtualhost.http')}}</strong>
