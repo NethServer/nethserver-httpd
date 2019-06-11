@@ -43,7 +43,7 @@ my %proxypass = (
     'Description' => $input->{'proxypass'}->{'Description'},
     'HTTPS' => $input->{'proxypass'}->{'HTTPS'},
     'Target' => $input->{'proxypass'}->{'Target'},
-    'ValidFrom' => $input->{'proxypass'}->{'ValidFrom'},
+    'ValidFrom' => join (',',uniq (@{$input->{'proxypass'}->{'ValidFrom'}})),
 );
 
 my %vhostreverse = (
@@ -51,11 +51,17 @@ my %vhostreverse = (
     'Description' => $input->{'proxypass'}->{'Description'},
     'HTTPS' => $input->{'proxypass'}->{'HTTPS'},
     'Target' => $input->{'proxypass'}->{'Target'},
-    'ValidFrom' => $input->{'proxypass'}->{'ValidFrom'},
+    'ValidFrom' => join (',',uniq (@{$input->{'proxypass'}->{'ValidFrom'}})),
     'CertVerification' => $input->{'proxypass'}->{'CertVerification'},
     'PreserveHost' => $input->{'proxypass'}->{'PreserveHost'},
     'SslCertificate' => $input->{'proxypass'}->{'SslCertificate'},
 );
+
+# uniq value in array
+sub uniq {
+    my %seen;
+    grep !$seen{$_}++, @_;
+}
 
 if($input->{'action'} eq 'create') {
     $eventName = 'nethserver-httpd-save';

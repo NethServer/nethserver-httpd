@@ -22,15 +22,10 @@
 require_once("/usr/libexec/nethserver/api/lib/Helpers.php");
 $data = readInput();
 $pdb = new EsmithDatabase('proxypass');
-$hdb = new EsmithDatabase('hosts');
 
 if(isset ($data['proxypass']['name'])) {
     $v = new LegacyValidator($data['proxypass']);
     $v->declareParameter('name', Validate::USERNAME);
-}
-elseif(isset ($data['vhostreverse']['name'])) {
-    $v = new LegacyValidator($data['vhostreverse']);
-    $v->declareParameter('name', Validate::HOSTNAME_FQDN);
 }
 
 // check if key exists
@@ -52,7 +47,7 @@ if ($data['proxypass']['type'] === 'VhostReverse'){
     $v->declareParameter('SslCertificate', Validate::ANYTHING);
 }
 
-$cidrList = preg_split('/\s*,\s*/', $v->parameters['ValidFrom']);
+$cidrList = $data['proxypass']['ValidFrom'];
 $cidrValidator = $v->createValidator(Validate::CIDR_BLOCK);
 foreach($cidrList as $cidr) {
     if($cidr !== '' && ! $cidrValidator->evaluate($cidr)) {

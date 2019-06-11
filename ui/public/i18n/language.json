@@ -128,7 +128,7 @@
         "paths": "Paths",
         "virtualhosts": "Virtual Hosts",
         "HttpdForced": "HTTPS",
-        "HttpdNotForced": "HTTPS/HTTPS",
+        "HttpdNotForced": "HTTP/HTTPS",
         "edit_title": "Edit the proxypass {name}",
         "create_title": "Create the proxypass",
         "delete_title":"Delete the proxypass {name}",
@@ -163,6 +163,7 @@
         "NoDataToDisplay": "You have no reverse proxy",
         "dnsHostRecord_do_not_be_removed": "The DNS record of the reverse proxy will not be removed automatically, you can do it manually",
         "automatic_HostRecord_creation": "The DNS record of the reverse proxy will be automatically created on this server",
-        "advanced_mode":"Advanced settings"
+        "advanced_mode":"Advanced settings",
+        "ValidFromCIDR_help": "One CIDR per line"
     }
 }

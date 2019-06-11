@@ -80,7 +80,7 @@ select {
                 </div>
 
                 <div v-else class="modal-body">
-                    <div v-if="type === 'VhostReverse' || (name[0] !== '/' && name)" class="alert alert-info alert-dismissable">
+                    <div v-if="(name[0] !== '/' && name && useCase !== 'edit')" class="alert alert-info alert-dismissable">
                       <span class="pficon pficon-info"></span>
                       <strong>{{$t('info')}}: </strong>
                       {{$t('proxypass.automatic_HostRecord_creation')}}.
@@ -96,7 +96,7 @@ select {
                                 ></doc-info>
                             </label>
                             <div class="col-sm-9">
-                                <input :placeholder="$t('proxypass.vhost_name_help')" type="text" v-model="name" v-bind:id="id + '-ni'" class="form-control">
+                                <input  type="text" v-model="name" v-bind:id="id + '-ni'" class="form-control">
                                 <span v-if="vErrors.name" class="help-block">{{ vErrors.name }}</span>
                             </div>
                         </div>
@@ -129,13 +129,21 @@ select {
                         <div v-if="advanced">
                             <!-- ValidFrom -->
                             <div  class="form-group">
-                                <label class="col-sm-3 control-label"  v-bind:for="id + '-di'">{{ $t('proxypass.ValidFromCIDR') }}</label>
-                                <div class="col-sm-9">
-                                    <input type="text" v-model="ValidFrom" :placeholder="$t('proxypass.CIDR_Comma_Sperated_List')" v-bind:id="id + '-ValidFrom'" class="form-control">
-                                    <span v-if="vErrors.ValidFrom" class="help-block">{{ vErrors.ValidFrom }}</span>
-                                </div>
+                                <label
+                                        class="col-sm-3 control-label"
+                                        for="textInput-modal-markup"
+                                        >{{$t('proxypass.ValidFromCIDR')}}
+                                </label>
+                                    <div class="col-sm-9">
+                                        <textarea v-bind:id="id + '-di'" v-model="ValidFrom" class="form-control" 
+                                            :placeholder="$t('proxypass.ValidFromCIDR_help')"></textarea>
+                                        <span v-if="vErrors.ValidFrom" class="help-block">
+                                            {{$t('validation.validation_failed')}}:
+                                            {{vErrors.ValidFrom}}
+                                        </span>
+                                    </div>
                             </div>
-                            
+
                             <!-- Certificate -->
                             <div v-if="type === 'VhostReverse' || (name[0] !== '/' && name)"
                               v-bind:class="['form-group', vErrors.SslCertificate ? 'has-error' : '']"
@@ -252,6 +260,10 @@ export default {
             for(let i in attrs) {
                 this[attrs[i]] = newval[attrs[i]] || "";
             }
+            // split ValidFrom array (index7)
+            if (this[attrs[7]]) {
+                this[attrs[7]] = newval[attrs[7]].split(",").join("\n") || "";
+            }
         },
     },
     data() {
@@ -274,6 +286,9 @@ export default {
             for(let i in attrs) {
                 inputData.proxypass[attrs[i]] = this[attrs[i]]
             }
+            // split ValidFrom(index7)
+            inputData.proxypass[attrs[7]] = this[attrs[7]].split("\n");
+            
             if ( this.name[0]=== '/') {
                 inputData.proxypass[attrs[9]] = 'ProxyPass';
                 inputData.proxypass[attrs[0]] = this.name.substring(1);
