@@ -261,8 +261,8 @@ export default {
                 this[attrs[i]] = newval[attrs[i]] || "";
             }
             // split ValidFrom array (index7)
-            if (this[attrs[7]]) {
-                this[attrs[7]] = newval[attrs[7]].split(",").join("\n") || "";
+            if (this.ValidFrom) {
+                this.ValidFrom = newval.ValidFrom.split(",").join("\n") || "";
             }
         },
     },
@@ -290,10 +290,13 @@ export default {
             inputData.proxypass[attrs[7]] = this[attrs[7]].split("\n");
             
             if ( this.name[0]=== '/') {
-                inputData.proxypass[attrs[9]] = 'ProxyPass';
-                inputData.proxypass[attrs[0]] = this.name.substring(1);
+                //type prop index9
+                inputData.proxypass.type = 'ProxyPass';
+                //name prop index 0
+                inputData.proxypass.name = this.name.substring(1);
             } else {
-                inputData.proxypass[attrs[9]] = 'VhostReverse';
+                //type prop index9
+                inputData.proxypass.type = 'VhostReverse';
             }
             this.vErrors = {}
             execp("nethserver-httpd/proxypass/validate", inputData)

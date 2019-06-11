@@ -351,8 +351,8 @@ export default {
                 this[attrs[i]] = newval[attrs[i]] || "";
             }
             // split servername array (index2)
-            if (this[attrs[2]]) {
-                this[attrs[2]] = newval[attrs[2]].split(",").join("\n") || "";
+            if (this.ServerNames) {
+                this.ServerNames = newval.ServerNames.split(",").join("\n") || "";
             }
         },
     },
@@ -377,7 +377,7 @@ export default {
                 inputData.virtualhost[attrs[i]] = this[attrs[i]];
             }
             // split ServerName(index2)
-            inputData.virtualhost[attrs[2]] = this[attrs[2]].split("\n");
+            inputData.virtualhost.ServerNames = this.ServerNames.split("\n");
             
             this.vErrors = {}
             execp("nethserver-httpd/virtualhost/validate", inputData)
