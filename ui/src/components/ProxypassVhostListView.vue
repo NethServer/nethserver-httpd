@@ -59,11 +59,18 @@
         </div>
         <div class="list-view-pf-body">
           <div class="list-view-pf-description">
-            <div class="list-group-item-heading">{{ item.name }}</div>
-            <!-- <div class="list-group-item-text">{{ item.Description }}</div> -->
-            <div v-if="item.HTTP==='no'" class="list-group-item-text">{{$t('proxypass.HttpdForced')}}</div>
-            <div v-if="item.HTTP==='yes'" class="list-group-item-text">{{$t('proxypass.HttpdNotForced')}}</div>
-            <div class="list-group-item-text">{{ item.Target }}</div>
+            <div class="list-group-item-heading">
+                <strong :class="['big-name']">{{ item.name }}</strong>
+            </div>
+            <div class="list-group-item-text">
+                <strong>
+                    {{ item.Target }}
+                </strong>
+            </div>
+            <div class="list-view-pf-additional-info-item">
+                <span :class="[(item.HTTP==='no') ? 'fa  fa-check green':'fa  fa-times red','span-left-margin']"></span>
+                <strong>{{$t('proxypass.HttpdForced')}}</strong>
+            </div>
           </div>
         </div>
       </div>
@@ -94,5 +101,20 @@ export default {
 }
 .list-group-item-text {
   width: calc(40% - 40px) !important;
+}
+.big-name {
+  font-size: 16px;
+}
+.green {
+  color: #3f9c35;
+}
+.red {
+  color: #cc0000;
+}
+.span-right-margin {
+  margin-right: 4px;
+}
+.span-left-margin {
+  margin-left: 5px;
 }
 </style>
