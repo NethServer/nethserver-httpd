@@ -1,11 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"><html><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-		<title>Apache HTTP Server Test Page powered by CentOS</title>
+		<title>NethServer application manager</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <!-- Bootstrap -->
-    <link href="/noindex/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/noindex/css/open-sans.css" type="text/css" />
+    <link href="/res/css/bootstrap4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/res/css/open-sans.css" type="text/css" />
+    <link rel="stylesheet" href="/res/css/patternfly.min.css" type="text/css" />
 
 <style type="text/css"><!--		 
 
@@ -13,6 +14,7 @@ body {
   font-family: "Open Sans", Helvetica, sans-serif;
   font-weight: 100;
   color: #ccc;
+  overflow-x: auto;
   background: #3D4547;
   font-size: 16px;
 }
@@ -47,7 +49,7 @@ h2 {
 }
 
 .main {
-   background: white;
+   background: rgb(245, 245, 245);
    color: #234;
    border-top: 1px solid rgba(0,0,0,0.12);
    padding-top: 30px;
@@ -63,7 +65,55 @@ h2 {
    text-align: right;
 }
 
+.page-description {
+   font-size: 14px;
+}
+
+.page-description h2 {
+   font-size: 19px;
+}
+
+.divide-row {
+   width: 40%;
+   border: 0.4px solid grey;
+}
+
+.cockpit-link {
+   background: #fff;
+   border-top: 2px solid transparent;
+   box-shadow: 0 1px 1px rgba(3, 3, 3, .175);
+   padding: 32px;
+}
+
+.cockpit-link:hover {
+   color: #006080;
+   text-decoration: none;
+   cursor: pointer;
+   box-shadow: 0 1px 6px rgba(3, 3, 3, .35);
+}
+
+canvas {
+   background: #3D4547;
+}
+
+.card-pf-info {
+   font-size: 15px;
+   color: #484848;
+}
+
+.card-pf-item {
+   margin-bottom: 15px;
+}
+
+.version p {
+  font-size: 14px;
+}
+
     --></style>
+
+    <!-- loading applications script w/ jquery -->
+    <script src="/res/js/jquery.js"></script>
+    <script src="/res/js/loadApplications.js"></script>
 </head>
 <body>
   <div class="jumbotron text-center">
@@ -73,7 +123,24 @@ h2 {
 		</div>
   </div>
   <div class="main">
-    <div class="container">
+    <!-- BEGIN cockpit card -->
+    <div class="cockpit-btn-container text-center">
+      <a class="cockpit-link" ref="javascript:void(0)" onclick="openCockpit();"><img src="/res/cockpit.png"
+        width="50">&nbsp;&nbsp;&nbsp;Open Cockpit</a>
+    </div><br>
+    <!-- END cockpit card -->
+
+    <!-- BEGIN application cards -->
+    <h2 class="text-center">Home applications</h2><br>
+    <div class="container container-cards-pf">
+      <div class="row row-cards-pf justify-content-center" id="apps">
+        <div class="spinner spinner-lg"></div>
+      </div>
+    </div><br>
+    <hr class="divide-row"><br>
+    <!-- END application cards -->
+
+    <div class="container page-description">
        <div class="row">
   			<div class="col-sm-6">
 	  				<h2>What is NethServer?</h2>
