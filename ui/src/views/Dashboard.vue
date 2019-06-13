@@ -3,130 +3,133 @@
         <h2>{{$t('dashboard.title')}}</h2>
         <div v-if=" !view.statsLoaded" class="spinner spinner-lg"></div>
         <div v-if="view.statsLoaded">
-            <div class="row row-eq-height row-stat divider row-status container-fluid">
+            <div class="row row-eq-height row-stat  row-status container-fluid">
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
                       <h3 class="panel-title">
                         {{ $t('dashboard.apache_worker_status') }}
                       </h3>
-                    </div>
-                    <div class="panel-body">
                         <span v-if="Object.keys(status.statistics).length == 0" class="empty-piechart">
                             <span class="fa fa-pie-chart"></span>
                             <div>{{ $t('dashboard.empty_piechart_label') }}</div>
                         </span>
                         <span v-else id="apache-pie-chart"></span>
-                    </div>
-                  </div>
                 </div>
+            </div>
+            <div class="row ">
+                <div class="divider"></div>
+                  <h3 >{{  $t('dashboard.apache_stats') }}</h3>
+                  <div class="row row-stat">
+                    <div class="row-inline-block">
+                      <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                        <span
+                          class="card-pf-utilization-card-details-count stats-count"
+                        >{{status.Uptime}}</span>
+                        <span class="card-pf-utilization-card-details-description stats-description">
+                            <span
+                            class="card-pf-utilization-card-details-line-2 stats-text"
+                            >{{$t('dashboard.apache_uptime')}}</span>
+                        </span>
+                      </div>
+                      <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                        <span
+                          class="card-pf-utilization-card-details-count stats-count"
+                        >{{status.TotalAccess}}</span>
+                        <span class="card-pf-utilization-card-details-description stats-description">
+                            <span
+                            class="card-pf-utilization-card-details-line-2 stats-text"
+                            >{{$t('dashboard.TotalAccess')}}</span>
+                        </span>
+                      </div>
+                      <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                        <span
+                          class="card-pf-utilization-card-details-count stats-count"
+                        >{{status.Total_kbytes}}</span>
+                        <span class="card-pf-utilization-card-details-description stats-description">
+                            <span
+                            class="card-pf-utilization-card-details-line-2 stats-text"
+                            >{{$t('dashboard.Total_kbytes')}}</span>
+                        </span>
+                      </div>
 
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                      <div class="panel panel-default">
-                        <div class="panel-heading">
-                          <h3 class="panel-title">
-                            {{ $t('dashboard.apache_stats') }}
-                          </h3>
+
+                    </div>
+                    <div class="row-inline-block">
+                        <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                          <span
+                            class="card-pf-utilization-card-details-count stats-count"
+                          >{{status.ReqPerSec}}</span>
+                          <span class="card-pf-utilization-card-details-description stats-description">
+                              <span
+                              class="card-pf-utilization-card-details-line-2 stats-text"
+                              >{{$t('dashboard.ReqPerSec')}}</span>
+                          </span> 
                         </div>
-                        <div class="panel-body">
-                            <span class="card-pf-utilization-card-details-count stats-description-small col-xs-6">{{$t('dashboard.apache_uptime')}}: </span>
-                            <span
-                              class="card-pf-utilization-card-details-description stats-description-small col-xs-6"
-                            >
+                        <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                          <span
+                            class="card-pf-utilization-card-details-count stats-count"
+                          >{{status.BytesPerSec}}</span>
+                          <span class="card-pf-utilization-card-details-description stats-description">
                               <span
-                                class="card-pf-utilization-card-details-line-2 stats-text-small"
-                              >{{status.Uptime}}</span>
-                            </span>
-                            
-                            <span class="card-pf-utilization-card-details-count stats-description-small col-xs-6">{{$t('dashboard.TotalAccess')}}: </span>
-                            <span
-                              class="card-pf-utilization-card-details-description stats-description-small col-xs-6"
-                            >
+                              class="card-pf-utilization-card-details-line-2 stats-text"
+                              >{{$t('dashboard.BytesPerSec')}}</span>
+                          </span> 
+                        </div>
+                        <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                          <span
+                            class="card-pf-utilization-card-details-count stats-count"
+                          >{{status.BytesPerReq}}</span>
+                          <span class="card-pf-utilization-card-details-description stats-description">
                               <span
-                                class="card-pf-utilization-card-details-line-2 stats-text-small"
-                              >{{status.TotalAccess}}</span>
-                            </span>
-
-                            <span class="card-pf-utilization-card-details-count stats-description-small col-xs-6">{{$t('dashboard.Total_kbytes')}}: </span>
-                            <span
-                              class="card-pf-utilization-card-details-description stats-description-small col-xs-6"
-                            >
-                              <span
-                                class="card-pf-utilization-card-details-line-2 stats-text-small"
-                              >{{status.Total_kbytes}}</span>
-                            </span>
-
-                            <span class="card-pf-utilization-card-details-count stats-description-small col-xs-6">{{$t('dashboard.ReqPerSec')}}: </span>
-                            <span
-                              class="card-pf-utilization-card-details-description stats-description-small col-xs-6"
-                            >
-                              <span
-                                class="card-pf-utilization-card-details-line-2 stats-text-small"
-                              >{{status.ReqPerSec}}</span>
-                            </span>
-
-                            <span class="card-pf-utilization-card-details-count stats-description-small col-xs-6">{{$t('dashboard.BytesPerSec')}}: </span>
-                            <span
-                              class="card-pf-utilization-card-details-description stats-description-small col-xs-6"
-                            >
-                              <span
-                                class="card-pf-utilization-card-details-line-2 stats-text-small"
-                              >{{status.BytesPerSec}}</span>
-                            </span>
-
-                            <span class="card-pf-utilization-card-details-count stats-description-small col-xs-6">{{$t('dashboard.BytesPerReq')}}: </span>
-                            <span
-                              class="card-pf-utilization-card-details-description stats-description-small col-xs-6"
-                            >
-                              <span
-                                class="card-pf-utilization-card-details-line-2 stats-text-small"
-                              >{{status.BytesPerReq}}</span>
-                            </span>
+                              class="card-pf-utilization-card-details-line-2 stats-text"
+                              >{{$t('dashboard.BytesPerReq')}}</span>
+                          </span> 
+                        </div>
                     </div>
                   </div>
-                </div>
+            </div>
 
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <h3 class="panel-title">
-                        {{ $t('dashboard.informations') }}
-                      </h3>
-                    </div>
-                    <div class="panel-body">
-                        <span v-if="live.packages.virtualhost" class="card-pf-utilization-card-details-count stats-description-small col-xs-6">{{$t('dashboard.number_virtualhosts')}}: </span>
-                        <span v-if="live.packages.virtualhost"
-                          class="card-pf-utilization-card-details-description stats-description-small col-xs-6"
-                        >
-                          <span
-                            class="card-pf-utilization-card-details-line-2 stats-text-small"
-                          >{{live.statistics.virtualhosts}}</span>
-                        </span>
-                        
-                        
-                        <span class="card-pf-utilization-card-details-count stats-description-small col-xs-6">{{$t('dashboard.number_VhostReverse')}}: </span>
+            <div class="row ">
+                <div class="divider"></div>
+                  <h3 >{{ $t('dashboard.informations') }}</h3>
+                  <div class="row row-stat">
+                    <div class="row-inline-block">
+                      <div  v-if="live.packages.virtualhost" class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
                         <span
-                          class="card-pf-utilization-card-details-description stats-description-small col-xs-6"
-                        >
-                          <span
-                            class="card-pf-utilization-card-details-line-2 stats-text-small"
-                          >{{live.statistics.VhostReverse}}</span>
+                          class="card-pf-utilization-card-details-count stats-count"
+                        >{{live.statistics.virtualhosts}}</span>
+                        <span class="card-pf-utilization-card-details-description stats-description">
+                            <span
+                            class="card-pf-utilization-card-details-line-2 stats-text"
+                            >{{$t('dashboard.number_virtualhosts')}}</span>
                         </span>
-                        
-                        <span class="card-pf-utilization-card-details-count stats-description-small col-xs-6">{{$t('dashboard.number_ProxyPass')}}: </span>
+                      </div>
+                      <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
                         <span
-                          class="card-pf-utilization-card-details-description stats-description-small col-xs-6"
-                        >
-                          <span
-                            class="card-pf-utilization-card-details-line-2 stats-text-small"
-                          >{{live.statistics.ProxyPass}}</span>
+                          class="card-pf-utilization-card-details-count stats-count"
+                        >{{live.statistics.VhostReverse}}</span>
+                        <span class="card-pf-utilization-card-details-description stats-description">
+                            <span
+                            class="card-pf-utilization-card-details-line-2 stats-text"
+                            >{{$t('dashboard.number_VhostReverse')}}</span>
                         </span>
+                      </div>
+                      <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                        <span
+                          class="card-pf-utilization-card-details-count stats-count"
+                        >{{live.statistics.ProxyPass}}</span>
+                        <span class="card-pf-utilization-card-details-description stats-description">
+                            <span
+                            class="card-pf-utilization-card-details-line-2 stats-text"
+                            >{{$t('dashboard.number_ProxyPass')}}</span>
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-            </div><!--  end first panel -->
+            </div>
 
-            <div class="row row-eq-height row-stat divider row-status container-fluid">
+            <div class="divider"></div>
+
+            <div class="row row-eq-height row-stat row-status container-fluid">
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
                   <div class="panel panel-default">
                     <div class="panel-heading">
@@ -148,7 +151,6 @@
                             </span>
                         </span>
                     </div>
-
                   </div>
                 </div>
 
@@ -207,7 +209,7 @@
                     </div>
                   </div>
                 </div>
-            </div><!--  end second panel -->
+            </div>
         </div>
     </div>
 </template>
@@ -314,7 +316,13 @@ export default {
             }
             context.status = success;
             context.status.statistics = success.statistics;
-
+            
+            //use integer number
+            context.status.ReqPerSec = parseFloat(Number(success.ReqPerSec).toFixed(0));
+            context.status.BytesPerSec = parseFloat(Number(success.BytesPerSec).toFixed(0));
+            context.status.BytesPerReq = parseFloat(Number(success.BytesPerReq).toFixed(0));
+            
+            //display time units with integer
             if (Number(success.Uptime) < 3600) {
                 context.status.Uptime = parseFloat((Number(success.Uptime) / 60).toFixed(0)) + ' ' + context.$t("dashboard.minute");
             } else if (Number(success.Uptime) < 86400) {
@@ -323,6 +331,7 @@ export default {
                 context.status.Uptime = parseFloat((Number(success.Uptime) / 86400).toFixed(0)) + ' ' + context.$t("dashboard.day");
             }
 
+            //create bandwith units
             if (Number(success.Total_kbytes) < 1000) {
                 context.status.Total_kbytes = parseFloat((Number(success.Total_kbytes) / 1000).toFixed(2)) + ' ' + context.$t("dashboard.MB");
             } else if (Number(success.Total_kbytes) < 1000000) {
@@ -355,7 +364,7 @@ export default {
 }
 
 .divider {
-    border-top: 1px solid #d1d1d1;
+  border-bottom: 1px solid #d1d1d1;
 }
 
 /* lamp-status */
@@ -399,5 +408,42 @@ export default {
 .panel-body {
   flex-grow: 1;
 }
+.stats-count {
+  font-size: 26px;
+  font-weight: 300;
+  margin-right: 10px;
+  float: left;
+  line-height: 1;
+}
+.mg-left-20 {
+  margin-left: 20px !important;
+}
+.row {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.semi-bold {
+  font-weight: 500;
+}
+.min-size {
+  font-size: 18px;
+}
+.stats-text {
+  margin-top: 10px !important;
+  display: block;
+}
+.stats-description {
+  float: left;
+  line-height: 1;
+}
+.row-inline-block {
+  display: inline-block;
+  width: 100%;
+}
+.row-stat {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
 </style>
 
