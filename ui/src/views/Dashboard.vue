@@ -164,7 +164,7 @@
                     <div class="panel-body">
                         <span v-if="Object.keys(live.versions.php_SCL).length == 0">
                             <div class="card-pf-utilization-card-details-count stats-description-small col-xs-6"
-                            >{{ $t('dashboard.no_installed_software') }}</div>
+                            >{{ $t('dashboard.no_installed_PHP') }}</div>
                         </span>
                         <span v-else v-for="(item, key) in live.versions.php_SCL">
                           <span
@@ -192,7 +192,7 @@
                     <div class="panel-body">
                         <span v-if="Object.keys(live.versions.database_SCL).length == 0">
                             <div  class="card-pf-utilization-card-details-count stats-description-small col-xs-6"
-                            >{{ $t('dashboard.no_installed_software') }}</div>
+                            >{{ $t('dashboard.no_installed_database') }}</div>
                         </span>
                         <span v-else v-for="(item, key) in live.versions.database_SCL">
                           <span

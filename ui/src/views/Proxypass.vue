@@ -28,16 +28,6 @@
 
 <template>
   <div>
-    <h1>{{ $t('proxypass.title') }}</h1>
-    <doc-info
-      :placement="'top'"
-      :title="$t('docs.Reverse_Proxy')"
-      :chapter="'proxy_pass'"
-      :section="''"
-      :inline="false"
-      :lang="'en'"
-    ></doc-info>
-
     <div v-if="vReadStatus == 'running'" class="spinner spinner-lg view-spinner"></div>
     <div v-else-if="vReadStatus == 'error'">
         <div class="alert alert-danger">
@@ -51,8 +41,18 @@
                 <div class="blank-slate-pf-icon">
                   <span class="fa list-view-pf-icon-sm pficon-service"></span>
                 </div>
-                <!-- <h1>{{ $t('sharedfolders.title') }}</h1> -->
-                <h1>{{ $t("proxypass.NoDataToDisplay") }}</h1>
+                <h1>{{ $t('proxypass.title') }}</h1>
+                <p>{{ $t("proxypass.NoDataToDisplay") }}</p>
+                <p>
+                    <doc-info
+                      :placement="'top'"
+                      :title="$t('docs.Reverse_Proxy')"
+                      :chapter="'proxy_pass'"
+                      :section="''"
+                      :inline="false"
+                      :lang="'en'"
+                      ></doc-info>
+                </p>
                 <div class="blank-slate-pf-main-action">
                   <button
                     class="btn btn-primary btn-lg"
@@ -61,6 +61,17 @@
                 </div>
               </div>
               <div v-else-if="proxypass.length && vReadStatus !== 'running'">
+
+                  <h1>{{ $t('proxypass.title') }}</h1>
+                  <doc-info
+                    :placement="'top'"
+                    :title="$t('docs.Reverse_Proxy')"
+                    :chapter="'proxy_pass'"
+                    :section="''"
+                    :inline="false"
+                    :lang="'en'"
+                  ></doc-info>
+                  
                   <h3>{{$t('list')}}</h3>
                   <div class="blank-slate-pf-main-action">
                     <button

@@ -100,12 +100,6 @@ select {
                                 <span v-if="vErrors.name" class="help-block">{{ vErrors.name }}</span>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" v-bind:for="id + '-di'">{{ $t('proxypass.description_label') }}</label>
-                            <div class="col-sm-9">
-                                <input type="text" v-model="Description" v-bind:id="id + '-di'" class="form-control">
-                            </div>
-                        </div>
 
                         <!-- Target -->
                         <div class="form-group">
@@ -113,6 +107,13 @@ select {
                             <div class="col-sm-9">
                                 <input type="text" v-model="Target" v-bind:id="id + '-Target'" class="form-control">
                                 <span v-if="vErrors.Target" class="help-block">{{ vErrors.Target }}</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" v-bind:for="id + '-di'">{{ $t('proxypass.description_label') }}</label>
+                            <div class="col-sm-9">
+                                <input type="text" v-model="Description" v-bind:id="id + '-di'" class="form-control">
                             </div>
                         </div>
 
@@ -221,7 +222,7 @@ select {
                     <div v-if="loader" class="spinner spinner-sm form-spinner-loader"></div>
                     <button type="button" class="btn btn-default" data-dismiss="modal">{{ $t('modal.cancel_button') }}</button>
                     <button v-if="useCase == 'delete'" v-on:click="$emit('modal-save')" type="button" class="btn btn-danger" >{{ $t('delete') }}</button>
-                    <button v-else-if="useCase == 'create'" v-on:click="$emit('modal-save')" type="button" class="btn btn-primary">{{ $t('save') }}</button>
+                    <button v-else-if="useCase == 'create'" v-on:click="$emit('modal-save')" type="button" class="btn btn-primary">{{ $t('create') }}</button>
                     <button v-else v-on:click="$emit('modal-save')" type="button" class="btn btn-primary">{{ $t('edit') }}</button>
                 </div>
             </div>

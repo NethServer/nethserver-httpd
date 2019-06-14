@@ -92,7 +92,7 @@ select {
                         <div class="form-group">
                             <label class="col-sm-3 control-label" v-bind:for="id + '-di'">{{ $t('virtualhost.description_label') }}</label>
                             <div class="col-sm-9">
-                                <input required type="text" v-model="Description" v-bind:id="id + '-di'" class="form-control">
+                                <input type="text" v-model="Description" v-bind:id="id + '-di'" class="form-control">
                                 <span v-if="vErrors.Description" class="help-block">
                                     {{$t('validation.validation_failed')}}:
                                     {{vErrors.Description}}
@@ -308,7 +308,7 @@ select {
                     <div v-if="loader" class="spinner spinner-sm form-spinner-loader"></div>
                     <button type="button" class="btn btn-default" data-dismiss="modal">{{ $t('modal.cancel_button') }}</button>
                     <button v-if="useCase == 'delete'" v-on:click="$emit('modal-save')" type="button" class="btn btn-danger" >{{ $t('delete') }}</button>
-                    <button v-else-if="useCase == 'create'" v-on:click="$emit('modal-save')" type="button" class="btn btn-primary">{{ $t('save') }}</button>
+                    <button v-else-if="useCase == 'create'" v-on:click="$emit('modal-save')" type="button" class="btn btn-primary">{{ $t('create') }}</button>
                     <button v-else v-on:click="$emit('modal-save')" type="button" class="btn btn-primary">{{ $t('edit') }}</button>
                 </div>
             </div>
