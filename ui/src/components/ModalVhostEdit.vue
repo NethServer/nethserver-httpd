@@ -21,13 +21,7 @@
 -->
 
 <style scoped>
-input[type=radio].form-control, input[type=checkbox].form-control {
-    width: 12px !important;
-    height: 12px !important;
-    display: inline-block;
-    vertical-align: -25%;
-    margin-right: 1em;
-}
+
 .pd-indent {
     margin-left: 8px;
 }
