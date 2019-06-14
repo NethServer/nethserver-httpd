@@ -1,8 +1,8 @@
 {
     "id": "nethserver-httpd",
-    "name": "Web Server",
+    "name": "Web server",
     "summary": "Nethserver integration of apache",
-    "description": "Provides FTP and apache virtualhost/proxypass",
+    "description": "Web server configuration with named virtual hosts and reverse proxy",
     "url": "",
     "homepage": "https://github.com/NethServer/nethserver-httpd",
     "provides": ["nethserver-httpd"],
