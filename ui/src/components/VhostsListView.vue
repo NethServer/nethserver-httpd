@@ -24,9 +24,13 @@
   <div class="list-group list-view-pf list-view-pf-view no-mg-top mg-top-10">
     <div v-bind:key="item.id" v-for="item in items" class="list-group-item">
       <div class="list-view-pf-actions">
-        <button :disabled="item.status === 'disabled'" class="btn btn-default" v-on:click="$emit('item-edit', item)">
+        <button v-if="item.status === 'enabled' || item.name === 'default'" class="btn btn-default" v-on:click="$emit('item-edit', item)">
           <span class="fa fa-pencil"></span>
           {{ $t('virtualhost.item_edit_button')}}
+        </button>
+        <button v-if="item.status === 'disabled'" class="btn btn-primary" v-on:click="toggleLock(item)">
+          <span class="fa fa-check"></span>
+          {{ $t('virtualhost.item_enable_button')}}
         </button>
         <div  class="dropdown pull-right dropdown-kebab-pf">
           <button
@@ -43,7 +47,7 @@
           <ul class="dropdown-menu dropdown-menu-right" v-bind:aria-labelledby="item.id + '-ddm'">
             <li>
               <a @click="toggleLock(item)">
-                <span :class="[item.status === 'disabled' ? 'pficon pficon-unlocked' : 'pficon pficon-locked','span-right-margin']"></span>
+                <span :class="[item.status === 'disabled' ? 'fa fa-check' : 'pficon pficon-locked','span-right-margin']"></span>
                 {{ item.status === 'disabled' ? $t('virtualhost.item_enable_button') : $t('virtualhost.item_disable_button') }}
               </a>
             </li>
@@ -60,19 +64,18 @@
 
       <div class="list-view-pf-main-info small-list">
         <div class="list-view-pf-left">
-          <span
-            class="fa list-view-pf-icon-sm pficon-folder-open"
+          <span :class="[item.status === 'disabled' ? 'gray':'','fa list-view-pf-icon-sm pficon-folder-open']"
           ></span>
         </div>
         <div class="list-view-pf-body">
           <div class="list-view-pf-description">
-            <span :class="[item.status === 'disabled' ? 'pficon pficon-locked':'','span-right-margin']"></span>
+            <span :class="[item.status === 'disabled' ? 'pficon pficon-locked gray':'','span-right-margin']"></span>
             <div class="list-group-item-text">
                 <strong :class="[item.status === 'disabled' ? 'gray':'','big-name']">{{ item.Description }}</strong>
             </div>
             <div class="list-group-item-text">
-                <strong>
-                    {{ item.ServerNames }}
+                <strong :class="[item.status === 'disabled' ? 'gray':'']">
+                    {{item.ServerNames}}
                 </strong>
             </div>
             <div class="list-view-pf-additional-info-item">
