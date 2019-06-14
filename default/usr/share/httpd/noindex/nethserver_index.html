@@ -117,10 +117,116 @@ canvas {
 </head>
 <body>
   <div class="jumbotron text-center">
-    <div class="container">
-   	  <h1><a href="http://www.nethserver.org/"><img src="images/nethserver.png" alt="[ NethServer ]"></a></h1>
-  		<p class="lead">Congratulations, your NethServer installation is up and running! </p>
-		</div>
+    <div>
+      <!-- BEGIN 3d logo -->
+      <canvas id="3dlogo"></canvas>
+
+      <script src="/res/js/webgl.js"></script>
+      <script src="/res/js/three.js"></script>
+      <script>
+        // verifying webgl compatibility
+        if (!WEBGL.isWebGLAvailable()) {
+            $("#3dlogo").html('<img class="text-center" src="images/nethserver.png" alt="Nethserver">');
+            throw new Error("WebGL is required to display 3D logo. Using default PNG logo");
+        }
+
+        // renderer
+        var renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('3dlogo'), antialias: true });
+        renderer.setClearColor(0x3D4547);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth - 55, 240);
+
+        // camera
+        var camera = new THREE.PerspectiveCamera(35, window.innerWidth / 240, 0.1, 3000);
+
+        // scene
+        var scene = new THREE.Scene();
+
+        // lights 
+        var light = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(light);
+
+        var light1 = new THREE.PointLight(0xffffff, 0.75);
+        scene.add(light1);
+
+        // texts
+        var textMesh, textMesh2, group;
+        var loader = new THREE.FontLoader();
+        loader.load('/res/font/allroundgothic.json', function (font) {
+            var txt = new THREE.TextGeometry('neth', {
+                font: font,
+                size: 1,
+                height: 0.25,
+            });
+            var txt2 = new THREE.TextGeometry('server', {
+                font: font,
+                size: 1,
+                height: 0.25,
+            });
+
+            txt.computeBoundingBox();
+            txt2.computeBoundingBox();
+            txt = new THREE.BufferGeometry().fromGeometry(txt);
+            txt2 = new THREE.BufferGeometry().fromGeometry(txt2);
+
+            var material = new THREE.MeshLambertMaterial({
+                color: 0xffffff
+            });
+            var material2 = new THREE.MeshLambertMaterial({
+                color: 0x259ED5
+            });
+
+            textMesh = new THREE.Mesh(txt, material);
+            textMesh2 = new THREE.Mesh(txt2, material2);
+            textMesh.position.set(-2.9, -0.5, 0);
+            textMesh2.position.set(0.35, -0.5, 0);
+
+            group = new THREE.Group();
+            group.position.set(0, 0, -7.5);
+            group.add(textMesh);
+            group.add(textMesh2);
+
+            scene.add(group);
+        });
+
+        // sphere and materials
+        var geometry = new THREE.SphereGeometry(1, 20, 20);
+        var material = new THREE.MeshLambertMaterial({
+            color: 0xf3ffe2,
+            map: new THREE.TextureLoader().load('/res/logotexture.png')
+        });
+
+        var mesh = new THREE.Mesh(geometry, material);
+        mesh.position.set(-4.2, 0, -6);
+        //mesh.rotation.y = 4.70;
+
+        scene.add(mesh);
+
+        requestAnimationFrame(render);
+        window.addEventListener('mousemove', move);
+
+        // render loop
+        function render() {
+            renderer.render(scene, camera);
+            requestAnimationFrame(render);
+        }
+
+        // rotating logo with mouse
+        function move(e) {
+            // add offsets
+            group.rotation.x = (e.pageY-window.innerHeight/2) / 75 * 0.025;
+            group.rotation.y = (e.pageX-window.innerWidth/2) / 150 * 0.025;
+
+            mesh.rotation.x = e.pageY / 75 * 0.025;
+            mesh.rotation.y = e.pageX / 150 * 0.025;
+
+            renderer.render(scene, camera);
+        }
+      </script>
+      <!-- END 3d logo -->
+
+      <p class="lead text-center">Congratulations, your NethServer installation is up and running! </p>
+    </div>
   </div>
   <div class="main">
     <!-- BEGIN cockpit card -->
