@@ -54,7 +54,7 @@
         "virtualhost_disabled_Failed": "The virtual host has not been disabled well",
         "virtualhost_enabled_ok": "The virtual host has well been enabled",
         "virtualhost_enabled_Failed": "The virtual host has not been enabled well",
-        "FQDN_help": "A list of one fully qualified domain name per line",
+        "FQDN_help": "One item per line",
         "advanced_mode":"Advanced settings",
         "automatic_HostRecord_creation": "The server alias name of each virtual hosts will be automatically created",
         "dnsHostRecord_do_not_be_removed": "The DNS records will not be removed automatically, you can do it manually",
@@ -118,15 +118,16 @@
     "validation":{
         "validation_failed": "Validation failed",
         "valid_memberOf_enabled, disabled": "Can be enabled or disabled",
-        "valid_fqdn": "Must be a valid FQDN like 'server.domain.org'",
+        "valid_fqdn": "Must be a valid FQDN like 'server.domain.org', one item per line",
         "valid_fqdn_already_used": "This FQDN is already used in another virtualhost",
         "key_not_found": "virtual host not found",
         "key_already_exists": "A virtual host with the same name already exists",
         "valid_notEmpty": "This field can not be empty",
         "hostname_key_exists":"The Virtual host names (FQDN) is already used",
-        "valid_hostname_fqdn_1_9223372036854775807": "Must be a valid FQDN like 'server.domain.org'",
-        "ValidFromCIDR_validator": "Must be a valid CIDR like '10.10.10.0/16'",
-        "valid_username":"Must be a valid user name"
+        "valid_hostname_fqdn_1_9223372036854775807": "Must be a valid FQDN like 'server.domain.org', one item per line",
+        "ValidFromCIDR_validator": "Must be a valid CIDR like '10.10.10.0/16', one item per line",
+        "valid_username":"Must be a valid user name",
+        "Invalid_Target": "Must be a valid URL like 'http://domain.com'"
     },
     "proxypass":{
         "title": "ProxyPass",

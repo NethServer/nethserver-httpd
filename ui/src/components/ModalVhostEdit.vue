@@ -88,14 +88,13 @@ select {
                             <div class="col-sm-9">
                                 <input type="text" v-model="Description" v-bind:id="id + '-di'" class="form-control">
                                 <span v-if="vErrors.Description" class="help-block">
-                                    {{$t('validation.validation_failed')}}:
                                     {{vErrors.Description}}
                                 </span>
                             </div>
                         </div>
                         
                         <!-- FQDN -->
-                        <div v-if="name !== 'default'" class="form-group">
+                        <div v-if="name !== 'default'" v-bind:class="['form-group', vErrors.ServerNames ? 'has-error' : '']">
                         <label
                                 class="col-sm-3 control-label"
                                 for="textInput-modal-markup"
@@ -105,7 +104,6 @@ select {
                                 <textarea v-bind:id="id + '-ServerName'" v-model="ServerNames" class="form-control" 
                                     :placeholder="$t('virtualhost.FQDN_help')"></textarea>
                                 <span v-if="vErrors.ServerNames" class="help-block">
-                                    {{$t('validation.validation_failed')}}:
                                     {{vErrors.ServerNames}}
                                 </span>
                             </div>
@@ -161,7 +159,7 @@ select {
                             </div>
 
                             <div v-if="PasswordStatus == 'enabled' && advanced">
-                                <div class="form-group">
+                                <div v-bind:class="['form-group', vErrors.name ? 'has-error' : '']">
                                     <label class="col-sm-3 control-label" v-bind:for="id + '-un'">{{ $t('virtualhost.UserName') }}</label>
                                     <div class="col-sm-9">
                                         <input disabled type="text" v-model="name" v-bind:id="id + '-un'" class="form-control">
@@ -273,7 +271,7 @@ select {
                         </div>
                     
                         <div v-if="FtpStatus == 'enabled' && advanced">
-                            <div class="form-group">
+                            <div v-bind:class="['form-group', vErrors.name ? 'has-error' : '']">
                                 <label class="col-sm-3 control-label" v-bind:for="id + '-fun'">{{ $t('virtualhost.UserName') }}</label>
                                 <div class="col-sm-9">
                                     <input disabled type="text" v-model="name" v-bind:id="id + '-fun'" class="form-control">

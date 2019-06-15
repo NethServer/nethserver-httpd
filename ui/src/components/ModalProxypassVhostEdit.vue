@@ -96,7 +96,7 @@ select {
                         </div>
 
                         <!-- Target -->
-                        <div class="form-group">
+                        <div v-bind:class="['form-group', vErrors.Target ? 'has-error' : '']">
                             <label class="col-sm-3 control-label" v-bind:for="id + '-Target'">{{ $t('proxypass.Target') }}</label>
                             <div class="col-sm-9">
                                 <input type="text" v-model="Target" v-bind:id="id + '-Target'" class="form-control">
@@ -104,10 +104,14 @@ select {
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <!-- Description -->
+                        <div v-bind:class="['form-group', vErrors.Description ? 'has-error' : '']">
                             <label class="col-sm-3 control-label" v-bind:for="id + '-di'">{{ $t('proxypass.description_label') }}</label>
                             <div class="col-sm-9">
                                 <input type="text" v-model="Description" v-bind:id="id + '-di'" class="form-control">
+                                <span v-if="vErrors.Description" class="help-block">
+                                    {{vErrors.Description}}
+                                </span>
                             </div>
                         </div>
 
@@ -123,7 +127,7 @@ select {
                        </legend>
                         <div v-if="advanced">
                             <!-- ValidFrom -->
-                            <div  class="form-group">
+                            <div  v-bind:class="['form-group', vErrors.ValidFrom ? 'has-error' : '']">
                                 <label
                                         class="col-sm-3 control-label"
                                         for="textInput-modal-markup"
@@ -133,7 +137,6 @@ select {
                                         <textarea v-bind:id="id + '-di'" v-model="ValidFrom" class="form-control" 
                                             :placeholder="$t('proxypass.ValidFromCIDR_help')"></textarea>
                                         <span v-if="vErrors.ValidFrom" class="help-block">
-                                            {{$t('validation.validation_failed')}}:
                                             {{vErrors.ValidFrom}}
                                         </span>
                                     </div>
