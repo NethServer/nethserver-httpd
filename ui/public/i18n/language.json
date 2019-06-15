@@ -58,8 +58,8 @@
         "advanced_mode":"Advanced settings",
         "automatic_HostRecord_creation": "The server alias name of each virtual hosts will be automatically created",
         "dnsHostRecord_do_not_be_removed": "The DNS records will not be removed automatically, you can do it manually",
-        "http": "HTTP",
-        "ftp": "FTP"
+        "http": "HTTP auth",
+        "ftp": "FTP auth"
     },
     "about": {
         "title": "About",

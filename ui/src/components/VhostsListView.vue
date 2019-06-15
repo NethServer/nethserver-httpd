@@ -28,7 +28,7 @@
           <span class="fa fa-pencil"></span>
           {{ $t('virtualhost.item_edit_button')}}
         </button>
-        <button v-if="item.status === 'disabled'" class="btn btn-primary" v-on:click="toggleLock(item)">
+        <button v-if="item.status === 'disabled'" class="btn btn-default btn-primary" v-on:click="toggleLock(item)">
           <span class="fa fa-check"></span>
           {{ $t('virtualhost.item_enable_button')}}
         </button>
@@ -70,18 +70,22 @@
         <div class="list-view-pf-body">
           <div class="list-view-pf-description">
             <span :class="[item.status === 'disabled' ? 'pficon pficon-locked gray':'','span-right-margin']"></span>
-            <div class="list-group-item-text">
-                <strong :class="[item.status === 'disabled' ? 'gray':'','big-name']">{{ item.Description }}</strong>
+            <div class="list-group-item-heading">
+                <div :class="[item.status === 'disabled' ? 'gray':'','big-name']">{{ item.Description }}</div>
             </div>
             <div class="list-group-item-text">
-                <strong :class="[item.status === 'disabled' ? 'gray':'']">
+                <div :class="[item.status === 'disabled' ? 'gray':'']">
                     {{item.ServerNames}}
-                </strong>
+                </div>
             </div>
-            <div class="list-view-pf-additional-info-item">
-                <span :class="[(item.PasswordStatus === 'enabled' && item.status === 'enabled') ? 'fa  fa-check green':'fa  fa-times red','span-left-margin']"></span>
-            <strong>{{$t('virtualhost.http')}}</strong>
-                <span :class="[item.FtpStatus === 'enabled' ? 'fa  fa-check green':'fa  fa-times red','span-left-margin']"></span>
+          </div>
+          <div class="list-view-pf-additional-info rules-info">
+            <div class="list-view-pf-additional-info-item" v-if="(item.PasswordStatus === 'enabled' && item.status === 'enabled')" >
+                <span  class="span-left-margin fa fa-check green"></span>
+                <strong>{{$t('virtualhost.http')}}</strong>
+            </div>
+            <div class="list-view-pf-additional-info-item" v-if="item.FtpStatus === 'enabled'" >
+                <span  class="span-left-margin fa fa-check green"></span>
                 <strong>{{$t('virtualhost.ftp')}}</strong>
             </div>
           </div>

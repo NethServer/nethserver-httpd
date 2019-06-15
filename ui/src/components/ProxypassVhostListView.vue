@@ -63,15 +63,22 @@
                 <strong :class="['big-name']">{{ item.name }}</strong>
             </div>
             <div class="list-group-item-text">
-                <strong>
+                <div :class="['big-name']">
                     {{ item.Target }}
-                </strong>
+                </div>
             </div>
-            <div class="list-view-pf-additional-info-item">
-                <span :class="[(item.HTTP==='no') ? 'fa  fa-check green':'fa  fa-times red','span-left-margin']"></span>
-                <strong>{{$t('proxypass.HttpdForced')}}</strong>
+            <div class="list-group-item-text">
+                <div>
+                    {{ item.Description }}
+                </div>
             </div>
           </div>
+            <div class="list-view-pf-additional-info rules-info">
+                <div class="list-view-pf-additional-info-item" v-if="item.HTTP==='no'" >
+                    <span  class="span-left-margin fa fa-check green"></span>
+                    <strong>{{$t('proxypass.HttpdForced')}}</strong>
+                </div>
+            </div>
         </div>
       </div>
     </div>
