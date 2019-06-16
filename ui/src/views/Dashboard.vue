@@ -27,7 +27,7 @@
                         <span class="card-pf-utilization-card-details-description stats-description">
                             <span
                             class="card-pf-utilization-card-details-line-2 stats-text"
-                            >{{$t('dashboard.apache_uptime')}}</span>
+                            >{{status.UptimeUnit}} {{$t('dashboard.apache_uptime')}}</span>
                         </span>
                       </div>
                       <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
@@ -47,7 +47,7 @@
                         <span class="card-pf-utilization-card-details-description stats-description">
                             <span
                             class="card-pf-utilization-card-details-line-2 stats-text"
-                            >{{$t('dashboard.Total_kbytes')}}</span>
+                            >{{status.Total_kbytesUnit}} {{$t('dashboard.Total_kbytes')}}</span>
                         </span>
                       </div>
 
@@ -324,20 +324,26 @@ export default {
             
             //display time units with integer
             if (Number(success.Uptime) < 3600) {
-                context.status.Uptime = parseFloat((Number(success.Uptime) / 60).toFixed(0)) + ' ' + context.$t("dashboard.minute");
+                context.status.Uptime = parseFloat((Number(success.Uptime) / 60).toFixed(0));
+                context.status.UptimeUnit = ' ' + context.$t("dashboard.minute") + ' ';
             } else if (Number(success.Uptime) < 86400) {
-                context.status.Uptime = parseFloat((Number(success.Uptime) / 3600).toFixed(0)) + ' ' + context.$t("dashboard.hour");
+                context.status.Uptime = parseFloat((Number(success.Uptime) / 3600).toFixed(0));
+                context.status.UptimeUnit = ' ' + context.$t("dashboard.hour") + ' ';
             } else if (success.Uptime > 86400) {
-                context.status.Uptime = parseFloat((Number(success.Uptime) / 86400).toFixed(0)) + ' ' + context.$t("dashboard.day");
+                context.status.Uptime = parseFloat((Number(success.Uptime) / 86400).toFixed(0));
+                context.status.UptimeUnit = ' ' + context.$t("dashboard.day") + ' ';
             }
 
             //create bandwith units
             if (Number(success.Total_kbytes) < 1000) {
-                context.status.Total_kbytes = parseFloat((Number(success.Total_kbytes) / 1000).toFixed(2)) + ' ' + context.$t("dashboard.MB");
+                context.status.Total_kbytes = parseFloat((Number(success.Total_kbytes) / 1000).toFixed(2));
+                context.status.Total_kbytesUnit = ' ' + context.$t("dashboard.MB") + ' ';
             } else if (Number(success.Total_kbytes) < 1000000) {
-                context.status.Total_kbytes = parseFloat((Number(success.Total_kbytes) / 1000000).toFixed(2)) + ' ' + context.$t("dashboard.GB");
+                context.status.Total_kbytes = parseFloat((Number(success.Total_kbytes) / 1000000).toFixed(2));
+                context.status.Total_kbytesUnit = ' ' + context.$t("dashboard.GB") + ' ';
             } else if (success.Total_kbytes > 1000000000) {
-                context.status.Total_kbytes = parseFloat((Number(success.Total_kbytes) / 1000000000).toFixed(2)) + ' ' + context.$t("dashboard.TB");
+                context.status.Total_kbytes = parseFloat((Number(success.Total_kbytes) / 1000000000).toFixed(2));
+                context.status.Total_kbytesUnit = ' ' + context.$t("dashboard.TB") + ' ';
             }
 
             context.view.isLoaded = true;
