@@ -3,16 +3,18 @@
         <h2>{{$t('dashboard.title')}}</h2>
         <div v-if=" !view.statsLoaded" class="spinner spinner-lg"></div>
         <div v-if="view.statsLoaded">
-            <div class="row row-eq-height row-stat  row-status container-fluid">
-                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-                      <h3 class="panel-title">
-                        {{ $t('dashboard.apache_worker_status') }}
-                      </h3>
-                        <span v-if="Object.keys(status.statistics).length == 0" class="empty-piechart">
-                            <span class="fa fa-pie-chart"></span>
-                            <div>{{ $t('dashboard.empty_piechart_label') }}</div>
-                        </span>
-                        <span v-else id="apache-pie-chart"></span>
+            <div>
+                <h3>
+                    {{ $t('dashboard.apache_worker_status') }}
+                </h3>
+                <div class="row row-eq-height row-stat  row-status container-fluid">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                            <div v-if="Object.keys(status.statistics).length == 0" class="empty-piechart">
+                                <span class="fa fa-pie-chart"></span>
+                                <div>{{ $t('dashboard.empty_piechart_label') }}</div>
+                            </div>
+                            <div v-else id="apache-pie-chart"></div>
+                    </div>
                 </div>
             </div>
             <div class="row ">
