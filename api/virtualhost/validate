@@ -25,7 +25,6 @@ $vdb = new EsmithDatabase('vhosts');
 $hdb = new EsmithDatabase('hosts');
 $v = new LegacyValidator($data['virtualhost']);
 
-
 // check if key exists
 if($data['action'] == 'create') {
     if($vdb->getKey($data['virtualhost']['name'])) {
@@ -61,13 +60,18 @@ if($data['virtualhost']['name'] != 'default') {
         }
         #Valid if the fqdn is not already used
         foreach ($vdb->getAll() as $key => $props) {
-            $vhost = $vdb->getProp($key, 'ServerNames');
-            if (strpos($vhost,$el) and ($key !== $data['virtualhost']['name'])) {
+            $vhost = split (",",$vdb->getProp($key, 'ServerNames'));
+            if ($key === $data['virtualhost']['name']) {
+                continue;
+            }
+            if (in_array ($el, $vhost)) {
                 $v->addValidationError('ServerNames', 'valid_fqdn_already_used',$el);
             }
-        }
+
+        }   
     }
 }
+
 # Validate the input
 if ($v->validate()) {
     success();

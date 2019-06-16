@@ -40,7 +40,7 @@ my %props = ();
 
 sub uniq {
     my %seen;
-    grep !$seen{$_}++, @_;
+    grep !$seen{lc($_)}++, @_;
 }
 
 if ($input->{'action'} ne 'toggle-lock') {
@@ -61,7 +61,7 @@ if ($vhostName eq 'default'){
         'Indexes' => $input->{'virtualhost'}->{'Indexes'},
         'PasswordStatus' => $input->{'virtualhost'}->{'PasswordStatus'},
         'PasswordValue' => $input->{'virtualhost'}->{'PasswordValue'},
-        'ServerNames' => join (',',uniq (@{$input->{'virtualhost'}->{'ServerNames'}})),
+        'ServerNames' => lc(join (',',uniq (@{$input->{'virtualhost'}->{'ServerNames'}}))),
         'SslCertificate' => $input->{'virtualhost'}->{'SslCertificate'},
         'status' => $input->{'virtualhost'}->{'status'},
     );
@@ -103,7 +103,6 @@ if(esmith::event::event_signal($eventName, @eventArgs)) {
         }
         esmith::event::event_signal('host-modify', @hostnames);
     }
-
 } else {
     $ret = {
         'type' => 'Error',
