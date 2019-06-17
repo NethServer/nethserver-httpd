@@ -22,20 +22,36 @@
 
 use strict;
 use warnings;
+use esmith::ConfigDB;
 use JSON;
 
+require '/usr/libexec/nethserver/api/lib/helper_functions.pl';
 
-sub list_features
-{
-    my $features = {
-        dashboard => { installed => JSON::true, packages => ['nethserver-httpd'] },
-        virtualhosts => { installed => (-f '/etc/e-smith/db/vhosts/defaults/default/type') ? JSON::true : JSON::false, packages => ['nethserver-httpd-virtualhosts'] },
-        ftp => { installed => (-f '/etc/e-smith/db/configuration/defaults/vsftpd/type') ? JSON::true : JSON::false, packages => ['nethserver-vsftpd'] },
-        logs => { installed => JSON::true, packages => ['nethserver-httpd'] },
-        about => { installed => JSON::true, packages => ['nethserver-httpd'] },
-    };
+my $input = readInput();
+my $cmd = $input->{'action'};
 
-    return $features;
+my $ret = {};
+
+if ($cmd eq 'users') {
+
+    my @users;
+    my $db = esmith::ConfigDB->open_ro('accounts');
+    foreach ($db->get_all_by_prop('type'=>'ftp')) {
+        my %props = $_->props();
+        delete($props{'type'});
+        $props{'name'} = $_->key;
+        push(@users, \%props);
+    }
+    $ret->{'users'} = \@users;
+
+} elsif ($cmd eq 'configuration') {
+
+    my $db = esmith::ConfigDB->open_ro();
+    my $status = $db->get_prop('vsftpd', 'status');
+    $ret->{'configuration'} = {"status" => $status};
+
+} else {
+    error();
 }
 
-1;
+print encode_json($ret);

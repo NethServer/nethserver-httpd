@@ -1,0 +1,58 @@
+#!/usr/bin/php
+<?php
+/*
+ * Copyright (C) 2019 Nethesis S.r.l.
+ * http://www.nethesis.it - nethserver@nethesis.it
+ *
+ * This script is part of NethServer.
+ *
+ * NethServer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License,
+ * or any later version.
+ *
+ * NethServer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with NethServer.  If not, see COPYING.
+*/
+
+
+require_once("/usr/libexec/nethserver/api/lib/Helpers.php");
+
+$data = readInput();
+
+$v = new LegacyValidator($data);
+$cmd = $data['action'];
+
+if ($data['action'] == 'configuration') {
+    $v->declareParameter('status', Validate::SERVICESTATUS);
+} else {
+
+    $adb = new EsmithDatabase('accounts');
+
+    if ($data['action'] == 'update') {
+        if (!$adb->getKey($data['name'])) {
+            $v->addValidationError('name', 'user_not_found');
+        }
+    } else if ($data['action'] == 'create') {
+        if ($adb->getKey($data['name'])) {
+            $v->addValidationError('name', 'user_already_exists');
+        }
+    }
+
+    $userNameValidator = $v->createValidator(Validate::USERNAME)->platform('user-create');
+
+    $v->declareParameter('name', $userNameValidator);
+    $v->declareParameter('Chroot', Validate::SERVICESTATUS);
+}
+
+# Validate the input
+if ($v->validate()) {
+    success();
+} else {
+    error($v);
+}

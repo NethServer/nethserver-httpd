@@ -33,14 +33,19 @@
             <li class="li-empty"></li>
             <router-link tag="li" to="/virtualhosts" active-class="active" class="list-group-item">
                 <a>
-                    <span class="fa pficon-repository"></span>
+                    <span class="pficon pficon-repository"></span>
                     <span class="list-group-item-value">{{$t('virtualhost.title')}}</span>
                 </a>
             </router-link>
-            <li class="li-empty"></li>
+            <router-link tag="li" to="/ftp" active-class="active" class="list-group-item">
+                <a>
+                    <span class="pficon pficon-folder-open"></span>
+                    <span class="list-group-item-value">{{$t('ftp.title')}}</span>
+                </a>
+            </router-link>
             <router-link tag="li" to="/proxypass" active-class="active" class="list-group-item">
                 <a>
-                    <span class="fa pficon-route"></span>
+                    <span class="pficon pficon-route"></span>
                     <span class="list-group-item-value">{{$t('proxypass.title')}}</span>
                 </a>
             </router-link>

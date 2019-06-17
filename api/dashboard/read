@@ -66,6 +66,7 @@ if ($cmd eq 'live') {
     my $cdb = esmith::ConfigDB->open_ro();
     my $vdb = esmith::ConfigDB->open_ro('vhosts');
     my $pdb = esmith::ConfigDB->open_ro('proxypass');
+    my $adb = esmith::ConfigDB->open_ro('accounts');
 
     # Services
     $ret->{'services'} = {};
@@ -86,12 +87,22 @@ if ($cmd eq 'live') {
         $ret->{'statistics'}{'virtualhosts'} = $vdb ? scalar @vhosts : 0;
     }
 
-    #Proxypass List
+    # check if vsftpd is installed
+    $ret->{'packages'}{'vsftpd'} = (-e '/etc/e-smith/db/configuration/defaults/vsftpd/type') ? 1 : 0;
+    if ($ret->{'packages'}{'vsftpd'}) {
+        $ret->{'services'}{'vsftpd'} = $cdb->get_prop('vsftpd', 'status');
+    } else {
+        $ret->{'services'}{'vsftpd'} = 'disabled';
+    }
+
+    # Object List
     my @VhostReverse = $pdb->get_all_by_prop('type' => 'VhostReverse');
     my @ProxyPass = $pdb->get_all_by_prop('type' => 'ProxyPass');
+    my @FTP = $adb->get_all_by_prop('type' => 'ftp');
     # Counters
     $ret->{'statistics'}{'VhostReverse'} = $pdb ? scalar @VhostReverse  : 0;
     $ret->{'statistics'}{'ProxyPass'} = $pdb ? scalar @ProxyPass : 0;
+    $ret->{'statistics'}{'FTP'} = $adb ? scalar @FTP : 0;
 
 
 

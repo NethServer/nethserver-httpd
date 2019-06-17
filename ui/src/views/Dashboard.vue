@@ -64,7 +64,7 @@
                               <span
                               class="card-pf-utilization-card-details-line-2 stats-text"
                               >{{$t('dashboard.ReqPerSec')}}</span>
-                          </span> 
+                          </span>
                         </div>
                         <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
                           <span
@@ -74,7 +74,7 @@
                               <span
                               class="card-pf-utilization-card-details-line-2 stats-text"
                               >{{$t('dashboard.BytesPerSec')}}</span>
-                          </span> 
+                          </span>
                         </div>
                         <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
                           <span
@@ -84,7 +84,7 @@
                               <span
                               class="card-pf-utilization-card-details-line-2 stats-text"
                               >{{$t('dashboard.BytesPerReq')}}</span>
-                          </span> 
+                          </span>
                         </div>
                     </div>
                   </div>
@@ -126,6 +126,27 @@
                         </span>
                       </div>
                     </div>
+                    <div class="row-inline-block" v-if="live.packages.vsftpd">
+                      <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                        <span class="font-size-140">
+                            <span>{{$t('dashboard.FTP_server_status')}}</span>
+                        </span>
+                      <span>
+                        {{live.services.vsftpd == 'enabled' ? $t('dashboard.FTP_enabled') : $t('dashboard.FTP_disabled') }}
+                        <span :class="live.services.vsftpd == 'enabled'? 'fa fa-check green' : 'fa fa-times red'"></span>
+                      </span>
+                      </div>
+                      <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                      <span
+                        class="card-pf-utilization-card-details-count stats-count"
+                      >{{live.statistics.FTP}}</span>
+                      <span class="card-pf-utilization-card-details-description stats-description">
+                          <span
+                          class="card-pf-utilization-card-details-line-2 stats-text"
+                          >{{$t('dashboard.number_FTP')}}</span>
+                      </span>
+                    </div>
+                  </div>
                   </div>
             </div>
 
@@ -183,7 +204,7 @@
                     </div>
                   </div>
                 </div>
-            
+
                 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
                   <div class="panel panel-default">
                     <div class="panel-heading">
@@ -268,7 +289,7 @@ export default {
   methods: {
       getLive() {
         var context = this;
-      
+
         context.view.statsLoaded = false;
         nethserver.exec(
           ["nethserver-httpd/dashboard/read"],
@@ -302,7 +323,7 @@ export default {
     },
       getApacheStatus() {
         var context = this;
-      
+
         context.view.isLoaded = false;
         nethserver.exec(
           ["nethserver-httpd/dashboard/read"],
@@ -318,12 +339,12 @@ export default {
             }
             context.status = success;
             context.status.statistics = success.statistics;
-            
+
             //use integer number
             context.status.ReqPerSec = parseFloat(Number(success.ReqPerSec).toFixed(0));
             context.status.BytesPerSec = parseFloat(Number(success.BytesPerSec).toFixed(0));
             context.status.BytesPerReq = parseFloat(Number(success.BytesPerReq).toFixed(0));
-            
+
             //display time units with integer
             if (Number(success.Uptime) < 3600) {
                 context.status.Uptime = parseFloat((Number(success.Uptime) / 60).toFixed(0));
@@ -453,5 +474,7 @@ export default {
   margin-right: 0px;
 }
 
+.font-size-140 {
+  font-size: 140%;
+}
 </style>
-
