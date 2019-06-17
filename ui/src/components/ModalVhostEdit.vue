@@ -55,7 +55,7 @@ select {
                         <span class="pficon pficon-warning-triangle-o"></span>
                         <strong>{{$t('warning')}}: </strong>
                         <i18n path="virtualhost.delete_confirm_message" tag="span">
-                            <b>{{ this.virtualhost.name }}</b>
+                            <b>{{ this.ServerNames.split('\n')[0]}}</b>
                         </i18n>
                     </div>
                     <div class="alert alert-info alert-dismissable">
@@ -362,7 +362,7 @@ export default {
             }
             // split servername array (index2)
             if (this.ServerNames) {
-                this.ServerNames = newval.ServerNames.split(",").join("\n") || "";
+                this.ServerNames = newval.ServerNames.join("\n") || "";
             }
         },
     },

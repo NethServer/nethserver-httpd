@@ -71,12 +71,14 @@
           <div class="list-view-pf-description">
             <span :class="[item.status === 'disabled' ? 'pficon pficon-locked gray':'','span-right-margin']"></span>
             <div class="list-group-item-heading">
-                <div :class="[item.status === 'disabled' ? 'gray':'','big-name']">{{ item.Description }}</div>
+                <div v-for="(value,index) in item.ServerNames" :class="{'big-name' : index === 0}">
+                    <span :class="[item.status === 'disabled' ? 'gray':'']">
+                        {{value}}
+                    </span>
+                </div>
             </div>
             <div class="list-group-item-text">
-                <div :class="[item.status === 'disabled' ? 'gray':'']">
-                    {{item.ServerNames}}
-                </div>
+                <div :class="[item.status === 'disabled' ? 'gray':'']">{{ item.Description }}</div>
             </div>
           </div>
           <div class="list-view-pf-additional-info rules-info">
@@ -105,9 +107,10 @@ export default {
   },
   data() {
     return {};
-  },
+},
+
   methods: {
-      
+
       toggleLock(item) {
 
          var context = this;
@@ -161,7 +164,7 @@ export default {
   font-size: 16px;
 }
 .span-right-margin {
-  margin-right: 4px;
+  margin-right: 5px;
 }
 .span-left-margin {
   margin-left: 5px;

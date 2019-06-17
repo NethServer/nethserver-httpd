@@ -59,10 +59,15 @@ sub readVhost
     };
 
     foreach ($vdb->get_all_by_prop('type' => 'vhost')) {
+        my %props = $_->props();
+        if ($props{'ServerNames'}) {
+            $props{'ServerNames'} = [split(",",$props{'ServerNames'})] ;
+        }
         push @vhosts, +{
-            $_->props(),
+            %props,
             'name' => $_->key,
         };
+
     }
 
     foreach my $crt (keys decode_json(`/usr/libexec/nethserver/cert-list`)) {
