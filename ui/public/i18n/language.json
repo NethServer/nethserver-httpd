@@ -137,7 +137,11 @@
         "apache_worker_status": "Status of Apache workers",
         "no_installed_PHP":"No PHP installed",
         "no_installed_database":"No database installed",
-        "empty_piechart_label": "No data to create the graph"
+        "empty_piechart_label": "No data to create the graph",
+        "FTP_server_status": "FTP server",
+        "FTP_enabled": "enabled",
+        "FTP_disabled": "disabled",
+        "number_FTP": "FTP accounts"
     },
     "docs":{
         "more_info_about": "More info about",
