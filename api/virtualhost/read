@@ -22,6 +22,7 @@
 
 use strict;
 use esmith::ConfigDB;
+use NethServer::Service;
 use JSON;
 
 
@@ -29,6 +30,7 @@ require '/usr/libexec/nethserver/api/lib/helper_functions.pl';
 
 my $inputData = readInput();
 my $ret = undef;
+my $cdb = esmith::ConfigDB->open_ro();
 
 if ($inputData->{'action'} eq 'virtualhost'){
     $ret = readVhost();
@@ -36,6 +38,14 @@ if ($inputData->{'action'} eq 'virtualhost'){
     exit (0);
 } else {
     error();
+}
+
+sub is_running
+{
+    my $service = shift || 0;
+    my $db = shift || 0;
+    my $s = NethServer::Service->new($service, $db) || return 0;
+    return $s->is_running() ? 1 : 0;
 }
 
 sub readVhost
@@ -58,6 +68,8 @@ sub readVhost
     foreach my $crt (keys decode_json(`/usr/libexec/nethserver/cert-list`)) {
         push(@certs, $crt);
     }
+    # test if service isRunning
+    $ret->{'vsftpd'} = is_running('vsftpd', $cdb);
 
     return $ret;
 }

@@ -271,6 +271,11 @@ select {
                         </div>
                     
                         <div v-if="FtpStatus == 'enabled' && advanced">
+                            <div v-if="!vsftpd" class="alert alert-warning alert-dismissable">
+                                  <span class="pficon pficon-warning-triangle-o"></span>
+                                  <strong>{{$t('info')}}: </strong>
+                                  {{$t('virtualhost.vsftpd_is_not_running')}}.
+                            </div>
                             <div v-bind:class="['form-group', vErrors.name ? 'has-error' : '']">
                                 <label class="col-sm-3 control-label" v-bind:for="id + '-fun'">{{ $t('virtualhost.UserName') }}</label>
                                 <div class="col-sm-9">
@@ -344,6 +349,7 @@ export default {
         'useCase': String,
         'virtualhost': Object,
         'certificates': Array,
+        'vsftpd': String,
         advanced: false,
         togglePass: 'password',
         togglePassFtp: 'password'

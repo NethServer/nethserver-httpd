@@ -78,6 +78,7 @@
           <vhosts-list-view
             v-bind:items="virtualhost"
             v-bind:certificates="certificates"
+            v-bind:vsftpd="vsftpd"
             v-on:modal-close="read"
             v-on:item-edit="openModal('modalEditVhost', $event)"
             v-on:item-delete="openModal('modalDeleteVhost', $event)"
@@ -89,8 +90,8 @@
           v-on:modal-close="read($event)"
           use-case="create"
           v-bind:virtualhost="currentItem"
-                  v-bind:certificates="certificates"
-
+          v-bind:certificates="certificates"
+          v-bind:vsftpd="vsftpd"
         ></modal-vhost-edit>
         
         <modal-vhost-edit
@@ -98,7 +99,8 @@
           v-on:modal-close="read"
           use-case="edit"
           v-bind:virtualhost="currentItem"
-                  v-bind:certificates="certificates"
+          v-bind:certificates="certificates"
+          v-bind:vsftpd="vsftpd"
         ></modal-vhost-edit>
 
         <modal-vhost-edit
@@ -168,6 +170,7 @@ export default {
       virtualhost: [],
       certificates:[],
       currentItem: {},
+      vsftpd: 0,
     };
   },
   methods: {

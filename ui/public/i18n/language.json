@@ -59,7 +59,8 @@
         "automatic_HostRecord_creation": "The server alias name of each virtual hosts will be automatically created",
         "dnsHostRecord_do_not_be_removed": "The DNS records will not be removed automatically, you can do it manually",
         "http": "HTTP auth",
-        "ftp": "FTP auth"
+        "ftp": "FTP auth",
+        "vsftpd_is_not_running": "the FTP service is not running"
     },
     "about": {
         "title": "About",
