@@ -44,9 +44,9 @@ select {
                         <span class="pficon pficon-close"></span>
                     </button>
                     <h4 class="modal-title" v-bind:id="id + 'Label'">
-                        <span v-if="useCase == 'delete'"      >{{ $t('virtualhost.delete_title', this.virtualhost) }}</span>
-                        <span v-else-if="useCase == 'create'" >{{ $t('virtualhost.create_title', this.virtualhost) }}</span>
-                        <span v-else                          >{{ $t('virtualhost.edit_title', this.virtualhost) }}</span>
+                        <span v-if="useCase == 'delete'"      >{{ $t('virtualhost.delete_title')}}</span>
+                        <span v-else-if="useCase == 'create'" >{{ $t('virtualhost.create_title')}}</span>
+                        <span v-else                          >{{ $t('virtualhost.edit_title')}}</span>
                     </h4>
                 </div>
 
