@@ -22,17 +22,17 @@
 
 <template>
   <div class="list-group list-view-pf list-view-pf-view no-mg-top mg-top-10">
-    <div v-bind:key="item.id" v-for="item in items" class="list-group-item">
+    <div v-bind:key="item.name" v-for="item in items" class="list-group-item">
       <div class="list-view-pf-actions">
         <button  class="btn btn-default" v-on:click="$emit('item-edit', item)">
           <span class="fa fa-pencil"></span>
           {{ $t('proxypass.item_edit_button')}}
         </button>
-        <div  class="dropdown pull-right dropdown-kebab-pf">
+        <div  class="dropup pull-right dropdown-kebab-pf">
           <button
             class="btn btn-link dropdown-toggle"
             type="button"
-            v-bind:id="item.id + '-ddm'"
+            v-bind:id="item.name + '-ddm'"
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
@@ -40,7 +40,7 @@
           >
             <span class="fa fa-ellipsis-v"></span>
           </button>
-          <ul class="dropdown-menu dropdown-menu-right" v-bind:aria-labelledby="item.id + '-ddm'">
+          <ul class="dropdown-menu dropdown-menu-right" v-bind:aria-labelledby="item.name + '-ddm'">
             <li>
               <a href="#" v-on:click="$emit('item-delete', item)">
                 <span class="fa pficon-delete span-right-margin"></span>

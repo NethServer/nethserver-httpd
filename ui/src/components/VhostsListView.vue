@@ -22,7 +22,7 @@
 
 <template>
   <div class="list-group list-view-pf list-view-pf-view no-mg-top mg-top-10">
-    <div v-bind:key="item.id" v-for="item in items" class="list-group-item">
+    <div v-bind:key="item.name" v-for="item in items" class="list-group-item">
       <div class="list-view-pf-actions">
         <button v-if="item.status === 'enabled' || item.name === 'default'" class="btn btn-default" v-on:click="$emit('item-edit', item)">
           <span class="fa fa-pencil"></span>
@@ -32,11 +32,11 @@
           <span class="fa fa-check"></span>
           {{ $t('virtualhost.item_enable_button')}}
         </button>
-        <div  class="dropdown pull-right dropdown-kebab-pf">
+        <div  class="dropup pull-right dropdown-kebab-pf">
           <button
             class="btn btn-link dropdown-toggle"
             type="button"
-            v-bind:id="item.id + '-ddm'"
+            v-bind:id="item.name + '-ddm'"
             data-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
@@ -44,7 +44,7 @@
           >
             <span class="fa fa-ellipsis-v"></span>
           </button>
-          <ul class="dropdown-menu dropdown-menu-right" v-bind:aria-labelledby="item.id + '-ddm'">
+          <ul class="dropdown-menu dropdown-menu-right" v-bind:aria-labelledby="item.name + '-ddm'">
             <li>
               <a @click="toggleLock(item)">
                 <span :class="[item.status === 'disabled' ? 'fa fa-check' : 'pficon pficon-locked','span-right-margin']"></span>
@@ -144,7 +144,7 @@ export default {
  };
 </script>
 
-<style scoped>
+<style>
 .list-group-item-heading {
   width: calc(60% - 20px) !important;
 }
