@@ -414,7 +414,7 @@ export default {
     useCase: String,
     virtualhost: Object,
     certificates: Array,
-    vsftpd: String,
+    vsftpd: Number,
     advanced: false,
     togglePass: "password",
     togglePassFtp: "password"
