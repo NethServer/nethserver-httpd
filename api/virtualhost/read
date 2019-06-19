@@ -62,6 +62,9 @@ sub readVhost
         my %props = $_->props();
         if ($props{'ServerNames'}) {
             $props{'ServerNames'} = [split(",",$props{'ServerNames'})] ;
+        } else {
+            # Default value for default virtual hosts
+            $props{'ServerNames'} = ['Default'] ;
         }
         push @vhosts, +{
             %props,
