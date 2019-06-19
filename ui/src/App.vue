@@ -21,53 +21,62 @@
 -->
 
 <template>
-<div id="app">
-    <nav id="navbar-left" class="nav-pf-vertical nav-pf-vertical-with-sub-menus nav-pf-persistent-secondary panel-group">
-        <ul class="list-group panel">
-            <router-link tag="li" to="/dashboard" active-class="active" class="list-group-item" id="dashboard-item">
-                <a>
-                    <span class="fa fa-cube"></span>
-                    <span class="list-group-item-value">{{$t('dashboard.title')}}</span>
-                </a>
-            </router-link>
-            <li class="li-empty"></li>
-            <router-link tag="li" to="/virtualhosts" active-class="active" class="list-group-item">
-                <a>
-                    <span class="pficon pficon-repository"></span>
-                    <span class="list-group-item-value">{{$t('virtualhost.title')}}</span>
-                </a>
-            </router-link>
-            <router-link tag="li" to="/ftp" active-class="active" class="list-group-item">
-                <a>
-                    <span class="pficon pficon-folder-open"></span>
-                    <span class="list-group-item-value">{{$t('ftp.title')}}</span>
-                </a>
-            </router-link>
-            <router-link tag="li" to="/proxypass" active-class="active" class="list-group-item">
-                <a>
-                    <span class="pficon pficon-route"></span>
-                    <span class="list-group-item-value">{{$t('proxypass.title')}}</span>
-                </a>
-            </router-link>
-            <li class="li-empty"></li>
-            <router-link tag="li" to="/logs" active-class="active" class="list-group-item">
-                <a>
-                    <span class="fa fa-list"></span>
-                    <span class="list-group-item-value">{{$t('logs.title')}}</span>
-                </a>
-            </router-link>
-            <router-link tag="li" to="/about" active-class="active" class="list-group-item">
-                <a>
-                    <span class="fa fa-info"></span>
-                    <span class="list-group-item-value">{{$t('about.title')}}</span>
-                </a>
-            </router-link>
-        </ul>
+  <div id="app">
+    <nav
+      id="navbar-left"
+      class="nav-pf-vertical nav-pf-vertical-with-sub-menus nav-pf-persistent-secondary panel-group"
+    >
+      <ul class="list-group panel">
+        <router-link
+          tag="li"
+          to="/dashboard"
+          active-class="active"
+          class="list-group-item"
+          id="dashboard-item"
+        >
+          <a>
+            <span class="fa fa-cube"></span>
+            <span class="list-group-item-value">{{$t('dashboard.title')}}</span>
+          </a>
+        </router-link>
+        <li class="li-empty"></li>
+        <router-link tag="li" to="/virtualhosts" active-class="active" class="list-group-item">
+          <a>
+            <span class="pficon pficon-repository"></span>
+            <span class="list-group-item-value">{{$t('virtualhost.title')}}</span>
+          </a>
+        </router-link>
+        <router-link tag="li" to="/ftp" active-class="active" class="list-group-item">
+          <a>
+            <span class="pficon pficon-folder-open"></span>
+            <span class="list-group-item-value">{{$t('ftp.title')}}</span>
+          </a>
+        </router-link>
+        <router-link tag="li" to="/proxypass" active-class="active" class="list-group-item">
+          <a>
+            <span class="pficon pficon-route"></span>
+            <span class="list-group-item-value">{{$t('proxypass.title')}}</span>
+          </a>
+        </router-link>
+        <li class="li-empty"></li>
+        <router-link tag="li" to="/logs" active-class="active" class="list-group-item">
+          <a>
+            <span class="fa fa-list"></span>
+            <span class="list-group-item-value">{{$t('logs.title')}}</span>
+          </a>
+        </router-link>
+        <router-link tag="li" to="/about" active-class="active" class="list-group-item">
+          <a>
+            <span class="fa fa-info"></span>
+            <span class="list-group-item-value">{{$t('about.title')}}</span>
+          </a>
+        </router-link>
+      </ul>
     </nav>
     <div class="container-fluid container-cards-pf">
-        <router-view/>
+      <router-view/>
     </div>
-</div>
+  </div>
 </template>
 
 <script>

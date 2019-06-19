@@ -24,15 +24,23 @@
   <div class="list-group list-view-pf list-view-pf-view no-mg-top mg-top-10">
     <div v-bind:key="item.name" v-for="item in items" class="list-group-item">
       <div class="list-view-pf-actions">
-        <button v-if="item.status === 'enabled' || item.name === 'default'" class="btn btn-default" v-on:click="$emit('item-edit', item)">
+        <button
+          v-if="item.status === 'enabled' || item.name === 'default'"
+          class="btn btn-default"
+          v-on:click="$emit('item-edit', item)"
+        >
           <span class="fa fa-pencil"></span>
           {{ $t('virtualhost.item_edit_button')}}
         </button>
-        <button v-if="item.status === 'disabled'" class="btn btn-default btn-primary" v-on:click="toggleLock(item)">
+        <button
+          v-if="item.status === 'disabled'"
+          class="btn btn-default btn-primary"
+          v-on:click="toggleLock(item)"
+        >
           <span class="fa fa-check"></span>
           {{ $t('virtualhost.item_enable_button')}}
         </button>
-        <div  class="dropup pull-right dropdown-kebab-pf">
+        <div class="dropup pull-right dropdown-kebab-pf">
           <button
             class="btn btn-link dropdown-toggle"
             type="button"
@@ -47,7 +55,9 @@
           <ul class="dropdown-menu dropdown-menu-right" v-bind:aria-labelledby="item.name + '-ddm'">
             <li>
               <a @click="toggleLock(item)">
-                <span :class="[item.status === 'disabled' ? 'fa fa-check' : 'pficon pficon-locked','span-right-margin']"></span>
+                <span
+                  :class="[item.status === 'disabled' ? 'fa fa-check' : 'pficon pficon-locked','span-right-margin']"
+                ></span>
                 {{ item.status === 'disabled' ? $t('virtualhost.item_enable_button') : $t('virtualhost.item_disable_button') }}
               </a>
             </li>
@@ -64,31 +74,39 @@
 
       <div class="list-view-pf-main-info small-list">
         <div class="list-view-pf-left">
-          <span :class="[item.status === 'disabled' ? 'gray':'','fa list-view-pf-icon-sm fa-folder-open']"
+          <span
+            :class="[item.status === 'disabled' ? 'gray':'','fa list-view-pf-icon-sm fa-folder-open']"
           ></span>
         </div>
         <div class="list-view-pf-body">
           <div class="list-view-pf-description">
-            <span :class="[item.status === 'disabled' ? 'pficon pficon-locked gray':'','span-right-margin']"></span>
+            <span
+              :class="[item.status === 'disabled' ? 'pficon pficon-locked gray':'','span-right-margin']"
+            ></span>
             <div class="list-group-item-heading">
-                <div v-for="(value,index) in item.ServerNames" :key="index" :class="{'big-name' : index === 0}">
-                    <span :class="[item.status === 'disabled' ? 'gray':'']">
-                        {{value}}
-                    </span>
-                </div>
+              <div
+                v-for="(value,index) in item.ServerNames"
+                :key="index"
+                :class="{'big-name' : index === 0}"
+              >
+                <span :class="[item.status === 'disabled' ? 'gray':'']">{{value}}</span>
+              </div>
             </div>
             <div class="list-group-item-text">
-                <div :class="[item.status === 'disabled' ? 'gray':'']">{{ item.Description }}</div>
+              <div :class="[item.status === 'disabled' ? 'gray':'']">{{ item.Description }}</div>
             </div>
           </div>
           <div class="list-view-pf-additional-info rules-info">
-            <div class="list-view-pf-additional-info-item" v-if="(item.PasswordStatus === 'enabled' && item.status === 'enabled')" >
-                <span  class="span-left-margin fa fa-check green"></span>
-                <strong>{{$t('virtualhost.http')}}</strong>
+            <div
+              class="list-view-pf-additional-info-item"
+              v-if="(item.PasswordStatus === 'enabled' && item.status === 'enabled')"
+            >
+              <span class="span-left-margin fa fa-check green"></span>
+              <strong>{{$t('virtualhost.http')}}</strong>
             </div>
-            <div class="list-view-pf-additional-info-item" v-if="item.FtpStatus === 'enabled'" >
-                <span  class="span-left-margin fa fa-check green"></span>
-                <strong>{{$t('virtualhost.ftp')}}</strong>
+            <div class="list-view-pf-additional-info-item" v-if="item.FtpStatus === 'enabled'">
+              <span class="span-left-margin fa fa-check green"></span>
+              <strong>{{$t('virtualhost.ftp')}}</strong>
             </div>
           </div>
         </div>
@@ -107,41 +125,43 @@ export default {
   },
   data() {
     return {};
-},
+  },
 
   methods: {
-
-      toggleLock(item) {
-
-         var context = this;
-        nethserver.notifications.success = context.$t("virtualhost.virtualhost_" +
-            (item.status == 'enabled' ? "disabled" : "enabled") +
-            "_ok"
-        );
-        nethserver.notifications.error = context.$t("virtualhost.virtualhost_" +
-            (item.status == 'enabled' ? "disabled" : "enabled") +
-            "_Failed"
-        );
-          nethserver.exec(
-            ["nethserver-httpd/virtualhost/update"],
-            {
-              action: "toggle-lock",
-              virtualhost:{"name":item.name}
-            },
-            function(stream) {
-              console.info("vhost-toggle-lock", stream);
-            },
-            function(success) {
-                //update the value of button
-                item.status === 'disabled' ? item.status = 'enabled' : item.status = 'disabled';
-            },
-            function(error, data) {
-                console.error(error, data);
-            }
-          );
+    toggleLock(item) {
+      var context = this;
+      nethserver.notifications.success = context.$t(
+        "virtualhost.virtualhost_" +
+          (item.status == "enabled" ? "disabled" : "enabled") +
+          "_ok"
+      );
+      nethserver.notifications.error = context.$t(
+        "virtualhost.virtualhost_" +
+          (item.status == "enabled" ? "disabled" : "enabled") +
+          "_Failed"
+      );
+      nethserver.exec(
+        ["nethserver-httpd/virtualhost/update"],
+        {
+          action: "toggle-lock",
+          virtualhost: { name: item.name }
         },
-   }
- };
+        function(stream) {
+          console.info("vhost-toggle-lock", stream);
+        },
+        function(success) {
+          //update the value of button
+          item.status === "disabled"
+            ? (item.status = "enabled")
+            : (item.status = "disabled");
+        },
+        function(error, data) {
+          console.error(error, data);
+        }
+      );
+    }
+  }
+};
 </script>
 
 <style>

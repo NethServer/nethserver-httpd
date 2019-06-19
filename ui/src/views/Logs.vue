@@ -26,7 +26,12 @@
     <form class="form-horizontal">
       <div class="form-group">
         <div class="col-xs-12 col-sm-3 col-md-2">
-          <select id="selectLogPath" class="selectpicker form-control" v-model="view.path" v-on:change="handleLogs()">
+          <select
+            id="selectLogPath"
+            class="selectpicker form-control"
+            v-model="view.path"
+            v-on:change="handleLogs()"
+          >
             <option selected>/var/log/httpd/error_log</option>
             <option>/var/log/httpd/access_log</option>
             <option>/var/log/httpd/ssl_access_log</option>
@@ -35,12 +40,10 @@
           </select>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-8">
-          <button
-            type="button"
-            v-on:click="toggleFollow()"
-            class="btn btn-default"
-          ><span v-bind:class="['fa', view.follow ? 'fa-stop':'fa-play']"></span>
-          &nbsp;{{view.follow ? $t('logs.stop_follow_button') : $t('logs.start_follow_button')}}</button>
+          <button type="button" v-on:click="toggleFollow()" class="btn btn-default">
+            <span v-bind:class="['fa', view.follow ? 'fa-stop':'fa-play']"></span>
+            &nbsp;{{view.follow ? $t('logs.stop_follow_button') : $t('logs.start_follow_button')}}
+          </button>
         </div>
       </div>
     </form>
@@ -49,18 +52,22 @@
         <div class="search-pf-input-group">
           <label for="search1" class="sr-only">Search</label>
           <input
-              v-model.lazy="view.filter"
-              v-on:change="handleLogs()"
-              v-bind:placeholder="$t('logs.filter_label')"
-              id="log-filter"
-              class="filter form-control"
-              type="search"
+            v-model.lazy="view.filter"
+            v-on:change="handleLogs()"
+            v-bind:placeholder="$t('logs.filter_label')"
+            id="log-filter"
+            class="filter form-control"
+            type="search"
           >
-          <button type="button" class="clear" aria-hidden="true"><span class="pficon pficon-close"></span></button>
+          <button type="button" class="clear" aria-hidden="true">
+            <span class="pficon pficon-close"></span>
+          </button>
         </div>
       </div>
       <div class="form-group">
-        <button class="btn btn-primary" type="button"><span class="fa fa-search"></span></button>
+        <button class="btn btn-primary" type="button">
+          <span class="fa fa-search"></span>
+        </button>
       </div>
     </form>
     <div v-if="!view.logsLoaded" id="loader" class="spinner spinner-lg view-spinner"></div>
@@ -73,25 +80,31 @@ export default {
   name: "Logs",
   mounted() {
     var context = this;
-    window.jQuery('#selectLogPath').selectpicker();
+    window.jQuery("#selectLogPath").selectpicker();
     (function($) {
       $(document).ready(function() {
         // Hide the clear button if the search input is empty
         $(".search.has-clear .clear").each(function() {
-          if (!$(this).prev('.form-control').val()) {
+          if (
+            !$(this)
+              .prev(".form-control")
+              .val()
+          ) {
             $(this).hide();
           }
         });
         // Show the clear button upon entering text in the search input
-        $(".search-pf .has-clear .form-control").keyup(function () {
+        $(".search-pf .has-clear .form-control").keyup(function() {
           var t = $(this);
-          t.next('button').toggle(Boolean(t.val()));
+          t.next("button").toggle(Boolean(t.val()));
         });
         // Upon clicking the clear button, empty the entered text and hide the clear button
-        $(".search-pf .has-clear .clear").click(function () {
+        $(".search-pf .has-clear .clear").click(function() {
           context.view.filter = "";
           context.handleLogs();
-          $(this).prev('.form-control').focus();
+          $(this)
+            .prev(".form-control")
+            .focus();
           $(this).hide();
         });
       });
@@ -112,8 +125,8 @@ export default {
   },
   methods: {
     toggleFollow() {
-        this.view.follow = !this.view.follow
-        this.handleLogs()
+      this.view.follow = !this.view.follow;
+      this.handleLogs();
     },
     handleLogs() {
       this.view.logsContent = "";
@@ -149,7 +162,6 @@ export default {
               "logs-output"
             ).scrollTop = document.getElementById("logs-output").scrollHeight;
           }, 100);
-
         },
         function(error) {
           context.view.logsLoaded = true;
@@ -164,11 +176,11 @@ export default {
 
 <style scoped>
 #logs-output {
-    margin-top: 15px;
+  margin-top: 15px;
 }
 
 #logs-output:empty {
-    display: none
+  display: none;
 }
 
 .logs {

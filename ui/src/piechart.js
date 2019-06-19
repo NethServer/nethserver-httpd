@@ -18,24 +18,23 @@
  * along with NethServer.  If not, see COPYING.
  */
 
-import c3 from 'c3'
+import c3 from "c3";
 
 export default function generatePieChart(bindto, data) {
-    var $ = window.jQuery
-    var c3ChartDefaults = $().c3ChartDefaults()
-    var pieChartRightConfig = c3ChartDefaults.getDefaultPieConfig()
-    pieChartRightConfig.bindto = bindto
-    pieChartRightConfig.data = data
-    pieChartRightConfig.data.expand = false
-    pieChartRightConfig.data.type = 'donut'
-    pieChartRightConfig.legend = {
-            show: true,
-            position: 'right'
-    }
-    pieChartRightConfig.size = {
-        width: 300,
-        height: 300
-      }
-    ;
-    return c3.generate(pieChartRightConfig)
+  var $ = window.jQuery;
+  var c3ChartDefaults = $().c3ChartDefaults();
+  var pieChartRightConfig = c3ChartDefaults.getDefaultPieConfig();
+  pieChartRightConfig.bindto = bindto;
+  pieChartRightConfig.data = data;
+  pieChartRightConfig.data.expand = false;
+  pieChartRightConfig.data.type = "donut";
+  pieChartRightConfig.legend = {
+    show: true,
+    position: "right"
+  };
+  pieChartRightConfig.size = {
+    width: 300,
+    height: 300
+  };
+  return c3.generate(pieChartRightConfig);
 }

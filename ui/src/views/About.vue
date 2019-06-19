@@ -8,7 +8,6 @@
       <h2>{{info.name}}</h2>
       <h3>{{info.description}}</h3>
 
-
       <div class="list-group-item info-item">
         <span class="fa fa-code m-right-sm"></span>
         <strong>{{info.release.version}}</strong>
@@ -16,11 +15,17 @@
 
       <div class="list-group-item info-item">
         <span class="fa fa-globe m-right-sm"></span>
-        <a target="_blank" href="https://github.com/NethServer/nethserver-httpd">{{$t('about.website')}}</a>
+        <a
+          target="_blank"
+          href="https://github.com/NethServer/nethserver-httpd"
+        >{{$t('about.website')}}</a>
       </div>
       <div class="list-group-item info-item">
         <span class="fa fa-bug m-right-sm"></span>
-        <a target="_blank" href="https://github.com/NethServer/dev/issues">{{$t('about.bug_tracker')}}</a>
+        <a
+          target="_blank"
+          href="https://github.com/NethServer/dev/issues"
+        >{{$t('about.bug_tracker')}}</a>
       </div>
 
       <div class="list-group-item info-item">

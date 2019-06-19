@@ -19,28 +19,33 @@
  */
 
 export default function execp(arg, indata = null, showProgress = false) {
-    var nethserver = window.nethserver
-    return new Promise(function(resolve, reject) {
-        nethserver.exec(typeof arg === 'string' ? [arg] : arg, indata, showProgress ? () => {} : null, resolve, (errResp, errData) => {
-            var errObject;
-            try {
-                errObject = JSON.parse(errData)
-            } catch {
-                errObject = {}
-            }
-            errObject['extendedInfo'] = errResp
-            reject(errObject)
-        });
-    })
-    .then(function(output) {
-        if(typeof output === 'string') {
-            try {
-                // convert to object:
-                output = JSON.parse(output)
-            } catch {
-                // noop
-            }
+  var nethserver = window.nethserver;
+  return new Promise(function(resolve, reject) {
+    nethserver.exec(
+      typeof arg === "string" ? [arg] : arg,
+      indata,
+      showProgress ? () => {} : null,
+      resolve,
+      (errResp, errData) => {
+        var errObject;
+        try {
+          errObject = JSON.parse(errData);
+        } catch {
+          errObject = {};
         }
-        return output
-    })
+        errObject["extendedInfo"] = errResp;
+        reject(errObject);
+      }
+    );
+  }).then(function(output) {
+    if (typeof output === "string") {
+      try {
+        // convert to object:
+        output = JSON.parse(output);
+      } catch {
+        // noop
+      }
+    }
+    return output;
+  });
 }

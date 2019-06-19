@@ -18,27 +18,26 @@
  * along with NethServer.  If not, see COPYING.
  */
 
-import Vue from 'vue'
-import VueI18n from "vue-i18n"
-import Router from 'vue-router'
-import VueToggleButton from 'vue-js-toggle-button';
+import Vue from "vue";
+import VueI18n from "vue-i18n";
+import Router from "vue-router";
+import VueToggleButton from "vue-js-toggle-button";
 import DocInfo from "./directives/DocInfo.vue";
 import VueGoodTable from "vue-good-table";
 
-import App from './App.vue'
-import Dashboard from './views/Dashboard.vue'
-import Virtualhosts from './views/Virtualhosts.vue'
-import FTP from './views/FTP.vue'
-import Proxypass from './views/Proxypass.vue'
-import Logs from './views/Logs.vue'
-import About from './views/About.vue'
+import App from "./App.vue";
+import Dashboard from "./views/Dashboard.vue";
+import Virtualhosts from "./views/Virtualhosts.vue";
+import FTP from "./views/FTP.vue";
+import Proxypass from "./views/Proxypass.vue";
+import Logs from "./views/Logs.vue";
+import About from "./views/About.vue";
 
-import UtilService from "./services/util"
-Vue.mixin(UtilService)
+import "./filters";
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 Vue.use(VueToggleButton);
-Vue.component('doc-info', DocInfo);
+Vue.component("doc-info", DocInfo);
 Vue.use(VueGoodTable);
 
 Vue.directive("focus", {
@@ -47,33 +46,33 @@ Vue.directive("focus", {
   }
 });
 
-Vue.use(VueI18n)
+Vue.use(VueI18n);
 const i18n = new VueI18n();
 
-Vue.use(Router)
+Vue.use(Router);
 const router = new Router({
-    mode: 'hash',
-    base: process.env.BASE_URL,
-    routes: [
-      { path: '/', redirect: '/dashboard'},
-      { path: '/dashboard', component: Dashboard },
-      { path: '/virtualhosts', component: Virtualhosts },
-      { path: '/ftp', component: FTP },
-      { path: '/proxypass', component: Proxypass },
-      { path: '/logs', component: Logs },
-      { path: '/about', name: 'about', component: About }
-    ]
-})
-router.replace("/dashboard")
+  mode: "hash",
+  base: process.env.BASE_URL,
+  routes: [
+    { path: "/", redirect: "/dashboard" },
+    { path: "/dashboard", component: Dashboard },
+    { path: "/virtualhosts", component: Virtualhosts },
+    { path: "/ftp", component: FTP },
+    { path: "/proxypass", component: Proxypass },
+    { path: "/logs", component: Logs },
+    { path: "/about", name: "about", component: About }
+  ]
+});
+router.replace("/dashboard");
 
 var app = new Vue({
-    i18n,
-    router,
-    render: h => h(App)
-})
+  i18n,
+  router,
+  render: h => h(App)
+});
 
-nethserver.fetchTranslatedStrings(function (data) {
-    i18n.setLocaleMessage('cockpit', data)
-    i18n.locale = 'cockpit'
-    app.$mount('#app') // Start VueJS application
-})
+nethserver.fetchTranslatedStrings(function(data) {
+  i18n.setLocaleMessage("cockpit", data);
+  i18n.locale = "cockpit";
+  app.$mount("#app"); // Start VueJS application
+});

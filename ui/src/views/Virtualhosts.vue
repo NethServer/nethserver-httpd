@@ -40,75 +40,75 @@
 
     <div v-if="vReadStatus == 'running'" class="spinner spinner-lg view-spinner"></div>
     <div v-else-if="vReadStatus == 'error'  && view.menu.installed">
-        <div class="alert alert-danger">
-            <span class="pficon pficon-error-circle-o"></span>
-            <strong>OOOPS!</strong> An unexpected error has occurred:
-            <pre>{{ vReadError }}</pre>
-         </div>
+      <div class="alert alert-danger">
+        <span class="pficon pficon-error-circle-o"></span>
+        <strong>OOOPS!</strong> An unexpected error has occurred:
+        <pre>{{ vReadError }}</pre>
+      </div>
     </div>
 
     <div v-if="!view.menu.installed && view.isLoaded">
       <div class="blank-slate-pf" id>
         <div class="blank-slate-pf-icon">
-            <span class="pficon pficon pficon-add-circle-o"></span>
+          <span class="pficon pficon pficon-add-circle-o"></span>
         </div>
         <h1>{{$t('package_required')}}</h1>
         <p>{{$t('package_required_desc')}}.</p>
         <pre>{{view.menu.packages.join(' ')}}</pre>
         <div class="blank-slate-pf-main-action">
-              <button
-                :disabled="view.isInstalling"
-                @click="installPackages()"
-                class="btn btn-primary btn-lg"
-              >{{view.menu.packages.length == 1 ? $t('install_package') : $t('install_packages')}}</button>
-              <div v-if="view.isInstalling" class="spinner spinner-sm"></div>
+          <button
+            :disabled="view.isInstalling"
+            @click="installPackages()"
+            class="btn btn-primary btn-lg"
+          >{{view.menu.packages.length == 1 ? $t('install_package') : $t('install_packages')}}</button>
+          <div v-if="view.isInstalling" class="spinner spinner-sm"></div>
         </div>
       </div>
     </div>
 
     <div v-else-if="view.menu.installed && view.isLoaded">
-        <div  class="spaced">
-          <h3>{{$t('actions')}}</h3>
-          <button
-            class="btn btn-primary btn-lg"
-            v-on:click="openModal('modalCreateVhost', createDefaultVhost())"
-          >{{ $t('virtualhost.create_virtualhost_button') }}</button>
+      <div class="spaced">
+        <h3>{{$t('actions')}}</h3>
+        <button
+          class="btn btn-primary btn-lg"
+          v-on:click="openModal('modalCreateVhost', createDefaultVhost())"
+        >{{ $t('virtualhost.create_virtualhost_button') }}</button>
 
-          <h3>{{$t('list')}}</h3>
-          <vhosts-list-view
-            v-bind:items="virtualhost"
-            v-bind:certificates="certificates"
-            v-bind:vsftpd="vsftpd"
-            v-on:modal-close="read"
-            v-on:item-edit="openModal('modalEditVhost', $event)"
-            v-on:item-delete="openModal('modalDeleteVhost', $event)"
-          ></vhosts-list-view>
-        </div>
-
-        <modal-vhost-edit
-          id="modalCreateVhost"
-          v-on:modal-close="read($event)"
-          use-case="create"
-          v-bind:virtualhost="currentItem"
+        <h3>{{$t('list')}}</h3>
+        <vhosts-list-view
+          v-bind:items="virtualhost"
           v-bind:certificates="certificates"
           v-bind:vsftpd="vsftpd"
-        ></modal-vhost-edit>
-
-        <modal-vhost-edit
-          id="modalEditVhost"
           v-on:modal-close="read"
-          use-case="edit"
-          v-bind:virtualhost="currentItem"
-          v-bind:certificates="certificates"
-          v-bind:vsftpd="vsftpd"
-        ></modal-vhost-edit>
+          v-on:item-edit="openModal('modalEditVhost', $event)"
+          v-on:item-delete="openModal('modalDeleteVhost', $event)"
+        ></vhosts-list-view>
+      </div>
 
-        <modal-vhost-edit
-          id="modalDeleteVhost"
-          v-on:modal-close="read"
-          use-case="delete"
-          v-bind:virtualhost="currentItem"
-        ></modal-vhost-edit>
+      <modal-vhost-edit
+        id="modalCreateVhost"
+        v-on:modal-close="read($event)"
+        use-case="create"
+        v-bind:virtualhost="currentItem"
+        v-bind:certificates="certificates"
+        v-bind:vsftpd="vsftpd"
+      ></modal-vhost-edit>
+
+      <modal-vhost-edit
+        id="modalEditVhost"
+        v-on:modal-close="read"
+        use-case="edit"
+        v-bind:virtualhost="currentItem"
+        v-bind:certificates="certificates"
+        v-bind:vsftpd="vsftpd"
+      ></modal-vhost-edit>
+
+      <modal-vhost-edit
+        id="modalDeleteVhost"
+        v-on:modal-close="read"
+        use-case="delete"
+        v-bind:virtualhost="currentItem"
+      ></modal-vhost-edit>
     </div>
   </div>
 </template>
@@ -122,7 +122,7 @@ export default {
   name: "Virtualhosts",
   components: {
     VhostsListView,
-    ModalVhostEdit,
+    ModalVhostEdit
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
@@ -149,7 +149,7 @@ export default {
     });
   },
   mounted() {
-      this.read();
+    this.read();
   },
   beforeRouteLeave(to, from, next) {
     $(".modal").modal("hide");
@@ -157,19 +157,19 @@ export default {
   },
   data() {
     return {
-    view: {
+      view: {
         isLoaded: false,
         isInstalling: false,
         menu: {
-            installed: false,
-            packages: []
+          installed: false,
+          packages: []
         }
-    },
+      },
       vReadStatus: "running",
       virtualhost: [],
-      certificates:[],
+      certificates: [],
       currentItem: {},
-      vsftpd: 0,
+      vsftpd: 0
     };
   },
   methods: {
@@ -188,7 +188,7 @@ export default {
         },
         function(success) {
           // reload page
-           window.parent.location.reload();
+          window.parent.location.reload();
         },
         function(error) {
           console.error(error);
@@ -196,33 +196,35 @@ export default {
       );
     },
     createDefaultVhost() {
-
-        function UniqueID () {
-               //Unique ID based on time
-               var d = new Date().getTime();
-               if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
-                   d += performance.now(); //use high-precision timer if available
-               }
-               return 'xxxxxxxxxxxxxxx'.replace(/[x]/g, function (c) {
-                   var r = (d + Math.random() * 16) % 16 | 0;
-                   d = Math.floor(d / 16);
-                   return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-               });
-         };
+      function UniqueID() {
+        //Unique ID based on time
+        var d = new Date().getTime();
+        if (
+          typeof performance !== "undefined" &&
+          typeof performance.now === "function"
+        ) {
+          d += performance.now(); //use high-precision timer if available
+        }
+        return "xxxxxxxxxxxxxxx".replace(/[x]/g, function(c) {
+          var r = (d + Math.random() * 16) % 16 | 0;
+          d = Math.floor(d / 16);
+          return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
+        });
+      }
 
       return {
         name: UniqueID(),
         Access: "private",
-        PasswordStatus:"disabled",
-        FtpPassword:"",
-        ForceSslStatus:"disabled",
-        Indexes:"disabled",
-        FtpStatus:"disabled",
-        FtpPassword:"",
+        PasswordStatus: "disabled",
+        FtpPassword: "",
+        ForceSslStatus: "disabled",
+        Indexes: "disabled",
+        FtpStatus: "disabled",
+        FtpPassword: "",
         certificates: "",
         Description: "",
         status: "enabled",
-        togglePass: false,
+        togglePass: false
       };
     },
     openModal(id, item) {
@@ -232,7 +234,7 @@ export default {
     read(eventData = {}) {
       this.view.isLoaded = false;
       this.vReadStatus = "running";
-      execp("nethserver-httpd/virtualhost/read", {"action":"virtualhost"})
+      execp("nethserver-httpd/virtualhost/read", { action: "virtualhost" })
         .then(result => {
           for (let k in result) {
             if (result.hasOwnProperty(k)) {
@@ -245,7 +247,7 @@ export default {
         .catch(error => {
           this.vReadStatus = "error";
           this.vReadError = error;
-        })
+        });
     }
   }
 };

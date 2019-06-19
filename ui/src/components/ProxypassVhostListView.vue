@@ -24,11 +24,11 @@
   <div class="list-group list-view-pf list-view-pf-view no-mg-top mg-top-10">
     <div v-bind:key="item.name" v-for="item in items" class="list-group-item">
       <div class="list-view-pf-actions">
-        <button  class="btn btn-default" v-on:click="$emit('item-edit', item)">
+        <button class="btn btn-default" v-on:click="$emit('item-edit', item)">
           <span class="fa fa-pencil"></span>
           {{ $t('proxypass.item_edit_button')}}
         </button>
-        <div  class="dropup pull-right dropdown-kebab-pf">
+        <div class="dropup pull-right dropdown-kebab-pf">
           <button
             class="btn btn-link dropdown-toggle"
             type="button"
@@ -53,30 +53,24 @@
 
       <div class="list-view-pf-main-info small-list">
         <div class="list-view-pf-left">
-          <span
-            class="fa list-view-pf-icon-sm pficon-service"
-          ></span>
+          <span class="list-view-pf-icon-sm pficon pficon-route"></span>
         </div>
         <div class="list-view-pf-body">
           <div class="list-view-pf-description">
             <div class="list-group-item-heading">
-                <strong>{{ item.name }}</strong>
+              <strong>{{ item.name }}</strong>
             </div>
+            <div class="list-group-item-text">{{ item.Target }}</div>
             <div class="list-group-item-text">
-                    {{ item.Target }}
-            </div>
-            <div class="list-group-item-text">
-                <div>
-                    {{ item.Description }}
-                </div>
+              <div>{{ item.Description }}</div>
             </div>
           </div>
-            <div class="list-view-pf-additional-info rules-info">
-                <div class="list-view-pf-additional-info-item" v-if="item.HTTP==='no'" >
-                    <span  class="span-left-margin fa fa-check green"></span>
-                    <strong>{{$t('proxypass.HttpdForced')}}</strong>
-                </div>
+          <div class="list-view-pf-additional-info rules-info">
+            <div class="list-view-pf-additional-info-item" v-if="item.HTTP==='no'">
+              <span class="span-left-margin fa fa-check green"></span>
+              <strong>{{$t('proxypass.HttpdForced')}}</strong>
             </div>
+          </div>
         </div>
       </div>
     </div>
@@ -94,10 +88,8 @@ export default {
   data() {
     return {};
   },
-  methods: {
-
-   }
- };
+  methods: {}
+};
 </script>
 
 <style scoped>
