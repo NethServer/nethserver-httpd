@@ -4,6 +4,7 @@ Version: 3.2.7
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
+Source1: %{name}-ui.tar.gz
 BuildArch: noarch
 URL: %{url_prefix}/%{name}
 BuildRequires: nethserver-devtools
@@ -19,6 +20,9 @@ NethServer httpd configuration (Apache)
 %attr(0644,root,root) %ghost %{_sysconfdir}/httpd/conf.d/nethserver.conf
 %attr(0644,root,root) %ghost %{_sysconfdir}/httpd/conf.d/virtualhosts.conf
 %attr(0644,root,root) %ghost %{_sysconfdir}/httpd/conf.d/default-virtualhost.inc
+/usr/share/cockpit/nethserver/applications/%{name}.json
+/usr/libexec/nethserver/api/%{name}/
+/usr/share/cockpit/%{name}/
 
 %package proxypass
 Summary: Reverse proxy configuration and UI
@@ -69,6 +73,14 @@ done
 
 
 %install
+mkdir -p %{buildroot}/usr/share/cockpit/%{name}/
+mkdir -p %{buildroot}/usr/share/cockpit/nethserver/applications/
+mkdir -p %{buildroot}/usr/libexec/nethserver/api/%{name}/
+tar xf %{SOURCE1} -C %{buildroot}/usr/share/cockpit/%{name}/
+cp -a %{name}.json %{buildroot}/usr/share/cockpit/nethserver/applications/
+cp -a api/* %{buildroot}/usr/libexec/nethserver/api/%{name}/
+chmod +x %{buildroot}/usr/libexec/nethserver/api/%{name}/*/*
+
 for package in default proxypass virtualhosts; do
     (cd ${package}; find . -depth -print | cpio -dump %{buildroot})
 done

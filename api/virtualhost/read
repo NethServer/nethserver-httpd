@@ -1,0 +1,83 @@
+#!/usr/bin/perl
+
+#
+# Copyright (C) 2019 Nethesis S.r.l.
+# http://www.nethesis.it - nethserver@nethesis.it
+#
+# This script is part of NethServer.
+#
+# NethServer is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License,
+# or any later version.
+#
+# NethServer is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with NethServer.  If not, see COPYING.
+#
+
+use strict;
+use esmith::ConfigDB;
+use NethServer::Service;
+use JSON;
+
+
+require '/usr/libexec/nethserver/api/lib/helper_functions.pl';
+
+my $inputData = readInput();
+my $ret = undef;
+my $cdb = esmith::ConfigDB->open_ro();
+
+if ($inputData->{'action'} eq 'virtualhost'){
+    $ret = readVhost();
+    print encode_json($ret);
+    exit (0);
+} else {
+    error();
+}
+
+sub is_running
+{
+    my $service = shift || 0;
+    my $db = shift || 0;
+    my $s = NethServer::Service->new($service, $db) || return 0;
+    return $s->is_running() ? 1 : 0;
+}
+
+sub readVhost
+{
+    my $vdb = esmith::ConfigDB->open_ro('vhosts');
+    my @vhosts = ();
+    my @certs =();
+    my $ret = {
+        'virtualhost' => \@vhosts,
+        'certificates'=> \@certs
+    };
+
+    foreach ($vdb->get_all_by_prop('type' => 'vhost')) {
+        my %props = $_->props();
+        if ($props{'ServerNames'}) {
+            $props{'ServerNames'} = [split(",",$props{'ServerNames'})] ;
+        } else {
+            # Default value for default virtual hosts
+            $props{'ServerNames'} = ['Default'] ;
+        }
+        push @vhosts, +{
+            %props,
+            'name' => $_->key,
+        };
+
+    }
+
+    foreach my $crt (keys decode_json(`/usr/libexec/nethserver/cert-list`)) {
+        push(@certs, $crt);
+    }
+    # test if service isRunning
+    $ret->{'vsftpd'} = is_running('vsftpd', $cdb);
+
+    return $ret;
+}

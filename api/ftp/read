@@ -1,0 +1,57 @@
+#!/usr/bin/perl
+
+#
+# Copyright (C) 2019 Nethesis S.r.l.
+# http://www.nethesis.it - nethserver@nethesis.it
+#
+# This script is part of NethServer.
+#
+# NethServer is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License,
+# or any later version.
+#
+# NethServer is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with NethServer.  If not, see COPYING.
+#
+
+use strict;
+use warnings;
+use esmith::ConfigDB;
+use JSON;
+
+require '/usr/libexec/nethserver/api/lib/helper_functions.pl';
+
+my $input = readInput();
+my $cmd = $input->{'action'};
+
+my $ret = {};
+
+if ($cmd eq 'users') {
+
+    my @users;
+    my $db = esmith::ConfigDB->open_ro('accounts');
+    foreach ($db->get_all_by_prop('type'=>'ftp')) {
+        my %props = $_->props();
+        delete($props{'type'});
+        $props{'name'} = $_->key;
+        push(@users, \%props);
+    }
+    $ret->{'users'} = \@users;
+
+} elsif ($cmd eq 'configuration') {
+
+    my $db = esmith::ConfigDB->open_ro();
+    my $status = $db->get_prop('vsftpd', 'status');
+    $ret->{'configuration'} = {"status" => $status};
+
+} else {
+    error();
+}
+
+print encode_json($ret);

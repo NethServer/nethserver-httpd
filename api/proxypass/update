@@ -1,0 +1,109 @@
+#!/usr/bin/perl
+
+#
+# Copyright (C) 2019 Nethesis S.r.l.
+# http://www.nethesis.it - nethserver@nethesis.it
+#
+# This script is part of NethServer.
+#
+# NethServer is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License,
+# or any later version.
+#
+# NethServer is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with NethServer.  If not, see COPYING.
+#
+
+use strict;
+use esmith::ConfigDB;
+use esmith::event;
+use JSON;
+
+require '/usr/libexec/nethserver/api/lib/helper_functions.pl';
+
+my $eventName = undef;
+my $ret;
+my $exitCode = 0;
+
+my $db = esmith::ConfigDB->open('proxypass');
+my $hdb = esmith::ConfigDB->open('hosts');
+
+my $input = readInput();
+my $name = $input->{'proxypass'}->{'name'};
+
+
+my %proxypass = (
+    'HTTP' => $input->{'proxypass'}->{'HTTP'},
+    'Description' => $input->{'proxypass'}->{'Description'},
+    'HTTPS' => $input->{'proxypass'}->{'HTTPS'},
+    'Target' => $input->{'proxypass'}->{'Target'},
+    'ValidFrom' => join (',',uniq (@{$input->{'proxypass'}->{'ValidFrom'}})),
+);
+
+my %vhostreverse = (
+    'HTTP' => $input->{'proxypass'}->{'HTTP'},
+    'Description' => $input->{'proxypass'}->{'Description'},
+    'HTTPS' => $input->{'proxypass'}->{'HTTPS'},
+    'Target' => $input->{'proxypass'}->{'Target'},
+    'ValidFrom' => join (',',uniq (@{$input->{'proxypass'}->{'ValidFrom'}})),
+    'CertVerification' => $input->{'proxypass'}->{'CertVerification'},
+    'PreserveHost' => $input->{'proxypass'}->{'PreserveHost'},
+    'SslCertificate' => $input->{'proxypass'}->{'SslCertificate'},
+);
+
+# uniq value in array
+sub uniq {
+    my %seen;
+    grep !$seen{$_}++, @_;
+}
+
+if($input->{'action'} eq 'create') {
+    $eventName = 'nethserver-httpd-save';
+    if ($input->{'proxypass'}->{'type'} eq 'ProxyPass') {
+        $db->new_record($name, {'type' => 'ProxyPass', %proxypass});
+    } elsif ($input->{'proxypass'}->{'type'} eq 'VhostReverse') {
+        $db->new_record($name, {'type' => 'VhostReverse', %vhostreverse});
+    }
+} elsif($input->{'action'} eq 'delete') {
+    $eventName = 'nethserver-httpd-save';
+        $db->set_prop($name, 'type', 'proxyPass-deleted');
+    
+} elsif($input->{'action'} eq 'edit') {
+    $eventName = 'nethserver-httpd-save';
+    if ($input->{'proxypass'}->{'type'} eq 'ProxyPass') {
+        $db->get($name)->merge_props(%proxypass);
+    } elsif  ($input->{'proxypass'}->{'type'} eq 'VhostReverse') {
+        $db->get($name)->merge_props(%vhostreverse);
+    }
+} else {
+    error();
+}
+
+esmith::event::set_json_log(1);
+
+if(esmith::event::event_signal($eventName)) {
+    $ret = {'state' => 'success'};
+    if($input->{'action'} eq 'delete') {
+        $db->reload();
+        $db->get($name)->delete();
+    } elsif (($input->{'action'} eq 'create') && ($input->{'proxypass'}->{'type'} eq 'VhostReverse')) {
+        $hdb->new_record($name, {'type' => 'self', 'Description' => ($input->{'vhostreverse'}->{'Description'}|| 'vhost Reverse')});
+        esmith::event::event_signal('host-modify', $name);
+    }
+    
+} else {
+    $ret = {
+        'type' => 'Error',
+        'message' => 'proxy.api_update_failed',
+        };
+    $exitCode = 1;
+}
+
+print encode_json($ret);
+exit($exitCode);

@@ -11,4 +11,8 @@ source_file = virtualhosts/usr/share/nethesis/NethServer/Language/en/NethServer_
 source_lang = en
 type = PHP_ALT_ARRAY
 
+[nethserver.CockpitHttpd]
+source_file = ui/public/i18n/language.json
+source_lang = en
+type = KEYVALUEJSON
 

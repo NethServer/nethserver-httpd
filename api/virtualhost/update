@@ -1,0 +1,119 @@
+#!/usr/bin/perl
+
+#
+# Copyright (C) 2019 Nethesis S.r.l.
+# http://www.nethesis.it - nethserver@nethesis.it
+#
+# This script is part of NethServer.
+#
+# NethServer is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License,
+# or any later version.
+#
+# NethServer is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with NethServer.  If not, see COPYING.
+#
+
+use strict;
+use esmith::ConfigDB;
+use esmith::event;
+use JSON;
+
+require '/usr/libexec/nethserver/api/lib/helper_functions.pl';
+
+my $eventName = undef;
+my $ret;
+my $exitCode = 0;
+
+my $db = esmith::ConfigDB->open('vhosts');
+my $hdb = esmith::ConfigDB->open('hosts');
+
+my $input = readInput();
+my $vhostName = $input->{'virtualhost'}->{'name'};
+my %props = ();
+
+sub uniq {
+    my %seen;
+    grep !$seen{lc($_)}++, @_;
+}
+
+if ($input->{'action'} ne 'toggle-lock') {
+
+if ($vhostName eq 'default'){
+     %props = (
+        'Description' => $input->{'virtualhost'}->{'Description'},
+        'FtpPassword' => $input->{'virtualhost'}->{'FtpPassword'},
+        'FtpStatus' => $input->{'virtualhost'}->{'FtpStatus'},
+    );
+} else {
+     %props = (
+        'Access' => $input->{'virtualhost'}->{'Access'},
+        'Description' => $input->{'virtualhost'}->{'Description'},
+        'ForceSslStatus' => $input->{'virtualhost'}->{'ForceSslStatus'},
+        'FtpPassword' => $input->{'virtualhost'}->{'FtpPassword'},
+        'FtpStatus' => $input->{'virtualhost'}->{'FtpStatus'},
+        'Indexes' => $input->{'virtualhost'}->{'Indexes'},
+        'PasswordStatus' => $input->{'virtualhost'}->{'PasswordStatus'},
+        'PasswordValue' => $input->{'virtualhost'}->{'PasswordValue'},
+        'ServerNames' => lc(join (',',uniq (@{$input->{'virtualhost'}->{'ServerNames'}}))),
+        'SslCertificate' => $input->{'virtualhost'}->{'SslCertificate'},
+        'status' => $input->{'virtualhost'}->{'status'},
+    );
+}
+}
+if($input->{'action'} eq 'create') {
+    $eventName = 'vhost-create';
+    $db->new_record($vhostName, {'type' => 'vhost', %props});
+} elsif($input->{'action'} eq 'delete') {
+    $eventName = 'vhost-delete';
+    $db->set_prop($vhostName, 'type', 'vhost-deleted');
+} elsif($input->{'action'} eq 'edit') {
+    $eventName = 'vhost-modify';
+    $db->get($vhostName)->merge_props(%props);
+}  elsif ($input->{'action'} eq 'toggle-lock') {
+    $eventName = 'vhost-modify';
+    my $status = $db->get_prop($vhostName, 'status') || 'disabled';
+    if ($status eq 'enabled') {
+        $db->set_prop($vhostName,'status','disabled');
+    } else {
+        $db->set_prop($vhostName,'status','enabled');
+    }
+} else {
+    error();
+}
+
+my @eventArgs = $vhostName;
+esmith::event::set_json_log(1);
+
+if(esmith::event::event_signal($eventName, @eventArgs)) {
+    $ret = {'state' => 'success'};
+    if($input->{'action'} eq 'delete') {
+        $db->reload();
+        $db->get($vhostName)->delete();
+    } elsif ($input->{'action'} eq 'create') {
+        my @hostnames = @{$input->{'virtualhost'}->{'ServerNames'}};
+        foreach my $hostname (@hostnames){
+            $hdb->new_record($hostname, {'type' => 'self', 'Description' => ($input->{'virtualhost'}->{'Description'}|| 'Virtual Host')});
+        }
+        esmith::event::event_signal('host-modify', @hostnames);
+    }
+} else {
+    $ret = {
+        'type' => 'Error',
+        'message' => 'vhost.api_update_failed',
+        'attributes' => {
+            'event_name' => $eventName,
+            'event_args' => \@eventArgs,
+        }
+    };
+    $exitCode = 1;
+}
+
+print encode_json($ret);
+exit($exitCode);

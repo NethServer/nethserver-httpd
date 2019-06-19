@@ -1,0 +1,211 @@
+#!/usr/bin/perl
+
+#
+# Copyright (C) 2019 Nethesis S.r.l.
+# http://www.nethesis.it - nethserver@nethesis.it
+#
+# This script is part of NethServer.
+#
+# NethServer is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License,
+# or any later version.
+#
+# NethServer is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with NethServer.  If not, see COPYING.
+#
+
+use strict;
+use warnings;
+use esmith::ConfigDB;
+use NethServer::Service;
+use File::Path qw(make_path);
+use JSON;
+use LWP::Simple;
+
+require '/usr/libexec/nethserver/api/lib/helper_functions.pl';
+
+sub is_running
+{
+    my $service = shift || 0;
+    my $db = shift || 0;
+    my $s = NethServer::Service->new($service, $db) || return 0;
+    return $s->is_running() ? 1 : 0;
+}
+
+
+my $input = readInput();
+my $cmd = $input->{'action'};
+
+if ($cmd eq 'live') {
+    
+    my @phpSCL = ();
+    foreach (glob('/etc/e-smith/db/configuration/defaults/rh-php*-php-fpm')) {
+        $_ =~ s|/etc/e-smith/db/configuration/defaults/||;
+        push @phpSCL, $_;
+    }
+
+    my @psqlSCL = ();
+    foreach (glob('/etc/e-smith/db/configuration/defaults/rh-postgresql*-postgresql')) {
+        $_ =~ s|/etc/e-smith/db/configuration/defaults/||;
+        push @psqlSCL, $_;
+    }
+
+    my @rpms = ('mysqld','httpd','postgresql');
+
+
+    # 
+    # Read stats for dashboard 
+    #
+    my $ret = {};
+    my $cdb = esmith::ConfigDB->open_ro();
+    my $vdb = esmith::ConfigDB->open_ro('vhosts');
+    my $pdb = esmith::ConfigDB->open_ro('proxypass');
+    my $adb = esmith::ConfigDB->open_ro('accounts');
+
+    # Services
+    $ret->{'services'} = {};
+    my @services = (@rpms,@phpSCL,@psqlSCL);
+    foreach (@services) {
+        $ret->{'services'}{$_} = is_running($_, $cdb);
+    }
+
+    $ret->{'services'}{'php'} = (-e '/etc/e-smith/db/configuration/defaults/php/type') ? 1 : 0;
+
+    # validation  if nethserver-virtualhosts is installed 
+    $ret->{'packages'}{"virtualhost"} = (-e '/etc/e-smith/db/vhosts/defaults/default/type') ? 1 : 0; 
+
+    # vhost list if nethserver-virtualhost isInstalled
+    if ($ret->{'packages'}{"virtualhost"} == 1) {
+        my @vhosts = $vdb->get_all();
+        # Counter
+        $ret->{'statistics'}{'virtualhosts'} = $vdb ? scalar @vhosts : 0;
+    }
+
+    # check if vsftpd is installed
+    $ret->{'packages'}{'vsftpd'} = (-e '/etc/e-smith/db/configuration/defaults/vsftpd/type') ? 1 : 0;
+    if ($ret->{'packages'}{'vsftpd'}) {
+        $ret->{'services'}{'vsftpd'} = $cdb->get_prop('vsftpd', 'status');
+    } else {
+        $ret->{'services'}{'vsftpd'} = 'disabled';
+    }
+
+    # Object List
+    my @VhostReverse = $pdb->get_all_by_prop('type' => 'VhostReverse');
+    my @ProxyPass = $pdb->get_all_by_prop('type' => 'ProxyPass');
+    my @FTP = $adb->get_all_by_prop('type' => 'ftp');
+    # Counters
+    $ret->{'statistics'}{'VhostReverse'} = $pdb ? scalar @VhostReverse  : 0;
+    $ret->{'statistics'}{'ProxyPass'} = $pdb ? scalar @ProxyPass : 0;
+    $ret->{'statistics'}{'FTP'} = $adb ? scalar @FTP : 0;
+
+
+
+    # Rpm version of the web stack if isInstalled
+
+    #Set a default return, UI expecting it
+    # default version of centos
+    $ret->{'versions'}{'default'}= {};
+
+    if ((-f "/etc/e-smith/db/configuration/defaults/httpd/type") &&
+        ($ret->{'services'}{'httpd'} == 1 )){
+            my $http = `/usr/sbin/httpd -v`;
+            my $httpVersion = $1 if ($http =~/Apache\/([\d+\.]+)/gi);
+            $ret->{'versions'}{'default'}{'httpd'} = $httpVersion;
+    }
+
+    if ($ret->{'services'}{'php'} == 1){
+        my $php = `/usr/bin/php -v`;
+        my $phpVersion = $1 if ($php =~/PHP\ ([\d+\.]+)/gi);
+        $ret->{'versions'}{'default'}{'php'} = $phpVersion;
+    }
+
+    if ((-f '/etc/e-smith/db/configuration/defaults/mysqld/type') && 
+        ($ret->{'services'}{'mysqld'} == 1 )){
+            my $mysql = `/usr/bin/mysql -V`;
+            my $mysqlVersion = $1 if ($mysql =~/Distrib\ ([\d+\.]+[\-\w]+)/gi);
+            $ret->{'versions'}{'default'}{'mysqld'} = $mysqlVersion;
+    }
+
+    if ((-f "/etc/e-smith/db/configuration/defaults/postgresql/type") && 
+        ($ret->{'services'}{'postgresql'} == 1 )){
+           my $psql = `psql --version`;
+           my $version = $1 if ($psql =~/\(PostgreSQL\)\ ([\d+\.]+)/gi);
+           $ret->{'versions'}{'default'}{'postgresql'} = $version;
+    } 
+
+    #Set a default return, UI expecting it
+    # rh-php software collection
+    $ret->{'versions'}{'php_SCL'}= {};
+    foreach my $v (@phpSCL) {
+        if ((-f "/etc/e-smith/db/configuration/defaults/$v/type") &&
+            ($ret->{'services'}{$v} == 1 )){
+                my $scl = $v;
+                $scl =~ s/-php-fpm//;
+                my $php = `scl enable $scl 'php -v'`;
+                my $phpVersion = $1 if ($php =~/PHP\ ([\d+\.]+)/gi);
+                $ret->{'versions'}{'php_SCL'}{"$v"} = $phpVersion;
+        }
+    }
+
+    #Set a default return, UI expecting it
+    # rh-postgresql software collection
+    $ret->{'versions'}{'database_SCL'}= {};
+    foreach my $v (@psqlSCL) {
+        if ((-f "/etc/e-smith/db/configuration/defaults/$v/type") && 
+            ($ret->{'services'}{$v} == 1 )){
+                my $scl = $v;
+                $scl =~ s/-postgresql$//;
+                my $psql = `scl enable $scl 'psql --version'`;
+                my $version = $1 if ($psql =~/\(PostgreSQL\)\ ([\d+\.]+)/gi);
+                $ret->{'versions'}{'database_SCL'}{"$scl"} = $version;
+        }
+    }
+
+    print encode_json($ret);
+
+
+} elsif ($cmd eq 'apacheStatus') {
+    my $url="http://localhost/server-status?auto";
+    my $server_status = get($url);
+    my $ret = {};
+
+    if (! $server_status) {
+        error('NotReachable',"Can't access $url Check apache configuration");
+        exit(1);
+    }
+
+    my $total_accesses = $1 if ($server_status =~ /Total\ Accesses:\ ([\d\.]+)/ig)||0;
+    my $total_kbytes = $1 if ($server_status =~ /Total\ kBytes:\ ([\d\.]+)/gi);
+    my $uptime = $1 if ($server_status =~ /Uptime:\ ([\d\.]+)/gi);
+    my $reqpersec = $1 if ($server_status =~ /ReqPerSec:\ ([\d\.]+)/gi);
+    my $bytespersec = $1 if ($server_status =~ /BytesPerSec:\ ([\d\.]+)/gi);
+    my $bytesperreq = $1 if ($server_status =~ /BytesPerReq:\ ([\d\.]+)/gi);
+    my $busyworkers = $1 if ($server_status =~ /BusyWorkers:\ ([\d\.]+)/gi);
+    my $idleworkers = $1 if ($server_status =~ /IdleWorkers:\ ([\d\.]+)/gi);
+    my $totalworkers = $1 if ($server_status =~ /Scoreboard:\ (.+)/gi);
+    
+    # count the number of occurences
+    my $availableworkers = $totalworkers =~ tr/\.//;
+
+    # make the json
+    $ret->{'TotalAccess'} = $total_accesses;
+    $ret->{'Total_kbytes'} = $total_kbytes;
+    $ret->{'Uptime'} = $uptime;
+    $ret->{'ReqPerSec'} = $reqpersec;
+    $ret->{'BytesPerSec'} = $bytespersec;
+    $ret->{'BytesPerReq'} = $bytesperreq;
+    $ret->{'statistics'}{'RunningWorkers'} = $busyworkers;
+    $ret->{'statistics'}{'IdleWorkers'} = $idleworkers;
+    $ret->{'statistics'}{'SpareWorkers'} = $availableworkers;
+
+    print encode_json($ret);
+
+} else {
+    error();
+}
