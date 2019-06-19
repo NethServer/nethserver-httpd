@@ -67,8 +67,8 @@
     </div>
 
     <div v-else-if="view.menu.installed && view.isLoaded">
-        <div  class="spaced"> 
-          <h3>{{$t('action')}}</h3>
+        <div  class="spaced">
+          <h3>{{$t('actions')}}</h3>
           <button
             class="btn btn-primary btn-lg"
             v-on:click="openModal('modalCreateVhost', createDefaultVhost())"
@@ -93,7 +93,7 @@
           v-bind:certificates="certificates"
           v-bind:vsftpd="vsftpd"
         ></modal-vhost-edit>
-        
+
         <modal-vhost-edit
           id="modalEditVhost"
           v-on:modal-close="read"
@@ -108,7 +108,7 @@
           v-on:modal-close="read"
           use-case="delete"
           v-bind:virtualhost="currentItem"
-        ></modal-vhost-edit> 
+        ></modal-vhost-edit>
     </div>
   </div>
 </template>
@@ -140,7 +140,6 @@ export default {
             console.error(e);
           }
           vm.view.menu = success;
-          vm.view.isLoaded = true;
         },
         function(error) {
           console.error(error);
@@ -197,7 +196,7 @@ export default {
       );
     },
     createDefaultVhost() {
-        
+
         function UniqueID () {
                //Unique ID based on time
                var d = new Date().getTime();
@@ -210,7 +209,7 @@ export default {
                    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
                });
          };
-         
+
       return {
         name: UniqueID(),
         Access: "private",
@@ -231,6 +230,7 @@ export default {
       window.jQuery("#" + id).modal();
     },
     read(eventData = {}) {
+      this.view.isLoaded = false;
       this.vReadStatus = "running";
       execp("nethserver-httpd/virtualhost/read", {"action":"virtualhost"})
         .then(result => {
@@ -240,6 +240,7 @@ export default {
             }
           }
           this.vReadStatus = "success";
+          this.view.isLoaded = true;
         })
         .catch(error => {
           this.vReadStatus = "error";

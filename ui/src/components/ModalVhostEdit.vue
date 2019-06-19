@@ -83,16 +83,6 @@ select {
                     </div>
                     </div>
                     <form class="form-horizontal">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" v-bind:for="id + '-di'">{{ $t('virtualhost.description_label') }}</label>
-                            <div class="col-sm-9">
-                                <input type="text" v-model="Description" v-bind:id="id + '-di'" class="form-control">
-                                <span v-if="vErrors.Description" class="help-block">
-                                    {{vErrors.Description}}
-                                </span>
-                            </div>
-                        </div>
-                        
                         <!-- FQDN -->
                         <div v-if="name !== 'default'" v-bind:class="['form-group', vErrors.ServerNames ? 'has-error' : '']">
                         <label
@@ -101,10 +91,20 @@ select {
                                 >{{$t('virtualhost.ServerNames')}}
                         </label>
                             <div class="col-sm-9">
-                                <textarea v-bind:id="id + '-ServerName'" v-model="ServerNames" class="form-control" 
+                                <textarea v-bind:id="id + '-ServerName'" v-model="ServerNames" class="form-control"
                                     :placeholder="$t('virtualhost.FQDN_help')"></textarea>
                                 <span v-if="vErrors.ServerNames" class="help-block">
                                     {{vErrors.ServerNames}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" v-bind:for="id + '-di'">{{ $t('virtualhost.description_label') }}</label>
+                            <div class="col-sm-9">
+                                <input type="text" v-model="Description" v-bind:id="id + '-di'" class="form-control">
+                                <span v-if="vErrors.Description" class="help-block">
+                                    {{vErrors.Description}}
                                 </span>
                             </div>
                         </div>
@@ -122,7 +122,7 @@ select {
 
                         <!-- trusted network -->
                         <div v-if="name !== 'default' && advanced">
-                            <div 
+                            <div
                               v-bind:class="['form-group', vErrors.Access ? 'has-error' : '']"
                             >
                               <label
@@ -136,7 +136,7 @@ select {
                               </div>
                             </div>
                         </div>
-                        
+
                         <!-- Httpd Access -->
                         <div v-if="name !== 'default' && advanced ">
                             <div class="form-group">
@@ -208,9 +208,9 @@ select {
                                 <span v-if="vErrors.ForceSslStatus" class="help-block">{{ vErrors.ForceSslStatus }}</span>
                               </div>
                             </div>
-                            
+
                             <!-- root directory file listing  -->
-                            <div 
+                            <div
                               v-bind:class="['form-group', vErrors.Indexes ? 'has-error' : '']"
                             >
                               <label
@@ -233,13 +233,13 @@ select {
                                   >{{$t('virtualhost.SSL/TLS_certs')}}
                                   </label>
                                   <div class="col-sm-9">
-                                    <select 
+                                    <select
                                       type="text"
                                       v-model="SslCertificate"
                                       class="combobox form-control col-sm-9"
                                     >
                                          <option value="">{{$t('virtualhost.default_certificate')}}</option>
-                                         <option v-for="cert in certificates" 
+                                         <option v-for="(cert,k) in certificates" :key="k"
                                               :value="cert"
                                               >
                                             {{cert}}
@@ -269,7 +269,7 @@ select {
                                 />
                             </div>
                         </div>
-                    
+
                         <div v-if="FtpStatus == 'enabled' && advanced">
                             <div v-if="!vsftpd" class="alert alert-warning alert-dismissable">
                                   <span class="pficon pficon-warning-triangle-o"></span>
@@ -388,7 +388,7 @@ export default {
             }
             // split ServerName(index2)
             inputData.virtualhost.ServerNames = this.ServerNames.split("\n");
-            
+
             this.vErrors = {}
             execp("nethserver-httpd/virtualhost/validate", inputData)
             .catch((validationError) => {

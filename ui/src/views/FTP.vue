@@ -519,6 +519,7 @@ export default {
         },
         function(error) {
           console.error(error);
+          context.view.isLoaded = true;
         }
       );
     },

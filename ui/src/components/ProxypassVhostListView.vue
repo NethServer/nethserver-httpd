@@ -60,12 +60,10 @@
         <div class="list-view-pf-body">
           <div class="list-view-pf-description">
             <div class="list-group-item-heading">
-                <strong :class="['big-name']">{{ item.name }}</strong>
+                <strong>{{ item.name }}</strong>
             </div>
             <div class="list-group-item-text">
-                <div :class="['big-name']">
                     {{ item.Target }}
-                </div>
             </div>
             <div class="list-group-item-text">
                 <div>

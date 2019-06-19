@@ -69,3 +69,18 @@
     </div>
 </div>
 </template>
+
+<script>
+export default {
+  name: "App",
+  watch: {
+    $route: function(val) {
+      localStorage.setItem("httpd-path", val.path);
+    }
+  },
+  mounted() {
+    var path = localStorage.getItem("httpd-path") || "/";
+    this.$router.push(path);
+  }
+};
+</script>

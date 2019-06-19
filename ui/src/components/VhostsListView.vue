@@ -64,14 +64,14 @@
 
       <div class="list-view-pf-main-info small-list">
         <div class="list-view-pf-left">
-          <span :class="[item.status === 'disabled' ? 'gray':'','fa list-view-pf-icon-sm pficon-folder-open']"
+          <span :class="[item.status === 'disabled' ? 'gray':'','fa list-view-pf-icon-sm fa-folder-open']"
           ></span>
         </div>
         <div class="list-view-pf-body">
           <div class="list-view-pf-description">
             <span :class="[item.status === 'disabled' ? 'pficon pficon-locked gray':'','span-right-margin']"></span>
             <div class="list-group-item-heading">
-                <div v-for="(value,index) in item.ServerNames" :class="{'big-name' : index === 0}">
+                <div v-for="(value,index) in item.ServerNames" :key="index" :class="{'big-name' : index === 0}">
                     <span :class="[item.status === 'disabled' ? 'gray':'']">
                         {{value}}
                     </span>

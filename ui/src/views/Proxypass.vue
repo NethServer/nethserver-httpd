@@ -45,7 +45,7 @@
                       <pre>{{ vReadError }}</pre>
                    </div>
               </div>
-            <div  class="spaced"> 
+            <div  class="spaced">
               <div  v-if="proxypass.length == 0 && vReadStatus === 'success'" class="blank-slate-pf">
                 <div class="blank-slate-pf-icon">
                   <span class="fa list-view-pf-icon-sm pficon-service"></span>
@@ -62,14 +62,17 @@
               <!-- <div v-else> -->
               <div v-else-if="proxypass.length && vReadStatus !== 'running'">
 
-
-                  <h3>{{$t('list')}}</h3>
-                  <div class="blank-slate-pf-main-action">
+                <h3>{{$t('actions')}}</h3>
+                <div class="blank-slate-pf-main-action">
                     <button
                       class="btn btn-primary btn-lg"
                       v-on:click="openModal('modalCreateVhostReverse', createDefaultVhost())"
                     >{{ $t('proxypass.create_Proxypass_button') }}</button>
                   </div>
+
+
+                  <h3>{{$t('list')}}</h3>
+
                   <proxypass-vhost-list-view
                     v-bind:items="proxypass"
                     v-bind:certificates="certificates"
@@ -87,7 +90,7 @@
               v-bind:proxypass="currentItem"
               v-bind:certificates="certificates"
             ></modal-proxypass-vhost-edit>
-            
+
             <modal-proxypass-vhost-edit
               id="modalEditVhostReverse"
               v-on:modal-close="read"
@@ -101,7 +104,7 @@
               v-on:modal-close="read"
               use-case="delete"
               v-bind:proxypass="currentItem"
-            ></modal-proxypass-vhost-edit> 
+            ></modal-proxypass-vhost-edit>
             </div><!-- end vhost -->
 
 </template>

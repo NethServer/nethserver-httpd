@@ -22,7 +22,7 @@
                   <h3 >{{  $t('dashboard.apache_stats') }}</h3>
                   <div class="row row-stat">
                     <div class="row-inline-block">
-                      <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                      <div class="stats-container col-xs-12 col-sm-6 col-md-4 col-lg-4">
                         <span
                           class="card-pf-utilization-card-details-count stats-count"
                         >{{status.Uptime}}</span>
@@ -32,7 +32,7 @@
                             >{{status.UptimeUnit}} {{$t('dashboard.apache_uptime')}}</span>
                         </span>
                       </div>
-                      <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                      <div class="stats-container col-xs-12 col-sm-6 col-md-4 col-lg-4">
                         <span
                           class="card-pf-utilization-card-details-count stats-count"
                         >{{status.TotalAccess}}</span>
@@ -42,7 +42,7 @@
                             >{{$t('dashboard.TotalAccess')}}</span>
                         </span>
                       </div>
-                      <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                      <div class="stats-container col-xs-12 col-sm-6 col-md-4 col-lg-4">
                         <span
                           class="card-pf-utilization-card-details-count stats-count"
                         >{{status.Total_kbytes}}</span>
@@ -56,7 +56,7 @@
 
                     </div>
                     <div class="row-inline-block">
-                        <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                        <div class="stats-container col-xs-12 col-sm-6 col-md-4 col-lg-4">
                           <span
                             class="card-pf-utilization-card-details-count stats-count"
                           >{{status.ReqPerSec}}</span>
@@ -66,7 +66,7 @@
                               >{{$t('dashboard.ReqPerSec')}}</span>
                           </span>
                         </div>
-                        <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                        <div class="stats-container col-xs-12 col-sm-6 col-md-4 col-lg-4">
                           <span
                             class="card-pf-utilization-card-details-count stats-count"
                           >{{status.BytesPerSec}}</span>
@@ -76,7 +76,7 @@
                               >{{$t('dashboard.BytesPerSec')}}</span>
                           </span>
                         </div>
-                        <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                        <div class="stats-container col-xs-12 col-sm-6 col-md-4 col-lg-4">
                           <span
                             class="card-pf-utilization-card-details-count stats-count"
                           >{{status.BytesPerReq}}</span>
@@ -95,7 +95,7 @@
                   <h3 >{{ $t('dashboard.informations') }}</h3>
                   <div class="row row-stat">
                     <div class="row-inline-block">
-                      <div  v-if="live.packages.virtualhost" class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                      <div  v-if="live.packages.virtualhost" class="stats-container col-xs-12 col-sm-6 col-md-4 col-lg-4">
                         <span
                           class="card-pf-utilization-card-details-count stats-count"
                         >{{live.statistics.virtualhosts}}</span>
@@ -105,7 +105,7 @@
                             >{{$t('dashboard.number_virtualhosts')}}</span>
                         </span>
                       </div>
-                      <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                      <div class="stats-container col-xs-12 col-sm-6 col-md-4 col-lg-4">
                         <span
                           class="card-pf-utilization-card-details-count stats-count"
                         >{{live.statistics.VhostReverse}}</span>
@@ -115,7 +115,7 @@
                             >{{$t('dashboard.number_VhostReverse')}}</span>
                         </span>
                       </div>
-                      <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                      <div class="stats-container col-xs-12 col-sm-6 col-md-4 col-lg-4">
                         <span
                           class="card-pf-utilization-card-details-count stats-count"
                         >{{live.statistics.ProxyPass}}</span>
@@ -127,7 +127,7 @@
                       </div>
                     </div>
                     <div class="row-inline-block" v-if="live.packages.vsftpd">
-                      <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                      <div class="stats-container col-xs-12 col-sm-6 col-md-4 col-lg-4">
                         <span class="font-size-140">
                             <span>{{$t('dashboard.FTP_server_status')}}</span>
                         </span>
@@ -136,7 +136,7 @@
                         <span :class="live.services.vsftpd == 'enabled'? 'fa fa-check green' : 'fa fa-times red'"></span>
                       </span>
                       </div>
-                      <div class="stats-container col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                      <div class="stats-container col-xs-12 col-sm-6 col-md-4 col-lg-4">
                       <span
                         class="card-pf-utilization-card-details-count stats-count"
                       >{{live.statistics.FTP}}</span>
@@ -161,7 +161,7 @@
                       </h3>
                     </div>
                     <div class="panel-body">
-                        <span v-for="(item, key) in live.versions.default">
+                        <span v-for="(item, key) in live.versions.default" :key="key">
                           <span
                             class="card-pf-utilization-card-details-count stats-description-small col-xs-6"
                           >{{key}}</span>
@@ -189,7 +189,7 @@
                             <div class="card-pf-utilization-card-details-count stats-description-small col-xs-6"
                             >{{ $t('dashboard.no_installed_PHP') }}</div>
                         </span>
-                        <span v-else v-for="(item, key) in live.versions.php_SCL">
+                        <span v-else v-for="(item, key) in live.versions.php_SCL" :key="key">
                           <span
                             class="card-pf-utilization-card-details-count stats-description-small col-xs-6"
                           >{{key}}</span>
@@ -217,7 +217,7 @@
                             <div  class="card-pf-utilization-card-details-count stats-description-small col-xs-6"
                             >{{ $t('dashboard.no_installed_database') }}</div>
                         </span>
-                        <span v-else v-for="(item, key) in live.versions.database_SCL">
+                        <span v-else v-for="(item, key) in live.versions.database_SCL" :key="key">
                           <span
                             class="card-pf-utilization-card-details-count stats-description-small col-xs-6"
                           >{{key}}</span>
@@ -348,25 +348,25 @@ export default {
             //display time units with integer
             if (Number(success.Uptime) < 3600) {
                 context.status.Uptime = parseFloat((Number(success.Uptime) / 60).toFixed(0));
-                context.status.UptimeUnit = ' ' + context.$t("dashboard.minute") + ' ';
+                context.status.UptimeUnit = ' ' + context.$i18n.t("dashboard.minute") + ' ';
             } else if (Number(success.Uptime) < 86400) {
                 context.status.Uptime = parseFloat((Number(success.Uptime) / 3600).toFixed(0));
-                context.status.UptimeUnit = ' ' + context.$t("dashboard.hour") + ' ';
+                context.status.UptimeUnit = ' ' + context.$i18n.t("dashboard.hour") + ' ';
             } else if (success.Uptime > 86400) {
                 context.status.Uptime = parseFloat((Number(success.Uptime) / 86400).toFixed(0));
-                context.status.UptimeUnit = ' ' + context.$t("dashboard.day") + ' ';
+                context.status.UptimeUnit = ' ' + context.$i18n.t("dashboard.day") + ' ';
             }
 
             //create bandwith units
             if (Number(success.Total_kbytes) < 1000) {
                 context.status.Total_kbytes = parseFloat((Number(success.Total_kbytes) / 1000).toFixed(2));
-                context.status.Total_kbytesUnit = ' ' + context.$t("dashboard.MB") + ' ';
+                context.status.Total_kbytesUnit = ' ' + context.$i18n.t("dashboard.MB") + ' ';
             } else if (Number(success.Total_kbytes) < 1000000) {
                 context.status.Total_kbytes = parseFloat((Number(success.Total_kbytes) / 1000000).toFixed(2));
-                context.status.Total_kbytesUnit = ' ' + context.$t("dashboard.GB") + ' ';
+                context.status.Total_kbytesUnit = ' ' + context.$i18n.t("dashboard.GB") + ' ';
             } else if (success.Total_kbytes > 1000000000) {
                 context.status.Total_kbytes = parseFloat((Number(success.Total_kbytes) / 1000000000).toFixed(2));
-                context.status.Total_kbytesUnit = ' ' + context.$t("dashboard.TB") + ' ';
+                context.status.Total_kbytesUnit = ' ' + context.$i18n.t("dashboard.TB") + ' ';
             }
 
             context.view.isLoaded = true;
@@ -476,5 +476,49 @@ export default {
 
 .font-size-140 {
   font-size: 140%;
+}
+.stats-container {
+  padding: 20px !important;
+  border-width: initial !important;
+  border-style: none !important;
+  border-color: initial !important;
+  -o-border-image: initial !important;
+  border-image: initial !important;
+}
+
+.stats-text {
+  margin-top: 10px !important;
+  display: block;
+}
+
+.stats-description {
+  float: left;
+  line-height: 1;
+}
+
+.stats-count {
+  font-size: 26px;
+  font-weight: 300;
+  margin-right: 10px;
+  float: left;
+  line-height: 1;
+}
+
+.row-stat {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.compact {
+  margin-bottom: 0px !important;
+}
+
+.small-list {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.no-mg-top {
+  margin-top: 0px;
 }
 </style>

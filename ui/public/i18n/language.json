@@ -7,6 +7,7 @@
     "packages_installed_ok": "Packages installed successfully!",
     "packages_installed_error": "Packages not installed.",
     "action":"Action",
+    "actions":"Actions",
     "list": "List",
     "warning":"Warning",
     "info":"Info",
