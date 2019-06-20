@@ -51,7 +51,9 @@
     "account_list": "Account list",
     "ftp_is_disabled": "FTP server is disabled",
     "ftp_is_disabled_desc": "Click on the button below to enable it",
-    "enable_ftp": "Enable FTP server"
+    "enable_ftp": "Enable FTP server",
+    "user_not_found": "No users found",
+    "user_not_found_desc": "Click on the button below to create new one"
   },
   "virtualhost": {
     "vhost_created_ok": "The virtual host has been well created",
