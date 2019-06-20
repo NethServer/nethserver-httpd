@@ -219,10 +219,10 @@
                   :class="['col-sm-3', 'control-label']"
                   for="textInput-modal-markup"
                 >{{$t('ftp.password')}}</label>
-                <div :class="'col-sm-9'">
+                <div :class="'col-sm-7'">
                   <input
                     required
-                    type="text"
+                    :type="togglePass ? 'password' : 'text'"
                     v-model="currentAccount.Password"
                     class="form-control"
                   >
@@ -230,6 +230,11 @@
                     v-if="currentAccount.errors.Password.hasError"
                     class="help-block"
                   >{{$t('validation.validation_failed')}}: {{$t('validation.'+currentAccount.errors.Password.message)}}</span>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-primary" type="button" @click="togglePassHidden()">
+                        <span :class="['fa', togglePass ? 'fa-eye-slash' : 'fa-eye']"></span>
+                    </button>
                 </div>
               </div>
 
@@ -381,6 +386,7 @@ export default {
   },
   data() {
     return {
+      togglePass: "password",
       view: {
         isLoaded: false,
         menu: {
@@ -394,7 +400,7 @@ export default {
       },
       accounts: [],
       currentAccount: this.initAccount(),
-      toDeleteAccount: { name: "" }
+      toDeleteAccount: { name: "" },
     };
   },
   computed: {
@@ -473,6 +479,10 @@ export default {
     },
     toggleAdvanced() {
       this.currentAccount.advanced = !this.currentAccount.advanced;
+      this.$forceUpdate();
+    },
+    togglePassHidden() {
+      this.togglePass = !this.togglePass;
       this.$forceUpdate();
     },
     getAccounts() {
