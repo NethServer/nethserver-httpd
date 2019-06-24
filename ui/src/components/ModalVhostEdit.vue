@@ -427,7 +427,7 @@ export default {
       }
       // split servername array (index2)
       if (this.ServerNames) {
-        this.ServerNames = newval.ServerNames.join("\n") || "";
+        this.ServerNames = newval.ServerNames.filter( v => v ).join("\n") || "";
         if(this.ServerNames[0]) {
             this.FirstServerName = newval.ServerNames[0];
         }
@@ -457,7 +457,7 @@ export default {
         inputData.virtualhost[attrs[i]] = this[attrs[i]];
       }
       // split ServerName(index2)
-      inputData.virtualhost.ServerNames = this.ServerNames.split("\n");
+      inputData.virtualhost.ServerNames = this.ServerNames.split("\n").filter(v => v);
 
       this.vErrors = {};
       execp("nethserver-httpd/virtualhost/validate", inputData)
