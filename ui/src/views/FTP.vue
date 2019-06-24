@@ -54,7 +54,7 @@
     <div v-show="view.menu.installed && view.isLoaded">
       <h3 v-if="configuration.status == 'enabled'">{{ $t('ftp.configuration') }}</h3>
 
-      <div v-if="configuration.status == 'disabled' && accounts.length > 0" class="blank-slate-pf">
+      <div v-if="configuration.status == 'disabled'" class="blank-slate-pf">
         <h1>{{$t('ftp.ftp_is_disabled')}}</h1>
         <p>{{$t('ftp.ftp_is_disabled_desc')}}.</p>
         <div class="blank-slate-pf-main-action">
@@ -64,6 +64,7 @@
           >{{$t('ftp.enable_ftp')}}</button>
         </div>
       </div>
+
       <div v-if="configuration.status == 'enabled'" class="panel panel-default">
         <div class="panel-heading">
           <toggle-button
@@ -83,7 +84,9 @@
           </span>
         </div>
       </div>
+    </div>
 
+    <div>
       <h3 v-if="accounts.length > 0">{{$t('ftp.actions')}}</h3>
       <div v-if="accounts.length > 0" class="btn-group">
         <button

@@ -53,6 +53,8 @@
     "ftp_is_disabled_desc": "Click on the button below to enable it",
     "enable_ftp": "Enable FTP server",
     "user_not_found": "No users found",
+    "configuration_updated_ok": "FTP configuration was updated",
+    "configuration_updated_error": "FTP configuration update error",
     "user_not_found_desc": "Click on the button below to create new one"
   },
   "virtualhost": {
