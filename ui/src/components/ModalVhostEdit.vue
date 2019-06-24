@@ -64,13 +64,6 @@ select {
         </div>
 
         <div v-if="useCase == 'delete'" class="modal-body">
-          <div class="alert alert-warning alert-dismissable">
-            <span class="pficon pficon-warning-triangle-o"></span>
-            <strong>{{$t('warning')}}:</strong>
-            <i18n path="virtualhost.delete_confirm_message" tag="span">
-              <b>{{ this.ServerNames.split('\n')[0]}}</b>
-            </i18n>
-          </div>
           <div class="alert alert-info alert-dismissable">
             <span class="pficon pficon-info"></span>
             <strong>{{$t('info')}}:</strong>
