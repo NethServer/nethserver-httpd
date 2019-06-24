@@ -247,6 +247,7 @@ export default {
         .catch(error => {
           this.vReadStatus = "error";
           this.vReadError = error;
+          this.view.isLoaded = true;
         });
     }
   }
