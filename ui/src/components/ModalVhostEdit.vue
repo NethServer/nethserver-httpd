@@ -57,9 +57,9 @@ select {
             <span class="pficon pficon-close"></span>
           </button>
           <h4 class="modal-title" v-bind:id="id + 'Label'">
-            <span v-if="useCase == 'delete'">{{ $t('virtualhost.delete_title')}}</span>
+            <span v-if="useCase == 'delete'">{{ $t('virtualhost.delete_title', {name: this.FirstServerName})}}</span>
             <span v-else-if="useCase == 'create'">{{ $t('virtualhost.create_title')}}</span>
-            <span v-else>{{ $t('virtualhost.edit_title')}}</span>
+            <span v-else>{{ $t('virtualhost.edit_title', {name: this.FirstServerName})}}</span>
           </h4>
         </div>
 
@@ -428,13 +428,18 @@ export default {
       // split servername array (index2)
       if (this.ServerNames) {
         this.ServerNames = newval.ServerNames.join("\n") || "";
+        if(this.ServerNames[0]) {
+            this.FirstServerName = newval.ServerNames[0];
+        }
       }
     }
   },
   data() {
     var obj = {
       vErrors: {},
-      loader: false
+      loader: false,
+      ServerNames: "",
+      FirstServerName: "",
     };
     for (let i in attrs) {
       obj[attrs[i]] = "";
