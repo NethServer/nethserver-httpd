@@ -1,0 +1,47 @@
+#!/usr/bin/php
+<?php
+/*
+ * Copyright (C) 2019 Nethesis S.r.l.
+ * http://www.nethesis.it - nethserver@nethesis.it
+ *
+ * This script is part of NethServer.
+ *
+ * NethServer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License,
+ * or any later version.
+ *
+ * NethServer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with NethServer.  If not, see COPYING.
+*/
+
+require_once("/usr/libexec/nethserver/api/lib/Helpers.php");
+$data = readInput();
+$v = new LegacyValidator($data['configuration']);
+
+$executiontime = $v->createValidator()->memberOf('0','30','60','120','180','240','300','360','420','480','540','600');
+$v->declareParameter('MaxExecutionTime',  $executiontime);
+$v->declareParameter('MemoryLimit', Validate::POSITIVE_INTEGER);
+$v->declareParameter('PostMaxSize', Validate::POSITIVE_INTEGER);
+$v->declareParameter('UploadMaxFilesize', Validate::POSITIVE_INTEGER);
+
+
+if($data['configuration']['UploadMaxFilesize'] > $data['configuration']['PostMaxSize']) {
+    $v->addValidationError('UploadMaxFilesize', 'UploadMaxFilesizeCannotSuperiorPostMaxSize',$data['configuration']['UploadMaxFilesize']);
+}
+
+if($data['configuration']['PostMaxSize'] > $data['configuration']['MemoryLimit']) {
+    $v->addValidationError('PostMaxSize', 'PostMaxSizeCannotSuperiorMemoryLimit',$data['configuration']['PostMaxSize']);
+}
+
+# Validate the input
+if ($v->validate()) {
+   success();
+} else {
+    error($v);
+}

@@ -32,6 +32,7 @@ import FTP from "./views/FTP.vue";
 import Proxypass from "./views/Proxypass.vue";
 import Logs from "./views/Logs.vue";
 import About from "./views/About.vue";
+import Settings from "./views/Settings.vue";
 
 import "./filters";
 
@@ -60,7 +61,8 @@ const router = new Router({
     { path: "/ftp", component: FTP },
     { path: "/proxypass", component: Proxypass },
     { path: "/logs", component: Logs },
-    { path: "/about", name: "about", component: About }
+    { path: "/about", name: "about", component: About },
+    { path: "/settings", name: "settings", component: Settings }
   ]
 });
 router.replace("/dashboard");
