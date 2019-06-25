@@ -66,8 +66,7 @@ if($data['virtualhost']['name'] != 'default') {
             if (in_array ($el, $vhost)) {
                 $v->addValidationError('ServerNames', 'valid_fqdn_already_used',$el);
             }
-
-        }   
+        }
     }
 }
 

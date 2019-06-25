@@ -64,13 +64,6 @@ select {
         </div>
 
         <div v-if="useCase == 'delete'" class="modal-body">
-          <div class="alert alert-warning alert-dismissable">
-            <span class="pficon pficon-warning-triangle-o"></span>
-            <strong>{{$t('warning')}}:</strong>
-            <i18n path="proxypass.delete_confirm_message" tag="span">
-              <b>{{ this.proxypass.name }}</b>
-            </i18n>
-          </div>
           <div
             v-if="type === 'VhostReverse' || (name[0] !== '/' && name)"
             class="alert alert-info alert-dismissable"

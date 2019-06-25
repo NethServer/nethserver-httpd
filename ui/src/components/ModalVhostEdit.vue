@@ -57,20 +57,13 @@ select {
             <span class="pficon pficon-close"></span>
           </button>
           <h4 class="modal-title" v-bind:id="id + 'Label'">
-            <span v-if="useCase == 'delete'">{{ $t('virtualhost.delete_title')}}</span>
+            <span v-if="useCase == 'delete'">{{ $t('virtualhost.delete_title', {name: this.FirstServerName})}}</span>
             <span v-else-if="useCase == 'create'">{{ $t('virtualhost.create_title')}}</span>
-            <span v-else>{{ $t('virtualhost.edit_title')}}</span>
+            <span v-else>{{ $t('virtualhost.edit_title', {name: this.FirstServerName})}}</span>
           </h4>
         </div>
 
         <div v-if="useCase == 'delete'" class="modal-body">
-          <div class="alert alert-warning alert-dismissable">
-            <span class="pficon pficon-warning-triangle-o"></span>
-            <strong>{{$t('warning')}}:</strong>
-            <i18n path="virtualhost.delete_confirm_message" tag="span">
-              <b>{{ this.ServerNames.split('\n')[0]}}</b>
-            </i18n>
-          </div>
           <div class="alert alert-info alert-dismissable">
             <span class="pficon pficon-info"></span>
             <strong>{{$t('info')}}:</strong>
@@ -427,14 +420,19 @@ export default {
       }
       // split servername array (index2)
       if (this.ServerNames) {
-        this.ServerNames = newval.ServerNames.join("\n") || "";
+        this.ServerNames = newval.ServerNames.filter( v => v ).join("\n") || "";
+        if(this.ServerNames[0]) {
+            this.FirstServerName = newval.ServerNames[0];
+        }
       }
     }
   },
   data() {
     var obj = {
       vErrors: {},
-      loader: false
+      loader: false,
+      ServerNames: "",
+      FirstServerName: "",
     };
     for (let i in attrs) {
       obj[attrs[i]] = "";
@@ -452,7 +450,7 @@ export default {
         inputData.virtualhost[attrs[i]] = this[attrs[i]];
       }
       // split ServerName(index2)
-      inputData.virtualhost.ServerNames = this.ServerNames.split("\n");
+      inputData.virtualhost.ServerNames = this.ServerNames.split("\n").filter(v => v);
 
       this.vErrors = {};
       execp("nethserver-httpd/virtualhost/validate", inputData)
