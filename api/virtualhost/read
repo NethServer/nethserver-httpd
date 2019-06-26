@@ -73,6 +73,16 @@ sub readVhost
 
     }
 
+    @vhosts = sort {
+        if($a->{'name'} eq 'default') {
+            return -1;
+        } elsif($b->{'name'} eq 'default') {
+            return 1;
+        } else {
+            return $a->{'ServerNames'}->[0] cmp $b->{'ServerNames'}->[0];
+        }
+    } @vhosts;
+
     foreach my $crt (keys decode_json(`/usr/libexec/nethserver/cert-list`)) {
         push(@certs, $crt);
     }
