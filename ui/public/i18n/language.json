@@ -219,6 +219,8 @@
 },
 "settings": {
     "title": "Settings",
+    "settings_updated_ok": "New settings applied successfully!",
+    "settings_updated_error": "An error occurred while applying the new settings.",
     "PhpConfiguration": "Configuration of PHP",
     "MaxExecutionTime": "Maximum execution time",
     "MemoryLimit": "Script memory limit",
