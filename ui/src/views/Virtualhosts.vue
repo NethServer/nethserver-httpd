@@ -214,7 +214,7 @@ export default {
 
       return {
         name: UniqueID(),
-        Access: "private",
+        Access: "public",
         PasswordStatus: "disabled",
         FtpPassword: "",
         ForceSslStatus: "disabled",
