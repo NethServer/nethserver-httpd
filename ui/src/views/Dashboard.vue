@@ -7,7 +7,7 @@
         <h3>{{ $t('dashboard.apache_worker_status') }}</h3>
         <div class="row row-eq-height row-stat row-status container-fluid">
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-            <div v-if="Object.keys(status.statistics).length == 0" class="empty-piechart">
+            <div v-if="!status.statistics || Object.keys(status.statistics).length == 0" class="empty-piechart">
               <span class="fa fa-pie-chart"></span>
               <div>{{ $t('dashboard.empty_piechart_label') }}</div>
             </div>
