@@ -149,6 +149,7 @@ select {
                     true-value="private"
                     false-value="public"
                     v-model="Access"
+                    v-bind:id="id + '-access'"
                     class="form-control"
                   >
                   <span v-if="vErrors.Access" class="help-block">{{ vErrors.Access }}</span>
@@ -233,6 +234,7 @@ select {
                     true-value="enabled"
                     false-value="disabled"
                     v-model="ForceSslStatus"
+                    v-bind:id="id + '-ssl'"
                     class="form-control"
                   >
                   <span
@@ -254,6 +256,7 @@ select {
                     true-value="enabled"
                     false-value="disabled"
                     v-model="Indexes"
+                    v-bind:id="id + '-indexes'"
                     class="form-control"
                   >
                   <span v-if="vErrors.Indexes" class="help-block">{{ vErrors.Indexes }}</span>
