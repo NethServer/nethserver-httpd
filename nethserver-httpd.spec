@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.2.7
+Version: 3.3.0
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
@@ -87,6 +87,9 @@ done
 
 
 %changelog
+* Wed Jun 26 2019 Davide Principi <davide.principi@nethesis.it> - 3.3.0-1
+- Web server Cockpit UI - NethServer/dev#5778
+
 * Thu Aug 09 2018 Davide Principi <davide.principi@nethesis.it> - 3.2.7-1
 - Enhancement: (un)mask password fields - NethServer/dev#5554
 
