@@ -237,7 +237,7 @@
     "MaxExecutionTime_180": "3 minutes",
     "MaxExecutionTime_120": "2 minutes",
     "MaxExecutionTime_60": "1 minute",
-    "MaxExecutionTime_30": "30 secondes",
+    "MaxExecutionTime_30": "30 seconds",
     "MemoryLimit_128": "128 MB",
     "MemoryLimit_192": "192 MB",
     "MemoryLimit_256": "256 MB",
