@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>{{$t('dashboard.title')}}</h2>
+    <h2>{{$t('dashboard.header_title')}}</h2>
     <div v-if=" !view.statsLoaded" class="spinner spinner-lg"></div>
     <div v-if="view.statsLoaded">
       <div>

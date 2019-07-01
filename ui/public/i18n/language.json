@@ -109,7 +109,8 @@
     "filter_label": "Regexp filter"
   },
   "dashboard": {
-    "title": "Dashboard",
+    "title": "Web server",
+    "header_title": "Web server dashboard",
     "apache_stats": "Statistics",
     "apache_uptime": "uptime",
     "number_VhostReverse": "Virtual hosts reverse proxy",
