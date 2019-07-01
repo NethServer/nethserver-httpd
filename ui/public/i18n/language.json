@@ -177,8 +177,7 @@
     "valid_username": "First character must be a letter, than only lower letters, numbers and symbols like '-' and '_'"
   },
   "proxypass": {
-    "title": "ProxyPass",
-    "name_help": "Help for the name field",
+    "title": "Reverse proxy",
     "paths": "Paths",
     "virtualhosts": "Virtual Hosts",
     "HttpdForced": "Force HTTPS redirect",
@@ -190,9 +189,7 @@
     "item_disable_button": "Disable",
     "item_delete_button": "Delete",
     "item_enable_button": "Enable",
-    "title": "Reverse proxy",
     "name": "Name",
-    "name_help": "A URL <path name>",
     "description_label": "Description",
     "ValidFromCIDR": "Access from CIDR networks",
     "ForceHTTPS": "Require SSL encrypted connection",
