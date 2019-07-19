@@ -6,6 +6,7 @@
     if ($Port == 443) {
         $OUT .= "    #\n    #  20ssl_engine\n    #\n";
         $OUT .= "    SSLEngine on\n";
+        $OUT .= "    Header always set Strict-Transport-Security \"max-age=63072000\"\n";
     }
 
     if ($Port == 443 && exists ${$certs}{$SslCertificate})
