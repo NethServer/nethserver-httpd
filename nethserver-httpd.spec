@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.3.0
+Version: 3.3.1
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
@@ -87,6 +87,9 @@ done
 
 
 %changelog
+* Mon Aug 19 2019 Stephane de Labrusse <stephdl@de-labrusse.fr> - 3.3.1-1
+- Display the creation button and the user list if ftp is installed
+
 * Wed Jun 26 2019 Davide Principi <davide.principi@nethesis.it> - 3.3.0-1
 - Web server Cockpit UI - NethServer/dev#5778
 
