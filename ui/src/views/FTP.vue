@@ -86,7 +86,7 @@
       </div>
     </div>
 
-    <div>
+    <div v-show="view.menu.installed && view.isLoaded">
       <h3 v-if="accounts.length > 0">{{$t('ftp.actions')}}</h3>
       <div v-if="accounts.length > 0" class="btn-group">
         <button
