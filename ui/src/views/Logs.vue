@@ -37,6 +37,7 @@
             <option>/var/log/httpd/ssl_access_log</option>
             <option>/var/log/httpd/ssl_error_log</option>
             <option>/var/log/httpd/ssl_request_log</option>
+            <option>/var/log/vsftpd.log</option>
           </select>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-8">
