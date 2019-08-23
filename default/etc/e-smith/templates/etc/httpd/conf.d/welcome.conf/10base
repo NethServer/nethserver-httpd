@@ -29,5 +29,3 @@ Alias /images/poweredby.png /usr/share/httpd/noindex/images/poweredby.png
 Alias /images/nethserver.png /usr/share/httpd/noindex/images/nethserver.png
 Alias /res /usr/share/httpd/noindex/res
 Alias /pinned_apps.json /etc/nethserver/pinned_apps.json
-Alias /admin_apps.json /etc/nethserver/admin_apps.json
-Alias /report_apps.json /etc/nethserver/report_apps.json
