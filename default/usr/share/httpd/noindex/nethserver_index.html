@@ -199,23 +199,33 @@ h2 {
       var host = document.location.hostname;
       $("#server-manager").attr("href", "https://" + host + ":9090");
 
-      $.getJSON('/pinned_apps.json', function(data) {
-        var apps = [];
-        $.each(data, function(key, val) {
-          var appUrl;
-          if (val.url) {
-            // external app
-            appUrl = val.url;
-          } else {
-            appUrl = 'https://' + host + ':9090/nethserver#/applications/' + val.id
-          }
-          apps.push('<a target="_blank" href="' + appUrl + '"><div class="app"><img src="data:image/png;base64, ' + val.iconBase64 + '" alt="logo" class="logo"><p class="app-name">' + val.name + '</p><p class="app-version">v' + val.release.version + '</p></div></a>');
-        });
+      $.ajax({
+        url: '/pinned_apps.json',
+        dataType: 'json',
+        success: function( data ) {
+          var apps = [];
+          $.each(data, function(key, val) {
+            var appUrl;
+            if (val.url) {
+              // external app
+              appUrl = val.url;
+            } else {
+              appUrl = 'https://' + host + ':9090/nethserver#/applications/' + val.id
+            }
+            apps.push('<a target="_blank" href="' + appUrl + '"><div class="app"><img src="data:image/png;base64, ' + val.iconBase64 + '" alt="logo" class="logo"><p class="app-name">' + val.name + '</p><p class="app-version">v' + val.release.version + '</p></div></a>');
+          });
 
-        if (apps.length > 0) {
-          $("#app-drawer").append('<h2>Applications</h2>');
-          $("#app-drawer").append(apps.join( "" ));
-          $("#app-drawer").append('<div class="divider"></div>');
+          if (apps.length > 0) {
+            $("#app-drawer").append('<h2>Applications</h2>');
+            $("#app-drawer").append(apps.join( "" ));
+            $("#app-drawer").append('<div class="divider"></div>');
+          }
+        },
+        error: function( data ) {
+          if (data.status == 404) {
+            // pinned_apps.json doesn't exist -> Cockpit is not installed
+            $("#server-manager").attr("href", "https://" + host + ":980");
+          }
         }
       });
     });
