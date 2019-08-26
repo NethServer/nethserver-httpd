@@ -1,13 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"><html><head>
+<!DOCTYPE html>
+<html>
+<head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-		<title>Apache HTTP Server Test Page powered by CentOS</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>NethServer</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel="icon" href="/res/favicon.ico" />
 
-    <!-- Bootstrap -->
-    <link href="/noindex/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/noindex/css/open-sans.css" type="text/css" />
-
-<style type="text/css"><!--		 
+  <!-- Bootstrap -->
+  <link href="/noindex/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/noindex/css/open-sans.css" type="text/css" />
+<style type="text/css">
 
 body {
   font-family: "Open Sans", Helvetica, sans-serif;
@@ -63,7 +65,70 @@ h2 {
    text-align: right;
 }
 
-    --></style>
+.divider {
+  border-bottom: 1px solid #d7dbde;
+  margin: 15px 0;
+  clear: left;
+}
+
+.app {
+  margin: 10px;
+  width: 19%;
+  padding: 10px;
+  display: inline-block;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, .08);
+  border: 1px solid #d7dbde;
+}
+
+.app:hover {
+  text-decoration: none;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, .16);
+}
+
+.app-name {
+  text-align: center;
+  margin: 0;
+  font-weight: bold;
+}
+
+.app-version {
+  text-align: center;
+  font-size: 80%;
+  color: gray;
+  font-weight: bold;
+}
+
+.app-server-manager {
+  margin: 10px 0;
+  padding: 10px;
+  display: inline-block;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, .08);
+  border: 1px solid #d7dbde;
+  text-align: center;
+}
+
+.app-server-manager:hover {
+  text-decoration: none;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, .16);
+}
+
+.logo-server-manager {
+  height: 32px;
+  width: 32px;
+  margin-right: 5px;
+}
+
+.logo {
+  height: 128px;
+  width: 128px;
+  margin-bottom: 15px;
+}
+
+#app-drawer {
+  text-align: center;
+}
+
+</style>
 </head>
 <body>
   <div class="jumbotron text-center">
@@ -74,30 +139,42 @@ h2 {
   </div>
   <div class="main">
     <div class="container">
-       <div class="row">
+      <div class="row">
+        <div id="app-drawer">
+        </div>
+      </div>
+      <div class="row">
   			<div class="col-sm-6">
-	  				<h2>What is NethServer?</h2>
-		  			<p class='lead'> <a href="http://www.nethserver.org">NethServer</a> is an operating system for Linux enthusiasts, designed for small offices and medium enterprises.</p>	  			<p>Server Manager is a simple web interface to guide you through server configuration.</p>
-                                  <p>With NethServer you can:<p/>
-                                  <ul>
-                                      <li>share your files</li>
-                                      <li>secure your network with the Firewall module</li>
-                                      <li>have a full-featured Mail Server with anti-virus and anti-spam</li>
-                                      <li>... and much much more!</li>
-                                  </ul>
-  				</div>
-                                <div class="col-sm-6">
-                                        <h2>Server Manager</h2>
-                                        <p>If you wish to configure your server, please access the Server Manager.  For help reaching the Server Manager, please consult the <a href="http://docs.nethserver.org/en/v7/access.html">documentation</a>.</p>
-                                </div>
-
-  				<div class="col-sm-6">
-	  				<h2>Need help?</h2>
-  					<p>Something is not working as exptected? Got lost? Just ask our <a href='http://community.nethserver.org'>Community</a>!</p>
-                                        <p>Also, take a look at NethServer official site <a href="http://www.nethserver.org">www.nethserver.org</a> and <a href='http://docs.nethserver.org'>Administrator Manual</a>.</p>
-			  		<p class="lead">Spread the word about NethServer and join our community!</p>
-	  			</div>
-	  		</div>
+          <h2>What is NethServer?</h2>
+          <p class='lead'>
+            <a href="http://www.nethserver.org">NethServer</a> is an operating system for Linux enthusiasts, designed for small offices and medium enterprises.</p>
+            <p>Server Manager is a simple web interface to guide you through server configuration.</p>
+          <p>With NethServer you can:</p>
+          <ul>
+            <li>share your files</li>
+            <li>secure your network with the Firewall module</li>
+            <li>have a full-featured Mail Server with anti-virus and anti-spam</li>
+            <li>... and much much more!</li>
+          </ul>
+        </div>
+        <div class="col-sm-6">
+          <h2>Server Manager</h2>
+          <p>
+            You can access the Server Manager by clicking on the button below.
+          </p>
+          <a id="server-manager" target="_blank" href="">
+            <div class="app-server-manager">
+              <img src="/res/server-manager.png" alt="server manager logo" class="logo-server-manager">
+              <span class="app-name">Server Manager</span>
+            </div>
+          </a>
+        </div>
+        <div class="col-sm-6">
+          <h2>Need help?</h2>
+          <p>Something is not working as exptected? Got lost? Just ask our <a href='http://community.nethserver.org'>Community</a>!</p>
+          <p>Also, take a look at NethServer official site <a href="http://www.nethserver.org">www.nethserver.org</a> and <a href='http://docs.nethserver.org'>Administrator Manual</a>.</p>
+          <p class="lead">Spread the word about NethServer and join our community!</p>
+        </div>
 	    </div>
 		</div>
 	</div>
@@ -106,13 +183,52 @@ h2 {
         <div class="row">
           <div class="col-sm-6">          
             <p>This is a temporary page. You can easily replace it by installing your own index.html page inside <tt>/var/www/html/</tt> directory. </p>
-            
           </div>
           <div class="col-sm-6 col-right">
-	     <p>NethServer is based on <a href="http://www.centos.org/"><img src="images/poweredby.png" alt="[ Powered by CentOS Linux ]" height="31" width="88"></a></p>
+            <p>NethServer is based on <a href="http://www.centos.org/">
+              <img src="images/poweredby.png" alt="[ Powered by CentOS Linux ]" height="31" width="88"></a>
+            </p>
           </div>
         </div>
 		  </div>
     </div>
   </div>
-</body></html>
+  <script src="/res/jquery.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var host = document.location.hostname;
+      $("#server-manager").attr("href", "https://" + host + ":9090");
+
+      $.ajax({
+        url: '/pinned_apps.json',
+        dataType: 'json',
+        success: function( data ) {
+          var apps = [];
+          $.each(data, function(key, val) {
+            var appUrl;
+            if (val.url) {
+              // external app
+              appUrl = val.url;
+            } else {
+              appUrl = 'https://' + host + ':9090/nethserver#/applications/' + val.id
+            }
+            apps.push('<a target="_blank" href="' + appUrl + '"><div class="app"><img src="data:image/png;base64, ' + val.iconBase64 + '" alt="logo" class="logo"><p class="app-name">' + val.name + '</p><p class="app-version">v' + val.release.version + '</p></div></a>');
+          });
+
+          if (apps.length > 0) {
+            $("#app-drawer").append('<h2>Applications</h2>');
+            $("#app-drawer").append(apps.join( "" ));
+            $("#app-drawer").append('<div class="divider"></div>');
+          }
+        },
+        error: function( data ) {
+          if (data.status == 404) {
+            // pinned_apps.json doesn't exist -> Cockpit is not installed
+            $("#server-manager").attr("href", "https://" + host + ":980");
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
