@@ -1,0 +1,2 @@
+%apache ALL=NOPASSWD: /usr/libexec/nethserver/api/system-apps/read
+Defaults!/usr/libexec/nethserver/api/system-apps/read !requiretty
