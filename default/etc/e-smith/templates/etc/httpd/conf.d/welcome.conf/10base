@@ -20,12 +20,16 @@
     Require all granted
 </Directory>
 
-Alias /.noindex.html /usr/share/httpd/noindex/nethserver_index.html
-Alias /noindex/css/bootstrap.min.css /usr/share/httpd/noindex/css/bootstrap.min.css
-Alias /noindex/css/open-sans.css /usr/share/httpd/noindex/css/open-sans.css
-Alias /noindex/css/fonts/ /usr/share/httpd/noindex/css/fonts/
-Alias /images/apache_pb.gif /usr/share/httpd/noindex/images/apache_pb.gif
-Alias /images/poweredby.png /usr/share/httpd/noindex/images/poweredby.png
-Alias /images/nethserver.png /usr/share/httpd/noindex/images/nethserver.png
-Alias /res /usr/share/httpd/noindex/res
+{
+    my $httpd = $DB->get('httpd') or return;
+    my $home = $httpd->prop('HomePage') || '';
+
+    if ($home eq '') {
+        $home = 'nethserver';
+    }
+    $OUT .= "Alias /.noindex.html /usr/share/httpd/noindex/${home}/index.html\n";
+    $OUT .= "Alias /res /usr/share/httpd/noindex/${home}/res";
+}
+Alias /css /usr/share/httpd/noindex/css
+Alias /images /usr/share/httpd/noindex/images
 Alias /pinned_apps.json /etc/nethserver/pinned_apps.json
