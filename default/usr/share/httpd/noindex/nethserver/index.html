@@ -4,8 +4,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <title>NethServer</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <link rel="icon" href="/res/favicon.ico" />
-
+  <link rel="icon" href="/res_nethserver/favicon.ico" />
   <!-- Bootstrap -->
   <link href="/noindex/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/noindex/css/open-sans.css" type="text/css" />
@@ -133,7 +132,7 @@ h2 {
 <body>
   <div class="jumbotron text-center">
     <div class="container">
-   	  <h1><a href="http://www.nethserver.org/"><img src="images/nethserver.png" alt="[ NethServer ]"></a></h1>
+   	  <h1><a href="http://www.nethserver.org/"><img src="/res_nethserver/nethserver.png" alt="[ NethServer ]"></a></h1>
   		<p class="lead">Congratulations, your NethServer installation is up and running! </p>
 		</div>
   </div>
@@ -164,7 +163,7 @@ h2 {
           </p>
           <a id="server-manager" target="_blank" href="">
             <div class="app-server-manager">
-              <img src="/res/server-manager.png" alt="server manager logo" class="logo-server-manager">
+              <img src="/res_nethserver/server-manager.png" alt="server manager logo" class="logo-server-manager">
               <span class="app-name">Server Manager</span>
             </div>
           </a>
@@ -186,33 +185,35 @@ h2 {
           </div>
           <div class="col-sm-6 col-right">
             <p>NethServer is based on <a href="http://www.centos.org/">
-              <img src="images/poweredby.png" alt="[ Powered by CentOS Linux ]" height="31" width="88"></a>
+              <img src="/images/poweredby.png" alt="[ Powered by CentOS Linux ]" height="31" width="88"></a>
             </p>
           </div>
         </div>
 		  </div>
     </div>
   </div>
-  <script src="/res/jquery.min.js"></script>
+  <script src="/res_nethserver/jquery.min.js"></script>
   <script>
     $(document).ready(function () {
       var host = document.location.hostname;
       $("#server-manager").attr("href", "https://" + host + ":9090");
 
       $.ajax({
-        url: '/pinned_apps.json',
+        url: '/res_nethserver/system_apps.php',
         dataType: 'json',
-        success: function( data ) {
+        success: function( systemApps ) {
           var apps = [];
-          $.each(data, function(key, val) {
-            var appUrl;
-            if (val.url) {
-              // external app
-              appUrl = val.url;
-            } else {
-              appUrl = 'https://' + host + ':9090/nethserver#/applications/' + val.id
+          $.each(systemApps, function(key, app) {
+            if (app.pin) {
+              var appUrl;
+              if (app.url) {
+                // external app
+                appUrl = app.url;
+              } else {
+                appUrl = 'https://' + host + ':9090/nethserver#/applications/' + app.id
+              }
+              apps.push('<a target="_blank" href="' + appUrl + '"><div class="app"><img src="data:image/png;base64, ' + app.iconBase64 + '" alt="logo" class="logo"><p class="app-name">' + app.name + '</p><p class="app-version">v' + app.release.version + '</p></div></a>');
             }
-            apps.push('<a target="_blank" href="' + appUrl + '"><div class="app"><img src="data:image/png;base64, ' + val.iconBase64 + '" alt="logo" class="logo"><p class="app-name">' + val.name + '</p><p class="app-version">v' + val.release.version + '</p></div></a>');
           });
 
           if (apps.length > 0) {
@@ -221,9 +222,9 @@ h2 {
             $("#app-drawer").append('<div class="divider"></div>');
           }
         },
-        error: function( data ) {
-          if (data.status == 404) {
-            // pinned_apps.json doesn't exist -> Cockpit is not installed
+        error: function( response ) {
+          if (response.status == 404) {
+            // /usr/share/cockpit/ doesn't exist -> Cockpit is not installed
             $("#server-manager").attr("href", "https://" + host + ":980");
           }
         }
