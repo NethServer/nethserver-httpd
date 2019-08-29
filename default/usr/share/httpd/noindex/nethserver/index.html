@@ -4,10 +4,10 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <title>NethServer</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <link rel="icon" href="/res/favicon.ico" />
+  <link rel="icon" href="/res_nethserver/favicon.ico" />
   <!-- Bootstrap -->
-  <link href="/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/open-sans.css" type="text/css" />
+  <link href="/noindex/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/noindex/css/open-sans.css" type="text/css" />
 <style type="text/css">
 
 body {
@@ -132,7 +132,7 @@ h2 {
 <body>
   <div class="jumbotron text-center">
     <div class="container">
-   	  <h1><a href="http://www.nethserver.org/"><img src="/res/nethserver.png" alt="[ NethServer ]"></a></h1>
+   	  <h1><a href="http://www.nethserver.org/"><img src="/res_nethserver/nethserver.png" alt="[ NethServer ]"></a></h1>
   		<p class="lead">Congratulations, your NethServer installation is up and running! </p>
 		</div>
   </div>
@@ -163,7 +163,7 @@ h2 {
           </p>
           <a id="server-manager" target="_blank" href="">
             <div class="app-server-manager">
-              <img src="/res/server-manager.png" alt="server manager logo" class="logo-server-manager">
+              <img src="/res_nethserver/server-manager.png" alt="server manager logo" class="logo-server-manager">
               <span class="app-name">Server Manager</span>
             </div>
           </a>
@@ -192,46 +192,42 @@ h2 {
 		  </div>
     </div>
   </div>
-  <script src="/res/jquery.min.js"></script>
+  <script src="/res_nethserver/jquery.min.js"></script>
   <script>
     $(document).ready(function () {
       var host = document.location.hostname;
       $("#server-manager").attr("href", "https://" + host + ":9090");
 
-      // system_apps.php provides updated external urls
-      $.getJSON('/res/system_apps.php', function (systemApps) {
-        $.ajax({
-          url: '/pinned_apps.json',
-          dataType: 'json',
-          success: function( data ) {
-            var apps = [];
-            $.each(data, function(key, app) {
+      $.ajax({
+        url: '/res_nethserver/system_apps.php',
+        dataType: 'json',
+        success: function( systemApps ) {
+          var apps = [];
+          $.each(systemApps, function(key, app) {
+            if (app.pin) {
               var appUrl;
-              var systemApp = systemApps.find(systemApp => systemApp.id === app.id);
-
-              // systemApp always has the updated external url
-              if (systemApp.url) {
+              if (app.url) {
                 // external app
-                appUrl = systemApp.url;
+                appUrl = app.url;
               } else {
                 appUrl = 'https://' + host + ':9090/nethserver#/applications/' + app.id
               }
               apps.push('<a target="_blank" href="' + appUrl + '"><div class="app"><img src="data:image/png;base64, ' + app.iconBase64 + '" alt="logo" class="logo"><p class="app-name">' + app.name + '</p><p class="app-version">v' + app.release.version + '</p></div></a>');
-            });
+            }
+          });
 
-            if (apps.length > 0) {
-              $("#app-drawer").append('<h2>Applications</h2>');
-              $("#app-drawer").append(apps.join( "" ));
-              $("#app-drawer").append('<div class="divider"></div>');
-            }
-          },
-          error: function( data ) {
-            if (data.status == 404) {
-              // pinned_apps.json doesn't exist -> Cockpit is not installed
-              $("#server-manager").attr("href", "https://" + host + ":980");
-            }
+          if (apps.length > 0) {
+            $("#app-drawer").append('<h2>Applications</h2>');
+            $("#app-drawer").append(apps.join( "" ));
+            $("#app-drawer").append('<div class="divider"></div>');
           }
-        });
+        },
+        error: function( response ) {
+          if (response.status == 404) {
+            // /usr/share/cockpit/ doesn't exist -> Cockpit is not installed
+            $("#server-manager").attr("href", "https://" + host + ":980");
+          }
+        }
       });
     });
   </script>
