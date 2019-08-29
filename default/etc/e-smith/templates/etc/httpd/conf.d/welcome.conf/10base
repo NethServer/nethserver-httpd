@@ -36,4 +36,3 @@ Alias /noindex/css/open-sans.css /usr/share/httpd/noindex/css/open-sans.css
 Alias /noindex/css/fonts/ /usr/share/httpd/noindex/css/fonts/
 Alias /images/apache_pb.gif /usr/share/httpd/noindex/images/apache_pb.gif
 Alias /images/poweredby.png /usr/share/httpd/noindex/images/poweredby.png
-Alias /images/nethserver.png /usr/share/httpd/noindex/images/nethserver.png
