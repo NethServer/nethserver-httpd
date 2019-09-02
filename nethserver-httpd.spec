@@ -57,6 +57,7 @@ Virtual hosts are public HTTP directories accessible using FTP.
 mkdir -p default/%{_nsdbconfdir}/proxypass/{migrate,force,defaults}
 mkdir -p virtualhosts/%{_nseventsdir}/%{name}-virtualhosts-update
 mkdir -p proxypass/%{_nseventsdir}/%{name}-proxypass-update
+sed -i 's/_RELEASE_/%{version}/' %{name}.json
 
 for package in default proxypass virtualhosts; do
     if [[ -f createlinks-${package} ]]; then

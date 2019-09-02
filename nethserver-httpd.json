@@ -7,7 +7,7 @@
     "homepage": "https://github.com/NethServer/nethserver-httpd",
     "provides": ["nethserver-httpd"],
     "release": {
-        "version": "1.0.0"
+        "version": "_RELEASE_"
     },
     "tags": ["tag1", "tag2", "tag3"],
     "license": "GPL-3.0",
