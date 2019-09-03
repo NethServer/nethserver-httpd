@@ -1,13 +1,14 @@
 <?php
     $cockpitPath = "/usr/share/cockpit/";
-    $cockpitInstalled = file_exists($cockpitPath);
+    $cockpitCmd = "/usr/libexec/nethserver/api/system-apps/read";
+    $cockpitInstalled = file_exists($cockpitCmd);
 
     if (!$cockpitInstalled) {
         http_response_code(404);
     } else {
         header('Content-type: application/json');
 
-        $systemApps = shell_exec('echo \'{"action":"list","location":{"hostname":"' . $_SERVER['SERVER_NAME'] . '", "protocol":"https:"}}\' | /usr/bin/sudo /usr/libexec/nethserver/api/system-apps/read');
+        $systemApps = shell_exec('echo \'{"action":"list","location":{"hostname":"' . $_SERVER['SERVER_NAME'] . '", "protocol":"https:"}}\' | /usr/bin/sudo ' . $cockpitCmd);
         $systemAppsJson = json_decode($systemApps, true);
 
         if (is_null($systemAppsJson)) {
