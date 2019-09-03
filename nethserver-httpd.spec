@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.4.0
+Version: 3.5.0
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
@@ -88,6 +88,10 @@ done
 
 
 %changelog
+* Tue Sep 03 2019 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.5.0-1
+- Cockpit. List correct application version - Nethserver/dev#5819
+- Quick httpd restart - NethServer/dev#5816
+
 * Mon Aug 26 2019 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.4.0-1
 - Cockpit: vsftpd Log is missing - Bug NethServer/dev#5812
 - Cockpit: link apps in home page - NethServer/dev#5806
