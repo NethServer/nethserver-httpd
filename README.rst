@@ -25,6 +25,9 @@ Available templates under ``/etc/e-smith/templates/`` directory:
   includes ``conf.d/default-virtualhost.inc``. 
   Normally a package shouldn't add a fragment to it.
 
+* ``etc/httpd/conf.d/welcome.conf``: configures the "Welcome" page if
+  there is no default index page for the root URL
+
 * ``httpd/vhost``: everything inside will be included in ``default-virtualhost.inc``.
   *DO NOT USE*, it's here only for backward compatibility
 
@@ -154,3 +157,30 @@ See the `Samba User plugin`_ on NethServer 6.x as an example
 
 .. _`Samba User plugin`: https://github.com/NethServer/nethserver-samba/blob/9012fbcd0cb3db60d8fb0ddfcd3db9e39a01956c/root/usr/share/nethesis/NethServer/Module/User/Plugin/Samba.php
 
+
+Welcome page
+------------
+
+If there is no index page for the root URL, a default welcome page is shown accessing the HTTP and HTTPS ports of the server.
+If Cockpit UI is installed, the welcome page displays a customizable app launcher; users can choose which apps to show in the launcher by accessing Cockpit Applications page and clicking the ``Add to home page`` command in the kebab menu of any app.
+
+It is possible to display an alternative welcome page that replaces the app launcher:
+
+- create a subdirectory inside ``/usr/share/httpd/noindex/``, e.g. ``mywebsite``
+- put a custom index page (e.g. index.html) inside ``/usr/share/httpd/noindex/mywebsite/``
+- create a subdirectory ``res`` inside ``/usr/share/httpd/noindex/mywebsite/``
+- put all the assets used by your page (images, scripts, ...) inside ``/usr/share/httpd/noindex/mywebsite/res/``
+- the assets can be accessed from the index page using the prefix ``/res_mywebsite/``, e.g. ``<link rel="stylesheet" type="text/css" href="/res_mywebsite/style.css">``
+- execute the following commands: ::
+
+    config setprop httpd HomePage mywebsite
+    signal-event nethserver-httpd-update
+
+- your custom welcome page is now accessible the the HTTP and HTTPS ports
+
+If you want to switch back to the default app launcher page execute:
+
+::
+
+  config setprop httpd HomePage nethserver
+  signal-event nethserver-httpd-update
