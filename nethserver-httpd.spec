@@ -21,6 +21,7 @@ NethServer httpd configuration (Apache)
 %attr(0644,root,root) %ghost %{_sysconfdir}/httpd/conf.d/virtualhosts.conf
 %attr(0644,root,root) %ghost %{_sysconfdir}/httpd/conf.d/default-virtualhost.inc
 %attr(0440,root,root) /etc/sudoers.d/50_nsapi_nethserver_httpd
+%attr(0440,root,root) /etc/sudoers.d/30_httpd_app_launcher
 /usr/share/cockpit/nethserver/applications/%{name}.json
 /usr/libexec/nethserver/api/%{name}/
 /usr/share/cockpit/%{name}/
@@ -68,7 +69,8 @@ for package in default proxypass virtualhosts; do
         perl createlinks-${package}
     fi
     ( cd ${package} ; %{makedocs} )
-    %{genfilelist} ${PWD}/${package} \
+    %{genfilelist} ${PWD}/${package} | \
+          grep -v -e '/etc/sudoers.d/' \
           >> ${package}.lst
     # !!! Do not create any file or directory after genfilelist invocation !!!
 done
