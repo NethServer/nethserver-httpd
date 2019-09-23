@@ -1,0 +1,26 @@
+#
+# API delegation for apache and ftp
+#
+
+Cmnd_Alias NSAPI_NETHSERVER_HTTPD = \
+    /usr/libexec/nethserver/api/nethserver-httpd/dashboard/read, \
+    /usr/libexec/nethserver/api/nethserver-httpd/feature/read, \
+    /usr/libexec/nethserver/api/nethserver-httpd/feature/update, \
+    /usr/libexec/nethserver/api/nethserver-httpd/ftp/create, \
+    /usr/libexec/nethserver/api/nethserver-httpd/ftp/delete, \
+    /usr/libexec/nethserver/api/nethserver-httpd/ftp/read, \
+    /usr/libexec/nethserver/api/nethserver-httpd/ftp/update, \
+    /usr/libexec/nethserver/api/nethserver-httpd/ftp/validate, \
+    /usr/libexec/nethserver/api/nethserver-httpd/proxypass/read, \
+    /usr/libexec/nethserver/api/nethserver-httpd/proxypass/update, \
+    /usr/libexec/nethserver/api/nethserver-httpd/proxypass/validate, \
+    /usr/libexec/nethserver/api/nethserver-httpd/settings/read, \
+    /usr/libexec/nethserver/api/nethserver-httpd/settings/update, \
+    /usr/libexec/nethserver/api/nethserver-httpd/settings/validate, \
+    /usr/libexec/nethserver/api/nethserver-httpd/virtualhost/read, \
+    /usr/libexec/nethserver/api/nethserver-httpd/virtualhost/update, \
+    /usr/libexec/nethserver/api/nethserver-httpd/virtualhost/validate
+
+# server-manager does not require a tty
+Defaults!NSAPI_NETHSERVER_HTTPD !requiretty
+

@@ -20,6 +20,7 @@ NethServer httpd configuration (Apache)
 %attr(0644,root,root) %ghost %{_sysconfdir}/httpd/conf.d/nethserver.conf
 %attr(0644,root,root) %ghost %{_sysconfdir}/httpd/conf.d/virtualhosts.conf
 %attr(0644,root,root) %ghost %{_sysconfdir}/httpd/conf.d/default-virtualhost.inc
+%attr(0440,root,root) /etc/sudoers.d/50_nsapi_nethserver_httpd
 /usr/share/cockpit/nethserver/applications/%{name}.json
 /usr/libexec/nethserver/api/%{name}/
 /usr/share/cockpit/%{name}/
