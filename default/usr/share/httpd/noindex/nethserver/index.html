@@ -204,16 +204,14 @@ h2 {
         success: function( systemApps ) {
           var apps = [];
           $.each(systemApps, function(key, app) {
-            if (app.pin) {
-              var appUrl;
-              if (app.url) {
-                // external app
-                appUrl = app.url;
-              } else {
-                appUrl = 'https://' + host + ':9090/nethserver#/applications/' + app.id
-              }
-              apps.push('<a target="_blank" href="' + appUrl + '"><div class="app"><img src="data:image/png;base64, ' + app.iconBase64 + '" alt="logo" class="logo"><p class="app-name">' + app.name + '</p><p class="app-version">v' + app.release.version + '</p></div></a>');
+            var appUrl;
+            if (app.url) {
+              // external app
+              appUrl = app.url;
+            } else {
+              appUrl = 'https://' + host + ':9090/nethserver#/applications/' + app.id
             }
+            apps.push('<a target="_blank" href="' + appUrl + '"><div class="app"><img src="data:image/png;base64, ' + app.iconBase64 + '" alt="logo" class="logo"><p class="app-name">' + app.name + '</p><p class="app-version">v' + app.release.version + '</p></div></a>');
           });
 
           if (apps.length > 0) {

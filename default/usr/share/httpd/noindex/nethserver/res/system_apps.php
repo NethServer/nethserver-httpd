@@ -8,7 +8,7 @@
     } else {
         header('Content-type: application/json');
 
-        $systemApps = shell_exec('echo \'{"action":"list","location":{"hostname":"' . $_SERVER['SERVER_NAME'] . '", "protocol":"https:"}}\' | /usr/bin/sudo ' . $cockpitCmd);
+        $systemApps = shell_exec('echo \'{"action":"launcher","location":{"hostname":"' . $_SERVER['SERVER_NAME'] . '", "protocol":"https:"}}\' | /usr/bin/sudo ' . $cockpitCmd);
         $systemAppsJson = json_decode($systemApps, true);
 
         if (is_null($systemAppsJson)) {
