@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.6.0
+Version: 3.6.1
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
@@ -90,6 +90,9 @@ done
 
 
 %changelog
+* Thu Oct 10 2019 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.6.1-1
+- Improve app launcher loading - NethServer/dev#5859
+
 * Tue Oct 01 2019 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.6.0-1
 - Sudoers based authorizations for Cockpit UI - NethServer/dev#5805
 
