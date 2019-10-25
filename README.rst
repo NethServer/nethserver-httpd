@@ -171,6 +171,7 @@ It is possible to display an alternative welcome page that replaces the app laun
 - create a subdirectory ``res`` inside ``/usr/share/httpd/noindex/mywebsite/``
 - put all the assets used by your page (images, scripts, ...) inside ``/usr/share/httpd/noindex/mywebsite/res/``
 - the assets can be accessed from the index page using the prefix ``/res_mywebsite/``, e.g. ``<link rel="stylesheet" type="text/css" href="/res_mywebsite/style.css">``
+- make sure the primary page is called ``index.html``
 - execute the following commands: ::
 
     config setprop httpd HomePage mywebsite
