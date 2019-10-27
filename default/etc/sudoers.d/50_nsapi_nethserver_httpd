@@ -19,8 +19,9 @@ Cmnd_Alias NSAPI_NETHSERVER_HTTPD = \
     /usr/libexec/nethserver/api/nethserver-httpd/settings/validate, \
     /usr/libexec/nethserver/api/nethserver-httpd/virtualhost/read, \
     /usr/libexec/nethserver/api/nethserver-httpd/virtualhost/update, \
-    /usr/libexec/nethserver/api/nethserver-httpd/virtualhost/validate
-
+    /usr/libexec/nethserver/api/nethserver-httpd/virtualhost/validate, \
+    /usr/libexec/nethserver/api/system-logs/execute
+    
 # server-manager does not require a tty
 Defaults!NSAPI_NETHSERVER_HTTPD !requiretty
 
