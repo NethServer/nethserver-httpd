@@ -107,4 +107,26 @@ validator_actions('vhost-create', qw(
 ));
 
 
+#-----------------
+# rh-phpX-fpm 
+#-----------------
 
+
+for my $event (qw(
+		nethserver-httpd-virtualhosts-update
+		vhost-modify
+		vhost-create
+		vhost-delete )) {
+event_actions($event,
+'nethserver-rh-php-fpm_pool_creation' => '10');
+}
+
+for my $event (qw(
+		nethserver-httpd-virtualhosts-update
+		vhost-modify
+		vhost-create
+		vhost-delete )) {
+    event_services($event, 'rh-php71-php-fpm' => 'restart');
+    event_services($event, 'rh-php72-php-fpm' => 'restart');
+
+}
