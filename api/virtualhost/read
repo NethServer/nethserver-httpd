@@ -66,6 +66,10 @@ sub readVhost
             # Default value for default virtual hosts
             $props{'ServerNames'} = ['Default'] ;
         }
+        if (!$props{'PhpRhVersion'}) {
+            # Default value for php
+            $props{'PhpRhVersion'} = "default" ;
+        }
         push @vhosts, +{
             %props,
             'name' => $_->key,
