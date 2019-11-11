@@ -224,7 +224,12 @@ export default {
         certificates: "",
         Description: "",
         status: "enabled",
-        togglePass: false
+        togglePass: false,
+        PhpRhVersion: 'default',
+        MaxExecutionTime: '30',
+        MemoryLimit: '128',
+        PostMaxSize: '8',
+        UploadMaxFilesize: '2'
       };
     },
     openModal(id, item) {

@@ -5,10 +5,10 @@ my $vdb = esmith::ConfigDB->open_ro('vhosts') || die("Can't open vhosts db");
 return unless (defined $VhostName);
 
 my $AllowUrlfOpen = $vdb->get_prop("$VhostName",'PhpAllowUrlfOpen') || 'enabled';
-my $MemoryLimit = $vdb->get_prop("$VhostName",'PhpMemoryLimit') || '0';
-my $UpMaxFileSize = $vdb->get_prop("$VhostName",'PhpUpMaxFileSize') || '0';
-my $PostMaxSize = $vdb->get_prop("$VhostName",'PhpPostMaxSize') || '0';
-my $MaxExecTime = $vdb->get_prop("$VhostName",'PhpMaxExecTime') || 'disabled';
+my $MemoryLimit = $vdb->get_prop("$VhostName",'MemoryLimit') || '0';
+my $UpMaxFileSize = $vdb->get_prop("$VhostName",'UploadMaxFilesize') || '0';
+my $PostMaxSize = $vdb->get_prop("$VhostName",'PostMaxSize') || '0';
+my $MaxExecTime = $vdb->get_prop("$VhostName",'MaxExecutionTime') || 'disabled';
 my $MaxFileUploads = $vdb->get_prop("$VhostName",'PhpMaxFileUploads') || 'disabled';
 
 unless ($MaxExecTime eq 'disabled') {chop $MaxExecTime;}

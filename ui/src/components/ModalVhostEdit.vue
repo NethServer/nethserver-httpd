@@ -352,6 +352,107 @@ select {
                 </button>
               </div>
             </div>
+            <!-- phpsettings menu -->
+            <legend class="fields-section-header-pf" aria-expanded="true">
+              <span
+                :class="['fa fa-angle-right field-section-toggle-pf', phpsettings ? 'fa-angle-down' : '']"
+              ></span>
+              <a
+                class="field-section-toggle-pf"
+                @click="togglePhpSettingsMenu()"
+              >{{$t('virtualhost.phpsettings_menu')}}</a>
+            </legend>
+            
+            
+            
+            <div v-if="name !== 'default' && phpsettings">
+              <!-- php version -->
+              <div v-bind:class="['form-group', vErrors.PhpRhVersion ? 'has-error' : '']">
+                <label
+                  class="col-sm-3 control-label"
+                  v-bind:for="id + '-certs'"
+                >{{$t('virtualhost.php_version')}}</label>
+                <div class="col-sm-9">
+                  <select
+                    type="text"
+                    v-model="PhpRhVersion"
+                    class="combobox form-control col-sm-9"
+                  >
+                    <option value="default">{{$t('virtualhost.default_php_version')}}</option>
+                    <option value="php71">{{$t('virtualhost.php71_version')}}</option>
+                    <option value="php72">{{$t('virtualhost.php72_version')}}</option>
+                  </select>
+                  <span
+                    v-if="vErrors.PhpRhVersion"
+                    class="help-block"
+                  >{{ vErrors.PhpRhVersion }}</span>
+                </div>
+              </div>
+
+              <!-- slider -->
+              <div v-if="PhpRhVersion !== 'default'">
+                <div :class="['form-group', vErrors.MaxExecutionTime ? 'has-error' : '']">
+                    <label class="col-sm-3 control-label">{{$t('virtualhost.MaxExecutionTime')}}
+                        <doc-info
+                          :placement="'top'"
+                          :title="$t('virtualhost.MaxExecutionTime')"
+                          :chapter="'MaxExecutionTime'"
+                          :inline="true"
+                        ></doc-info>
+                    </label>
+                    <div class="col-sm-9">
+                        <div>{{ $t('virtualhost.MaxExecutionTime_'+MaxExecutionTime) }}</div>
+                        <vue-slider v-model="MaxExecutionTime" :data="SliderMaxExecutionTime" :use-keyboard="true" :tooltip="'none'"></vue-slider>
+                        <span v-if="vErrors.MaxExecutionTime" class="help-block">{{$t('virtualhost.Not_valid_MaxExecutionTime')}}</span>
+                    </div>
+                </div>
+                <div  :class="['form-group', vErrors.MemoryLimit ? 'has-error' : '']">
+                    <label class="col-sm-3 control-label">{{$t('virtualhost.MemoryLimit')}}
+                        <doc-info
+                          :placement="'top'"
+                          :title="$t('virtualhost.MemoryLimit')"
+                          :chapter="'MemoryLimit'"
+                          :inline="true"
+                        ></doc-info>
+                    </label>
+                    <div class="col-sm-9">
+                        <div>{{ $t('virtualhost.MemoryLimit_'+MemoryLimit) }}</div>
+                        <vue-slider v-model="MemoryLimit"  :data="SliderMemoryLimit" :tooltip="'none'"></vue-slider>
+                        <span v-if="vErrors.MemoryLimit" class="help-block">{{$t('virtualhost.Not_valid_MemoryLimit')}}</span>
+                    </div>
+                </div>
+                <div :class="['form-group', vErrors.PostMaxSize ? 'has-error' : '']">
+                    <label class="col-sm-3 control-label" >{{$t('virtualhost.PostMaxSize')}}
+                        <doc-info
+                          :placement="'top'"
+                          :title="$t('virtualhost.PostMaxSize')"
+                          :chapter="'PostMaxSize'"
+                          :inline="true"
+                        ></doc-info>
+                    </label>
+                    <div class="col-sm-9">
+                        <div>{{ $t('virtualhost.PostMaxSize_'+PostMaxSize) }}</div>
+                        <vue-slider v-model="PostMaxSize"  :data="SliderPostMaxSize" :tooltip="'none'"></vue-slider>
+                        <span v-if="vErrors.PostMaxSize" class="help-block">{{$t('virtualhost.Must_be_inferior_than_MemoryLimit')}}</span>
+                    </div>
+                </div>
+                <div :class="['form-group', vErrors.UploadMaxFilesize ? 'has-error' : '']">
+                    <label class="col-sm-3 control-label" >{{$t('virtualhost.UploadMaxFilesize')}}
+                        <doc-info
+                          :placement="'top'"
+                          :title="$t('virtualhost.UploadMaxFilesize')"
+                          :chapter="'UploadMaxFilesize'"
+                          :inline="true"
+                        ></doc-info>
+                    </label>
+                    <div class="col-sm-9">
+                        <div>{{$t('virtualhost.UploadMaxFilesize_'+UploadMaxFilesize)}}</div>
+                        <vue-slider v-model="UploadMaxFilesize" :data="SliderUploadMaxFilesize" :use-keyboard="true" :tooltip="'none'"></vue-slider>
+                        <span v-if="vErrors.UploadMaxFilesize" class="help-block">{{$t('virtualhost.Must_be_inferior_than_PostMaxSize')}}</span>
+                    </div>
+                </div>
+              </div>
+          </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -387,6 +488,8 @@ select {
 
 <script>
 import execp from "@/execp";
+import VueSlider from 'vue-slider-component'
+import 'vue-slider-component/theme/default.css'
 
 var attrs = [
   "name",
@@ -400,11 +503,19 @@ var attrs = [
   "FtpStatus",
   "FtpPassword",
   "SslCertificate",
-  "status"
+  "status",
+  "PhpRhVersion",
+  "MaxExecutionTime",
+  "MemoryLimit",
+  "PostMaxSize",
+  "UploadMaxFilesize"
 ];
 
 export default {
   name: "ModalVhostEdit",
+  components: {
+    VueSlider
+  },
   props: {
     id: String,
     useCase: String,
@@ -413,7 +524,8 @@ export default {
     vsftpd: Number,
     advanced: false,
     togglePass: "password",
-    togglePassFtp: "password"
+    togglePassFtp: "password",
+    phpsettings: false
   },
   watch: {
     virtualhost: function(newval) {
@@ -436,6 +548,11 @@ export default {
       loader: false,
       ServerNames: "",
       FirstServerName: "",
+      PhpRhVersion: "default",
+      SliderMaxExecutionTime:['30','60','120','180','240','300','360','420','480','540','600','0'],
+      SliderMemoryLimit: ['128','192','256','320','384','448','512','576','640','704','768','832','896','960','1024','1536','2048'],
+      SliderPostMaxSize: ['8','32','64','128','192','256','320','384','448','512','576','640','704','768','832','896','960','1024','1536','2048'],
+      SliderUploadMaxFilesize: ['2','8','16','32','64','128','192','256','320','384','448','512','576','640','704','768','832','896','960','1024','1536','2048'],
     };
     for (let i in attrs) {
       obj[attrs[i]] = "";
@@ -496,6 +613,10 @@ export default {
   methods: {
     toggleAdvancedMode() {
       this.advanced = !this.advanced;
+      this.$forceUpdate();
+    },
+    togglePhpSettingsMenu() {
+      this.phpsettings = !this.phpsettings;
       this.$forceUpdate();
     },
     togglePassHidden() {
