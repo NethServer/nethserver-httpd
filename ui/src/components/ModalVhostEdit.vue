@@ -125,6 +125,17 @@ select {
               </div>
             </div>
 
+            <!-- web root directory -->
+            <div v-if="name !== 'default'" class="form-group">
+              <label
+                class="col-sm-3 control-label"
+                v-bind:for="id + '-path'"
+              >{{ $t('virtualhost.web_root_directory') }}</label>
+              <div class="col-sm-9">
+                <span>/var/lib/nethserver/vhost/{{name}}</span>
+              </div>
+            </div>
+
             <!-- advanced menu -->
             <legend class="fields-section-header-pf" aria-expanded="true">
               <span
