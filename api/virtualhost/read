@@ -55,7 +55,8 @@ sub readVhost
     my @certs =();
     my $ret = {
         'virtualhost' => \@vhosts,
-        'certificates'=> \@certs
+        'certificates'=> \@certs,
+        'rhPhpScl' => {}
     };
 
     foreach ($vdb->get_all_by_prop('type' => 'vhost')) {
@@ -96,6 +97,10 @@ sub readVhost
     }
     # test if service isRunning
     $ret->{'vsftpd'} = is_running('vsftpd', $cdb);
+
+    # test if rh-php-scl is installed 
+    $ret->{'rhPhpScl'}->{'php71'} =  (-f '/etc/e-smith/db/configuration/defaults/rh-php71-php-fpm/type') ? JSON::true : JSON::false;
+    $ret->{'rhPhpScl'}->{'php72'} =  (-f '/etc/e-smith/db/configuration/defaults/rh-php72-php-fpm/type') ? JSON::true : JSON::false;
 
     return $ret;
 }
