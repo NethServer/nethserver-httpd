@@ -68,7 +68,8 @@ if ($vhostName eq 'default'){
         "MemoryLimit" => $input->{'virtualhost'}->{'MemoryLimit'},
         "PostMaxSize" => $input->{'virtualhost'}->{'PostMaxSize'},
         "UploadMaxFilesize" => $input->{'virtualhost'}->{'UploadMaxFilesize'},
-        "PhpRhVersion" => $input->{'virtualhost'}->{'PhpRhVersion'}
+        "PhpRhVersion" => $input->{'virtualhost'}->{'PhpRhVersion'},
+        "phpCustomSettings" => $input->{'virtualhost'}->{'phpCustomSettings'}
     );
 }
 }

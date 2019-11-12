@@ -95,11 +95,11 @@
     "http": "HTTP auth",
     "ftp": "FTP access",
     "vsftpd_is_not_running": "the FTP service is not running",
-    "phpsettings_menu":"Configuration of Php",
+    "phpsettings_menu":"Configuration of PHP",
     "default_php_version": "Default",
     "php_version": "Version of PHP",
-    "php72_version": "Php 72",
-    "php71_version": "Php 71",
+    "php72_version": "PHP 72",
+    "php71_version": "PHP 71",
     "MaxExecutionTime": "Maximum execution time",
     "MemoryLimit": "Script memory limit",
     "PostMaxSize": "Maximum post size",
@@ -178,7 +178,8 @@
     "Must_be_inferior_than_MemoryLimit": "Must be smaller than 'Script memory limit'",
     "Must_be_inferior_than_PostMaxSize": "Must be smaller than 'Maximum post size'",
     "Not_valid_MemoryLimit": "Not a valid Memory limit value",
-    "Not_valid_MaxExecutionTime": "Not a valid Maximum execution time"
+    "Not_valid_MaxExecutionTime": "Not a valid Maximum execution time",
+    "phpCustomSettings": "Customize PHP configuration"
   },
   "about": {
     "title": "About",

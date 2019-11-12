@@ -2,8 +2,9 @@
     use esmith::ConfigDB;
     my $vdb = esmith::ConfigDB->open_ro('vhosts') || die("Can't open vhosts db");
 
-    return unless (defined $VhostName);
-
+    $phpCustomSettings = $vdb->get_prop("$VhostName",'phpCustomSettings') || 'disabled';
+    return "" if (($phpCustomSettings eq 'disabled') || (!defined $VhostName));
+    
     my $AllowUrlfOpen = $vdb->get_prop("$VhostName",'AllowUrlfOpen') || 'enabled';
     my $MemoryLimit = $vdb->get_prop("$VhostName",'MemoryLimit') || '0';
     my $UpMaxFileSize = $vdb->get_prop("$VhostName",'UploadMaxFilesize') || '0';

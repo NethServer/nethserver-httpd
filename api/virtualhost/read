@@ -68,7 +68,11 @@ sub readVhost
         }
         if (!$props{'PhpRhVersion'}) {
             # Default value for php
-            $props{'PhpRhVersion'} = "default" ;
+            $props{'PhpRhVersion'} = "default";
+        }
+        if (!$props{'phpCustomSettings'}) {
+            # Default value for php
+            $props{'phpCustomSettings'} = "disabled";
         }
         push @vhosts, +{
             %props,

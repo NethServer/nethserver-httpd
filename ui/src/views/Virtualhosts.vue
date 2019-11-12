@@ -229,7 +229,8 @@ export default {
         MaxExecutionTime: '30',
         MemoryLimit: '128',
         PostMaxSize: '8',
-        UploadMaxFilesize: '2'
+        UploadMaxFilesize: '2',
+        phpCustomSettings: "disabled"
       };
     },
     openModal(id, item) {

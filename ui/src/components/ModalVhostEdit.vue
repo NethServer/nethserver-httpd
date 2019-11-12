@@ -353,7 +353,7 @@ select {
               </div>
             </div>
             <!-- phpsettings menu -->
-            <legend class="fields-section-header-pf" aria-expanded="true">
+            <legend v-if="name !== 'default' && advanced" class="fields-section-header-pf" aria-expanded="true">
               <span
                 :class="['fa fa-angle-right field-section-toggle-pf', phpsettings ? 'fa-angle-down' : '']"
               ></span>
@@ -362,10 +362,8 @@ select {
                 @click="togglePhpSettingsMenu()"
               >{{$t('virtualhost.phpsettings_menu')}}</a>
             </legend>
-            
-            
-            
-            <div v-if="name !== 'default' && phpsettings">
+
+            <div v-if="name !== 'default' && phpsettings  && advanced">
               <!-- php version -->
               <div v-bind:class="['form-group', vErrors.PhpRhVersion ? 'has-error' : '']">
                 <label
@@ -389,8 +387,31 @@ select {
                 </div>
               </div>
 
+              <!-- Cutomise php for default php version -->
+              <div v-bind:class="['form-group', vErrors.phpCustomSettings ? 'has-error' : '']">
+                <label
+                  class="col-sm-3 control-label"
+                  v-bind:for="id + '-defaultPhpSettings'"
+                >{{$t('virtualhost.phpCustomSettings')}}</label>
+                <div class="col-sm-9">
+                    <toggle-button
+                      class="min-toggle"
+                      :width="40"
+                      :height="20"
+                      :color="{checked: '#0088ce', unchecked: '#bbbbbb'}"
+                      :value="phpCustomSettings == 'enabled'"
+                      :sync="true"
+                      @change="phpCustomSettings == 'enabled' ? phpCustomSettings = 'disabled' : phpCustomSettings = 'enabled'"
+                    />
+                  <span
+                    v-if="vErrors.phpCustomSettings"
+                    class="help-block"
+                  >{{ vErrors.phpCustomSettings }}</span>
+                </div>
+              </div>
+
               <!-- slider -->
-              <div v-if="PhpRhVersion !== 'default'">
+              <div v-if="phpCustomSettings === 'enabled'">
                 <div :class="['form-group', vErrors.MaxExecutionTime ? 'has-error' : '']">
                     <label class="col-sm-3 control-label">{{$t('virtualhost.MaxExecutionTime')}}
                         <doc-info
@@ -508,7 +529,8 @@ var attrs = [
   "MaxExecutionTime",
   "MemoryLimit",
   "PostMaxSize",
-  "UploadMaxFilesize"
+  "UploadMaxFilesize",
+  "phpCustomSettings"
 ];
 
 export default {
