@@ -364,6 +364,18 @@ select {
             </legend>
 
             <div v-if="name !== 'default' && phpsettings  && advanced">
+              
+              <div v-if="!rhPhpScl.php72 && PhpRhVersion === 'php72'" class="alert alert-warning alert-dismissable">
+                <span class="pficon pficon-warning-triangle-o"></span>
+                <strong>{{$t('virtualhost.info_phpscl')}}:</strong>
+                {{$t('virtualhost.php72_not_installed')}}.
+              </div>
+              <div v-if="!rhPhpScl.php71 && PhpRhVersion === 'php71'" class="alert alert-warning alert-dismissable">
+                <span class="pficon pficon-warning-triangle-o"></span>
+                <strong>{{$t('virtualhost.info_phpscl')}}:</strong>
+                {{$t('virtualhost.php71_not_installed')}}.
+              </div>
+
               <!-- php version -->
               <div v-bind:class="['form-group', vErrors.PhpRhVersion ? 'has-error' : '']">
                 <label
@@ -547,7 +559,9 @@ export default {
     advanced: false,
     togglePass: "password",
     togglePassFtp: "password",
-    phpsettings: false
+    phpsettings: false,
+    rhPhpScl: Object
+
   },
   watch: {
     virtualhost: function(newval) {
