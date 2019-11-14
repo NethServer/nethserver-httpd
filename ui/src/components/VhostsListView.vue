@@ -97,6 +97,34 @@
             </div>
           </div>
           <div class="list-view-pf-additional-info rules-info">
+            <div  v-if="item.name !== 'default'" class="list-view-pf-additional-info-item">
+              <div class="pficon pficon-folder-close">
+                <span class="span-left-margin"></span>
+                <a 
+                  data-toggle="popover"
+                  data-placement="top"
+                  data-trigger="focus"
+                  v-clipboard:copy="'/var/lib/nethserver/vhost/'+item.name+'/'"
+                  :title="$t('virtualhost.copy2clipboard')"
+                  >
+                  {{ $t('virtualhost.web_root_directory') }}
+                </a>
+              </div>
+            </div>
+            <div  v-else class="list-view-pf-additional-info-item">
+              <div class="pficon pficon-folder-close">
+                <span class="span-left-margin"></span>
+                <a 
+                  data-toggle="popover"
+                  data-placement="top"
+                  data-trigger="focus"
+                  v-clipboard:copy="'/var/www/html/'"
+                  :title="$t('virtualhost.copy2clipboard')"
+                  >
+                  {{ $t('virtualhost.web_root_directory') }}
+                </a>
+              </div>
+            </div>
             <div
               class="list-view-pf-additional-info-item"
               v-if="(item.PasswordStatus === 'enabled' && item.status === 'enabled')"

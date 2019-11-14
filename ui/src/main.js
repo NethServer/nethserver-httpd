@@ -24,6 +24,7 @@ import Router from "vue-router";
 import VueToggleButton from "vue-js-toggle-button";
 import DocInfo from "./directives/DocInfo.vue";
 import VueGoodTable from "vue-good-table";
+import VueClipboard from 'vue-clipboard2';
 
 import App from "./App.vue";
 import Dashboard from "./views/Dashboard.vue";
@@ -40,6 +41,7 @@ Vue.config.productionTip = false;
 Vue.use(VueToggleButton);
 Vue.component("doc-info", DocInfo);
 Vue.use(VueGoodTable);
+Vue.use(VueClipboard);
 
 Vue.directive("focus", {
   inserted: function(el) {
