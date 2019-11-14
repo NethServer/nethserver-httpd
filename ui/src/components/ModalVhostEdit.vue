@@ -353,26 +353,16 @@ select {
               </div>
             </div>
             <!-- phpsettings menu -->
-            <legend v-if="name !== 'default' && advanced" class="fields-section-header-pf" aria-expanded="true">
-              <span
-                :class="['fa fa-angle-right field-section-toggle-pf', phpsettings ? 'fa-angle-down' : '']"
-              ></span>
-              <a
-                class="field-section-toggle-pf"
-                @click="togglePhpSettingsMenu()"
-              >{{$t('virtualhost.phpsettings_menu')}}</a>
-            </legend>
 
-            <div v-if="name !== 'default' && phpsettings  && advanced">
-              
+            <div v-if="name !== 'default' && advanced">
               <div v-if="!rhPhpScl.php72 && PhpRhVersion === 'php72'" class="alert alert-warning alert-dismissable">
                 <span class="pficon pficon-warning-triangle-o"></span>
-                <strong>{{$t('virtualhost.info_phpscl')}}:</strong>
+                <strong>{{$t('info')}}:</strong>
                 {{$t('virtualhost.php72_not_installed')}}.
               </div>
               <div v-if="!rhPhpScl.php71 && PhpRhVersion === 'php71'" class="alert alert-warning alert-dismissable">
                 <span class="pficon pficon-warning-triangle-o"></span>
-                <strong>{{$t('virtualhost.info_phpscl')}}:</strong>
+                <strong>{{$t('info')}}:</strong>
                 {{$t('virtualhost.php71_not_installed')}}.
               </div>
 
@@ -559,7 +549,6 @@ export default {
     advanced: false,
     togglePass: "password",
     togglePassFtp: "password",
-    phpsettings: false,
     rhPhpScl: Object
 
   },
@@ -623,6 +612,17 @@ export default {
         .then(validationResult => {
           this.loader = false;
           window.jQuery(this.$el).modal("hide"); // on successful resolution close the dialog
+          
+          // only on update or create
+          if (inputData.action !== 'delete') {
+              //test if phpscl needs to be installed
+              if (!this.rhPhpScl.php72 && inputData.virtualhost.PhpRhVersion === 'php72') {
+                this.installPackages('rh-php72-php-fpm');
+              }
+              if (!this.rhPhpScl.php71 && inputData.virtualhost.PhpRhVersion === 'php71') {
+                this.installPackages('rh-php71-php-fpm');
+              }
+          }
 
           nethserver.notifications.success = this.$t(
             "virtualhost.vhost_" +
@@ -647,12 +647,29 @@ export default {
     });
   },
   methods: {
+    installPackages(rpm) {
+      // notification
+      nethserver.notifications.success = this.$i18n.t("packages_installed_ok");
+      nethserver.notifications.error = this.$i18n.t("packages_installed_error");
+      nethserver.exec(
+        ["nethserver-httpd/feature/update"],
+        {
+          name: rpm
+        },
+        function(stream) {
+          console.info("install-package", stream);
+        },
+        function(success) {
+          // reload page
+          window.parent.location.reload();
+        },
+        function(error) {
+          console.error(error);
+        }
+      );
+    },
     toggleAdvancedMode() {
       this.advanced = !this.advanced;
-      this.$forceUpdate();
-    },
-    togglePhpSettingsMenu() {
-      this.phpsettings = !this.phpsettings;
       this.$forceUpdate();
     },
     togglePassHidden() {
