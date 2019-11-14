@@ -230,7 +230,7 @@ export default {
         status: "enabled",
         togglePass: false,
         PhpRhVersion: 'default',
-        MaxExecutionTime: '30',
+        MaxExecutionTime: '0',
         MemoryLimit: '128',
         PostMaxSize: '8',
         UploadMaxFilesize: '2',

@@ -59,7 +59,7 @@ php_value[soap.wsdl_cache_dir]  = /var/opt/rh/rh-$PhpRhVersion/lib/php/wsdlcache
             my $MemoryLimit = $vdb->get_prop("$VhostName",'MemoryLimit') || '0';
             my $UpMaxFileSize = $vdb->get_prop("$VhostName",'UploadMaxFilesize') || '0';
             my $PostMaxSize = $vdb->get_prop("$VhostName",'PostMaxSize') || '0';
-            my $MaxExecTime = $vdb->get_prop("$VhostName",'MaxExecutionTime') || 'disabled';
+            my $MaxExecTime = $vdb->get_prop("$VhostName",'MaxExecutionTime') || '0';
             my $MaxFileUploads = $vdb->get_prop("$VhostName",'MaxFileUploads') || 'disabled';
             
             $OUT .= "php_admin_flag[allow_url_fopen] = off\n" if ($AllowUrlfOpen eq 'disabled');

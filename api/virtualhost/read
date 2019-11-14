@@ -75,6 +75,22 @@ sub readVhost
             # Default value for php
             $props{'phpCustomSettings'} = "disabled";
         }
+        if (!$props{'MaxExecutionTime'}) {
+            # Default value for php
+            $props{'MaxExecutionTime'} = "0";
+        }
+        if (!$props{'MemoryLimit'}) {
+            # Default value for php
+            $props{'MemoryLimit'} = "128";
+        }
+        if (!$props{'UploadMaxFilesize'}) {
+            # Default value for php
+            $props{'UploadMaxFilesize'} = "2";
+        }
+        if (!$props{'PostMaxSize'}) {
+            # Default value for php
+            $props{'PostMaxSize'} = "8";
+        }
         push @vhosts, +{
             %props,
             'name' => $_->key,
