@@ -51,9 +51,8 @@ if($data['virtualhost']['name'] != 'default') {
         $v->declareParameter('PasswordValue', Validate::NOTEMPTY);
     }
     # phpSettings
-    $executiontime = $v->createValidator()->memberOf('0','30','60','120','180','240','300','360','420','480','540','600');
     $v->declareParameter('PhpRhVersion', $v->createValidator()->memberOf('default', 'php71', 'php72'));
-    $v->declareParameter('MaxExecutionTime',  $executiontime);
+    $v->declareParameter('MaxExecutionTime', $v->createValidator()->integer()->greatThan(-1));
     $v->declareParameter('MemoryLimit', Validate::POSITIVE_INTEGER);
     $v->declareParameter('PostMaxSize', Validate::POSITIVE_INTEGER);
     $v->declareParameter('UploadMaxFilesize', Validate::POSITIVE_INTEGER);
@@ -62,7 +61,7 @@ if($data['virtualhost']['name'] != 'default') {
     if  ($data['virtualhost']['MemoryLimit'] <= $data['virtualhost']['PostMaxSize']) {
             $v->addValidationError('PostMaxSize', 'MemoryLimitLabelMustBeSuperiorThanPostMaxSize');
     } elseif  ($data['virtualhost']['PostMaxSize'] <= $data['virtualhost']['UploadMaxFilesize']) {
-            $v->addValidationError('PostMaxSize', 'PostMaxSizeMustBeSuperiorThanUpMaxFileSize');
+            $v->addValidationError('UploadMaxFilesize', 'PostMaxSizeMustBeSuperiorThanUpMaxFileSize');
     }
 
     $serverList = $data['virtualhost']['ServerNames'];

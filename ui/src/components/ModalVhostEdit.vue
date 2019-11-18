@@ -424,8 +424,15 @@ select {
                         ></doc-info>
                     </label>
                     <div class="col-sm-9">
-                        <div>{{ $t('virtualhost.MaxExecutionTime_'+MaxExecutionTime) }}</div>
-                        <vue-slider v-model="MaxExecutionTime" :data="SliderMaxExecutionTime" :use-keyboard="true" :tooltip="'none'"></vue-slider>
+                        <div v-if="MaxExecutionTime > 0">{{MaxExecutionTime + ' '+ $t('virtualhost.seconds')}}</div>
+                        <div v-else >{{ $t('virtualhost.MaxExecutionTime_'+MaxExecutionTime) }}</div>
+                        <vue-slider v-model="MaxExecutionTime" 
+                          :use-keyboard="true" 
+                          :tooltip="'none'"
+                          :min="0"
+                          :max="3600"
+                          :interval="1"
+                        ></vue-slider>
                         <span v-if="vErrors.MaxExecutionTime" class="help-block">{{$t('virtualhost.Not_valid_MaxExecutionTime')}}</span>
                     </div>
                 </div>
@@ -439,8 +446,14 @@ select {
                         ></doc-info>
                     </label>
                     <div class="col-sm-9">
-                        <div>{{ $t('virtualhost.MemoryLimit_'+MemoryLimit) }}</div>
-                        <vue-slider v-model="MemoryLimit"  :data="SliderMemoryLimit" :tooltip="'none'"></vue-slider>
+                        <div>{{MemoryLimit + " MB" }}</div>
+                        <vue-slider v-model="MemoryLimit"  
+                          :use-keyboard="true" 
+                          :tooltip="'none'"
+                          :min="16"
+                          :max="2048"
+                          :interval="4"
+                        ></vue-slider>
                         <span v-if="vErrors.MemoryLimit" class="help-block">{{$t('virtualhost.Not_valid_MemoryLimit')}}</span>
                     </div>
                 </div>
@@ -454,8 +467,14 @@ select {
                         ></doc-info>
                     </label>
                     <div class="col-sm-9">
-                        <div>{{ $t('virtualhost.PostMaxSize_'+PostMaxSize) }}</div>
-                        <vue-slider v-model="PostMaxSize"  :data="SliderPostMaxSize" :tooltip="'none'"></vue-slider>
+                        <div>{{PostMaxSize + " MB" }}</div>
+                        <vue-slider v-model="PostMaxSize"  
+                          :use-keyboard="true" 
+                          :tooltip="'none'"
+                          :min="8"
+                          :max="2048"
+                          :interval="4"
+                        ></vue-slider>
                         <span v-if="vErrors.PostMaxSize" class="help-block">{{$t('virtualhost.Must_be_inferior_than_MemoryLimit')}}</span>
                     </div>
                 </div>
@@ -469,8 +488,14 @@ select {
                         ></doc-info>
                     </label>
                     <div class="col-sm-9">
-                        <div>{{$t('virtualhost.UploadMaxFilesize_'+UploadMaxFilesize)}}</div>
-                        <vue-slider v-model="UploadMaxFilesize" :data="SliderUploadMaxFilesize" :use-keyboard="true" :tooltip="'none'"></vue-slider>
+                        <div>{{UploadMaxFilesize + " MB"}}</div>
+                        <vue-slider v-model="UploadMaxFilesize" 
+                          :use-keyboard="true" 
+                          :tooltip="'none'"
+                          :min="4"
+                          :max="2048"
+                          :interval="4"
+                        ></vue-slider>
                         <span v-if="vErrors.UploadMaxFilesize" class="help-block">{{$t('virtualhost.Must_be_inferior_than_PostMaxSize')}}</span>
                     </div>
                 </div>
@@ -550,7 +575,6 @@ export default {
     togglePass: "password",
     togglePassFtp: "password",
     rhPhpScl: Object
-
   },
   watch: {
     virtualhost: function(newval) {
@@ -565,6 +589,13 @@ export default {
             this.FirstServerName = newval.ServerNames[0];
         }
       }
+
+      // We need numeric values for sliders
+      this.MaxExecutionTime= Number(this.MaxExecutionTime);
+      this.MemoryLimit = Number(this.MemoryLimit);
+      this.PostMaxSize = Number(this.PostMaxSize);
+      this.UploadMaxFilesize = Number(this.UploadMaxFilesize);
+
     }
   },
   data() {
@@ -573,11 +604,7 @@ export default {
       loader: false,
       ServerNames: "",
       FirstServerName: "",
-      PhpRhVersion: "default",
-      SliderMaxExecutionTime:['30','60','120','180','240','300','360','420','480','540','600','0'],
-      SliderMemoryLimit: ['128','192','256','320','384','448','512','576','640','704','768','832','896','960','1024','1536','2048'],
-      SliderPostMaxSize: ['8','32','64','128','192','256','320','384','448','512','576','640','704','768','832','896','960','1024','1536','2048'],
-      SliderUploadMaxFilesize: ['2','8','16','32','64','128','192','256','320','384','448','512','576','640','704','768','832','896','960','1024','1536','2048'],
+      PhpRhVersion: "default"
     };
     for (let i in attrs) {
       obj[attrs[i]] = "";
