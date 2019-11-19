@@ -71,9 +71,9 @@ sub readVhost
             # Default value for php
             $props{'PhpRhVersion'} = "default";
         }
-        if (!$props{'phpCustomSettings'}) {
+        if (!$props{'PhpCustomSettings'}) {
             # Default value for php
-            $props{'phpCustomSettings'} = "disabled";
+            $props{'PhpCustomSettings'} = "disabled";
         }
         if (!$props{'MaxExecutionTime'}) {
             # Default value for php

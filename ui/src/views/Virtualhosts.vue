@@ -234,7 +234,7 @@ export default {
         MemoryLimit: 128,
         PostMaxSize: 8,
         UploadMaxFilesize: 4,
-        phpCustomSettings: "disabled"
+        PhpCustomSettings: "disabled"
       };
     },
     openModal(id, item) {

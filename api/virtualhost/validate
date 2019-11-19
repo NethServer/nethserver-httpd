@@ -56,7 +56,7 @@ if($data['virtualhost']['name'] != 'default') {
     $v->declareParameter('MemoryLimit', Validate::POSITIVE_INTEGER);
     $v->declareParameter('PostMaxSize', Validate::POSITIVE_INTEGER);
     $v->declareParameter('UploadMaxFilesize', Validate::POSITIVE_INTEGER);
-    $v->declareParameter('phpCustomSettings', Validate::SERVICESTATUS);
+    $v->declareParameter('PhpCustomSettings', Validate::SERVICESTATUS);
 
     if  ($data['virtualhost']['MemoryLimit'] <= $data['virtualhost']['PostMaxSize']) {
             $v->addValidationError('PostMaxSize', 'MemoryLimitLabelMustBeSuperiorThanPostMaxSize');

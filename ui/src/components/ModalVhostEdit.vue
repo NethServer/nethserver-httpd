@@ -390,30 +390,30 @@ select {
               </div>
 
               <!-- Cutomise php for default php version -->
-              <div v-bind:class="['form-group', vErrors.phpCustomSettings ? 'has-error' : '']">
+              <div v-bind:class="['form-group', vErrors.PhpCustomSettings ? 'has-error' : '']">
                 <label
                   class="col-sm-3 control-label"
                   v-bind:for="id + '-defaultPhpSettings'"
-                >{{$t('virtualhost.phpCustomSettings')}}</label>
+                >{{$t('virtualhost.PhpCustomSettings')}}</label>
                 <div class="col-sm-9">
                     <toggle-button
                       class="min-toggle"
                       :width="40"
                       :height="20"
                       :color="{checked: '#0088ce', unchecked: '#bbbbbb'}"
-                      :value="phpCustomSettings == 'enabled'"
+                      :value="PhpCustomSettings == 'enabled'"
                       :sync="true"
-                      @change="phpCustomSettings == 'enabled' ? phpCustomSettings = 'disabled' : phpCustomSettings = 'enabled'"
+                      @change="PhpCustomSettings == 'enabled' ? PhpCustomSettings = 'disabled' : PhpCustomSettings = 'enabled'"
                     />
                   <span
-                    v-if="vErrors.phpCustomSettings"
+                    v-if="vErrors.PhpCustomSettings"
                     class="help-block"
-                  >{{ vErrors.phpCustomSettings }}</span>
+                  >{{ vErrors.PhpCustomSettings }}</span>
                 </div>
               </div>
 
               <!-- slider -->
-              <div v-if="phpCustomSettings === 'enabled'">
+              <div v-if="PhpCustomSettings === 'enabled'">
                 <div :class="['form-group', vErrors.MaxExecutionTime ? 'has-error' : '']">
                     <label class="col-sm-3 control-label">{{$t('virtualhost.MaxExecutionTime')}}
                         <doc-info
@@ -557,7 +557,7 @@ var attrs = [
   "MemoryLimit",
   "PostMaxSize",
   "UploadMaxFilesize",
-  "phpCustomSettings"
+  "PhpCustomSettings"
 ];
 
 export default {

@@ -3,9 +3,9 @@
 
     my $vdb = esmith::ConfigDB->open_ro('vhosts') || die("Can't open vhosts db");
     
-    $phpCustomSettings = $vdb->get_prop("$VhostName",'phpCustomSettings') || 'disabled';
+    $PhpCustomSettings = $vdb->get_prop("$VhostName",'PhpCustomSettings') || 'disabled';
     $PhpRhVersion = $vdb->get_prop("$VhostName",'PhpRhVersion') || 'default';
-    return ""  if (($phpCustomSettings eq 'disabled') || ($PhpRhVersion ne 'default'));
+    return ""  if (($PhpCustomSettings eq 'disabled') || ($PhpRhVersion ne 'default'));
 
     my $AllowUrlfOpen = $vdb->get_prop("$VhostName",'AllowUrlfOpen') || 'enabled';
     my $MemoryLimit = $vdb->get_prop("$VhostName",'MemoryLimit') || '0';

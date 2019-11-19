@@ -109,7 +109,7 @@
     "Must_be_inferior_than_PostMaxSize": "Must be smaller than 'Maximum post size'",
     "Not_valid_MemoryLimit": "Not a valid Memory limit value",
     "Not_valid_MaxExecutionTime": "Not a valid Maximum execution time",
-    "phpCustomSettings": "Customize PHP configuration",
+    "PhpCustomSettings": "Customize PHP configuration",
     "php72_not_installed": "PHP 7.2 is currently not installed. It will be downloaded and installed after the form is submitted",
     "php71_not_installed": "PHP 7.1 is currently not installed. It will be downloaded and installed after the form is submitted"
   },

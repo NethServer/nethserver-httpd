@@ -17,7 +17,7 @@
           next;
         }
 
-        my $phpCustomSettings = $vhost->prop('phpCustomSettings') || 'disabled';
+        my $PhpCustomSettings = $vhost->prop('PhpCustomSettings') || 'disabled';
         my $ServerNames = $vhost->prop('ServerNames') || '';
         $ServerNames =~ s/,/ /g;
         
@@ -53,7 +53,7 @@ php_value[soap.wsdl_cache_dir]  = /var/opt/rh/rh-$PhpRhVersion/lib/php/wsdlcache
 
 );
 
-        if ($phpCustomSettings eq 'enabled'){
+        if ($PhpCustomSettings eq 'enabled'){
 
             my $AllowUrlfOpen = $vdb->get_prop("$VhostName",'AllowUrlfOpen') || 'enabled';
             my $MemoryLimit = $vdb->get_prop("$VhostName",'MemoryLimit') || '0';
