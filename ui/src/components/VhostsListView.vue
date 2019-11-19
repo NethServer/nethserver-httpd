@@ -93,34 +93,37 @@
               </div>
             </div>
             <div class="list-group-item-text">
-              <div :class="[item.status === 'disabled' ? 'gray':'']">{{ item.Description }}</div>
-                  <br>
-                  <div  v-if="item.name !== 'default'" >
-                    <div>
-                      <a 
-                        data-toggle="popover"
-                        data-placement="top"
-                        data-trigger="focus"
-                        v-clipboard:copy="'/var/lib/nethserver/vhost/'+item.name+'/'"
-                        :title="$t('virtualhost.copy2clipboard')"
-                        >
-                        {{ $t('virtualhost.web_root_directory') }}
-                      </a>
-                    </div>
-                  </div>
-                  <div  v-else >
-                    <div>
-                      <a 
-                        data-toggle="popover"
-                        data-placement="top"
-                        data-trigger="focus"
-                        v-clipboard:copy="'/var/www/html/'"
-                        :title="$t('virtualhost.copy2clipboard')"
-                        >
-                        {{ $t('virtualhost.web_root_directory') }}
-                      </a>
-                    </div>
-                  </div>
+              <a  v-if="item.name !== 'default'"
+                tabindex="0"
+                href="#"
+                @click="getWebRoot(item)"
+                :id="'popover-'+item.name | sanitize"
+                class="alert-link"
+                data-placement="top"
+                data-toggle="popover"
+                data-html="true"
+                :title="$t('virtualhost.path_copied')"
+                data-content
+                v-clipboard:copy="'/var/lib/nethserver/vhost/'+item.name+'/'"
+              >
+                <span class="pficon pficon-folder-close"></span>
+              </a>
+              <a v-else
+                tabindex="0"
+                href="#"
+                @click="getWebRoot(item)"
+                :id="'popover-'+item.name | sanitize"
+                class="alert-link"
+                data-placement="top"
+                data-toggle="popover"
+                data-html="true"
+                :title="$t('virtualhost.path_copied')"
+                data-content
+                v-clipboard:copy="'/var/www/html/'"
+              >
+                <span class="pficon pficon-folder-close"></span>
+              </a>
+              <span :class="[item.status === 'disabled' ? 'gray span-left-margin':'span-left-margin']">{{ item.Description }}</span>
             </div>
           <div class="list-view-pf-additional-info rules-info">
             <div
@@ -185,6 +188,32 @@ export default {
           console.error(error, data);
         }
       );
+    },
+    getWebRoot(item) {
+
+      var popover = $(
+        "#" + this.$options.filters.sanitize("popover-" + item.name)
+      ).data("bs.popover");
+
+      //close others popover except this
+      $('[data-toggle=popover]').on('click', function (e) {
+          $('[data-toggle=popover]').not(this).popover('hide');
+      });
+      
+      var path = '/var/lib/nethserver/vhost/'+item.name+'/';
+      var text = "";
+
+      if (item.name !== 'default') {
+        text =
+        '<div>' + 
+        '<span>'+ path + '</span>'+"</div>";
+      } else {
+        text =
+        '<div>' + 
+        '<span>/var/www/html/</span>'+"</div>";
+      }
+      popover.options.content = text;
+      popover.show();
     }
   }
 };
