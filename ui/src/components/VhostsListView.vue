@@ -105,10 +105,9 @@
                     data-placement="top"
                     data-toggle="popover"
                     data-html="true"
-                    :title="$t('virtualhost.path_copied')"
+                    :title="$t('virtualhost.web_root_directory')"
                     data-content
                     data-trigger="click"
-                    v-clipboard:copy="'/var/lib/nethserver/vhost/'+item.name+'/'"
                   >
                     {{ $t('virtualhost.web_root_directory') }}
                   </a>
@@ -121,10 +120,9 @@
                     data-placement="top"
                     data-toggle="popover"
                     data-html="true"
-                    :title="$t('virtualhost.path_copied')"
+                    :title="$t('virtualhost.web_root_directory')"
                     data-content
                     data-trigger="click"
-                    v-clipboard:copy="'/var/www/html/'"
                   >
                     {{ $t('virtualhost.web_root_directory') }}
                   </a>

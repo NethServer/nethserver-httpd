@@ -59,7 +59,6 @@
   },
   "virtualhost": {
     "web_root_directory": "Web root path",
-    "path_copied": "The folder path has been copied to the clipboard",
     "vhost_created_ok": "The virtual host has been created",
     "vhost_created_error": "The virtual host has not been created",
     "vhost_updated_ok": "The virtual host has been updated",
