@@ -424,7 +424,7 @@ select {
                         ></doc-info>
                     </label>
                     <div class="col-sm-9">
-                        <div v-if="MaxExecutionTime > 0">{{MaxExecutionTime + ' '+ $t('virtualhost.seconds')}}</div>
+                        <div v-if="MaxExecutionTime > 0">{{MaxExecutionTime + ' '+ (MaxExecutionTime === 1 ? $t('virtualhost.second'): $t('virtualhost.seconds'))}}</div>
                         <div v-else >{{ $t('virtualhost.MaxExecutionTime_'+MaxExecutionTime) }}</div>
                         <vue-slider v-model="MaxExecutionTime" 
                           :use-keyboard="true" 

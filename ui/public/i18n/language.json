@@ -105,6 +105,7 @@
     "UploadMaxFilesize":"Maximum file size",
     "MaxExecutionTime_0": "Unlimited",
     "seconds": "seconds",
+    "second": "second",
     "Must_be_inferior_than_MemoryLimit": "Must be smaller than 'Script memory limit'",
     "Must_be_inferior_than_PostMaxSize": "Must be smaller than 'Maximum post size'",
     "Not_valid_MemoryLimit": "Not a valid Memory limit value",
