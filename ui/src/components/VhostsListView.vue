@@ -93,39 +93,42 @@
               </div>
             </div>
             <div class="list-group-item-text">
-              <a  v-if="item.name !== 'default'"
-                tabindex="0"
-                href="#"
-                @click="getWebRoot(item)"
-                :id="'popover-'+item.name | sanitize"
-                class="alert-link"
-                data-placement="top"
-                data-toggle="popover"
-                data-html="true"
-                :title="$t('virtualhost.path_copied')"
-                data-content
-                data-trigger="click"
-                v-clipboard:copy="'/var/lib/nethserver/vhost/'+item.name+'/'"
-              >
-                <span class="pficon pficon-folder-close"></span>
-              </a>
-              <a v-else
-                tabindex="0"
-                href="#"
-                @click="getWebRoot(item)"
-                :id="'popover-'+item.name | sanitize"
-                class="alert-link"
-                data-placement="top"
-                data-toggle="popover"
-                data-html="true"
-                :title="$t('virtualhost.path_copied')"
-                data-content
-                data-trigger="click"
-                v-clipboard:copy="'/var/www/html/'"
-              >
-                <span class="pficon pficon-folder-close"></span>
-              </a>
-              <span :class="[item.status === 'disabled' ? 'gray span-left-margin':'span-left-margin']">{{ item.Description }}</span>
+              <span :class="[item.status === 'disabled' ? 'gray':'']">{{ item.Description }}</span>
+                <div>
+                  <br/>
+                  <a  v-if="item.name !== 'default'"
+                    tabindex="0"
+                    href="#"
+                    @click="getWebRoot(item)"
+                    :id="'popover-'+item.name | sanitize"
+                    class="alert-link"
+                    data-placement="top"
+                    data-toggle="popover"
+                    data-html="true"
+                    :title="$t('virtualhost.path_copied')"
+                    data-content
+                    data-trigger="click"
+                    v-clipboard:copy="'/var/lib/nethserver/vhost/'+item.name+'/'"
+                  >
+                    {{ $t('virtualhost.web_root_directory') }}
+                  </a>
+                  <a v-else
+                    tabindex="0"
+                    href="#"
+                    @click="getWebRoot(item)"
+                    :id="'popover-'+item.name | sanitize"
+                    class="alert-link"
+                    data-placement="top"
+                    data-toggle="popover"
+                    data-html="true"
+                    :title="$t('virtualhost.path_copied')"
+                    data-content
+                    data-trigger="click"
+                    v-clipboard:copy="'/var/www/html/'"
+                  >
+                    {{ $t('virtualhost.web_root_directory') }}
+                  </a>
+              </div>
             </div>
           <div class="list-view-pf-additional-info rules-info">
             <div
@@ -221,11 +224,11 @@ export default {
       if (item.name !== 'default') {
         text =
         '<div>' + 
-        '<span>'+ path + '</span>'+"</div>";
+        '<code>'+ path + '</code>'+"</div>";
       } else {
         text =
         '<div>' + 
-        '<span>/var/www/html/</span>'+"</div>";
+        '<code>/var/www/html/</code>'+"</div>";
       }
       popover.options.content = text;
       popover.show();
