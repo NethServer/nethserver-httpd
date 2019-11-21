@@ -93,9 +93,41 @@
               </div>
             </div>
             <div class="list-group-item-text">
-              <div :class="[item.status === 'disabled' ? 'gray':'']">{{ item.Description }}</div>
+              <span :class="[item.status === 'disabled' ? 'gray':'']">{{ item.Description }}</span>
+                <div>
+                  <br/>
+                  <a  v-if="item.name !== 'default'"
+                    tabindex="0"
+                    href="#"
+                    @click="getWebRoot(item)"
+                    :id="'popover-'+item.name | sanitize"
+                    class="alert-link"
+                    data-placement="top"
+                    data-toggle="popover"
+                    data-html="true"
+                    :title="$t('virtualhost.web_root_directory')"
+                    data-content
+                    data-trigger="click"
+                  >
+                    {{ $t('virtualhost.web_root_directory') }}
+                  </a>
+                  <a v-else
+                    tabindex="0"
+                    href="#"
+                    @click="getWebRoot(item)"
+                    :id="'popover-'+item.name | sanitize"
+                    class="alert-link"
+                    data-placement="top"
+                    data-toggle="popover"
+                    data-html="true"
+                    :title="$t('virtualhost.web_root_directory')"
+                    data-content
+                    data-trigger="click"
+                  >
+                    {{ $t('virtualhost.web_root_directory') }}
+                  </a>
+              </div>
             </div>
-          </div>
           <div class="list-view-pf-additional-info rules-info">
             <div
               class="list-view-pf-additional-info-item"
@@ -129,6 +161,9 @@ export default {
 
   methods: {
     toggleLock(item) {
+      // close popover
+      $('.popover').remove();
+
       var context = this;
       nethserver.notifications.success = context.$t(
         "virtualhost.virtualhost_" +
@@ -159,6 +194,42 @@ export default {
           console.error(error, data);
         }
       );
+    },
+    getWebRoot(item) {
+
+      var popover = $(
+        "#" + this.$options.filters.sanitize("popover-" + item.name)
+      ).data("bs.popover");
+
+      //close others popover except this
+      $('[data-toggle=popover]').on('click', function (e) {
+          $('[data-toggle=popover]').not(this).popover('hide');
+      });
+      
+      // closes all popovers if you click anywhere except on a popover
+      $('html').on('mouseup', function(e) {
+        if(!$(e.target).closest('.popover').length) {
+          $('.popover').each(function(){
+              $(this.previousSibling).popover('hide');
+          });
+        }
+      });
+      
+            
+      var path = '/var/lib/nethserver/vhost/'+item.name+'/';
+      var text = "";
+
+      if (item.name !== 'default') {
+        text =
+        '<div>' + 
+        '<code>'+ path + '</code>'+"</div>";
+      } else {
+        text =
+        '<div>' + 
+        '<code>/var/www/html/</code>'+"</div>";
+      }
+      popover.options.content = text;
+      popover.show();
     }
   }
 };
