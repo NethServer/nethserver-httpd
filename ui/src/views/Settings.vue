@@ -126,10 +126,10 @@ export default {
         isRoot: false
       },
       configuration: {
-              MaxExecutionTime: '0',
-              MemoryLimit: '128',
-              PostMaxSize: '8',
-              UploadMaxFilesize: '4'
+              MaxExecutionTime: 0,
+              MemoryLimit: 128,
+              PostMaxSize: 8,
+              UploadMaxFilesize: 4
       },
       loaders: false,
       errors: this.initErrors()
@@ -172,10 +172,11 @@ export default {
           } catch (e) {
             console.error(e);
           }
-          context.configuration.MaxExecutionTime = success.configuration.MaxExecutionTime;
-          context.configuration.MemoryLimit = success.configuration.MemoryLimit;
-          context.configuration.PostMaxSize = success.configuration.PostMaxSize;
-          context.configuration.UploadMaxFilesize = success.configuration.UploadMaxFilesize;
+          // We need numeric values for sliders
+          context.configuration.MaxExecutionTime = Number(success.configuration.MaxExecutionTime);
+          context.configuration.MemoryLimit = Number(success.configuration.MemoryLimit);
+          context.configuration.PostMaxSize = Number(success.configuration.PostMaxSize);
+          context.configuration.UploadMaxFilesize = Number(success.configuration.UploadMaxFilesize);
 
           context.view.isLoaded = true;
         },

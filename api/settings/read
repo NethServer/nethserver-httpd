@@ -39,7 +39,7 @@ if ($cmd eq 'configuration') {
     $ret->{'configuration'}{'MaxExecutionTime'} = $db->get_prop('php', 'MaxExecutionTime') || '0';
     $ret->{'configuration'}{'MemoryLimit'} = $db->get_prop('php', 'MemoryLimit') || '128';
     $ret->{'configuration'}{'PostMaxSize'} = $db->get_prop('php', 'PostMaxSize')|| '8';
-    $ret->{'configuration'}{'UploadMaxFilesize'} = $db->get_prop('php', 'UploadMaxFilesize')|| '2';
+    $ret->{'configuration'}{'UploadMaxFilesize'} = $db->get_prop('php', 'UploadMaxFilesize')|| '4';
 
 } else {
     error();
