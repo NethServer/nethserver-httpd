@@ -238,6 +238,8 @@ export default {
       };
     },
     openModal(id, item) {
+      //close popovers
+      $('.popover').remove();
       this.currentItem = item;
       window.jQuery("#" + id).modal();
     },
@@ -253,6 +255,15 @@ export default {
           }
           this.vReadStatus = "success";
           this.view.isLoaded = true;
+
+          setTimeout(function() {
+            $("[data-toggle=popover]")
+              .popovers()
+              .on("hidden.bs.popover", function(e) {
+                $(e.target).data("bs.popover").inState.click = false;
+              });
+          }, 250);
+
         })
         .catch(error => {
           this.vReadStatus = "error";
