@@ -30,7 +30,7 @@
 listen = /var/run/rh-$PhpRhVersion-php-fpm/$VhostName-$PhpRhVersion.sock
 
 ;Logs
-php_admin_value[error_log] = /var/opt/rh/rh-$PhpRhVersion/log/php-fpm/error.log
+php_admin_value[error_log] = /var/opt/rh/rh-$PhpRhVersion/log/php-fpm/error-$VhostName.log
 php_admin_flag[log_errors] = on
 
 pm = dynamic
