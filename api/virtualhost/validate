@@ -60,7 +60,8 @@ if($data['virtualhost']['name'] != 'default') {
 
     if  ($data['virtualhost']['MemoryLimit'] <= $data['virtualhost']['PostMaxSize']) {
             $v->addValidationError('PostMaxSize', 'MemoryLimitLabelMustBeSuperiorThanPostMaxSize');
-    } elseif  ($data['virtualhost']['PostMaxSize'] <= $data['virtualhost']['UploadMaxFilesize']) {
+    } 
+    if  ($data['virtualhost']['PostMaxSize'] <= $data['virtualhost']['UploadMaxFilesize']) {
             $v->addValidationError('UploadMaxFilesize', 'PostMaxSizeMustBeSuperiorThanUpMaxFileSize');
     }
 
