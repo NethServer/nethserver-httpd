@@ -16,8 +16,15 @@
                 ></doc-info>
             </label>
             <div class="col-sm-5">
-                <div>{{ $t('settings.MaxExecutionTime_'+configuration.MaxExecutionTime) }}</div>
-                <vue-slider v-model="configuration.MaxExecutionTime" :data="MaxExecutionTime" :use-keyboard="true" :tooltip="'none'"></vue-slider>
+                <div v-if="configuration.MaxExecutionTime > 0">{{configuration.MaxExecutionTime + ' '+ (configuration.MaxExecutionTime === 1 ? $t('settings.second'): $t('settings.seconds'))}}</div>
+                <div v-else >{{ $t('settings.MaxExecutionTime_'+configuration.MaxExecutionTime) }}</div>
+                <vue-slider v-model="configuration.MaxExecutionTime" 
+                  :use-keyboard="true" 
+                  :tooltip="'none'"
+                  :min="0"
+                  :max="3600"
+                  :interval="1"
+                ></vue-slider>
                 <span v-if="errors.MaxExecutionTime.hasError" class="help-block">{{$t('settings.Not_valid_MaxExecutionTime')}}</span>
             </div>
         </div>
@@ -31,8 +38,14 @@
                 ></doc-info>
             </label>
             <div class="col-sm-5">
-                <div>{{ $t('settings.MemoryLimit_'+configuration.MemoryLimit) }}</div>
-                <vue-slider v-model="configuration.MemoryLimit"  :data="MemoryLimit" :tooltip="'none'"></vue-slider>
+                <div>{{configuration.MemoryLimit + " MB" }}</div>
+                <vue-slider v-model="configuration.MemoryLimit"  
+                  :use-keyboard="true" 
+                  :tooltip="'none'"
+                  :min="16"
+                  :max="2048"
+                  :interval="4"
+                ></vue-slider>
                 <span v-if="errors.MemoryLimit.hasError" class="help-block">{{$t('settings.Not_valid_MemoryLimit')}}</span>
             </div>
         </div>
@@ -46,8 +59,14 @@
                 ></doc-info>
             </label>
             <div class="col-sm-5">
-                <div>{{ $t('settings.PostMaxSize_'+configuration.PostMaxSize) }}</div>
-                <vue-slider v-model="configuration.PostMaxSize"  :data="PostMaxSize" :tooltip="'none'"></vue-slider>
+                <div>{{configuration.PostMaxSize + " MB" }}</div>
+                <vue-slider v-model="configuration.PostMaxSize"  
+                  :use-keyboard="true" 
+                  :tooltip="'none'"
+                  :min="8"
+                  :max="2048"
+                  :interval="4"
+                ></vue-slider>
                 <span v-if="errors.PostMaxSize.hasError" class="help-block">{{$t('settings.Must_be_inferior_than_MemoryLimit')}}</span>
             </div>
         </div>
@@ -61,8 +80,14 @@
                 ></doc-info>
             </label>
             <div class="col-sm-5">
-                <div>{{$t('settings.UploadMaxFilesize_'+configuration.UploadMaxFilesize)}}</div>
-                <vue-slider v-model="configuration.UploadMaxFilesize" :data="UploadMaxFilesize" :use-keyboard="true" :tooltip="'none'"></vue-slider>
+                <div>{{configuration.UploadMaxFilesize + " MB"}}</div>
+                <vue-slider v-model="configuration.UploadMaxFilesize" 
+                  :use-keyboard="true" 
+                  :tooltip="'none'"
+                  :min="4"
+                  :max="2048"
+                  :interval="4"
+                ></vue-slider>
                 <span v-if="errors.UploadMaxFilesize.hasError" class="help-block">{{$t('settings.Must_be_inferior_than_PostMaxSize')}}</span>
             </div>
         </div>
@@ -96,11 +121,7 @@ export default {
   },
   data() {
     return {
-        MaxExecutionTime:['30','60','120','180','240','300','360','420','480','540','600','0'],
-        MemoryLimit: ['128','192','256','320','384','448','512','576','640','704','768','832','896','960','1024','1536','2048'],
-        PostMaxSize: ['8','32','64','128','192','256','320','384','448','512','576','640','704','768','832','896','960','1024','1536','2048'],
-        UploadMaxFilesize: ['2','8','16','32','64','128','192','256','320','384','448','512','576','640','704','768','832','896','960','1024','1536','2048'],
-      view: {
+        view: {
         isLoaded: false,
         isRoot: false
       },
@@ -108,7 +129,7 @@ export default {
               MaxExecutionTime: '0',
               MemoryLimit: '128',
               PostMaxSize: '8',
-              UploadMaxFilesize: '2'
+              UploadMaxFilesize: '4'
       },
       loaders: false,
       errors: this.initErrors()
