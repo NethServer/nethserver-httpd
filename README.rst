@@ -112,6 +112,14 @@ A new ``vhost`` database is defined by this module. It contains records of type
         ServerNames=www.nethserver.org,www.example.com
         SslCertificate=/etc/pki/tls/certs/NSRV.crt
         status=enabled
+        PhpRhVersion=default
+        PhpCustomSettings=disabled
+        AllowUrlfOpen=enabled
+        MemoryLimit=128
+        UploadMaxFilesize=4
+        PostMaxSize=8
+        MaxExecutionTime=0
+        MaxFileUploads=20
 
 The database contains a special ``default`` record which represents the default
 virtual host: ::
@@ -123,6 +131,22 @@ virtual host: ::
 
 This virtual host is always enabled and can't be deleted. If FTP access is
 enabled, the user will be chrooted inside ``/var/www/html`` directory.
+
+rh PHP software collection
+--------------------------
+With the new cockpit server-manager the PHP version can be modified 
+inside the virtualhost panel. It installs a pool of PHP-FPM, this new php 
+version is only relevant to the current apache virtualhost. The prop 
+``PhpRhVersion`` is used to set the PHP version (``default`` is the PHP 5.4,
+ ``php71``, ``php72``).
+
+The documentation page of the project are:
+- https://www.softwarecollections.org/en/scls/rhscl/rh-php71/
+- https://www.softwarecollections.org/en/scls/rhscl/rh-php72/
+
+If the prop ``PhpCustomSettings`` is set to ``disabled`` the PHP setting values 
+are inherited from the default values of PHP (from esmith configuration database), if 
+``enabled`` each vhost gets its own PHP values from its vhost props.
 
 Events
 ------
