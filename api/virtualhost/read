@@ -85,7 +85,7 @@ sub readVhost
         }
         if (!$props{'UploadMaxFilesize'}) {
             # Default value for php
-            $props{'UploadMaxFilesize'} = "2";
+            $props{'UploadMaxFilesize'} = "4";
         }
         if (!$props{'PostMaxSize'}) {
             # Default value for php
