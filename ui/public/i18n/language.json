@@ -96,7 +96,7 @@
     "http": "HTTP auth",
     "ftp": "FTP access",
     "vsftpd_is_not_running": "the FTP service is not running",
-    "default_php_version": "Default",
+    "default_php_version": "PHP 5.4 (default)",
     "php_version": "Version of PHP",
     "php72_version": "PHP 7.2",
     "php71_version": "PHP 7.1",
