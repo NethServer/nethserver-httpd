@@ -1,0 +1,21 @@
+{
+use esmith::ConfigDB;
+my $vdb = esmith::ConfigDB->open_ro('vhosts') || die("Can't open vhosts db");
+my $db = esmith::ConfigDB->open_ro || die("Can't open config  db");
+
+my $PhpVersion = $vdb->get_prop("$VhostName",'PhpRhVersion') || 'default';
+
+
+if ($PhpVersion ne 'default')
+    {
+    # write the configuration
+    $OUT .= "\n";
+    $OUT .= "# use rh-php-fpm with mod_proxy_fcgi by socket 
+# from rh repository  instead of the default PHP\n";
+$OUT .= << "EOF";
+<FilesMatch \.php\$>
+  SetHandler "proxy:unix:/var/run/rh-$PhpVersion-php-fpm/$VhostName-$PhpVersion.sock|fcgi://localhost/"
+</FilesMatch>
+EOF
+    }
+}

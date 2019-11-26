@@ -30,6 +30,8 @@ sub list_features
     my $features = {
         dashboard => { installed => JSON::true, packages => ['nethserver-httpd'] },
         virtualhosts => { installed => (-f '/etc/e-smith/db/vhosts/defaults/default/type') ? JSON::true : JSON::false, packages => ['nethserver-httpd-virtualhosts'] },
+        'rh-php71-php-fpm' => { installed => (-f '/etc/e-smith/db/configuration/defaults/rh-php71-php-fpm/type') ? JSON::true : JSON::false, packages => ['nethserver-rh-php71-php-fpm'] },
+        'rh-php72-php-fpm' => { installed => (-f '/etc/e-smith/db/configuration/defaults/rh-php72-php-fpm/type') ? JSON::true : JSON::false, packages => ['nethserver-rh-php72-php-fpm'] },
         ftp => { installed => (-f '/etc/e-smith/db/configuration/defaults/vsftpd/type') ? JSON::true : JSON::false, packages => ['nethserver-vsftpd'] },
         logs => { installed => JSON::true, packages => ['nethserver-httpd'] },
         about => { installed => JSON::true, packages => ['nethserver-httpd'] },

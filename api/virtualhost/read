@@ -55,7 +55,8 @@ sub readVhost
     my @certs =();
     my $ret = {
         'virtualhost' => \@vhosts,
-        'certificates'=> \@certs
+        'certificates'=> \@certs,
+        'rhPhpScl' => {}
     };
 
     foreach ($vdb->get_all_by_prop('type' => 'vhost')) {
@@ -65,6 +66,30 @@ sub readVhost
         } else {
             # Default value for default virtual hosts
             $props{'ServerNames'} = ['Default'] ;
+        }
+        if (!$props{'PhpRhVersion'}) {
+            # Default value for php
+            $props{'PhpRhVersion'} = "default";
+        }
+        if (!$props{'PhpCustomSettings'}) {
+            # Default value for php
+            $props{'PhpCustomSettings'} = "disabled";
+        }
+        if (!$props{'MaxExecutionTime'}) {
+            # Default value for php
+            $props{'MaxExecutionTime'} = "0";
+        }
+        if (!$props{'MemoryLimit'}) {
+            # Default value for php
+            $props{'MemoryLimit'} = "128";
+        }
+        if (!$props{'UploadMaxFilesize'}) {
+            # Default value for php
+            $props{'UploadMaxFilesize'} = "4";
+        }
+        if (!$props{'PostMaxSize'}) {
+            # Default value for php
+            $props{'PostMaxSize'} = "8";
         }
         push @vhosts, +{
             %props,
@@ -88,6 +113,10 @@ sub readVhost
     }
     # test if service isRunning
     $ret->{'vsftpd'} = is_running('vsftpd', $cdb);
+
+    # test if rh-php-scl is installed 
+    $ret->{'rhPhpScl'}->{'php71'} =  (-f '/etc/e-smith/db/configuration/defaults/rh-php71-php-fpm/type') ? JSON::true : JSON::false;
+    $ret->{'rhPhpScl'}->{'php72'} =  (-f '/etc/e-smith/db/configuration/defaults/rh-php72-php-fpm/type') ? JSON::true : JSON::false;
 
     return $ret;
 }

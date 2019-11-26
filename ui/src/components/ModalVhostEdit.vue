@@ -352,6 +352,155 @@ select {
                 </button>
               </div>
             </div>
+            <!-- phpsettings menu -->
+
+            <div v-if="name !== 'default' && advanced">
+              <div v-if="!rhPhpScl.php72 && PhpRhVersion === 'php72'" class="alert alert-warning alert-dismissable">
+                <span class="pficon pficon-warning-triangle-o"></span>
+                <strong>{{$t('info')}}:</strong>
+                {{$t('virtualhost.php72_not_installed')}}.
+              </div>
+              <div v-if="!rhPhpScl.php71 && PhpRhVersion === 'php71'" class="alert alert-warning alert-dismissable">
+                <span class="pficon pficon-warning-triangle-o"></span>
+                <strong>{{$t('info')}}:</strong>
+                {{$t('virtualhost.php71_not_installed')}}.
+              </div>
+
+              <!-- php version -->
+              <div v-bind:class="['form-group', vErrors.PhpRhVersion ? 'has-error' : '']">
+                <label
+                  class="col-sm-3 control-label"
+                  v-bind:for="id + '-certs'"
+                >{{$t('virtualhost.php_version')}}</label>
+                <div class="col-sm-9">
+                  <select
+                    type="text"
+                    v-model="PhpRhVersion"
+                    class="combobox form-control col-sm-9"
+                  >
+                    <option value="default">{{$t('virtualhost.default_php_version')}}</option>
+                    <option value="php71">{{$t('virtualhost.php71_version')}}</option>
+                    <option value="php72">{{$t('virtualhost.php72_version')}}</option>
+                  </select>
+                  <span
+                    v-if="vErrors.PhpRhVersion"
+                    class="help-block"
+                  >{{ vErrors.PhpRhVersion }}</span>
+                </div>
+              </div>
+
+              <!-- Cutomise php for default php version -->
+              <div v-bind:class="['form-group', vErrors.PhpCustomSettings ? 'has-error' : '']">
+                <label
+                  class="col-sm-3 control-label"
+                  v-bind:for="id + '-defaultPhpSettings'"
+                >{{$t('virtualhost.PhpCustomSettings')}}</label>
+                <div class="col-sm-9">
+                    <toggle-button
+                      class="min-toggle"
+                      :width="40"
+                      :height="20"
+                      :color="{checked: '#0088ce', unchecked: '#bbbbbb'}"
+                      :value="PhpCustomSettings == 'enabled'"
+                      :sync="true"
+                      @change="PhpCustomSettings == 'enabled' ? PhpCustomSettings = 'disabled' : PhpCustomSettings = 'enabled'"
+                    />
+                  <span
+                    v-if="vErrors.PhpCustomSettings"
+                    class="help-block"
+                  >{{ vErrors.PhpCustomSettings }}</span>
+                </div>
+              </div>
+
+              <!-- slider -->
+              <div v-if="PhpCustomSettings === 'enabled'">
+                <div :class="['form-group', vErrors.MaxExecutionTime ? 'has-error' : '']">
+                    <label class="col-sm-3 control-label">{{$t('virtualhost.MaxExecutionTime')}}
+                        <doc-info
+                          :placement="'top'"
+                          :title="$t('virtualhost.MaxExecutionTime')"
+                          :chapter="'MaxExecutionTime'"
+                          :inline="true"
+                        ></doc-info>
+                    </label>
+                    <div class="col-sm-9">
+                        <div v-if="MaxExecutionTime > 0">{{MaxExecutionTime + ' '+ (MaxExecutionTime === 1 ? $t('virtualhost.second'): $t('virtualhost.seconds'))}}</div>
+                        <div v-else >{{ $t('virtualhost.MaxExecutionTime_'+MaxExecutionTime) }}</div>
+                        <vue-slider v-model="MaxExecutionTime" 
+                          :use-keyboard="true" 
+                          :tooltip="'none'"
+                          :min="0"
+                          :max="3600"
+                          :interval="1"
+                        ></vue-slider>
+                        <span v-if="vErrors.MaxExecutionTime" class="help-block">{{$t('virtualhost.Not_valid_MaxExecutionTime')}}</span>
+                    </div>
+                </div>
+                <div  :class="['form-group', vErrors.MemoryLimit ? 'has-error' : '']">
+                    <label class="col-sm-3 control-label">{{$t('virtualhost.MemoryLimit')}}
+                        <doc-info
+                          :placement="'top'"
+                          :title="$t('virtualhost.MemoryLimit')"
+                          :chapter="'MemoryLimit'"
+                          :inline="true"
+                        ></doc-info>
+                    </label>
+                    <div class="col-sm-9">
+                        <div>{{MemoryLimit + " MB" }}</div>
+                        <vue-slider v-model="MemoryLimit"  
+                          :use-keyboard="true" 
+                          :tooltip="'none'"
+                          :min="16"
+                          :max="2048"
+                          :interval="4"
+                        ></vue-slider>
+                        <span v-if="vErrors.MemoryLimit" class="help-block">{{$t('virtualhost.Not_valid_MemoryLimit')}}</span>
+                    </div>
+                </div>
+                <div :class="['form-group', vErrors.PostMaxSize ? 'has-error' : '']">
+                    <label class="col-sm-3 control-label" >{{$t('virtualhost.PostMaxSize')}}
+                        <doc-info
+                          :placement="'top'"
+                          :title="$t('virtualhost.PostMaxSize')"
+                          :chapter="'PostMaxSize'"
+                          :inline="true"
+                        ></doc-info>
+                    </label>
+                    <div class="col-sm-9">
+                        <div>{{PostMaxSize + " MB" }}</div>
+                        <vue-slider v-model="PostMaxSize"  
+                          :use-keyboard="true" 
+                          :tooltip="'none'"
+                          :min="8"
+                          :max="2048"
+                          :interval="4"
+                        ></vue-slider>
+                        <span v-if="vErrors.PostMaxSize" class="help-block">{{$t('virtualhost.Must_be_inferior_than_MemoryLimit')}}</span>
+                    </div>
+                </div>
+                <div :class="['form-group', vErrors.UploadMaxFilesize ? 'has-error' : '']">
+                    <label class="col-sm-3 control-label" >{{$t('virtualhost.UploadMaxFilesize')}}
+                        <doc-info
+                          :placement="'top'"
+                          :title="$t('virtualhost.UploadMaxFilesize')"
+                          :chapter="'UploadMaxFilesize'"
+                          :inline="true"
+                        ></doc-info>
+                    </label>
+                    <div class="col-sm-9">
+                        <div>{{UploadMaxFilesize + " MB"}}</div>
+                        <vue-slider v-model="UploadMaxFilesize" 
+                          :use-keyboard="true" 
+                          :tooltip="'none'"
+                          :min="4"
+                          :max="2048"
+                          :interval="4"
+                        ></vue-slider>
+                        <span v-if="vErrors.UploadMaxFilesize" class="help-block">{{$t('virtualhost.Must_be_inferior_than_PostMaxSize')}}</span>
+                    </div>
+                </div>
+              </div>
+          </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -387,6 +536,8 @@ select {
 
 <script>
 import execp from "@/execp";
+import VueSlider from 'vue-slider-component'
+import 'vue-slider-component/theme/default.css'
 
 var attrs = [
   "name",
@@ -400,11 +551,20 @@ var attrs = [
   "FtpStatus",
   "FtpPassword",
   "SslCertificate",
-  "status"
+  "status",
+  "PhpRhVersion",
+  "MaxExecutionTime",
+  "MemoryLimit",
+  "PostMaxSize",
+  "UploadMaxFilesize",
+  "PhpCustomSettings"
 ];
 
 export default {
   name: "ModalVhostEdit",
+  components: {
+    VueSlider
+  },
   props: {
     id: String,
     useCase: String,
@@ -413,7 +573,8 @@ export default {
     vsftpd: Number,
     advanced: false,
     togglePass: "password",
-    togglePassFtp: "password"
+    togglePassFtp: "password",
+    rhPhpScl: Object
   },
   watch: {
     virtualhost: function(newval) {
@@ -428,6 +589,13 @@ export default {
             this.FirstServerName = newval.ServerNames[0];
         }
       }
+
+      // We need numeric values for sliders
+      this.MaxExecutionTime= Number(this.MaxExecutionTime);
+      this.MemoryLimit = Number(this.MemoryLimit);
+      this.PostMaxSize = Number(this.PostMaxSize);
+      this.UploadMaxFilesize = Number(this.UploadMaxFilesize);
+
     }
   },
   data() {
@@ -436,6 +604,7 @@ export default {
       loader: false,
       ServerNames: "",
       FirstServerName: "",
+      PhpRhVersion: "default"
     };
     for (let i in attrs) {
       obj[attrs[i]] = "";
@@ -470,6 +639,17 @@ export default {
         .then(validationResult => {
           this.loader = false;
           window.jQuery(this.$el).modal("hide"); // on successful resolution close the dialog
+          
+          // only on update or create
+          if (inputData.action !== 'delete') {
+              //test if phpscl needs to be installed
+              if (!this.rhPhpScl.php72 && inputData.virtualhost.PhpRhVersion === 'php72') {
+                this.installPackages('rh-php72-php-fpm');
+              }
+              if (!this.rhPhpScl.php71 && inputData.virtualhost.PhpRhVersion === 'php71') {
+                this.installPackages('rh-php71-php-fpm');
+              }
+          }
 
           nethserver.notifications.success = this.$t(
             "virtualhost.vhost_" +
@@ -494,6 +674,27 @@ export default {
     });
   },
   methods: {
+    installPackages(rpm) {
+      // notification
+      nethserver.notifications.success = this.$i18n.t("packages_installed_ok");
+      nethserver.notifications.error = this.$i18n.t("packages_installed_error");
+      nethserver.exec(
+        ["nethserver-httpd/feature/update"],
+        {
+          name: rpm
+        },
+        function(stream) {
+          console.info("install-package", stream);
+        },
+        function(success) {
+          // reload page
+          window.parent.location.reload();
+        },
+        function(error) {
+          console.error(error);
+        }
+      );
+    },
     toggleAdvancedMode() {
       this.advanced = !this.advanced;
       this.$forceUpdate();

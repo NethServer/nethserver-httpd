@@ -50,6 +50,20 @@ if($data['virtualhost']['name'] != 'default') {
     if($data['virtualhost']['PasswordStatus'] == 'enabled') {
         $v->declareParameter('PasswordValue', Validate::NOTEMPTY);
     }
+    # phpSettings
+    $v->declareParameter('PhpRhVersion', $v->createValidator()->memberOf('default', 'php71', 'php72'));
+    $v->declareParameter('MaxExecutionTime', $v->createValidator()->integer()->greatThan(-1));
+    $v->declareParameter('MemoryLimit', Validate::POSITIVE_INTEGER);
+    $v->declareParameter('PostMaxSize', Validate::POSITIVE_INTEGER);
+    $v->declareParameter('UploadMaxFilesize', Validate::POSITIVE_INTEGER);
+    $v->declareParameter('PhpCustomSettings', Validate::SERVICESTATUS);
+
+    if  ($data['virtualhost']['MemoryLimit'] <= $data['virtualhost']['PostMaxSize']) {
+            $v->addValidationError('PostMaxSize', 'MemoryLimitLabelMustBeSuperiorThanPostMaxSize');
+    } 
+    if  ($data['virtualhost']['PostMaxSize'] <= $data['virtualhost']['UploadMaxFilesize']) {
+            $v->addValidationError('UploadMaxFilesize', 'PostMaxSizeMustBeSuperiorThanUpMaxFileSize');
+    }
 
     $serverList = $data['virtualhost']['ServerNames'];
     $Validator = $v->createValidator()->hostname();

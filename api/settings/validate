@@ -24,8 +24,7 @@ require_once("/usr/libexec/nethserver/api/lib/Helpers.php");
 $data = readInput();
 $v = new LegacyValidator($data['configuration']);
 
-$executiontime = $v->createValidator()->memberOf('0','30','60','120','180','240','300','360','420','480','540','600');
-$v->declareParameter('MaxExecutionTime',  $executiontime);
+$v->declareParameter('MaxExecutionTime', $v->createValidator()->integer()->greatThan(-1));
 $v->declareParameter('MemoryLimit', Validate::POSITIVE_INTEGER);
 $v->declareParameter('PostMaxSize', Validate::POSITIVE_INTEGER);
 $v->declareParameter('UploadMaxFilesize', Validate::POSITIVE_INTEGER);

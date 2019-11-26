@@ -128,6 +128,10 @@
                   </a>
               </div>
             </div>
+            <div class="list-group-item-text">
+              <div :class="[item.status === 'disabled' ? 'gray':'']">{{ $t('virtualhost.php_version_' + item.PhpRhVersion) }}</div>
+            </div>
+          </div>
           <div class="list-view-pf-additional-info rules-info">
             <div
               class="list-view-pf-additional-info-item"

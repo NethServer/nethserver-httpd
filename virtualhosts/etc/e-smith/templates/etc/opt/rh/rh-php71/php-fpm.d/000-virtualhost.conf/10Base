@@ -1,0 +1,88 @@
+{
+    use esmith::ConfigDB;
+    my $vdb = esmith::ConfigDB->open_ro('vhosts') || die("Can't open vhosts db");
+    my $db = esmith::ConfigDB->open_ro() || die("Can't open config db");
+
+    foreach my $vhost ($vdb->get_all_by_prop('type'=>'vhost')) {
+      
+        my $VhostName = $vhost->key;
+        my $status = $vhost->prop('status') || 'disabled';
+        my $PhpRhVersion = $vhost->prop('PhpRhVersion') ||' default';
+
+        #skip if vhost status is not enabled
+        if ($status ne 'enabled' ){
+          next;
+        }
+        #skip if vhost php version is not php71
+        if ($PhpRhVersion ne 'php71' ){
+          next;
+        }
+
+        my $PhpCustomSettings = $vhost->prop('PhpCustomSettings') || 'disabled';
+        my $ServerNames = $vhost->prop('ServerNames') || '';
+        $ServerNames =~ s/,/ /g;
+
+        $OUT .= qq(
+;
+; vhosts $ServerNames
+;
+
+[$VhostName]
+listen = /var/run/rh-$PhpRhVersion-php-fpm/$VhostName-$PhpRhVersion.sock
+
+;Logs
+php_admin_value[error_log] = /var/opt/rh/rh-$PhpRhVersion/log/php-fpm/error-$VhostName.log
+php_admin_flag[log_errors] = on
+
+pm = dynamic
+pm.max_children = 50
+pm.start_servers = 5
+pm.min_spare_servers = 5
+pm.max_spare_servers = 35
+
+user = apache;
+group = apache
+listen.owner = root
+listen.group = apache
+listen.mode = 0660
+
+; Set data paths to directories owned by process user
+php_value[session.save_handler] = files
+php_value[session.save_path]    = /var/opt/rh/rh-$PhpRhVersion/lib/php/session
+php_value[soap.wsdl_cache_dir]  = /var/opt/rh/rh-$PhpRhVersion/lib/php/wsdlcache
+
+);
+
+        if ($PhpCustomSettings eq 'enabled'){
+
+            my $AllowUrlfOpen = $vdb->get_prop("$VhostName",'AllowUrlfOpen') || 'enabled';
+            my $MemoryLimit = $vdb->get_prop("$VhostName",'MemoryLimit') || '128';
+            my $UpMaxFileSize = $vdb->get_prop("$VhostName",'UploadMaxFilesize') || '4';
+            my $PostMaxSize = $vdb->get_prop("$VhostName",'PostMaxSize') || '8';
+            my $MaxExecTime = $vdb->get_prop("$VhostName",'MaxExecutionTime') || '0';
+            my $MaxFileUploads = $vdb->get_prop("$VhostName",'MaxFileUploads') || '20';
+
+            $OUT .= "php_admin_flag[allow_url_fopen] = off\n" if ($AllowUrlfOpen eq 'disabled');
+            $OUT .= "php_admin_value[memory_limit] = $MemoryLimit"."M\n";
+            $OUT .= "php_admin_value[upload_max_filesize] = $UpMaxFileSize"."M\n";
+            $OUT .= "php_admin_value[post_max_size] = $PostMaxSize"."M\n";
+            $OUT .= "php_admin_value[max_execution_time] = $MaxExecTime\n";
+            $OUT .= "php_admin_value[max_input_time] =  $MaxExecTime\n";
+            $OUT .= "php_admin_value[max_file_uploads] = $MaxFileUploads\n";
+        } else {
+
+            my $MemoryLimit = $db->get_prop('php','MemoryLimit') || '128';
+            my $UpMaxFileSize = $db->get_prop('php','UploadMaxFilesize') || '4';
+            my $PostMaxSize = $db->get_prop('php','PostMaxSize') || '8';
+            my $MaxExecTime = $db->get_prop('php','MaxExecutionTime') || '0';
+            my $MaxFileUploads = $db->get_prop('php','MaxFileUploads') || '20';
+
+            $OUT .= "php_admin_value[memory_limit] = $MemoryLimit"."M\n";
+            $OUT .= "php_admin_value[upload_max_filesize] = $UpMaxFileSize"."M\n";
+            $OUT .= "php_admin_value[post_max_size] = $PostMaxSize"."M\n";
+            $OUT .= "php_admin_value[max_execution_time] = $MaxExecTime\n";
+            $OUT .= "php_admin_value[max_input_time] =  $MaxExecTime\n";
+            $OUT .= "php_admin_value[max_file_uploads] = $MaxFileUploads\n";
+        }
+    }
+}

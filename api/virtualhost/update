@@ -64,6 +64,12 @@ if ($vhostName eq 'default'){
         'ServerNames' => lc(join (',',uniq (@{$input->{'virtualhost'}->{'ServerNames'}}))),
         'SslCertificate' => $input->{'virtualhost'}->{'SslCertificate'},
         'status' => $input->{'virtualhost'}->{'status'},
+        "MaxExecutionTime" => $input->{'virtualhost'}->{'MaxExecutionTime'},
+        "MemoryLimit" => $input->{'virtualhost'}->{'MemoryLimit'},
+        "PostMaxSize" => $input->{'virtualhost'}->{'PostMaxSize'},
+        "UploadMaxFilesize" => $input->{'virtualhost'}->{'UploadMaxFilesize'},
+        "PhpRhVersion" => $input->{'virtualhost'}->{'PhpRhVersion'},
+        "PhpCustomSettings" => $input->{'virtualhost'}->{'PhpCustomSettings'}
     );
 }
 }
