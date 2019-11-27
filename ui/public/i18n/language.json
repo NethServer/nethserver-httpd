@@ -112,8 +112,6 @@
     "Not_valid_MemoryLimit": "Not a valid Memory limit value",
     "Not_valid_MaxExecutionTime": "Not a valid Maximum execution time",
     "PhpCustomSettings": "Customize PHP configuration",
-    "php72_not_installed": "PHP 7.2 is currently not installed. It will be downloaded and installed after the form is submitted",
-    "php71_not_installed": "PHP 7.1 is currently not installed. It will be downloaded and installed after the form is submitted",
     "php_version_php71": "PHP 7.1",
     "php_version_php72": "PHP 7.2",
     "php_version_default": "PHP 5.4"
