@@ -32,6 +32,20 @@ textarea {
 select {
   padding: 0;
 }
+
+.php-install-confirm {
+    display: flex;
+}
+
+.php-install-confirm > div:nth-child(2) {
+    flex-grow: 1;
+}
+
+.php-install-confirm .spinner {
+    display: inline-block;
+    width: 1em;
+    vertical-align: middle;
+}
 </style>
 
 <template>
@@ -355,16 +369,6 @@ select {
             <!-- phpsettings menu -->
 
             <div v-if="name !== 'default' && advanced">
-              <div v-if="!rhPhpScl.php72 && PhpRhVersion === 'php72'" class="alert alert-warning alert-dismissable">
-                <span class="pficon pficon-warning-triangle-o"></span>
-                <strong>{{$t('info')}}:</strong>
-                {{$t('virtualhost.php72_not_installed')}}.
-              </div>
-              <div v-if="!rhPhpScl.php71 && PhpRhVersion === 'php71'" class="alert alert-warning alert-dismissable">
-                <span class="pficon pficon-warning-triangle-o"></span>
-                <strong>{{$t('info')}}:</strong>
-                {{$t('virtualhost.php71_not_installed')}}.
-              </div>
 
               <!-- php version -->
               <div v-bind:class="['form-group', vErrors.PhpRhVersion ? 'has-error' : '']">
@@ -379,14 +383,37 @@ select {
                     class="combobox form-control col-sm-9"
                   >
                     <option value="default">{{$t('virtualhost.default_php_version')}}</option>
-                    <option value="php71">{{$t('virtualhost.php71_version')}}</option>
-                    <option value="php72">{{$t('virtualhost.php72_version')}}</option>
+                    <option value="php71">{{ $t('virtualhost.php71_version') + (hasPhpVersion('php71') ? '' : ' - ' + $t('virtualhost.option_php_not_installed')) }}</option>
+                    <option value="php72">{{ $t('virtualhost.php72_version') + (hasPhpVersion('php72') ? '' : ' - ' + $t('virtualhost.option_php_not_installed')) }}</option>
                   </select>
                   <span
                     v-if="vErrors.PhpRhVersion"
                     class="help-block"
                   >{{ vErrors.PhpRhVersion }}</span>
                 </div>
+              </div>
+
+              <div v-if="selectedPhpNeedsInstall" class="alert alert-warning php-install-confirm">
+                  <div class="pficon pficon-warning-triangle-o"></div>
+                  <div>
+                    <strong>{{$t('virtualhost.alert_php_not_installed_title')}}</strong>
+                    {{ $t('virtualhost.alert_php_not_installed_detail') }}
+                  </div>
+                  <div>
+                    <button
+                        v-on:click="installPackages()"
+                        v-bind:disabled="phpInstallTask == 'running'"
+                        class="btn btn-primary"
+                        type="button"
+                    >{{ $t('virtualhost.alert_install_button_label') }}</button>
+                    &#x20;
+                    <span
+                        v-show="phpInstallTask == 'running'"
+                        class="spinner spinner-xs"></span>
+                    <span
+                        v-show="phpInstallTask == 'error'"
+                        class="fa fa-times red"></span>
+                  </div>
               </div>
 
               <!-- Cutomise php for default php version -->
@@ -520,13 +547,15 @@ select {
             v-else-if="useCase == 'create'"
             v-on:click="$emit('modal-save')"
             type="button"
-            class="btn btn-primary"
+            v-bind:disabled="selectedPhpNeedsInstall"
+            v-bind:class="'btn ' + ( selectedPhpNeedsInstall ? 'btn-default' : 'btn-primary')"
           >{{ $t('create') }}</button>
           <button
             v-else
             v-on:click="$emit('modal-save')"
             type="button"
-            class="btn btn-primary"
+            v-bind:disabled="selectedPhpNeedsInstall"
+            v-bind:class="'btn ' + ( selectedPhpNeedsInstall ? 'btn-default' : 'btn-primary')"
           >{{ $t('edit') }}</button>
         </div>
       </div>
@@ -571,7 +600,6 @@ export default {
     virtualhost: Object,
     certificates: Array,
     vsftpd: Number,
-    advanced: false,
     togglePass: "password",
     togglePassFtp: "password",
     rhPhpScl: Object
@@ -600,16 +628,23 @@ export default {
   },
   data() {
     var obj = {
+      advanced: false,
       vErrors: {},
       loader: false,
       ServerNames: "",
       FirstServerName: "",
+      phpInstallTask: "idle",
       PhpRhVersion: "default"
     };
     for (let i in attrs) {
       obj[attrs[i]] = "";
     }
     return obj;
+  },
+  computed: {
+      selectedPhpNeedsInstall: function() {
+          return this.PhpRhVersion in this.rhPhpScl && this.rhPhpScl[this.PhpRhVersion] === false;
+      }
   },
   mounted: function() {
     this.$on("modal-save", eventData => {
@@ -639,17 +674,6 @@ export default {
         .then(validationResult => {
           this.loader = false;
           window.jQuery(this.$el).modal("hide"); // on successful resolution close the dialog
-          
-          // only on update or create
-          if (inputData.action !== 'delete') {
-              //test if phpscl needs to be installed
-              if (!this.rhPhpScl.php72 && inputData.virtualhost.PhpRhVersion === 'php72') {
-                this.installPackages('rh-php72-php-fpm');
-              }
-              if (!this.rhPhpScl.php71 && inputData.virtualhost.PhpRhVersion === 'php71') {
-                this.installPackages('rh-php71-php-fpm');
-              }
-          }
 
           nethserver.notifications.success = this.$t(
             "virtualhost.vhost_" +
@@ -674,10 +698,16 @@ export default {
     });
   },
   methods: {
-    installPackages(rpm) {
+    hasPhpVersion(version) {
+        return version in this.rhPhpScl && this.rhPhpScl[version] === true;
+    },
+    installPackages() {
+      var rpm = 'rh-' + this.PhpRhVersion +'-php-fpm';
+
       // notification
       nethserver.notifications.success = this.$i18n.t("packages_installed_ok");
       nethserver.notifications.error = this.$i18n.t("packages_installed_error");
+      this.phpInstallTask = "running";
       nethserver.exec(
         ["nethserver-httpd/feature/update"],
         {
@@ -686,12 +716,14 @@ export default {
         function(stream) {
           console.info("install-package", stream);
         },
-        function(success) {
-          // reload page
-          window.parent.location.reload();
+        (success) => {
+            this.phpInstallTask = "idle"
+            this.rhPhpScl[this.PhpRhVersion] = true
+            this.$forceUpdate();
         },
-        function(error) {
-          console.error(error);
+        (error) => {
+            this.phpInstallTask = "error"
+            console.error(error);
         }
       );
     },
