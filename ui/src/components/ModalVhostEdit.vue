@@ -554,7 +554,8 @@ select {
             v-else
             v-on:click="$emit('modal-save')"
             type="button"
-            class="btn btn-primary"
+            v-bind:disabled="selectedPhpNeedsInstall"
+            v-bind:class="'btn ' + ( selectedPhpNeedsInstall ? 'btn-default' : 'btn-primary')"
           >{{ $t('edit') }}</button>
         </div>
       </div>
