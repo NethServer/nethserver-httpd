@@ -43,7 +43,7 @@
           <ul class="dropdown-menu dropdown-menu-right" v-bind:aria-labelledby="item.name + '-ddm'">
             <li>
               <a href="#" v-on:click="$emit('item-delete', item)">
-                <span class="fa pficon-delete span-right-margin"></span>
+                <span class="fa fa-times span-right-margin"></span>
                 {{ $t('proxypass.item_delete_button') }}
               </a>
             </li>

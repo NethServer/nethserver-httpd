@@ -56,7 +56,7 @@
             <li>
               <a @click="toggleLock(item)">
                 <span
-                  :class="[item.status === 'disabled' ? 'fa fa-check' : 'pficon pficon-locked','span-right-margin']"
+                  :class="[item.status === 'disabled' ? 'fa fa-check' : 'fa fa-lock','span-right-margin']"
                 ></span>
                 {{ item.status === 'disabled' ? $t('virtualhost.item_enable_button') : $t('virtualhost.item_disable_button') }}
               </a>
@@ -64,7 +64,7 @@
             <li role="separator" class="divider"></li>
             <li>
               <a href="#" v-on:click="$emit('item-delete', item)">
-                <span class="fa pficon-delete span-right-margin"></span>
+                <span class="fa fa-times span-right-margin"></span>
                 {{ $t('virtualhost.item_delete_button') }}
               </a>
             </li>
@@ -75,7 +75,7 @@
       <div class="list-view-pf-main-info small-list">
         <div class="list-view-pf-left">
           <span
-            :class="[item.status === 'disabled' ? 'gray':'','fa list-view-pf-icon-sm fa-folder-open']"
+            :class="[item.status === 'disabled' ? 'gray':'','fa fa-folder list-view-pf-icon-sm']"
           ></span>
         </div>
         <div class="list-view-pf-body">
