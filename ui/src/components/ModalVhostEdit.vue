@@ -599,7 +599,6 @@ export default {
     virtualhost: Object,
     certificates: Array,
     vsftpd: Number,
-    advanced: false,
     togglePass: "password",
     togglePassFtp: "password",
     rhPhpScl: Object
@@ -628,6 +627,7 @@ export default {
   },
   data() {
     var obj = {
+      advanced: false,
       vErrors: {},
       loader: false,
       ServerNames: "",
