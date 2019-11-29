@@ -102,7 +102,7 @@ select {
               {{$t('virtualhost.automatic_HostRecord_creation')}}.
             </div>
           </div>
-          <form class="form-horizontal">
+          <form class="form-horizontal" v-on:submit.prevent="$emit('modal-save')">
             <!-- FQDN -->
             <div
               v-if="name !== 'default'"
