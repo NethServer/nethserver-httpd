@@ -127,21 +127,22 @@
               </div>
             </div>
             <div class="list-group-item-text">
-              <div :class="[item.status === 'disabled' ? 'gray':'']">{{ $t('virtualhost.php_version_' + item.PhpRhVersion) }}</div>
+              <span :class="[item.status === 'disabled' ? 'gray':'']">
+                {{ $t('virtualhost.php_version_' + item.PhpRhVersion) }}
+              </span>
+              <span v-if="(item.PasswordStatus === 'enabled' && item.status === 'enabled')" :class="[item.status === 'disabled' ? 'gray':'']">
+                  <span class="span-left-margin">{{$t('virtualhost.http')}}
+                    <span class="span-left-margin-sm fa fa-check green"></span>
+                  </span>
+              </span>
+              <span v-if="item.FtpStatus === 'enabled'" :class="[item.status === 'disabled' ? 'gray':'']">
+                  <span class="span-left-margin" >{{$t('virtualhost.ftp')}}
+                      <span class="span-left-margin-sm fa fa-check green"></span>
+                  </span>
+              </span>
             </div>
           </div>
-          <div class="list-view-pf-additional-info rules-info">
-            <div
-              class="list-view-pf-additional-info-item"
-              v-if="(item.PasswordStatus === 'enabled' && item.status === 'enabled')"
-            >
-              <span class="span-left-margin fa fa-check green"></span>
-              <strong>{{$t('virtualhost.http')}}</strong>
-            </div>
-            <div class="list-view-pf-additional-info-item" v-if="item.FtpStatus === 'enabled'">
-              <span class="span-left-margin fa fa-check green"></span>
-              <strong>{{$t('virtualhost.ftp')}}</strong>
-            </div>
+          <div class="list-view-pf-additional-info">
           </div>
         </div>
       </div>
@@ -260,6 +261,9 @@ export default {
   margin-right: 5px;
 }
 .span-left-margin {
-  margin-left: 5px;
+  margin-left: 10px;
+}
+.span-left-margin-sm {
+  margin-left: 3px;
 }
 </style>
