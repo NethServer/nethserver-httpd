@@ -91,7 +91,7 @@ select {
             <strong>{{$t('info')}}:</strong>
             {{$t('proxypass.automatic_HostRecord_creation')}}.
           </div>
-          <form class="form-horizontal" v-on:submit.prevent="$emit('modal-save')">
+          <form class="form-horizontal" v-on:keyup.enter="$emit('modal-save')">
             <div
               v-show="useCase === 'create'"
               v-bind:class="['form-group', vErrors.name ? 'has-error' : '']"
