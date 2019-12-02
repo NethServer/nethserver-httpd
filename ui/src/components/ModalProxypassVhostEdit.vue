@@ -310,8 +310,7 @@ export default {
     id: String,
     useCase: String,
     proxypass: Object,
-    certificates: Array,
-    advanced: false
+    certificates: Array
   },
   watch: {
     proxypass: function(newval) {
@@ -328,7 +327,8 @@ export default {
   data() {
     var obj = {
       vErrors: {},
-      loader: false
+      loader: false,
+      advanced: false
     };
     for (let i in attrs) {
       obj[attrs[i]] = "";
