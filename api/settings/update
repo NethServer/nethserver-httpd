@@ -41,6 +41,8 @@ my %props = ();
         'MemoryLimit' => $input->{'configuration'}->{'MemoryLimit'},
         'PostMaxSize' => $input->{'configuration'}->{'PostMaxSize'},
         'UploadMaxFilesize' => $input->{'configuration'}->{'UploadMaxFilesize'},
+        'DateTimezone' => $input->{'configuration'}->{'DateTimezone'},
+        'ShortOpenTag' => $input->{'configuration'}->{'ShortOpenTag'}
     );
 if($input->{'action'} eq 'edit') {
     $db->get('php')->merge_props(%props);

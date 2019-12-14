@@ -32,6 +32,10 @@ my $cmd = $input->{'action'};
 
 my $ret = {};
 
+open(DATE, "timedatectl list-timezones|");
+my @timezones = <DATE>;
+close(DATE);
+chomp @timezones;
 
 if ($cmd eq 'configuration') {
 
@@ -40,6 +44,9 @@ if ($cmd eq 'configuration') {
     $ret->{'configuration'}{'MemoryLimit'} = $db->get_prop('php', 'MemoryLimit') || '128';
     $ret->{'configuration'}{'PostMaxSize'} = $db->get_prop('php', 'PostMaxSize')|| '8';
     $ret->{'configuration'}{'UploadMaxFilesize'} = $db->get_prop('php', 'UploadMaxFilesize')|| '4';
+    $ret->{'configuration'}{'DateTimezone'} = $db->get_prop('php', 'DateTimezone')|| 'UTC';
+    $ret->{'configuration'}{'TimeZones'} = \@timezones;
+    $ret->{'configuration'}{'ShortOpenTag'} = $db->get_prop('php', 'ShortOpenTag')|| 'Off';
 
 } else {
     error();
