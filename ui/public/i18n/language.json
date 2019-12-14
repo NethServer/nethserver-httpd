@@ -182,7 +182,9 @@
     "MaxExecutionTime": "This sets the maximum time in seconds a script is allowed to run before it is terminated by the parser.",
     "MemoryLimit": "This sets the maximum amount of memory in bytes that a script is allowed to allocate, this value must be larger than the 'Maximum post size'.",
     "PostMaxSize": "Sets max size of post data allowed. This setting also affects file upload. To upload large files, this value must be larger than 'Upload maximum file size'.",
-    "UploadMaxFilesize":"The maximum size of an uploaded file, this value must be smaller than the 'Maximum post size'."
+    "UploadMaxFilesize":"The maximum size of an uploaded file, this value must be smaller than the 'Maximum post size'.",
+    "DateTimezone": "Sets the PHP timezone used by PHP scripts.",
+    "ShortOpenTag": "Enablig this settings allows you to use PHP short open tag instead of classic PHP open tag."
   },
   "validation": {
     "validation_failed": "Validation failed",
@@ -254,6 +256,8 @@
     "Must_be_inferior_than_MemoryLimit": "Must be smaller than 'Script memory limit'",
     "Must_be_inferior_than_PostMaxSize": "Must be smaller than 'Maximum post size'",
     "Not_valid_MemoryLimit": "Not a valid Memory limit value",
-    "Not_valid_MaxExecutionTime": "Not a valid Maximum execution time"
+    "Not_valid_MaxExecutionTime": "Not a valid Maximum execution time",
+    "DateTimezone": "Timezone",
+    "ShortOpenTag": "Short Open Tag"
   }
 }

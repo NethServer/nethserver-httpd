@@ -91,6 +91,44 @@
                 <span v-if="errors.UploadMaxFilesize.hasError" class="help-block">{{$t('settings.Must_be_inferior_than_PostMaxSize')}}</span>
             </div>
         </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label" >{{$t('settings.DateTimezone')}}
+            <doc-info
+              :placement="'top'"
+              :title="$t('settings.DateTimezone')"
+              :chapter="'DateTimezone'"
+              :inline="true"
+            ></doc-info>
+          </label>
+          <div class="col-sm-5">
+            <select
+              required
+              v-model="configuration.DateTimezone"
+              class="combobox form-control"
+            >
+              <option v-for="(t,i) in configuration.TimeZones" v-bind:key="i">{{t}}</option>
+            </select>
+          </div>
+        </div>
+          <div class="form-group">
+          <label class="col-sm-2 control-label" >{{$t('settings.ShortOpenTag')}}
+            <doc-info
+              :placement="'top'"
+              :title="$t('settings.ShortOpenTag')"
+              :chapter="'ShortOpenTag'"
+              :inline="true"
+            ></doc-info>
+          </label>
+          <div class="col-sm-5">
+            <input
+              type="checkbox"
+              v-model="configuration.ShortOpenTag"
+              true-value="On"
+              false-value="Off"
+              class="form-control"
+            />
+          </div>
+        </div>
         
         <div class="form-group">
           <label class="col-sm-2 control-label" for="textInput-modal-markup">
@@ -121,15 +159,18 @@ export default {
   },
   data() {
     return {
-        view: {
+      view: {
         isLoaded: false,
         isRoot: false
       },
       configuration: {
-              MaxExecutionTime: 0,
-              MemoryLimit: 128,
-              PostMaxSize: 8,
-              UploadMaxFilesize: 4
+        MaxExecutionTime: 0,
+        MemoryLimit: 128,
+        PostMaxSize: 8,
+        UploadMaxFilesize: 4,
+        TimeZones: 'UTC',
+        DateTimezone: 'UTC',
+        ShortOpenTag: 'Off'
       },
       loaders: false,
       errors: this.initErrors()
@@ -138,22 +179,22 @@ export default {
   methods: {
     initErrors() {
       return {
-      MaxExecutionTime: {
+        MaxExecutionTime: {
           haserror: false,
           message:""
-      },
-      MemoryLimit: {
+        },
+        MemoryLimit: {
           haserror: false,
           message:""
-      },
-      PostMaxSize: {
+        },
+        PostMaxSize: {
           haserror: false,
           message:""
-      },
-      UploadMaxFilesize: {
+        },
+        UploadMaxFilesize: {
           haserror: false,
           message:""
-      }
+        }
       };
     },
     getSettings() {
@@ -177,6 +218,9 @@ export default {
           context.configuration.MemoryLimit = Number(success.configuration.MemoryLimit);
           context.configuration.PostMaxSize = Number(success.configuration.PostMaxSize);
           context.configuration.UploadMaxFilesize = Number(success.configuration.UploadMaxFilesize);
+          context.configuration.TimeZones = success.configuration.TimeZones;
+          context.configuration.DateTimezone = success.configuration.DateTimezone;
+          context.configuration.ShortOpenTag = success.configuration.ShortOpenTag;
 
           context.view.isLoaded = true;
         },
@@ -191,10 +235,12 @@ export default {
       var settingsObj = {
         action: "edit",
         "configuration":{
-              MaxExecutionTime: context.configuration.MaxExecutionTime,
-              MemoryLimit: context.configuration.MemoryLimit,
-              PostMaxSize: context.configuration.PostMaxSize,
-              UploadMaxFilesize: context.configuration.UploadMaxFilesize
+          MaxExecutionTime: context.configuration.MaxExecutionTime,
+          MemoryLimit: context.configuration.MemoryLimit,
+          PostMaxSize: context.configuration.PostMaxSize,
+          UploadMaxFilesize: context.configuration.UploadMaxFilesize,
+          DateTimezone: context.configuration.DateTimezone,
+          ShortOpenTag: context.configuration.ShortOpenTag
         }
       };
       context.loaders = true;
