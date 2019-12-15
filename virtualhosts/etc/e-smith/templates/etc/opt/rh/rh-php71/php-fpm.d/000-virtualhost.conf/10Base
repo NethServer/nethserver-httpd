@@ -61,6 +61,8 @@ php_value[soap.wsdl_cache_dir]  = /var/opt/rh/rh-$PhpRhVersion/lib/php/wsdlcache
             my $PostMaxSize = $vdb->get_prop("$VhostName",'PostMaxSize') || '8';
             my $MaxExecTime = $vdb->get_prop("$VhostName",'MaxExecutionTime') || '0';
             my $MaxFileUploads = $vdb->get_prop("$VhostName",'MaxFileUploads') || '20';
+            my $DateTimezone = $vdb->get_prop("$VhostName",'DateTimezone') || 'UTC';
+            my $ShortOpenTag = $vdb->get_prop("$VhostName",'ShortOpenTag') || 'Off';
 
             $OUT .= "php_admin_flag[allow_url_fopen] = off\n" if ($AllowUrlfOpen eq 'disabled');
             $OUT .= "php_admin_value[memory_limit] = $MemoryLimit"."M\n";
@@ -69,6 +71,8 @@ php_value[soap.wsdl_cache_dir]  = /var/opt/rh/rh-$PhpRhVersion/lib/php/wsdlcache
             $OUT .= "php_admin_value[max_execution_time] = $MaxExecTime\n";
             $OUT .= "php_admin_value[max_input_time] =  $MaxExecTime\n";
             $OUT .= "php_admin_value[max_file_uploads] = $MaxFileUploads\n";
+            $OUT .= "php_admin_value[date_timezone] = $DateTimezone\n";
+            $OUT .= "php_admin_value[short_open_tag] = $ShortOpenTag\n";
         } else {
 
             my $MemoryLimit = $db->get_prop('php','MemoryLimit') || '128';
@@ -76,6 +80,8 @@ php_value[soap.wsdl_cache_dir]  = /var/opt/rh/rh-$PhpRhVersion/lib/php/wsdlcache
             my $PostMaxSize = $db->get_prop('php','PostMaxSize') || '8';
             my $MaxExecTime = $db->get_prop('php','MaxExecutionTime') || '0';
             my $MaxFileUploads = $db->get_prop('php','MaxFileUploads') || '20';
+            my $DateTimezone = $vdb->get_prop('php','DateTimezone') || 'UTC';
+            my $ShortOpenTag = $vdb->get_prop('php','ShortOpenTag') || 'Off';
 
             $OUT .= "php_admin_value[memory_limit] = $MemoryLimit"."M\n";
             $OUT .= "php_admin_value[upload_max_filesize] = $UpMaxFileSize"."M\n";
@@ -83,6 +89,8 @@ php_value[soap.wsdl_cache_dir]  = /var/opt/rh/rh-$PhpRhVersion/lib/php/wsdlcache
             $OUT .= "php_admin_value[max_execution_time] = $MaxExecTime\n";
             $OUT .= "php_admin_value[max_input_time] =  $MaxExecTime\n";
             $OUT .= "php_admin_value[max_file_uploads] = $MaxFileUploads\n";
+            $OUT .= "php_admin_value[date_timezone] = $DateTimezone\n";
+            $OUT .= "php_admin_value[short_open_tag] = $ShortOpenTag\n";
         }
     }
 }
