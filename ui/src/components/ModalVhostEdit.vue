@@ -526,6 +526,44 @@ select {
                         <span v-if="vErrors.UploadMaxFilesize" class="help-block">{{$t('virtualhost.Must_be_inferior_than_PostMaxSize')}}</span>
                     </div>
                 </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" >{{$t('virtualhost.DateTimezone')}}
+                    <doc-info
+                      :placement="'top'"
+                      :title="$t('virtualhost.DateTimezone')"
+                      :chapter="'DateTimezone'"
+                      :inline="true"
+                    ></doc-info>
+                  </label>
+                  <div class="col-sm-9">
+                    <select
+                      required
+                      v-model="DateTimezone"
+                      class="combobox form-control"
+                    >
+                      <option v-for="(t,i) in TimeZones" v-bind:key="i">{{t}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label" >{{$t('virtualhost.ShortOpenTag')}}
+                    <doc-info
+                      :placement="'top'"
+                      :title="$t('virtualhost.ShortOpenTag')"
+                      :chapter="'ShortOpenTag'"
+                      :inline="true"
+                    ></doc-info>
+                  </label>
+                  <div class="col-sm-9">
+                    <input
+                      type="checkbox"
+                      v-model="ShortOpenTag"
+                      true-value="On"
+                      false-value="Off"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
               </div>
           </div>
           </form>
@@ -586,7 +624,10 @@ var attrs = [
   "MemoryLimit",
   "PostMaxSize",
   "UploadMaxFilesize",
-  "PhpCustomSettings"
+  "PhpCustomSettings",
+  "TimeZones",
+  "DateTimezone",
+  "ShortOpenTag"
 ];
 
 export default {
@@ -654,7 +695,9 @@ export default {
         virtualhost: {}
       };
       for (let i in attrs) {
-        inputData.virtualhost[attrs[i]] = this[attrs[i]];
+        if(attrs[i] != "TimeZones") {
+          inputData.virtualhost[attrs[i]] = this[attrs[i]];
+        }
       }
       // split ServerName(index2)
       inputData.virtualhost.ServerNames = this.ServerNames.split("\n").filter(v => v);

@@ -118,7 +118,9 @@
     "PhpCustomSettings": "Customize PHP configuration",
     "php_version_php71": "PHP 7.1",
     "php_version_php72": "PHP 7.2",
-    "php_version_default": "PHP 5.4"
+    "php_version_default": "PHP 5.4",
+    "DateTimezone": "Timezone",
+    "ShortOpenTag": "Short Open Tag"
   },
   "about": {
     "title": "About",
