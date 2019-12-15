@@ -184,7 +184,7 @@
     "PostMaxSize": "Sets max size of post data allowed. This setting also affects file upload. To upload large files, this value must be larger than 'Upload maximum file size'.",
     "UploadMaxFilesize":"The maximum size of an uploaded file, this value must be smaller than the 'Maximum post size'.",
     "DateTimezone": "Sets the PHP timezone used by PHP scripts.",
-    "ShortOpenTag": "Enabling this settings allows you to use PHP short open tag instead of classic PHP open tag."
+    "ShortOpenTag": "Enabling this setting allows you to use PHP short open tag instead of classic PHP open tag."
   },
   "validation": {
     "validation_failed": "Validation failed",
