@@ -71,7 +71,7 @@ php_value[soap.wsdl_cache_dir]  = /var/opt/rh/rh-$PhpRhVersion/lib/php/wsdlcache
             $OUT .= "php_admin_value[max_execution_time] = $MaxExecTime\n";
             $OUT .= "php_admin_value[max_input_time] =  $MaxExecTime\n";
             $OUT .= "php_admin_value[max_file_uploads] = $MaxFileUploads\n";
-            $OUT .= "php_admin_value[date_timezone] = $DateTimezone\n";
+            $OUT .= "php_admin_value[date.timezone] = $DateTimezone\n";
             $OUT .= "php_admin_value[short_open_tag] = $ShortOpenTag\n";
         } else {
 
@@ -89,7 +89,7 @@ php_value[soap.wsdl_cache_dir]  = /var/opt/rh/rh-$PhpRhVersion/lib/php/wsdlcache
             $OUT .= "php_admin_value[max_execution_time] = $MaxExecTime\n";
             $OUT .= "php_admin_value[max_input_time] =  $MaxExecTime\n";
             $OUT .= "php_admin_value[max_file_uploads] = $MaxFileUploads\n";
-            $OUT .= "php_admin_value[date_timezone] = $DateTimezone\n";
+            $OUT .= "php_admin_value[date.timezone] = $DateTimezone\n";
             $OUT .= "php_admin_value[short_open_tag] = $ShortOpenTag\n";
         }
     }
