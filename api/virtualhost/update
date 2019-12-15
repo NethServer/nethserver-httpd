@@ -69,7 +69,9 @@ if ($vhostName eq 'default'){
         "PostMaxSize" => $input->{'virtualhost'}->{'PostMaxSize'},
         "UploadMaxFilesize" => $input->{'virtualhost'}->{'UploadMaxFilesize'},
         "PhpRhVersion" => $input->{'virtualhost'}->{'PhpRhVersion'},
-        "PhpCustomSettings" => $input->{'virtualhost'}->{'PhpCustomSettings'}
+        "PhpCustomSettings" => $input->{'virtualhost'}->{'PhpCustomSettings'},
+        "DateTimezone" => $input->{'virtualhost'}->{'DateTimezone'},
+        "ShortOpenTag" => $input->{'virtualhost'}->{'ShortOpenTag'}
     );
 }
 }

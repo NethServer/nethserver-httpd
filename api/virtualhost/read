@@ -58,6 +58,11 @@ sub readVhost
         'certificates'=> \@certs,
         'rhPhpScl' => {}
     };
+    
+    open(DATE, "timedatectl list-timezones|");
+    my @timezones = <DATE>;
+    close(DATE);
+    chomp @timezones;
 
     foreach ($vdb->get_all_by_prop('type' => 'vhost')) {
         my %props = $_->props();
@@ -91,9 +96,18 @@ sub readVhost
             # Default value for php
             $props{'PostMaxSize'} = "8";
         }
+        if (!$props{'DateTimezone'}) {
+            # Default value for php
+            $props{'DateTimezone'} = "UTC";
+        }
+        if (!$props{'ShortOpenTag'}) {
+            # Default value for php
+            $props{'ShortOpenTag'} = "Off";
+        }
         push @vhosts, +{
             %props,
             'name' => $_->key,
+            'TimeZones' => \@timezones
         };
 
     }

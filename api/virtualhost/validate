@@ -25,6 +25,9 @@ $vdb = new EsmithDatabase('vhosts');
 $hdb = new EsmithDatabase('hosts');
 $v = new LegacyValidator($data['virtualhost']);
 
+$timezones = explode("\n",shell_exec('timedatectl list-timezones'));
+$timezones = array_filter($timezones); # remove empty elements
+
 // check if key exists
 if($data['action'] == 'create') {
     if($vdb->getKey($data['virtualhost']['name'])) {
@@ -57,7 +60,8 @@ if($data['virtualhost']['name'] != 'default') {
     $v->declareParameter('PostMaxSize', Validate::POSITIVE_INTEGER);
     $v->declareParameter('UploadMaxFilesize', Validate::POSITIVE_INTEGER);
     $v->declareParameter('PhpCustomSettings', Validate::SERVICESTATUS);
-
+    $v->declareParameter('timezone', $v->createValidator()->memberOf($timezones));
+    
     if  ($data['virtualhost']['MemoryLimit'] <= $data['virtualhost']['PostMaxSize']) {
             $v->addValidationError('PostMaxSize', 'MemoryLimitLabelMustBeSuperiorThanPostMaxSize');
     } 
