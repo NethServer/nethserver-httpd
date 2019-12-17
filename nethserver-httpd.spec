@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.7.0
+Version: 3.7.1
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
@@ -90,6 +90,9 @@ done
 
 
 %changelog
+* Tue Dec 17 2019 Davide Principi <davide.principi@nethesis.it> - 3.7.1-1
+- Rh-PHP7x: RunTime Directory Creation - NethServer/dev#5992
+
 * Mon Dec 02 2019 Davide Principi <davide.principi@nethesis.it> - 3.7.0-1
 - Cockpit: improve httpd module view - Bug NethServer/dev#5966
 - Change PHP-FPM version in Web server app - NethServer/dev#5912
