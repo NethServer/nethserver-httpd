@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.7.1
+Version: 3.7.2
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
@@ -90,6 +90,10 @@ done
 
 
 %changelog
+* Wed Dec 18 2019 Davide Principi <davide.principi@nethesis.it> - 3.7.2-1
+- Rh-php-fpm: Set the timezone from default php - NethServer/dev#5998
+- Improve initial state of reverse proxy creation form - NethServer/dev#5999
+
 * Tue Dec 17 2019 Davide Principi <davide.principi@nethesis.it> - 3.7.1-1
 - Rh-PHP7x: RunTime Directory Creation - NethServer/dev#5992
 
