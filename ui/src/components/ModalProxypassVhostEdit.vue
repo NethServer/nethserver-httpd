@@ -65,7 +65,7 @@ select {
 
         <div v-if="useCase == 'delete'" class="modal-body">
           <div
-            v-if="type === 'VhostReverse' || (name[0] !== '/' && name)"
+            v-if="formType === 'VhostReverse'"
             class="alert alert-info alert-dismissable"
           >
             <span class="pficon pficon-info"></span>
@@ -84,7 +84,7 @@ select {
 
         <div v-else class="modal-body">
           <div
-            v-if="(name[0] !== '/' && name && useCase !== 'edit')"
+            v-if="useCase === 'create' && formType === 'VhostReverse'"
             class="alert alert-info alert-dismissable"
           >
             <span class="pficon pficon-info"></span>
@@ -169,7 +169,7 @@ select {
 
               <!-- Certificate -->
               <div
-                v-if="type === 'VhostReverse' || (name[0] !== '/' && name)"
+                v-if="formType === 'VhostReverse'"
                 v-bind:class="['form-group', vErrors.SslCertificate ? 'has-error' : '']"
               >
                 <label
@@ -212,7 +212,7 @@ select {
 
               <!-- CertVerification-->
               <div
-                v-if="type === 'VhostReverse' || (name[0] !== '/' && name)"
+                v-if="formType === 'VhostReverse'"
                 v-bind:class="['form-group', vErrors.CertVerification ? 'has-error' : '']"
               >
                 <label
@@ -236,7 +236,7 @@ select {
 
               <!-- PreserveHost-->
               <div
-                v-if="type === 'VhostReverse' || (name[0] !== '/' && name)"
+                v-if="formType === 'VhostReverse'"
                 v-bind:class="['form-group', vErrors.PreserveHost ? 'has-error' : '']"
               >
                 <label
@@ -323,6 +323,15 @@ export default {
         this.ValidFrom = newval.ValidFrom.split(",").join("\n") || "";
       }
     }
+  },
+  computed: {
+      formType: function() {
+          if(this.useCase == 'create') {
+              return this.name[0] === '/' ? 'ProxyPass' : 'VhostReverse';
+          } else {
+              return this.proxypass.type;
+          }
+      },
   },
   data() {
     var obj = {
