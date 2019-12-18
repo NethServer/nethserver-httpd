@@ -21,6 +21,7 @@
         my $PhpCustomSettings = $vhost->prop('PhpCustomSettings') || 'disabled';
         my $ServerNames = $vhost->prop('ServerNames') || '';
         $ServerNames =~ s/,/ /g;
+        my $TimeZone = $db->get_prop('php','DateTimezone') || 'UTC';
 
         $OUT .= qq(
 ;
@@ -51,6 +52,8 @@ php_value[session.save_handler] = files
 php_value[session.save_path]    = /var/opt/rh/rh-$PhpRhVersion/lib/php/session
 php_value[soap.wsdl_cache_dir]  = /var/opt/rh/rh-$PhpRhVersion/lib/php/wsdlcache
 
+; default timezone
+php_value[date.timezone] = $TimeZone
 );
 
         if ($PhpCustomSettings eq 'enabled'){
