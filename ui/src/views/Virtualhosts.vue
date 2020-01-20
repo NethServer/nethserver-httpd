@@ -32,8 +32,8 @@
     <doc-info
       :placement="'top'"
       :title="$t('docs.virtualhost')"
-      :chapter="'virtual_hosts'"
-      :section="''"
+      :chapter="'web_server'"
+      :section="'virtual-hosts'"
       :inline="false"
       :lang="'en'"
     ></doc-info>
