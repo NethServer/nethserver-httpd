@@ -32,8 +32,8 @@
     <doc-info
       :placement="'top'"
       :title="$t('docs.Reverse_Proxy')"
-      :chapter="'proxy_pass'"
-      :section="''"
+      :chapter="'web_server'"
+      :section="'reverse-proxy'"
       :inline="false"
       :lang="'en'"
     ></doc-info>

@@ -26,8 +26,8 @@
     <doc-info
       :placement="'top'"
       :title="$t('docs.ftp')"
-      :chapter="'ftp'"
-      :section="''"
+      :chapter="'web_server'"
+      :section="'ftp-server'"
       :inline="false"
     ></doc-info>
 
