@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.7.4
+Version: 3.7.5
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
@@ -90,6 +90,9 @@ done
 
 
 %changelog
+* Thu Jan 23 2020 Davide Principi <davide.principi@nethesis.it> - 3.7.5-1
+- Fix docs-info URLs for Web Server docs page - NethServer/docs#464
+
 * Mon Jan 13 2020 Davide Principi <davide.principi@nethesis.it> - 3.7.4-1
 - FollowSymLinks directive for virtual hosts - NethServer/dev#6017
 
