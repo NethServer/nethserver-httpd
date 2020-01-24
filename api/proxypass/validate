@@ -25,7 +25,7 @@ $pdb = new EsmithDatabase('proxypass');
 
 if(isset ($data['proxypass']['name'])) {
     $v = new LegacyValidator($data['proxypass']);
-    $v->declareParameter('name', Validate::USERNAME);
+    $v->declareParameter('name', Validate::HOSTNAME);
 }
 
 // check if key exists
