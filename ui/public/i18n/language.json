@@ -198,7 +198,8 @@
     "Invalid_Target": "Must be a valid URL like 'http://domain.com'",
     "user_already_exists": "An account with the same name already exists",
     "user_not_found": "Account not found",
-    "valid_username": "First character must be a letter, than only lower letters, numbers and symbols like '-' and '_'"
+    "valid_username": "First character must be a letter, than only lower letters, numbers and symbols like '-' and '_'",
+    "valid_hostname_0_9223372036854775807": "Must be a valid hostname or a Fully qualified domain name"
   },
   "proxypass": {
     "title": "Reverse proxy",
