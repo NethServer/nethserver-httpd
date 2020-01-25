@@ -602,7 +602,8 @@ export default {
     vsftpd: Number,
     togglePass: "password",
     togglePassFtp: "password",
-    rhPhpScl: Object
+    rhPhpScl: Object,
+    FirstServerName: Object
   },
   watch: {
     virtualhost: function(newval) {
