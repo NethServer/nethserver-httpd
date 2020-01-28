@@ -177,7 +177,7 @@
     "more_info_about": "More info about",
     "virtualhost": "Virtual hosts",
     "Reverse_Proxy": "Reverse Proxy",
-    "path-and-virtual-host-rules": "If you want to create an URL path rule, the name field must start with a '/'. If you need to create a virtual host name rule, then the name field must match a virtual host name",
+    "path-and-virtual-host-rules": "If you want to create a resource path matching rule, then enter the resource path beginning with a '/'. If you want to create a web site name matching rule, then type the web site fully qualified domain name.",
     "ftp": "FTP",
     "MaxExecutionTime": "This sets the maximum time in seconds a script is allowed to run before it is terminated by the parser.",
     "MemoryLimit": "This sets the maximum amount of memory in bytes that a script is allowed to allocate, this value must be larger than the 'Maximum post size'.",
@@ -199,7 +199,7 @@
     "user_already_exists": "An account with the same name already exists",
     "user_not_found": "Account not found",
     "valid_username": "First character must be a letter, than only lower letters, numbers and symbols like '-' and '_'",
-    "valid_hostname_0_9223372036854775807": "Must be a valid hostname or a Fully qualified domain name"
+    "valid_hostname_0_9223372036854775807": "Must be a fully qualified domain name or a resource path segment beginning with '/'"
   },
   "proxypass": {
     "title": "Reverse proxy",
