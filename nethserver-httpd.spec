@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.7.5
+Version: 3.7.6
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
@@ -90,6 +90,9 @@ done
 
 
 %changelog
+* Wed Jan 29 2020 Stephane de Labrusse <stephdl@de-labrusse.fr> - 3.7.6-1
+- Proxypass: name validator do not allow uppercase  - Bug NethServer/dev#6038
+
 * Thu Jan 23 2020 Davide Principi <davide.principi@nethesis.it> - 3.7.5-1
 - Fix docs-info URLs for Web Server docs page - NethServer/docs#464
 
