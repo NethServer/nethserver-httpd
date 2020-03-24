@@ -98,6 +98,7 @@
     "vsftpd_is_not_running": "the FTP service is not running",
     "default_php_version": "PHP 5.4 (default)",
     "php_version": "Version of PHP",
+    "php73_version": "PHP 7.3",
     "php72_version": "PHP 7.2",
     "php71_version": "PHP 7.1",
     "MaxExecutionTime": "Maximum execution time",
@@ -118,6 +119,7 @@
     "PhpCustomSettings": "Customize PHP configuration",
     "php_version_php71": "PHP 7.1",
     "php_version_php72": "PHP 7.2",
+    "php_version_php73": "PHP 7.3",
     "php_version_default": "PHP 5.4"
   },
   "about": {

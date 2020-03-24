@@ -385,6 +385,7 @@ select {
                     <option value="default">{{$t('virtualhost.default_php_version')}}</option>
                     <option value="php71">{{ $t('virtualhost.php71_version') + (hasPhpVersion('php71') ? '' : ' - ' + $t('virtualhost.option_php_not_installed')) }}</option>
                     <option value="php72">{{ $t('virtualhost.php72_version') + (hasPhpVersion('php72') ? '' : ' - ' + $t('virtualhost.option_php_not_installed')) }}</option>
+                    <option value="php73">{{ $t('virtualhost.php73_version') + (hasPhpVersion('php73') ? '' : ' - ' + $t('virtualhost.option_php_not_installed')) }}</option>
                   </select>
                   <span
                     v-if="vErrors.PhpRhVersion"
