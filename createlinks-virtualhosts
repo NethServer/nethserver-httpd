@@ -121,6 +121,7 @@ for my $event (qw(
     event_templates($event, qw(
       /etc/opt/rh/rh-php71/php-fpm.d/000-virtualhost.conf
       /etc/opt/rh/rh-php72/php-fpm.d/000-virtualhost.conf
+      /etc/opt/rh/rh-php73/php-fpm.d/000-virtualhost.conf
 ));
 }
 
@@ -133,4 +134,5 @@ for my $event (qw(
    )) {
     event_services($event, 'rh-php71-php-fpm' => 'restart');
     event_services($event, 'rh-php72-php-fpm' => 'restart');
+    event_services($event, 'rh-php73-php-fpm' => 'restart');
 }

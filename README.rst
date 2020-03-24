@@ -138,11 +138,12 @@ With the new cockpit server-manager the PHP version can be modified
 inside the virtualhost panel. It installs a pool of PHP-FPM, this new php 
 version is only relevant to the current apache virtualhost. The prop 
 ``PhpRhVersion`` is used to set the PHP version (``default`` is the PHP 5.4,
- ``php71``, ``php72``).
+ ``php71``, ``php72``, ``php73``).
 
 The documentation page of the project are:
 - https://www.softwarecollections.org/en/scls/rhscl/rh-php71/
 - https://www.softwarecollections.org/en/scls/rhscl/rh-php72/
+- https://www.softwarecollections.org/en/scls/rhscl/rh-php73/
 
 If the prop ``PhpCustomSettings`` is set to ``disabled`` the PHP setting values 
 are inherited from the default values of PHP (from esmith configuration database), if 

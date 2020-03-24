@@ -117,6 +117,7 @@ sub readVhost
     # test if rh-php-scl is installed 
     $ret->{'rhPhpScl'}->{'php71'} =  (-f '/etc/e-smith/db/configuration/defaults/rh-php71-php-fpm/type') ? JSON::true : JSON::false;
     $ret->{'rhPhpScl'}->{'php72'} =  (-f '/etc/e-smith/db/configuration/defaults/rh-php72-php-fpm/type') ? JSON::true : JSON::false;
+    $ret->{'rhPhpScl'}->{'php73'} =  (-f '/etc/e-smith/db/configuration/defaults/rh-php73-php-fpm/type') ? JSON::true : JSON::false;
 
     return $ret;
 }
