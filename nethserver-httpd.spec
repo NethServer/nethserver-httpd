@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.8.0
+Version: 3.8.1
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
@@ -90,6 +90,9 @@ done
 
 
 %changelog
+* Sat Apr 04 2020 Stephane de Labrusse <stephdl@de-labrusse.fr> - 3.8.1-1
+- Webserver installation error in software center - Bug NethServer/dev#6107
+
 * Thu Mar 26 2020 Stephane de Labrusse <stephdl@de-labrusse.fr> - 3.8.0-1
 - Nethserver-rh-php73-php-fpm - NethServer/dev#6087
 - provide the support for rh-php73-php-fpm
