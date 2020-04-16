@@ -64,7 +64,7 @@ php_value[date.timezone] = $TimeZone
         if ($PhpCustomSettings eq 'enabled'){
 
             my $AllowUrlfOpen = $vdb->get_prop("$VhostName",'AllowUrlfOpen') || 'enabled';
-            my $MemoryLimit = $vdb->get_prop("$VhostName",'MemoryLimit') || '128';
+            my $MemoryLimit = $vdb->get_prop("$VhostName",'MemoryLimit') || '512';
             my $UpMaxFileSize = $vdb->get_prop("$VhostName",'UploadMaxFilesize') || '4';
             my $PostMaxSize = $vdb->get_prop("$VhostName",'PostMaxSize') || '8';
             my $MaxExecTime = $vdb->get_prop("$VhostName",'MaxExecutionTime') || '0';
@@ -79,7 +79,7 @@ php_value[date.timezone] = $TimeZone
             $OUT .= "php_admin_value[max_file_uploads] = $MaxFileUploads\n";
         } else {
 
-            my $MemoryLimit = $db->get_prop('php','MemoryLimit') || '128';
+            my $MemoryLimit = $db->get_prop('php','MemoryLimit') || '512';
             my $UpMaxFileSize = $db->get_prop('php','UploadMaxFilesize') || '4';
             my $PostMaxSize = $db->get_prop('php','PostMaxSize') || '8';
             my $MaxExecTime = $db->get_prop('php','MaxExecutionTime') || '0';

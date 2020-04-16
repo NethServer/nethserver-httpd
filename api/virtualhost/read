@@ -81,7 +81,7 @@ sub readVhost
         }
         if (!$props{'MemoryLimit'}) {
             # Default value for php
-            $props{'MemoryLimit'} = "128";
+            $props{'MemoryLimit'} = "512";
         }
         if (!$props{'UploadMaxFilesize'}) {
             # Default value for php

@@ -231,7 +231,7 @@ export default {
         togglePass: false,
         PhpRhVersion: 'default',
         MaxExecutionTime: 0,
-        MemoryLimit: 128,
+        MemoryLimit: 512,
         PostMaxSize: 8,
         UploadMaxFilesize: 4,
         PhpCustomSettings: "disabled"
