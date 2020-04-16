@@ -115,7 +115,7 @@ A new ``vhost`` database is defined by this module. It contains records of type
         PhpRhVersion=default
         PhpCustomSettings=disabled
         AllowUrlfOpen=enabled
-        MemoryLimit=128
+        MemoryLimit=512
         UploadMaxFilesize=4
         PostMaxSize=8
         MaxExecutionTime=0
