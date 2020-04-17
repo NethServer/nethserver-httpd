@@ -383,7 +383,7 @@ select {
                     class="combobox form-control col-sm-9"
                   >
                     <option value="default">{{$t('virtualhost.default_php_version')}}</option>
-                    <option value="php71">{{ $t('virtualhost.php71_version') + (hasPhpVersion('php71') ? '' : ' - ' + $t('virtualhost.option_php_not_installed')) }}</option>
+                    <option v-if="PhpRhVersion === 'php71'" value="php71">{{ $t('virtualhost.php71_version')}}</option>
                     <option value="php72">{{ $t('virtualhost.php72_version') + (hasPhpVersion('php72') ? '' : ' - ' + $t('virtualhost.option_php_not_installed')) }}</option>
                     <option value="php73">{{ $t('virtualhost.php73_version') + (hasPhpVersion('php73') ? '' : ' - ' + $t('virtualhost.option_php_not_installed')) }}</option>
                   </select>
@@ -392,6 +392,14 @@ select {
                     class="help-block"
                   >{{ vErrors.PhpRhVersion }}</span>
                 </div>
+              </div>
+
+              <div v-if="PhpRhVersion === 'php71'" class="alert alert-warning php-install-confirm">
+                  <div class="pficon pficon-warning-triangle-o"></div>
+                  <div>
+                    <strong>{{$t('virtualhost.alert_php_obsoleted_title')}}</strong>
+                    {{ $t('virtualhost.alert_php_upgrade_php_detail') }}
+                  </div>
               </div>
 
               <div v-if="selectedPhpNeedsInstall" class="alert alert-warning php-install-confirm">
