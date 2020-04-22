@@ -5,20 +5,24 @@
     
     $PhpCustomSettings = $vdb->get_prop("$VhostName",'PhpCustomSettings') || 'disabled';
     $PhpRhVersion = $vdb->get_prop("$VhostName",'PhpRhVersion') || 'default';
-    return ""  if (($PhpCustomSettings eq 'disabled') || ($PhpRhVersion ne 'default'));
 
-    my $AllowUrlfOpen = $vdb->get_prop("$VhostName",'AllowUrlfOpen') || 'enabled';
-    my $MemoryLimit = $vdb->get_prop("$VhostName",'MemoryLimit') || '512';
-    my $UpMaxFileSize = $vdb->get_prop("$VhostName",'UploadMaxFilesize') || '4';
-    my $PostMaxSize = $vdb->get_prop("$VhostName",'PostMaxSize') || '8';
-    my $MaxExecTime = $vdb->get_prop("$VhostName",'MaxExecutionTime') || '0';
-    my $MaxFileUploads = $vdb->get_prop("$VhostName",'MaxFileUploads') || '20';
+    if ($PhpRhVersion eq 'default') {
+        my $MemoryLimit = $vdb->get_prop("$VhostName",'MemoryLimit') || '512';
+        $OUT .= "      php_admin_value memory_limit $MemoryLimit"."M\n";
+    }
 
-    $OUT .= "      php_admin_flag allow_url_fopen off\n" if ($AllowUrlfOpen eq 'disabled');
-    $OUT .= "      php_admin_value memory_limit $MemoryLimit"."M\n";
-    $OUT .= "      php_admin_value upload_max_filesize $UpMaxFileSize"."M\n";
-    $OUT .= "      php_admin_value post_max_size $PostMaxSize"."M\n";
-    $OUT .= "      php_admin_value max_execution_time $MaxExecTime\n";
-    $OUT .= "      php_admin_value max_input_time $MaxExecTime\n";
-    $OUT .= "      php_admin_value max_file_uploads $MaxFileUploads\n";
+    if ($PhpCustomSettings eq 'enabled') {
+        my $AllowUrlfOpen = $vdb->get_prop("$VhostName",'AllowUrlfOpen') || 'enabled';
+        my $UpMaxFileSize = $vdb->get_prop("$VhostName",'UploadMaxFilesize') || '4';
+        my $PostMaxSize = $vdb->get_prop("$VhostName",'PostMaxSize') || '8';
+        my $MaxExecTime = $vdb->get_prop("$VhostName",'MaxExecutionTime') || '0';
+        my $MaxFileUploads = $vdb->get_prop("$VhostName",'MaxFileUploads') || '20';
+
+        $OUT .= "      php_admin_flag allow_url_fopen off\n" if ($AllowUrlfOpen eq 'disabled');
+        $OUT .= "      php_admin_value upload_max_filesize $UpMaxFileSize"."M\n";
+        $OUT .= "      php_admin_value post_max_size $PostMaxSize"."M\n";
+        $OUT .= "      php_admin_value max_execution_time $MaxExecTime\n";
+        $OUT .= "      php_admin_value max_input_time $MaxExecTime\n";
+        $OUT .= "      php_admin_value max_file_uploads $MaxFileUploads\n";
+    }
 }
