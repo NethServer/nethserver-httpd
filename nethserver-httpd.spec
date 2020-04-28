@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.8.1
+Version: 3.9.0
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
@@ -90,6 +90,10 @@ done
 
 
 %changelog
+* Tue Apr 28 2020 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.9.0-1
+- Increase PHP default memory size - NethServer/dev#6127
+- Remove PHP 7.1 support - NethServer/dev#6116
+
 * Sat Apr 04 2020 Stephane de Labrusse <stephdl@de-labrusse.fr> - 3.8.1-1
 - Webserver installation error in software center - Bug NethServer/dev#6107
 
