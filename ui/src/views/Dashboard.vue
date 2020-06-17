@@ -30,8 +30,8 @@
             </div>
             <div class="stats-container col-xs-12 col-sm-6 col-md-4 col-lg-4">
               <span
-                class="card-pf-utilization-card-details-count stats-count"
-              >{{status.TotalAccess}}</span>
+                class="card-pf-utilization-card-details-count stats-count" :title="status.TotalAccess"
+              >{{status.TotalAccess | humanFormat}}</span>
               <span class="card-pf-utilization-card-details-description stats-description">
                 <span
                   class="card-pf-utilization-card-details-line-2 stats-text"
@@ -51,7 +51,9 @@
           </div>
           <div class="row-inline-block">
             <div class="stats-container col-xs-12 col-sm-6 col-md-4 col-lg-4">
-              <span class="card-pf-utilization-card-details-count stats-count">{{status.ReqPerSec}}</span>
+              <span class="card-pf-utilization-card-details-count stats-count" :title="status.ReqPerSec">
+                {{status.ReqPerSec | humanFormat}}
+              </span>
               <span class="card-pf-utilization-card-details-description stats-description">
                 <span
                   class="card-pf-utilization-card-details-line-2 stats-text"
@@ -92,8 +94,8 @@
               class="stats-container col-xs-12 col-sm-6 col-md-4 col-lg-4"
             >
               <span
-                class="card-pf-utilization-card-details-count stats-count"
-              >{{live.statistics.virtualhosts}}</span>
+                class="card-pf-utilization-card-details-count stats-count" :title="live.statistics.virtualhosts"
+              >{{live.statistics.virtualhosts | humanFormat}}</span>
               <span class="card-pf-utilization-card-details-description stats-description">
                 <span
                   class="card-pf-utilization-card-details-line-2 stats-text"
@@ -102,8 +104,8 @@
             </div>
             <div class="stats-container col-xs-12 col-sm-6 col-md-4 col-lg-4">
               <span
-                class="card-pf-utilization-card-details-count stats-count"
-              >{{live.statistics.VhostReverse}}</span>
+                class="card-pf-utilization-card-details-count stats-count" :title="live.statistics.VhostReverse"
+              >{{live.statistics.VhostReverse | humanFormat}}</span>
               <span class="card-pf-utilization-card-details-description stats-description">
                 <span
                   class="card-pf-utilization-card-details-line-2 stats-text"
@@ -112,8 +114,8 @@
             </div>
             <div class="stats-container col-xs-12 col-sm-6 col-md-4 col-lg-4">
               <span
-                class="card-pf-utilization-card-details-count stats-count"
-              >{{live.statistics.ProxyPass}}</span>
+                class="card-pf-utilization-card-details-count stats-count" :title="live.statistics.ProxyPass"
+              >{{live.statistics.ProxyPass | humanFormat}}</span>
               <span class="card-pf-utilization-card-details-description stats-description">
                 <span
                   class="card-pf-utilization-card-details-line-2 stats-text"
@@ -135,8 +137,8 @@
             </div>
             <div class="stats-container col-xs-12 col-sm-6 col-md-4 col-lg-4">
               <span
-                class="card-pf-utilization-card-details-count stats-count"
-              >{{live.statistics.FTP}}</span>
+                class="card-pf-utilization-card-details-count stats-count" :title="live.statistics.FTP"
+              >{{live.statistics.FTP | humanFormat}}</span>
               <span class="card-pf-utilization-card-details-description stats-description">
                 <span
                   class="card-pf-utilization-card-details-line-2 stats-text"
