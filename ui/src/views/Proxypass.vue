@@ -151,7 +151,8 @@ export default {
         ValidFrom: "",
         CertVerification: "no",
         PreserveHost: "yes",
-        SslCertificate: ""
+        SslCertificate: "",
+        WebSockets: "disabled"
       };
     },
     openModal(id, item) {

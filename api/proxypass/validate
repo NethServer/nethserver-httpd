@@ -45,6 +45,7 @@ if ($data['proxypass']['type'] === 'VhostReverse'){
     $v->declareParameter('CertVerification', Validate::YES_NO);
     $v->declareParameter('PreserveHost', Validate::YES_NO);
     $v->declareParameter('SslCertificate', Validate::ANYTHING);
+    $v->declareParameter('WebSockets', Validate::SERVICESTATUS);
 }
 
 $cidrList = $data['proxypass']['ValidFrom'];

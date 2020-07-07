@@ -243,7 +243,8 @@
     "dnsHostRecord_do_not_be_removed": "The host name alias in System > Dashboard > Hostname / Alias is preserved",
     "automatic_HostRecord_creation": "An host name alias is added to System > Dashboard > Hostname / Alias ",
     "advanced_mode": "Advanced settings",
-    "ValidFromCIDR_help": "One item per line"
+    "ValidFromCIDR_help": "One item per line",
+    "Enable_WebSockets": "Enable WebSockets (two-way interactive communication sessions)"
 },
 "settings": {
     "title": "Settings",
