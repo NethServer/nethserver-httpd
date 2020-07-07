@@ -22,6 +22,7 @@ EOF
 
         foreach $port (@ports) {
             $proxyData{VhostName} = $proxy->key;
+            $proxyData{WebSockets} = $proxy->prop('WebSockets') || 'disabled';
             $proxyData{Port} = $port;
             $OUT .= esmith::templates::processTemplate({
                 MORE_DATA => \%proxyData,
