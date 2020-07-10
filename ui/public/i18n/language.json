@@ -186,7 +186,8 @@
     "MaxExecutionTime": "This sets the maximum time in seconds a script is allowed to run before it is terminated by the parser.",
     "MemoryLimit": "This sets the maximum amount of memory in bytes that a script is allowed to allocate, this value must be larger than the 'Maximum post size'.",
     "PostMaxSize": "Sets max size of post data allowed. This setting also affects file upload. To upload large files, this value must be larger than 'Upload maximum file size'.",
-    "UploadMaxFilesize":"The maximum size of an uploaded file, this value must be smaller than the 'Maximum post size'."
+    "UploadMaxFilesize":"The maximum size of an uploaded file, this value must be smaller than the 'Maximum post size'.",
+    "Websocket-label": "Experimental feature, The WebSocket API is an advanced technology that makes it possible to open a two-way interactive communication session between the user's browser and a server."
   },
   "validation": {
     "validation_failed": "Validation failed",

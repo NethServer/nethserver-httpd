@@ -263,7 +263,13 @@ select {
                 <label
                   class="col-sm-3 control-label"
                   v-bind:for="id + '-WebSockets'"
-                >{{$t('proxypass.Enable_WebSockets')}}</label>
+                >{{$t('proxypass.Enable_WebSockets')}}
+                  <doc-info
+                    :placement="'right'"
+                    :chapter="'Websocket-label'"
+                    :inline="true"
+                  ></doc-info>
+                </label>
                 <div class="col-sm-9">
                   <input
                     type="checkbox"
