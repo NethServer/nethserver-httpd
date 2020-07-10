@@ -187,7 +187,8 @@
     "MemoryLimit": "This sets the maximum amount of memory in bytes that a script is allowed to allocate, this value must be larger than the 'Maximum post size'.",
     "PostMaxSize": "Sets max size of post data allowed. This setting also affects file upload. To upload large files, this value must be larger than 'Upload maximum file size'.",
     "UploadMaxFilesize":"The maximum size of an uploaded file, this value must be smaller than the 'Maximum post size'.",
-    "Websocket-label": "Experimental feature, The WebSocket API is an advanced technology that makes it possible to open a two-way interactive communication session between the user's browser and a server."
+    "Websocket-label": "Experimental feature, The WebSocket API is an advanced technology that makes it possible to open a two-way interactive communication session between the user's browser and a server.",
+    "WebSocketsPath-label": "Apache will send all requests to the websockets however you can set a path. The path can be used to distinguish the purpose of the connection."
   },
   "validation": {
     "validation_failed": "Validation failed",
@@ -205,7 +206,8 @@
     "user_not_found": "Account not found",
     "valid_username": "First character must be a letter, than only lower letters, numbers and symbols like '-' and '_'",
     "valid_hostname_0_9223372036854775807": "Must be a fully qualified domain name or a resource path segment beginning with '/'",
-    "valid_minLength_1": "This field can not be empty"
+    "valid_minLength_1": "This field can not be empty",
+    "WebSocketsPathNotValid": "The websocket path is not valid it must start by '/' and use '[A-Za-z0-9-]'"
   },
   "proxypass": {
     "title": "Reverse proxy",
@@ -245,7 +247,9 @@
     "automatic_HostRecord_creation": "An host name alias is added to System > Dashboard > Hostname / Alias ",
     "advanced_mode": "Advanced settings",
     "ValidFromCIDR_help": "One item per line",
-    "Enable_WebSockets": "Enable WebSockets (two-way interactive communication sessions)"
+    "Enable_WebSockets": "Enable WebSockets",
+    "WebSocketsPath":"WebSockets path",
+    "WebSocketsPath_help": "Optional path to websockets, it must start by '/'"
 },
 "settings": {
     "title": "Settings",

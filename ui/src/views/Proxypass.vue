@@ -152,7 +152,8 @@ export default {
         CertVerification: "no",
         PreserveHost: "yes",
         SslCertificate: "",
-        WebSockets: "disabled"
+        WebSockets: "disabled",
+        "WebSocketsPath": ""
       };
     },
     openModal(id, item) {
