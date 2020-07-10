@@ -52,6 +52,7 @@ my %vhostreverse = (
     'HTTPS' => $input->{'proxypass'}->{'HTTPS'},
     'Target' => $input->{'proxypass'}->{'Target'},
     'WebSockets' => $input->{'proxypass'}->{'WebSockets'},
+    'WebSocketsPath' => $input->{'proxypass'}->{'WebSocketsPath'},
     'ValidFrom' => join (',',uniq (@{$input->{'proxypass'}->{'ValidFrom'}})),
     'CertVerification' => $input->{'proxypass'}->{'CertVerification'},
     'PreserveHost' => $input->{'proxypass'}->{'PreserveHost'},
