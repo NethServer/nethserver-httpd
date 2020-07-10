@@ -4,15 +4,26 @@
     if ($WebSockets eq 'enabled' ) {
         my $ws = $Target;
         $ws =~ s/(http|https):\/+//;
+
+        my $path;
+        my $url;
+        if ($WebSocketsPath eq '') {
+            $path = '.*';
+            $url = '%\{REQUEST_URI\}';
+        } else {
+            $path = $WebSocketsPath;
+            $url = $WebSocketsPath;
+        }
+
         $OUT .= qq(
     # Websockets proxypass
     RewriteCond \%\{HTTP:Upgrade\} websocket [NC]
     RewriteCond \%\{HTTP:Connection\} upgrade [NC]
 );
         if ($Target =~ /https:/) {
-            $OUT .= "    RewriteRule .* wss://$ws\%\{REQUEST_URI\} [P,L]";
+            $OUT .= "    RewriteRule $path wss://".$ws.$url." [P,L]";
         } elsif ($Target =~ /http:/) {
-            $OUT .= "    RewriteRule .* ws://$ws\%\{REQUEST_URI\} [P,L]";
+            $OUT .= "    RewriteRule $path ws://".$ws.$url." [P,L]";
         }
     }
 }
