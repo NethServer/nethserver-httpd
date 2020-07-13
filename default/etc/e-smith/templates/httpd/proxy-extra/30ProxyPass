@@ -10,8 +10,8 @@
             $path = '.*';
             $url = '%\{REQUEST_URI\}';
         } else {
-            $path = $WebSocketsPath;
-            $url = $WebSocketsPath;
+            $path = '/' . $WebSocketsPath;
+            $url = '/' . $WebSocketsPath;
         }
 
         $OUT .= qq(
