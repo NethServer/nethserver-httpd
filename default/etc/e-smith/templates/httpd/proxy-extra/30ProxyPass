@@ -19,11 +19,7 @@
     RewriteCond \%\{HTTP:Upgrade\} websocket [NC]
     RewriteCond \%\{HTTP:Connection\} upgrade [NC]
 );
-        if ($Target =~ /https:/) {
-            $OUT .= "    RewriteRule $path wss://".$ws.$url." [P,L]";
-        } elsif ($Target =~ /http:/) {
-            $OUT .= "    RewriteRule $path ws://".$ws.$url." [P,L]";
-        }
+    $OUT .= "    RewriteRule ${path} ${ws}${url} [P,L]";
     }
 }
 
