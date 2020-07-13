@@ -153,7 +153,7 @@ export default {
         PreserveHost: "yes",
         SslCertificate: "",
         WebSockets: "disabled",
-        "WebSocketsPath": ""
+        WebSocketsPath: ""
       };
     },
     openModal(id, item) {
