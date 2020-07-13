@@ -249,7 +249,7 @@
     "ValidFromCIDR_help": "One item per line",
     "Enable_WebSockets": "Enable WebSockets",
     "WebSocketsPath":"WebSockets path",
-    "WebSocketsPath_help": "Optional path to websockets, it must start by '/'"
+    "WebSocketsPath_help": "Optional web socket path"
 },
 "settings": {
     "title": "Settings",
