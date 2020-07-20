@@ -188,7 +188,7 @@
     "PostMaxSize": "Sets max size of post data allowed. This setting also affects file upload. To upload large files, this value must be larger than 'Upload maximum file size'.",
     "UploadMaxFilesize":"The maximum size of an uploaded file, this value must be smaller than the 'Maximum post size'.",
     "Websocket-label": "Experimental feature. The WebSocket API is an advanced technology that allows to open a two-way interactive communication session between the user's browser and the server.",
-    "WebSocketsPath-label": "Additional match rule based on web socket URL path"
+    "WebSocketsPath-label": "Additional match rule based on the WebSocket URL path"
   },
   "validation": {
     "validation_failed": "Validation failed",
