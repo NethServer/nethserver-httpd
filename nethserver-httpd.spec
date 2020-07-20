@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.10.11
+Version: 3.11.0
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
@@ -90,6 +90,9 @@ done
 
 
 %changelog
+* Mon Jul 20 2020 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.11.0-1
+- Automatically support WebSockets in reverse proxy - NethServer/dev#6213
+
 * Thu Jul 02 2020 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.10.11-1
 - Human readable numbers in Cockpit dashboards - NethServer/dev#6206
 
