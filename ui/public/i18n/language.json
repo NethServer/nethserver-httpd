@@ -247,8 +247,8 @@
     "automatic_HostRecord_creation": "An host name alias is added to System > Dashboard > Hostname / Alias ",
     "advanced_mode": "Advanced settings",
     "ValidFromCIDR_help": "One item per line",
-    "Enable_WebSockets": "Enable WebSockets",
-    "WebSocketsPath":"WebSockets path",
+    "Enable_WebSockets": "Enable WebSocket",
+    "WebSocketsPath":"WebSocket path",
     "WebSocketsPath_help": "Optional web socket path"
 },
 "settings": {
