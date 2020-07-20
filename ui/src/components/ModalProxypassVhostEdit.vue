@@ -254,6 +254,55 @@ select {
                   <span v-if="vErrors.PreserveHost" class="help-block">{{ vErrors.PreserveHost }}</span>
                 </div>
               </div>
+
+              <!-- WebSockets-->
+              <div
+                v-if="formType === 'VhostReverse'"
+                v-bind:class="['form-group', vErrors.WebSockets ? 'has-error' : '']"
+              >
+                <label
+                  class="col-sm-3 control-label"
+                  v-bind:for="id + '-WebSockets'"
+                >{{$t('proxypass.Enable_WebSockets')}}
+                  <doc-info
+                    :placement="'right'"
+                    :chapter="'Websocket-label'"
+                    :inline="true"
+                  ></doc-info>
+                </label>
+                <div class="col-sm-9">
+                  <input
+                    type="checkbox"
+                    true-value="enabled"
+                    false-value="disabled"
+                    v-model="WebSockets"
+                    class="form-control"
+                  >
+                  <span v-if="vErrors.WebSockets" class="help-block">{{ vErrors.WebSockets }}</span>
+                </div>
+              </div>
+              <div
+                v-if="formType === 'VhostReverse' && WebSockets == 'enabled'"
+                v-bind:class="['form-group', vErrors.WebSocketsPath ? 'has-error' : '']">
+                <label
+                  class="col-sm-3 control-label"
+                  v-bind:for="id + '-WebSocketsPath'"
+                >{{ $t('proxypass.WebSocketsPath') }}
+                  <doc-info
+                    :placement="'right'"
+                    :chapter="'WebSocketsPath-label'"
+                    :inline="true"
+                  ></doc-info>
+                </label>
+                <div class="col-sm-9">
+                  <input 
+                    :placeholder="$t('proxypass.WebSocketsPath_help')"
+                    type="text" v-model="WebSocketsPath" v-bind:id="id + '-WebSocketsPath'"
+                    class="form-control"
+                  >
+                  <span v-if="vErrors.WebSocketsPath" class="help-block">{{ vErrors.WebSocketsPath }}</span>
+                </div>
+              </div>
             </div>
           </form>
         </div>
@@ -301,6 +350,8 @@ var attrs = [
   "SslCertificate",
   "ValidFrom",
   "CertVerification",
+  "WebSockets",
+  "WebSocketsPath",
   "type"
 ];
 
@@ -310,13 +361,17 @@ export default {
     id: String,
     useCase: String,
     proxypass: Object,
-    certificates: Array
+    certificates: Array,
+    advanced: false
   },
   watch: {
     proxypass: function(newval) {
       this.vErrors = {};
       for (let i in attrs) {
         this[attrs[i]] = newval[attrs[i]] || "";
+      }
+      if (!this.WebSockets) {
+        this.WebSockets = 'disabled';
       }
       // split ValidFrom array (index7)
       if (this.ValidFrom) {

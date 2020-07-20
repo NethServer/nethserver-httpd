@@ -3,7 +3,6 @@
     if ($HTTP eq 'no' || $Target =~ m|^https://|) {
 	$OUT .= <<REDIRECT;
     # forcessl_redirect
-    RewriteEngine On
     RewriteCond %{HTTPS} !=on
     RewriteRule (.*) https://%{SERVER_NAME}\$1 [R,L]
 REDIRECT

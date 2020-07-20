@@ -1,0 +1,11 @@
+{
+    $OUT = '';
+    if ($HTTP eq 'no' || $Target =~ m|^https://| || $WebSockets eq 'enabled') {
+	$OUT .= <<REDIRECT;
+    # Start Rewrite Engine
+    RewriteEngine On
+REDIRECT
+    } else {
+	$OUT = '';
+    }
+}

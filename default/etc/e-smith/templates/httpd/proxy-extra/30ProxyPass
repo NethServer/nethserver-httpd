@@ -1,5 +1,27 @@
     # Reverse Proxy (with exclusion of local Letsencrypt challenge path)
     ProxyPassMatch ^/.well-known/acme-challenge/ !
+{
+    if ($WebSockets eq 'enabled' ) {
+        my $ws = $Target =~ s/^http/ws/r; 
+
+        my $path;
+        my $url;
+        if ($WebSocketsPath eq '') {
+            $path = '.*';
+            $url = '%\{REQUEST_URI\}';
+        } else {
+            $path = '/' . $WebSocketsPath;
+            $url = '/' . $WebSocketsPath;
+        }
+
+        $OUT .= qq(
+    # Websockets proxypass
+    RewriteCond \%\{HTTP:Upgrade\} websocket [NC]
+    RewriteCond \%\{HTTP:Connection\} upgrade [NC]
+);
+    $OUT .= "    RewriteRule ${path} ${ws}${url} [P,L]";
+    }
+}
+
     ProxyPass  / { ($OUT = $Target) =~ s|/*$|/| } max=3 retry=30
     ProxyPassReverse / { ($OUT = $Target) =~ s|/*$|/| }
-
