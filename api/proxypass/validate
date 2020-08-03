@@ -46,12 +46,19 @@ if ($data['proxypass']['type'] === 'VhostReverse'){
     $v->declareParameter('PreserveHost', Validate::YES_NO);
     $v->declareParameter('SslCertificate', Validate::ANYTHING);
     $v->declareParameter('WebSockets', Validate::SERVICESTATUS);
-    $validator = $v->createValidator()->orValidator($v->createValidator()->regexp('/^[A-Za-z0-9-_]+/'), $v->createValidator(Validate::EMPTYSTRING));
 
-    if(!$validator->evaluate($v->parameters['WebSocketsPath'])) {
-        $v->addValidationError('WebSocketsPath', 'WebSocketsPathNotValid');
+    # must start by `/` or empty
+    $validator = $v->createValidator()->orValidator($v->createValidator()->regexp('/^\//'), $v->createValidator(Validate::EMPTYSTRING));
+    if (!$validator->evaluate($v->parameters['WebSocketsPath'])) {
+        $v->addValidationError('WebSocketsPath', 'WebSocketsPathMustStartBy/');
     }
 
+    #We search after alphanum, we remove non alphanum before to validate
+    $search  = array('/','-','_');
+    $replace = array('', '', '');
+    if (!ctype_alnum(str_replace($search,$replace,$data['proxypass']['WebSocketsPath'])) && ! empty($data['proxypass']['WebSocketsPath'])) {
+        $v->addValidationError('WebSocketsPath', 'WebSocketsPathNotValid');
+    }
 }
 
 $cidrList = $data['proxypass']['ValidFrom'];
