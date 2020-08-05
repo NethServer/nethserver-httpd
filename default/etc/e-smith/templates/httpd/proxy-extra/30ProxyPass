@@ -10,6 +10,7 @@
             $path = '.*';
             $url = '%\{REQUEST_URI\}';
         } else {
+            $WebSocketsPath =~ s/^\/+//;
             $path = '/' . $WebSocketsPath;
             $url = '/' . $WebSocketsPath;
         }

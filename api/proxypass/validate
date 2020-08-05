@@ -47,12 +47,6 @@ if ($data['proxypass']['type'] === 'VhostReverse'){
     $v->declareParameter('SslCertificate', Validate::ANYTHING);
     $v->declareParameter('WebSockets', Validate::SERVICESTATUS);
 
-    # must start by `/` or empty
-    $validator = $v->createValidator()->orValidator($v->createValidator()->regexp('/^\//'), $v->createValidator(Validate::EMPTYSTRING));
-    if (!$validator->evaluate($v->parameters['WebSocketsPath'])) {
-        $v->addValidationError('WebSocketsPath', 'WebSocketsPathMustStartBy/');
-    }
-
     #We search after alphanum, we remove non alphanum before to validate
     $search  = array('/','-','_');
     $replace = array('', '', '');
