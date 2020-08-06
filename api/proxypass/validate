@@ -46,7 +46,7 @@ if ($data['proxypass']['type'] === 'VhostReverse'){
     $v->declareParameter('PreserveHost', Validate::YES_NO);
     $v->declareParameter('SslCertificate', Validate::ANYTHING);
     $v->declareParameter('WebSockets', Validate::SERVICESTATUS);
-    $validator = $v->createValidator()->orValidator($v->createValidator()->regexp('/^[A-Za-z0-9-_]+/'), $v->createValidator(Validate::EMPTYSTRING));
+    $validator = $v->createValidator()->orValidator($v->createValidator()->regexp('/^[A-Za-z0-9-_]+$/'), $v->createValidator(Validate::EMPTYSTRING));
 
     if(!$validator->evaluate($v->parameters['WebSocketsPath'])) {
         $v->addValidationError('WebSocketsPath', 'WebSocketsPathNotValid');
