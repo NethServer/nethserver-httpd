@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.11.1
+Version: 3.11.2
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
@@ -90,6 +90,9 @@ done
 
 
 %changelog
+* Wed Sep 23 2020 Davide Principi <davide.principi@nethesis.it> - 3.11.2-1
+- Cannot create the httpd ssl-cache mutex - Bug NethServer/dev#6281
+
 * Tue Aug 11 2020 Stephane de Labrusse <stephdl@de-labrusse.fr> - 3.11.1-1
 - Validation broken for webSocketPath - Bug NethServer/dev#6248
 
