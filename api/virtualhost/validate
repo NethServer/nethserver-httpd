@@ -73,7 +73,7 @@ if($data['virtualhost']['name'] != 'default') {
         }
         #Valid if the fqdn is not already used
         foreach ($vdb->getAll() as $key => $props) {
-            $vhost = split (",",$vdb->getProp($key, 'ServerNames'));
+            $vhost = explode (",",$vdb->getProp($key, 'ServerNames'));
             if ($key === $data['virtualhost']['name']) {
                 continue;
             }
