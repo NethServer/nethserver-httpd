@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.11.2
+Version: 3.11.3
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
@@ -90,6 +90,9 @@ done
 
 
 %changelog
+* Fri Oct 09 2020 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.11.3-1
+- Httpd virtualhost : split in php is obsolete - Bug NethServer/dev#6298
+
 * Wed Sep 23 2020 Davide Principi <davide.principi@nethesis.it> - 3.11.2-1
 - Cannot create the httpd ssl-cache mutex - Bug NethServer/dev#6281
 
