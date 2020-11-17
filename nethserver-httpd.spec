@@ -9,6 +9,7 @@ BuildArch: noarch
 URL: %{url_prefix}/%{name}
 BuildRequires: nethserver-devtools
 Requires: nethserver-base
+Requires: nethserver-php
 Requires: httpd, mod_ssl
 %description
 NethServer httpd configuration (Apache)
