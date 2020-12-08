@@ -98,6 +98,7 @@
     "vsftpd_is_not_running": "the FTP service is not running",
     "default_php_version": "PHP 5.4 (default)",
     "php_version": "Version of PHP",
+    "php80_version": "PHP 8.0",
     "php73_version": "PHP 7.3",
     "php72_version": "PHP 7.2",
     "php71_version": "PHP 7.1 (obsolete)",
@@ -120,6 +121,7 @@
     "php_version_php71": "PHP 7.1 (obsolete)",
     "php_version_php72": "PHP 7.2",
     "php_version_php73": "PHP 7.3",
+    "php_version_php80": "PHP 8.0",
     "php_version_default": "PHP 5.4",
     "alert_php_obsoleted_title": "PHP 7.1 is obsolete",
     "alert_php_upgrade_php_detail": "You are strongly encouraged to use another PHP version, this software collection is not maintained anymore."
