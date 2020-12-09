@@ -29,7 +29,7 @@
 ;
 
 [$VhostName]
-listen = /var/run/$PhpRhVersion-php-fpm/$VhostName-$PhpRhVersion.sock
+listen = /var/run/rh-$PhpRhVersion-php-fpm/$VhostName-$PhpRhVersion.sock
 
 ;Logs
 php_admin_value[error_log] = /var/opt/remi/$PhpRhVersion/log/php-fpm/error-$VhostName.log

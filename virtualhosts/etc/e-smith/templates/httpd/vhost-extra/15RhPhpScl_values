@@ -11,19 +11,12 @@ if ($PhpVersion ne 'default')
     # write the configuration
     $OUT .= "\n";
     $OUT .= "# use rh-php-fpm with mod_proxy_fcgi by socket 
-# from rh repository  instead of the default PHP\n";
-    if ($PhpVersion ne 'php80') {
-        $OUT .= << "EOF";
+# from rh repository  instead of the default PHP
+# PHP80 comes from remi repository\n";
+    $OUT .= << "EOF";
 <FilesMatch \.php\$>
   SetHandler "proxy:unix:/var/run/rh-$PhpVersion-php-fpm/$VhostName-$PhpVersion.sock|fcgi://localhost"
 </FilesMatch>
 EOF
-        } else {
-        $OUT .= << "EOF";
-<FilesMatch \.php\$>
-  SetHandler "proxy:unix:/var/run/$PhpVersion-php-fpm/$VhostName-$PhpVersion.sock|fcgi://localhost"
-</FilesMatch>
-EOF
-        }
     }
 }
