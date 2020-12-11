@@ -712,7 +712,7 @@ export default {
         return version in this.rhPhpScl && this.rhPhpScl[version] === true;
     },
     installPackages() {
-      var rpm = 'rh-' + this.PhpRhVersion +'-php-fpm';
+      var rpm = ((this.PhpRhVersion === 'php80') ? '' : 'rh-') + this.PhpRhVersion +'-php-fpm';
 
       // notification
       nethserver.notifications.success = this.$i18n.t("packages_installed_ok");
