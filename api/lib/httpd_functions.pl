@@ -33,6 +33,7 @@ sub list_features
         'rh-php71-php-fpm' => { installed => (-f '/etc/e-smith/db/configuration/defaults/rh-php71-php-fpm/type') ? JSON::true : JSON::false, packages => ['nethserver-rh-php71-php-fpm'] },
         'rh-php72-php-fpm' => { installed => (-f '/etc/e-smith/db/configuration/defaults/rh-php72-php-fpm/type') ? JSON::true : JSON::false, packages => ['nethserver-rh-php72-php-fpm'] },
         'rh-php73-php-fpm' => { installed => (-f '/etc/e-smith/db/configuration/defaults/rh-php73-php-fpm/type') ? JSON::true : JSON::false, packages => ['nethserver-rh-php73-php-fpm'] },
+        'php80-php-fpm' => { installed => (-f '/etc/e-smith/db/configuration/defaults/php80-php-fpm/type') ? JSON::true : JSON::false, packages => ['nethserver-remi-php80-php-fpm'] },
         ftp => { installed => (-f '/etc/e-smith/db/configuration/defaults/vsftpd/type') ? JSON::true : JSON::false, packages => ['nethserver-vsftpd'] },
         logs => { installed => JSON::true, packages => ['nethserver-httpd'] },
         about => { installed => JSON::true, packages => ['nethserver-httpd'] },

@@ -45,7 +45,7 @@ my $cmd = $input->{'action'};
 if ($cmd eq 'live') {
     
     my @phpSCL = ();
-    foreach (glob('/etc/e-smith/db/configuration/defaults/rh-php*-php-fpm')) {
+    foreach (glob('/etc/e-smith/db/configuration/defaults/*php*-php-fpm')) {
         $_ =~ s|/etc/e-smith/db/configuration/defaults/||;
         push @phpSCL, $_;
     }
