@@ -2,7 +2,6 @@
     use esmith::templates;
     use esmith::ConfigDB;
     my $db = esmith::ConfigDB->open_ro('proxypass') || die("Can't open proxypass db");
-    my $dbc = esmith::ConfigDB->open_ro('configuration');
 
     my @proxypass = $db->get_all_by_prop('type' => 'VhostReverse');
     if (@proxypass) {
@@ -26,7 +25,7 @@ EOF
             $proxyData{WebSockets} = $proxy->prop('WebSockets') || 'disabled';
             $proxyData{WebSocketsPath} = $proxy->prop('WebSocketsPath') || '';
             $proxyData{Port} = $port;
-            $proxyData{XForwarded} = $dbc->get_prop('httpd','XForwarded') || 'disabled';
+            $proxyData{XForwarded} = $httpd{'XForwarded'} || 'disabled';
             $OUT .= esmith::templates::processTemplate({
                 MORE_DATA => \%proxyData,
                 TEMPLATE_PATH => 'httpd/proxy-extra',
