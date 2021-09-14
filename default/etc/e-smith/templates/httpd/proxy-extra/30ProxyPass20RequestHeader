@@ -1,0 +1,6 @@
+{
+    if ( ($Port == 443) && ($XForwarded eq 'enabled')) {
+        $OUT .= '    RequestHeader set X-Forwarded-Proto "https"'."\n";
+        $OUT .= '    RequestHeader set X-Forwarded-Port "443"'."\n";
+    }
+}

@@ -25,6 +25,7 @@ EOF
             $proxyData{WebSockets} = $proxy->prop('WebSockets') || 'disabled';
             $proxyData{WebSocketsPath} = $proxy->prop('WebSocketsPath') || '';
             $proxyData{Port} = $port;
+            $proxyData{XForwarded} = $httpd{'XForwarded'} || 'disabled';
             $OUT .= esmith::templates::processTemplate({
                 MORE_DATA => \%proxyData,
                 TEMPLATE_PATH => 'httpd/proxy-extra',
