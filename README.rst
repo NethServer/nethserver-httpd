@@ -88,11 +88,15 @@ configuration database
 
 ::
 
- httpd=service
-    SSLCipherSuite=DEFAULT:!EXP:!SSLv2:!DES:!IDEA:!SEED:+3DES
-    TCPPorts=80,443
-    access=green,red
-    status=enabled
+    httpd=service
+      SSLCipherSuite=DEFAULT:!EXP:!SSLv2:!DES:!IDEA:!SEED:+3DES
+      TCPPorts=80,443
+      access=green,red
+      status=enabled
+      XForwarded=disabled
+
+- ``XForwarded``: this setting forwards to all the proxypass vhosts the full https scheme and not only host header  (in X-Forwarded-Host). 
+It is a limitation of mod_proxy, the virtualhost on the proxy apache must transmit the original information of the request.
 
 
 vhost database
