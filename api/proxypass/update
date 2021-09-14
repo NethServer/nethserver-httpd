@@ -71,6 +71,8 @@ if($input->{'action'} eq 'create') {
         $db->new_record($name, {'type' => 'ProxyPass', %proxypass});
     } elsif ($input->{'proxypass'}->{'type'} eq 'VhostReverse') {
         $db->new_record($name, {'type' => 'VhostReverse', %vhostreverse});
+        #FIXME when the UI will have a checkbox
+        $db->set_prop($name,'AllowEncodeSlashes','disabled');
     }
 } elsif($input->{'action'} eq 'delete') {
     $eventName = 'nethserver-httpd-save';
