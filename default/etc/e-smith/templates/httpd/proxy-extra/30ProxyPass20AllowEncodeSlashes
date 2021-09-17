@@ -1,0 +1,5 @@
+{
+    if ( $AllowEncodedSlashes eq 'enabled') {
+        $OUT .= "    AllowEncodedSlashes NoDecode\n";
+    }
+}
