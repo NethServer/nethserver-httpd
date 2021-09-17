@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.12.0
+Version: 3.12.1
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
@@ -91,6 +91,9 @@ done
 
 
 %changelog
+* Fri Sep 17 2021 Stephane de Labrusse <stephdl@de-labrusse.fr> - 3.12.1-1
+- Additional X-Forwarded-* headers for reverse proxy - NethServer/dev#6558
+
 * Fri Dec 18 2020 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.12.0-1
 - PHP80 SCL from remi  - NethServer/dev#6356
 
