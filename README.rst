@@ -136,6 +136,38 @@ virtual host: ::
 This virtual host is always enabled and can't be deleted. If FTP access is
 enabled, the user will be chrooted inside ``/var/www/html`` directory.
 
+Reverse proxy VhostReverse database
+----------------------------
+
+A new ``VhostReverse`` database is defined by this module. It contains records of type
+``VhostReverse``, similar to: ::
+
+    ns7loc7.org=VhostReverse
+        AllowEncodedSlashes=disabled
+        CertVerification=no
+        Description=
+        HTTP=yes
+        HTTPS=yes
+        PreserveHost=yes
+        SslCertificate=
+        Target=http://localhost:8000
+        ValidFrom=
+        WebSockets=disabled
+        WebSocketsPath=
+
+- ``AllowEncodedSlashes`` (enabled/disabled) : Some web applications may expect encoded path separators (``%2F`` for ``/``) in the request URL. 
+  Apache does not accept the path separator in the encoded form. Set this prop to enabled with the following commands 
+  if the encoded form can be safely forwarded to the destination URL. 
+- ``CertVerification`` (yes/no) : If the Target URL has the https scheme, accept its certificate even if it is not valid.
+- ``PreserveHost`` (yes/no): When enabled, this option will pass the HTTP ``Host`` header line from the incoming request 
+  to the proxied host, instead of the ``hostname`` specified in the Target URL field.
+- ``WebSockets`` (enabled/disabled) : The WebSocket allows to open a two-way interactive communication session between the user's browser and the server.
+  The ``WebSocketsPath`` is optional.
+- ``Target``: The URL where the original request is forwarded. An URL has the form ``<scheme>://<hostname>:<port>/<path>``.
+- ``HTTPS`` and ``HTTP`` (yes/no):  If enabled, the URL path or virtual host name can be accessed only with an SSL/TLS connection.
+- ``SslCertificate``: Select a certificate that is compatible with the virtual host name. Leave empty to use the default SSL certificate.
+- ``ValidFrom`` : Restrict the access from the given list of CIDR networks. Elements must be separated with a ``,`` (comma).
+
 rh PHP software collection
 --------------------------
 With the new cockpit server-manager the PHP version can be modified 
