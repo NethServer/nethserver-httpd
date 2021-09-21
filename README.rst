@@ -168,6 +168,20 @@ The `proxypass` database contains records of type
 - ``SslCertificate``: Select a certificate that is compatible with the virtual host name. Leave empty to use the default SSL certificate.
 - ``ValidFrom`` : Restrict the access from the given list of CIDR networks. Elements must be separated with a ``,`` (comma).
 
+``ProxyPass``, similar to: ::
+
+    folder=ProxyPass
+        Description=
+        HTTP=yes
+        HTTPS=yes
+        Target=http://localhost:8000
+        ValidFrom=
+
+- ``HTTPS`` and ``HTTP`` (yes/no):  If enabled, the URL path or virtual host name can be accessed only with an SSL/TLS connection.
+- ``ValidFrom`` : Restrict the access from the given list of CIDR networks. Elements must be separated with a ``,`` (comma).
+- ``Target``: The URL where the original request is forwarded. An URL has the form ``<scheme>://<hostname>:<port>/<path>``.
+
+
 rh PHP software collection
 --------------------------
 With the new cockpit server-manager the PHP version can be modified 
