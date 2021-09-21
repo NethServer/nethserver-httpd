@@ -136,10 +136,10 @@ virtual host: ::
 This virtual host is always enabled and can't be deleted. If FTP access is
 enabled, the user will be chrooted inside ``/var/www/html`` directory.
 
-Reverse proxy VhostReverse database
-----------------------------
+proxypass database
+------------------
 
-A new ``VhostReverse`` database is defined by this module. It contains records of type
+The `proxypass` database contains records of type
 ``VhostReverse``, similar to: ::
 
     ns7loc7.org=VhostReverse
@@ -156,8 +156,8 @@ A new ``VhostReverse`` database is defined by this module. It contains records o
         WebSocketsPath=
 
 - ``AllowEncodedSlashes`` (enabled/disabled) : Some web applications may expect encoded path separators (``%2F`` for ``/``) in the request URL. 
-  Apache does not accept the path separator in the encoded form. Set this prop to enabled with the following commands 
-  if the encoded form can be safely forwarded to the destination URL. 
+  Apache does not accept the path separator in the encoded form. Set this prop to enabled 
+  if the encoded form can be safely forwarded to the backend (see `Target`) URL. 
 - ``CertVerification`` (yes/no) : If the Target URL has the https scheme, accept its certificate even if it is not valid.
 - ``PreserveHost`` (yes/no): When enabled, this option will pass the HTTP ``Host`` header line from the incoming request 
   to the proxied host, instead of the ``hostname`` specified in the Target URL field.
