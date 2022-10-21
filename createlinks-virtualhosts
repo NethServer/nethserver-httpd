@@ -138,3 +138,12 @@ for my $event (qw(
     event_services($event, 'rh-php73-php-fpm' => 'restart');
     event_services($event, 'php80-php-fpm' => 'restart');
 }
+
+#--------------------------------------------------
+# templates for trusted-networks-modify event
+#--------------------------------------------------
+
+event_templates('trusted-networks-modify', qw(
+             /etc/httpd/conf.d/virtualhosts.conf
+));
+
