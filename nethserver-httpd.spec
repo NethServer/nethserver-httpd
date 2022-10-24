@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.12.2
+Version: 3.12.3
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
@@ -91,6 +91,9 @@ done
 
 
 %changelog
+* Mon Oct 24 2022 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.12.3-1
+- Vhosts don't honor the trusted networks - Bug NethServer/dev#6712
+
 * Wed Sep 22 2021 Stephane de Labrusse <stephdl@de-labrusse.fr> - 3.12.2-1
 - Set Apache directive AllowEncodedSlashes to NoDecode - NethServer/dev#6559
 
