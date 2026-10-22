@@ -2,8 +2,13 @@
 
 # Prepare source for RPM build
 
-# download langs from transifex
+set -e
 
-# tar directory
-pushd ui && npm install && npm run build && cd dist && tar cvzf ../../nethserver-httpd-ui.tar.gz *
+NODE_OPTIONS="--openssl-legacy-provider"
+export NODE_OPTIONS
+pushd ui
+npm install
+npm run build
 popd
+
+tar -C ui/dist -c -z -f nethserver-httpd-ui.tar.gz .
