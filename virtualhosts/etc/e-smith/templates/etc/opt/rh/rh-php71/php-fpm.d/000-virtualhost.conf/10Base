@@ -40,6 +40,9 @@ pm.max_children = 50
 pm.start_servers = 5
 pm.min_spare_servers = 5
 pm.max_spare_servers = 35
+; CVE-2026-109619: serve one request per worker, so no stale
+; global state can leak from one request to the next
+pm.max_requests = 1
 
 user = apache;
 group = apache
