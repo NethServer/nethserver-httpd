@@ -1,6 +1,6 @@
 Summary: nethserver httpd configuration
 Name: nethserver-httpd
-Version: 3.12.3
+Version: 3.12.4
 Release: 1%{?dist}
 License: GPLv3
 Source: %{name}-%{version}.tar.gz
@@ -91,6 +91,9 @@ done
 
 
 %changelog
+* Thu Oct 22 2026 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.12.4-1
+- PHP critical RCE vulnerabilities (CVE-2026-109618 / CVE-2026-109619) - NethServer/dev#8256
+
 * Mon Oct 24 2022 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 3.12.3-1
 - Vhosts don't honor the trusted networks - Bug NethServer/dev#6712
 
